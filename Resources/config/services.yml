@@ -1,0 +1,28 @@
+services:
+    mediamonks.media.admin.media:
+        class: MediaMonks\MediaBundle\Admin\MediaAdmin
+        arguments: [~, 'MediaMonks\MediaBundle\Entity\Media', 'MediaMonksMediaBundle:MediaAdmin', '@mediamonks.media.provider.pool']
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Media }
+
+    mediamonks.media.provider.image:
+        class: MediaMonks\MediaBundle\Provider\ImageProvider
+        arguments:
+            - '@oneup_flysystem.default_filesystem'
+            - '@monolog.logger'
+        tags:
+            - { name: mediamonks.media.provider }
+
+    mediamonks.media.provider.youtube:
+        class: MediaMonks\MediaBundle\Provider\YouTubeProvider
+        arguments:
+            - '@oneup_flysystem.default_filesystem'
+            - '@monolog.logger'
+        tags:
+            - { name: mediamonks.media.provider }
+
+    mediamonks.media.provider.pool:
+        class: MediaMonks\MediaBundle\Provider\Pool
+        calls:
+            - [addProvider, ['mediamonks.media.provider.image', '@mediamonks.media.provider.image']]
+            - [addProvider, ['mediamonks.media.provider.youtube', '@mediamonks.media.provider.youtube']]
