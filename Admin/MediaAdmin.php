@@ -3,7 +3,8 @@
 namespace MediaMonks\MediaBundle\Admin;
 
 use MediaMonks\MediaBundle\Entity\Media;
-use MediaMonks\MediaBundle\Provider\Pool;
+use MediaMonks\MediaBundle\Model\MediaInterface;
+use MediaMonks\MediaBundle\Provider\ProviderPool;
 use MediaMonks\MediaBundle\Provider\ProviderInterface;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -13,22 +14,21 @@ use Symfony\Component\Validator\Constraints as Constraint;
 class MediaAdmin extends AbstractAdmin
 {
     /**
-     * @var Pool
+     * @var ProviderPool
      */
-    private $pool;
+    private $providerPool;
 
     /**
-     * MediaAdmin constructor.
      * @param string $code
      * @param string $class
      * @param string $baseControllerName
-     * @param Pool $pool
+     * @param ProviderPool $providerPool
      */
-    public function __construct($code, $class, $baseControllerName, Pool $pool)
+    public function __construct($code, $class, $baseControllerName, ProviderPool $providerPool)
     {
         parent::__construct($code, $class, $baseControllerName);
-        $this->baseControllerName = $baseControllerName;
-        $this->pool = $pool;
+
+        $this->providerPool = $providerPool;
     }
 
     /**
@@ -77,7 +77,7 @@ class MediaAdmin extends AbstractAdmin
     }
 
     /**
-     * {@inheritdoc}
+     * @param MediaInterface $media
      */
     public function prePersist($media)
     {
@@ -85,7 +85,7 @@ class MediaAdmin extends AbstractAdmin
     }
 
     /**
-     * {@inheritdoc}
+     * @param MediaInterface $media
      */
     public function preUpdate($media)
     {
@@ -96,13 +96,13 @@ class MediaAdmin extends AbstractAdmin
      * @param $media
      * @return ProviderInterface
      */
-    protected function getProvider($media)
+    protected function getProvider(MediaInterface $media)
     {
-        return $this->pool->getProvider($media->getProviderName());
+        return $this->providerPool->getProvider($media->getProviderName());
     }
 
     /**
-     * {@inheritdoc}
+     * @return MediaInterface
      */
     public function getNewInstance()
     {
@@ -113,7 +113,7 @@ class MediaAdmin extends AbstractAdmin
             } elseif ($this->getRequest()->query->has('provider')) {
                 $media->setProviderName($this->getRequest()->query->get('provider'));
             } else {
-                $media->setProviderName('mediamonks.media.provider.image'); // @todo default provider in config
+                $media->setProviderName('mediamonks.media.provider.image'); // @todo load default provider from config
             }
         }
 
@@ -126,8 +126,6 @@ class MediaAdmin extends AbstractAdmin
      */
     public function toString($object)
     {
-        return $object instanceof MediaAdmin
-            ? $object->getTitle()
-            : 'Media';
+        return $object instanceof MediaAdmin ? $object->getTitle() : 'Media';
     }
 }

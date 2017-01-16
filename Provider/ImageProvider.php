@@ -2,9 +2,12 @@
 
 namespace MediaMonks\MediaBundle\Provider;
 
+use MediaMonks\MediaBundle\Entity\Media;
 use MediaMonks\MediaBundle\Model\MediaInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Constraint;
 
@@ -25,7 +28,7 @@ class ImageProvider extends AbstractProvider
     {
         $formMapper
             ->with('General')
-            ->add('providerName', 'hidden')
+            ->add('providerName', HiddenType::class)
             ->add(
                 'binaryContent',
                 'file',
@@ -56,10 +59,10 @@ class ImageProvider extends AbstractProvider
     public function buildCreateForm(FormMapper $formMapper)
     {
         $formMapper
-            ->add('providerName', 'hidden')
+            ->add('providerName', HiddenType::class)
             ->add(
                 'binaryContent',
-                'file',
+                FileType::class,
                 [
                     'multiple'    => false,
                     'data_class'  => null,
@@ -85,11 +88,11 @@ class ImageProvider extends AbstractProvider
     }
 
     /**
-     * @param MediaInterface $media
+     * @param Media $media
      * @return string
      * @throws \Exception
      */
-    protected function handleFileUpload(MediaInterface $media)
+    protected function handleFileUpload(Media $media)
     {
         /**
          * @var UploadedFile $file

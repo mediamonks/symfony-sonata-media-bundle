@@ -22,7 +22,7 @@ services:
             - { name: mediamonks.media.provider }
 
     mediamonks.media.provider.pool:
-        class: MediaMonks\MediaBundle\Provider\Pool
+        class: MediaMonks\MediaBundle\Provider\ProviderPool
         calls:
             - [addProvider, ['mediamonks.media.provider.image', '@mediamonks.media.provider.image']]
             - [addProvider, ['mediamonks.media.provider.youtube', '@mediamonks.media.provider.youtube']]

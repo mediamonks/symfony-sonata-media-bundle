@@ -4,7 +4,7 @@ namespace MediaMonks\MediaBundle\Provider;
 
 use MediaMonks\MediaBundle\Model\MediaInterface;
 
-class Pool
+class ProviderPool
 {
     /**
      * @var array

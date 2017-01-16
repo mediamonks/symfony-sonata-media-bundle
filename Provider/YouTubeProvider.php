@@ -4,6 +4,10 @@ namespace MediaMonks\MediaBundle\Provider;
 
 use MediaMonks\MediaBundle\Model\MediaInterface;
 use Sonata\AdminBundle\Form\FormMapper;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints as Constraint;
 
@@ -17,8 +21,8 @@ class YouTubeProvider extends ImageProvider implements ProviderInterface
      * @var array
      */
     protected $templates = [
-        'helper_media' => 'MediaMonksMediaBundle:Provider:youtube_media.html.twig',
-        'helper_media_admin' => 'MediaMonksMediaBundle:Provider:youtube_media_admin.html.twig'
+        'helper_media'       => 'MediaMonksMediaBundle:Provider:youtube_media.html.twig',
+        'helper_media_admin' => 'MediaMonksMediaBundle:Provider:youtube_media_admin.html.twig',
     ];
 
     /**
@@ -28,17 +32,17 @@ class YouTubeProvider extends ImageProvider implements ProviderInterface
     {
         $formMapper
             ->with('General')
-            ->add('providerName', 'hidden')
-            ->add('providerReference', 'text', ['label' => 'YouTube ID'])
+            ->add('providerName', HiddenType::class)
+            ->add('providerReference', TextType::class, ['label' => 'YouTube ID'])
             ->add(
                 'binaryContent',
-                'file',
+                FileType::class,
                 [
                     'required'    => false,
                     'constraints' => [
-                        new Constraint\File()
+                        new Constraint\File(),
                     ],
-                    'label'       => 'Replacement Image'
+                    'label'       => 'Replacement Image',
                 ]
             )
             ->add('title')
@@ -46,11 +50,15 @@ class YouTubeProvider extends ImageProvider implements ProviderInterface
             ->add('authorName')
             ->add('copyright')
             ->add('tags')
-            ->add('pointOfInterest', 'choice', [
-                'required' => false,
-                'label'    => 'Point Of Interest',
-                'choices'  => $this->getPointOfInterestChoices(),
-            ])
+            ->add(
+                'pointOfInterest',
+                ChoiceType::class,
+                [
+                    'required' => false,
+                    'label'    => 'Point Of Interest',
+                    'choices'  => $this->getPointOfInterestChoices(),
+                ]
+            )
             ->add('featured')
             ->end()
             ->end();
@@ -62,8 +70,8 @@ class YouTubeProvider extends ImageProvider implements ProviderInterface
     public function buildCreateForm(FormMapper $formMapper)
     {
         $formMapper
-            ->add('providerName', 'hidden')
-            ->add('providerReference', 'text', ['label' => 'YouTube ID']);
+            ->add('providerName', HiddenType::class)
+            ->add('providerReference', TextType::class, ['label' => 'YouTube ID']);
     }
 
     /**
@@ -85,7 +93,7 @@ class YouTubeProvider extends ImageProvider implements ProviderInterface
                 $media->setAuthorName($data['author_name']);
             }
 
-            if(empty($media->getImage())) {
+            if (empty($media->getImage())) {
                 $this->refreshThumbnail($media);
             }
         }
@@ -100,7 +108,7 @@ class YouTubeProvider extends ImageProvider implements ProviderInterface
      */
     public function refreshThumbnail(MediaInterface $media)
     {
-        $filename     = sprintf('%s_%d.%s', sha1($media->getProviderReference()), time(), 'jpg');
+        $filename = sprintf('%s_%d.%s', sha1($media->getProviderReference()), time(), 'jpg');
         $thumbnailUrl = $this->getThumbnailUrlByYouTubeId($media->getProviderReference());
         $this->getFilesystem()->write(
             $filename,
@@ -123,6 +131,7 @@ class YouTubeProvider extends ImageProvider implements ProviderInterface
         if ((int)substr($headers[0], 9, 3) === Response::HTTP_OK) {
             return $urlMaxRes;
         }
+
         return sprintf(self::URL_IMAGE_HQ, $id); // this one always exists
     }
 
@@ -142,6 +151,7 @@ class YouTubeProvider extends ImageProvider implements ProviderInterface
         if (empty($data)) {
             throw new \Exception(sprintf('Could not get data from YouTube for id "%s", is the id correct?', $id));
         }
+
         return $data;
     }
 
@@ -183,9 +193,9 @@ class YouTubeProvider extends ImageProvider implements ProviderInterface
     public function toArray(MediaInterface $media, array $options = [])
     {
         return parent::toArray($media, $options) + [
-            'type' => $this->getTypeName(),
-            'id'   => $media->getProviderReference(),
-        ];
+                'type' => $this->getTypeName(),
+                'id'   => $media->getProviderReference(),
+            ];
     }
 
     /**
