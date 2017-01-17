@@ -1,9 +1,3 @@
-- Create controller for getting thumbnails based on MediaInterface objects
-
-- Show thumbnail image in overview
-- Show thumbnail in edit
-- Show full embed in edit
-
 - Create compiler pass for automatically adding tagged providers instead of doing this manually
 - Add config options
     - set source flysystem service id

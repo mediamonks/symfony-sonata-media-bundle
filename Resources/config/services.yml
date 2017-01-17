@@ -4,6 +4,9 @@ services:
         arguments: [~, 'MediaMonks\MediaBundle\Entity\Media', 'MediaMonksMediaBundle:MediaAdmin', '@mediamonks.media.provider.pool']
         tags:
             - { name: sonata.admin, manager_type: orm, label: Media }
+        calls:
+            - [ setTemplate, ['outer_list_rows_mosaic', 'MediaMonksMediaBundle:MediaAdmin:outer_list_rows_mosaic.html.twig']]
+            - [ setTemplate, ['edit', 'MediaMonksMediaBundle:MediaAdmin:edit.html.twig']]
 
     mediamonks.media.provider.image:
         class: MediaMonks\MediaBundle\Provider\ImageProvider
@@ -40,7 +43,6 @@ services:
           ~:
               source: '@oneup_flysystem.default_filesystem'
               cache: '@oneup_flysystem.default_filesystem'
-
 
     mediamonks.media.helper.parameter:
         class: MediaMonks\MediaBundle\Helper\Parameter

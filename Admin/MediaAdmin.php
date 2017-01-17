@@ -126,6 +126,6 @@ class MediaAdmin extends AbstractAdmin
      */
     public function toString($object)
     {
-        return $object instanceof MediaAdmin ? $object->getTitle() : 'Media';
+        return $object instanceof MediaInterface ? $object->getTitle() : 'Media';
     }
 }
