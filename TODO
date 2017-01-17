@@ -1,11 +1,6 @@
+- Public route name, admin is optional?
+
 - Create compiler pass for automatically adding tagged providers instead of doing this manually
-- Add config options
-    - set source flysystem service id
-    - set destination flysystem service id (optional, use source otherwise)
-    - media base url
-    - default media provider
-    - default image options
-    - cache ttl
 
 - Improve looks for template which chooses a provider
 - Add submenu to media to quickly add new provider

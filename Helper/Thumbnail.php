@@ -29,13 +29,12 @@ class Thumbnail
      */
     public function createIfNotExists($source, $destination, array $parameters)
     {
-        $filesystem = $this->server->getSource();
-        if (!$filesystem->has($destination)) {
+        if (!$this->server->getSource()->has($destination)) {
             $tmp = tempnam(sys_get_temp_dir(), 'media');
-            if (@file_put_contents($tmp, $filesystem->read($source)) === false) {
+            if (@file_put_contents($tmp, $this->server->getSource()->read($source)) === false) {
                 throw new FilesystemException('unable_to_write_temporary_media_file');
             }
-            $filesystem->write($destination, $this->server->getApi()->run($tmp, $parameters));
+            $this->server->getCache()->write($destination, $this->server->getApi()->run($tmp, $parameters));
             @unlink($tmp);
         }
     }

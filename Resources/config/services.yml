@@ -1,6 +1,16 @@
+parameters:
+    mediamonks.media.admin.media.class: 'MediaMonks\SonataMediaBundle\Admin\MediaAdmin'
+    mediamonks.media.provider.image.class: 'MediaMonks\SonataMediaBundle\Provider\ImageProvider'
+    mediamonks.media.provider.youtube.class: 'MediaMonks\SonataMediaBundle\Provider\YouTubeProvider'
+    mediamonks.media.provider.pool.class: 'MediaMonks\SonataMediaBundle\Provider\ProviderPool'
+    mediamonks.media.twig.extension.class: 'MediaMonks\SonataMediaBundle\Twig\Extension\MediaExtension'
+    mediamonks.media.helper.parameter.class: 'MediaMonks\SonataMediaBundle\Helper\Parameter'
+    mediamonks.media.helper.thumbnail.class: 'MediaMonks\SonataMediaBundle\Helper\Thumbnail'
+    mediamonks.media.helper.controller.class: 'MediaMonks\SonataMediaBundle\Helper\Controller'
+
 services:
     mediamonks.media.admin.media:
-        class: MediaMonks\SonataMediaBundle\Admin\MediaAdmin
+        class: '%mediamonks.media.admin.media.class%'
         arguments: [~, 'MediaMonks\SonataMediaBundle\Entity\Media', 'MediaMonksSonataMediaBundle:MediaAdmin', '@mediamonks.media.provider.pool']
         tags:
             - { name: sonata.admin, manager_type: orm, label: Media }
@@ -9,27 +19,27 @@ services:
             - [ setTemplate, ['edit', 'MediaMonksSonataMediaBundle:MediaAdmin:edit.html.twig']]
 
     mediamonks.media.provider.image:
-        class: MediaMonks\SonataMediaBundle\Provider\ImageProvider
+        class: '%mediamonks.media.provider.image.class%'
         arguments:
-            - '@oneup_flysystem.default_filesystem'
+            - ~
         tags:
             - { name: mediamonks.media.provider }
 
     mediamonks.media.provider.youtube:
-        class: MediaMonks\SonataMediaBundle\Provider\YouTubeProvider
+        class: '%mediamonks.media.provider.youtube.class%'
         arguments:
-            - '@oneup_flysystem.default_filesystem'
+            - ~
         tags:
             - { name: mediamonks.media.provider }
 
     mediamonks.media.provider.pool:
-        class: MediaMonks\SonataMediaBundle\Provider\ProviderPool
+        class: '%mediamonks.media.provider.pool.class%'
         calls:
             - [addProvider, ['mediamonks.media.provider.image', '@mediamonks.media.provider.image']]
             - [addProvider, ['mediamonks.media.provider.youtube', '@mediamonks.media.provider.youtube']]
 
     mediamonks.media.twig.extension:
-        class: MediaMonks\SonataMediaBundle\Twig\Extension\MediaExtension
+        class: '%mediamonks.media.twig.extension.class%'
         arguments:
             - '@mediamonks.media.provider.pool'
             - '@mediamonks.media.helper.parameter'
@@ -38,14 +48,12 @@ services:
 
     mediamonks.media.glide.server:
         class: League\Glide\Server
-        factory: [League\Glide\ServerFactory, create]
+        factory: ['League\Glide\ServerFactory', 'create']
         arguments:
-          ~:
-              source: '@oneup_flysystem.default_filesystem'
-              cache: '@oneup_flysystem.default_filesystem'
+            - ~
 
     mediamonks.media.helper.parameter:
-        class: MediaMonks\SonataMediaBundle\Helper\Parameter
+        class: '%mediamonks.media.helper.parameter.class%'
         arguments:
             - '@router.default'
             -
@@ -54,13 +62,13 @@ services:
             - '%secret%'
 
     mediamonks.media.helper.thumbnail:
-        class: MediaMonks\SonataMediaBundle\Helper\Thumbnail
+        class: '%mediamonks.media.helper.thumbnail.class%'
         arguments:
             - '@mediamonks.media.glide.server'
 
     mediamonks.media.helper.controller:
-        class: MediaMonks\SonataMediaBundle\Helper\Controller
+        class: '%mediamonks.media.helper.controller.class%'
         arguments:
             - '@mediamonks.media.helper.parameter'
             - '@mediamonks.media.helper.thumbnail'
-            - 'http://localhost/mediamonks-sonata-media/web/data/'
+            - ~
