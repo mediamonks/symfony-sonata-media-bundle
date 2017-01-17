@@ -1,6 +1,6 @@
 mediamonks_media_thumbnail:
     path:  /media/thumbnail/{id}
-    defaults: {_controller: MediaMonksMediaBundle:Media:thumbnail}
+    defaults: {_controller: MediaMonksSonataMediaBundle:Media:thumbnail}
     methods:  [GET]
     requirements:
         id: \d+

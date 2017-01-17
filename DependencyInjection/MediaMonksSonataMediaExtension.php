@@ -1,13 +1,13 @@
 <?php
 
-namespace MediaMonks\MediaBundle\DependencyInjection;
+namespace MediaMonks\SonataMediaBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 
-class MediaMonksMediaExtension extends Extension
+class MediaMonksSonataMediaExtension extends Extension
 {
     /**
      * @param array $configs

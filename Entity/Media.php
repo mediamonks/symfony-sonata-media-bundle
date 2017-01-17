@@ -1,10 +1,10 @@
 <?php
 
-namespace MediaMonks\MediaBundle\Entity;
+namespace MediaMonks\SonataMediaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use MediaMonks\MediaBundle\Model\MediaInterface;
-use MediaMonks\MediaBundle\Model\MediaTrait;
+use MediaMonks\SonataMediaBundle\Model\MediaInterface;
+use MediaMonks\SonataMediaBundle\Model\MediaTrait;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**

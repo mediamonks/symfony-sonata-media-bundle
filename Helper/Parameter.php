@@ -1,8 +1,8 @@
 <?php
 
-namespace MediaMonks\MediaBundle\Helper;
+namespace MediaMonks\SonataMediaBundle\Helper;
 
-use MediaMonks\MediaBundle\Model\MediaInterface;
+use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 

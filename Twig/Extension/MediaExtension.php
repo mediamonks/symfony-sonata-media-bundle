@@ -1,10 +1,10 @@
 <?php
 
-namespace MediaMonks\MediaBundle\Twig\Extension;
+namespace MediaMonks\SonataMediaBundle\Twig\Extension;
 
-use MediaMonks\MediaBundle\Provider\ProviderPool;
-use MediaMonks\MediaBundle\Helper\Parameter;
-use MediaMonks\MediaBundle\Model\MediaInterface;
+use MediaMonks\SonataMediaBundle\Provider\ProviderPool;
+use MediaMonks\SonataMediaBundle\Helper\Parameter;
+use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 
 class MediaExtension extends \Twig_Extension
 {

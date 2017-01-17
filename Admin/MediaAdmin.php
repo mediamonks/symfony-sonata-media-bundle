@@ -1,11 +1,11 @@
 <?php
 
-namespace MediaMonks\MediaBundle\Admin;
+namespace MediaMonks\SonataMediaBundle\Admin;
 
-use MediaMonks\MediaBundle\Entity\Media;
-use MediaMonks\MediaBundle\Model\MediaInterface;
-use MediaMonks\MediaBundle\Provider\ProviderPool;
-use MediaMonks\MediaBundle\Provider\ProviderInterface;
+use MediaMonks\SonataMediaBundle\Entity\Media;
+use MediaMonks\SonataMediaBundle\Model\MediaInterface;
+use MediaMonks\SonataMediaBundle\Provider\ProviderPool;
+use MediaMonks\SonataMediaBundle\Provider\ProviderInterface;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -39,7 +39,7 @@ class MediaAdmin extends AbstractAdmin
         $listMapper
             ->addIdentifier('title')
             ->add('type', null, [
-                'template' => 'MediaMonksMediaBundle:MediaAdmin:list_type.html.twig'
+                'template' => 'MediaMonksSonataMediaBundle:MediaAdmin:list_type.html.twig'
             ])
             ->add(
                 'updatedAt',

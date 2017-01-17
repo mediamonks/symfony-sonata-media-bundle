@@ -1,6 +1,6 @@
 ### Under construction, not yet ready for usage!
 
-# MediaMonksMediaBundle
+# MediaMonksSonataMediaBundle
 
 This bundle is an alternative to the existing Sonata Media Bundle.
 

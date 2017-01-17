@@ -1,8 +1,8 @@
 <?php
 
-namespace MediaMonks\MediaBundle\Helper;
+namespace MediaMonks\SonataMediaBundle\Helper;
 
-use MediaMonks\MediaBundle\Model\MediaInterface;
+use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;

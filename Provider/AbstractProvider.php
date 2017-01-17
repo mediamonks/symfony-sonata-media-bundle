@@ -1,9 +1,9 @@
 <?php
 
-namespace MediaMonks\MediaBundle\Provider;
+namespace MediaMonks\SonataMediaBundle\Provider;
 
 use League\Flysystem\Filesystem;
-use MediaMonks\MediaBundle\Model\MediaInterface;
+use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 
 abstract class AbstractProvider implements ProviderInterface
 {

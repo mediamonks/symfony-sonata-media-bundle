@@ -1,8 +1,8 @@
 <?php
 
-namespace MediaMonks\MediaBundle\Provider;
+namespace MediaMonks\SonataMediaBundle\Provider;
 
-use MediaMonks\MediaBundle\Model\MediaInterface;
+use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 
 class ProviderPool
 {

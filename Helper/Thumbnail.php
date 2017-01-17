@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaMonks\MediaBundle\Helper;
+namespace MediaMonks\SonataMediaBundle\Helper;
 
 use League\Glide\Filesystem\FilesystemException;
 use League\Glide\Server;

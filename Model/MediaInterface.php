@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaMonks\MediaBundle\Model;
+namespace MediaMonks\SonataMediaBundle\Model;
 
 interface MediaInterface
 {

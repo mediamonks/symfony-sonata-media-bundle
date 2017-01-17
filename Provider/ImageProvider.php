@@ -1,9 +1,9 @@
 <?php
 
-namespace MediaMonks\MediaBundle\Provider;
+namespace MediaMonks\SonataMediaBundle\Provider;
 
-use MediaMonks\MediaBundle\Entity\Media;
-use MediaMonks\MediaBundle\Model\MediaInterface;
+use MediaMonks\SonataMediaBundle\Entity\Media;
+use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -157,7 +157,7 @@ class ImageProvider extends AbstractProvider
      */
     public function getMediaTemplate()
     {
-        return 'MediaMonksMediaBundle:Provider:image_media.html.twig';
+        return 'MediaMonksSonataMediaBundle:Provider:image_media.html.twig';
     }
 
     /**
@@ -165,6 +165,6 @@ class ImageProvider extends AbstractProvider
      */
     public function getAdminMediaTemplate()
     {
-        return 'MediaMonksMediaBundle:Provider:image_media_admin.html.twig';
+        return 'MediaMonksSonataMediaBundle:Provider:image_media_admin.html.twig';
     }
 }

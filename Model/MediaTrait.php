@@ -1,8 +1,8 @@
 <?php
 
-namespace MediaMonks\MediaBundle\Model;
+namespace MediaMonks\SonataMediaBundle\Model;
 
-use MediaMonks\MediaBundle\Helper\Parameter;
+use MediaMonks\SonataMediaBundle\Helper\Parameter;
 
 trait MediaTrait
 {

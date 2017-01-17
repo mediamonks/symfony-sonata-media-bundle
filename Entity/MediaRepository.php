@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaMonks\MediaBundle\Entity;
+namespace MediaMonks\SonataMediaBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 

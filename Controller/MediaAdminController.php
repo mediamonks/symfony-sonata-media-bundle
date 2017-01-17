@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaMonks\MediaBundle\Controller;
+namespace MediaMonks\SonataMediaBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController;
 

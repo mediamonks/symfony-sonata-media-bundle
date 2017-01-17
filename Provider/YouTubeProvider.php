@@ -1,8 +1,8 @@
 <?php
 
-namespace MediaMonks\MediaBundle\Provider;
+namespace MediaMonks\SonataMediaBundle\Provider;
 
-use MediaMonks\MediaBundle\Model\MediaInterface;
+use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -217,7 +217,7 @@ class YouTubeProvider extends ImageProvider implements ProviderInterface
      */
     public function getMediaTemplate()
     {
-        return 'MediaMonksMediaBundle:Provider:youtube_media.html.twig';
+        return 'MediaMonksSonataMediaBundle:Provider:youtube_media.html.twig';
     }
 
     /**
@@ -225,6 +225,6 @@ class YouTubeProvider extends ImageProvider implements ProviderInterface
      */
     public function getAdminMediaTemplate()
     {
-        return 'MediaMonksMediaBundle:Provider:youtube_media_admin.html.twig';
+        return 'MediaMonksSonataMediaBundle:Provider:youtube_media_admin.html.twig';
     }
 }
