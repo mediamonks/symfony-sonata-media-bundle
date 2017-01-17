@@ -1,7 +1,4 @@
 - Public route name, admin is optional?
-
-- Create compiler pass for automatically adding tagged providers instead of doing this manually
-
 - Improve looks for template which chooses a provider
 - Add submenu to media to quickly add new provider
 - Override "Add new" to show a dropdown with providers

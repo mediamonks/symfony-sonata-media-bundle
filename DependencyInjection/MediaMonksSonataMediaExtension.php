@@ -30,16 +30,22 @@ class MediaMonksSonataMediaExtension extends Extension
         $container->getDefinition('mediamonks.media.glide.server')
             ->replaceArgument(
                 0,
-                [
-                    'source' => new Reference($config['filesystem_source']),
-                    'cache'  => new Reference($config['filesystem_source']),
-                ]
+                array_merge(
+                    $config['glide'],
+                    [
+                        'source' => new Reference($config['filesystem_source']),
+                        'cache'  => new Reference($config['filesystem_source']),
+                    ]
+                )
             );
 
         $container->getDefinition('mediamonks.media.helper.controller')
             ->replaceArgument(2, $config['media_base_url']);
 
-        // @todo provider compiler pass
+        $providerPool = $container->getDefinition('mediamonks.media.provider.pool');
+        foreach ($config['providers'] as $provider) {
+            $providerPool->addMethodCall('addProvider', [new Reference($provider)]);
+        }
     }
 
     /**

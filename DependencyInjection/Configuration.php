@@ -22,6 +22,8 @@ final class Configuration implements ConfigurationInterface
         $this->addMediaBaseUrl($rootNode);
         $this->addDefaultMediaProvider($rootNode);
         $this->addCacheTtl($rootNode);
+        $this->addProviders($rootNode);
+        $this->addGlideConfig($rootNode);
 
         // @todo routes?
 
@@ -73,6 +75,32 @@ final class Configuration implements ConfigurationInterface
         $node->children()
             ->scalarNode('redirect_cache_ttl')
             ->defaultValue(60 * 60 * 24 * 90) // 90 days
+            ->end();
+    }
+
+    /**
+     * @param ArrayNodeDefinition $node
+     */
+    private function addProviders(ArrayNodeDefinition $node)
+    {
+        $node->children()
+            ->arrayNode('providers')
+            ->defaultValue([
+                'mediamonks.media.provider.image',
+                'mediamonks.media.provider.youtube'
+            ])
+            ->prototype('scalar')->end()
+            ->end();
+    }
+
+    /**
+     * @param ArrayNodeDefinition $node
+     */
+    private function addGlideConfig(ArrayNodeDefinition $node)
+    {
+        $node->children()
+            ->arrayNode('glide')
+            ->prototype('scalar')->end()
             ->end();
     }
 }

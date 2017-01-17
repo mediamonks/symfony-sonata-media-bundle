@@ -21,12 +21,11 @@ class ProviderPool
     }
 
     /**
-     * @param $name
      * @param AbstractProvider $provider
      */
-    public function addProvider($name, AbstractProvider $provider)
+    public function addProvider(AbstractProvider $provider)
     {
-        $this->providers[$name] = $provider;
+        $this->providers[$provider->getTypeName()] = $provider;
     }
 
     /**
