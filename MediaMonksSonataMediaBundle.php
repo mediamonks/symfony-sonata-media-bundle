@@ -10,6 +10,8 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class MediaMonksSonataMediaBundle extends Bundle
 {
+    const BUNDLE_CONFIG_NAME = 'mediamonks_sonata_media';
+
     /**
      * @inheritdoc
      */

@@ -27,9 +27,9 @@ class ImageProvider extends AbstractProvider
                 [
                     'required'    => false,
                     'constraints' => [
-                        new Constraint\File()
+                        new Constraint\File(),
                     ],
-                    'label'       => 'Replacement Image'
+                    'label'       => 'Replacement Image',
                 ]
             )
             ->add('title')
@@ -37,11 +37,15 @@ class ImageProvider extends AbstractProvider
             ->add('authorName')
             ->add('copyright')
             ->add('tags')
-            ->add('pointOfInterest', ChoiceType::class, [
-                'required' => false,
-                'label'    => 'Point Of Interest',
-                'choices' => $this->getPointOfInterestChoices(),
-            ])
+            ->add(
+                'pointOfInterest',
+                ChoiceType::class,
+                [
+                    'required' => false,
+                    'label'    => 'Point Of Interest',
+                    'choices'  => $this->getPointOfInterestChoices(),
+                ]
+            )
             ->end();
     }
 
@@ -61,9 +65,9 @@ class ImageProvider extends AbstractProvider
                     'constraints' => [
                         new Constraint\NotBlank(),
                         new Constraint\NotNull(),
-                        new Constraint\File()
+                        new Constraint\File(),
                     ],
-                    'label'       => 'Image'
+                    'label'       => 'Image',
                 ]
             );
     }
@@ -103,16 +107,19 @@ class ImageProvider extends AbstractProvider
         @fclose($stream); // this sometime messes up
 
         $media->setProviderMetadata(
-            array_merge($media->getProviderMetaData(), [
-                'originalName'      => $file->getClientOriginalName(),
-                'originalExtension' => $file->getClientOriginalExtension(),
-                'mimeType'          => $file->getClientMimeType(),
-                'size'              => $file->getSize()
-            ])
+            array_merge(
+                $media->getProviderMetaData(),
+                [
+                    'originalName'      => $file->getClientOriginalName(),
+                    'originalExtension' => $file->getClientOriginalExtension(),
+                    'mimeType'          => $file->getClientMimeType(),
+                    'size'              => $file->getSize(),
+                ]
+            )
         );
         $media->setImage($filename);
 
-        if(empty($media->getTitle())) {
+        if (empty($media->getTitle())) {
             $media->setTitle(str_replace('_', ' ', pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)));
         }
 
@@ -127,8 +134,8 @@ class ImageProvider extends AbstractProvider
     public function toArray(MediaInterface $media, array $options = [])
     {
         return parent::toArray($media, $options) + [
-            'type' => $this->getTypeName()
-        ];
+                'type' => $this->getTypeName(),
+            ];
     }
 
     /**

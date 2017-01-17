@@ -2,6 +2,7 @@
 
 namespace MediaMonks\SonataMediaBundle\DependencyInjection;
 
+use MediaMonks\SonataMediaBundle\MediaMonksSonataMediaBundle;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -16,11 +17,10 @@ final class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('mediamonks_sonata_media');
+        $rootNode = $treeBuilder->root(MediaMonksSonataMediaBundle::BUNDLE_CONFIG_NAME);
 
         $this->addFilesystem($rootNode);
         $this->addMediaBaseUrl($rootNode);
-        $this->addDefaultMediaProvider($rootNode);
         $this->addCacheTtl($rootNode);
         $this->addProviders($rootNode);
         $this->addGlideConfig($rootNode);
@@ -51,19 +51,8 @@ final class Configuration implements ConfigurationInterface
     private function addMediaBaseUrl(ArrayNodeDefinition $node)
     {
         $node->children()
-            ->scalarNode('media_base_url')
+            ->scalarNode('redirect_url')
             ->defaultNull()
-            ->end();
-    }
-
-    /**
-     * @param ArrayNodeDefinition $node
-     */
-    private function addDefaultMediaProvider(ArrayNodeDefinition $node)
-    {
-        $node->children()
-            ->scalarNode('default_media_provider')
-            ->defaultValue('mediamonks.media.provider.image')
             ->end();
     }
 
@@ -74,7 +63,7 @@ final class Configuration implements ConfigurationInterface
     {
         $node->children()
             ->scalarNode('redirect_cache_ttl')
-            ->defaultValue(60 * 60 * 24 * 90) // 90 days
+            ->defaultValue(60 * 60 * 24 * 90)// 90 days
             ->end();
     }
 
@@ -85,10 +74,12 @@ final class Configuration implements ConfigurationInterface
     {
         $node->children()
             ->arrayNode('providers')
-            ->defaultValue([
-                'mediamonks.media.provider.image',
-                'mediamonks.media.provider.youtube'
-            ])
+            ->defaultValue(
+                [
+                    'mediamonks.media.provider.image',
+                    'mediamonks.media.provider.youtube',
+                ]
+            )
             ->prototype('scalar')->end()
             ->end();
     }

@@ -69,7 +69,7 @@ abstract class AbstractProvider implements ProviderInterface
             'description' => $media->getDescription(),
             'authorName'  => $media->getAuthorName(),
             'copyright'   => $media->getCopyright(),
-            'tags'        => $media->getTags()
+            'tags'        => $media->getTags(),
         ];
     }
 
@@ -78,16 +78,18 @@ abstract class AbstractProvider implements ProviderInterface
      */
     protected function getPointOfInterestChoices()
     {
-        return array_flip([
-            'top-left' => 'Top Left',
-            'top' => 'Top',
-            'top-right' => 'Top Right',
-            'left' => 'Left',
-            'center' => 'Center',
-            'right' => 'Right',
-            'bottom-left' => 'Bottom Left',
-            'bottom' => 'Bottom',
-            'bottom-right' => 'Bottom Right'
-        ]);
+        return array_flip(
+            [
+                'top-left'     => 'Top Left',
+                'top'          => 'Top',
+                'top-right'    => 'Top Right',
+                'left'         => 'Left',
+                'center'       => 'Center',
+                'right'        => 'Right',
+                'bottom-left'  => 'Bottom Left',
+                'bottom'       => 'Bottom',
+                'bottom-right' => 'Bottom Right',
+            ]
+        );
     }
 }

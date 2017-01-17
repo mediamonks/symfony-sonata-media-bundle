@@ -38,9 +38,13 @@ class MediaAdmin extends AbstractAdmin
     {
         $listMapper
             ->addIdentifier('title')
-            ->add('type', null, [
-                'template' => 'MediaMonksSonataMediaBundle:MediaAdmin:list_type.html.twig'
-            ])
+            ->add(
+                'type',
+                null,
+                [
+                    'template' => 'MediaMonksSonataMediaBundle:MediaAdmin:list_type.html.twig',
+                ]
+            )
             ->add(
                 'updatedAt',
                 'datetime'

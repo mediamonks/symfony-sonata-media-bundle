@@ -14,8 +14,12 @@ class MediaController extends Controller
      */
     public function thumbnailAction(Request $request, $id)
     {
-        return $this->get('mediamonks.media.helper.controller')->redirectToThumbnail($request, $id, function($id) {
-            return $this->getDoctrine()->getManager()->find('MediaMonksSonataMediaBundle:Media', $id);
-        });
+        return $this->get('mediamonks.media.helper.controller')->redirectToThumbnail(
+            $request,
+            $id,
+            function ($id) {
+                return $this->getDoctrine()->getManager()->find('MediaMonksSonataMediaBundle:Media', $id);
+            }
+        );
     }
 }

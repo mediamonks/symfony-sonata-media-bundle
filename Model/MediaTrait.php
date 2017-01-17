@@ -13,10 +13,11 @@ trait MediaTrait
     {
         $fit = 'crop-center';
         if (!is_null($this->getPointOfInterest())) {
-            $fit = 'crop-' . $this->getPointOfInterest();
+            $fit = 'crop-'.$this->getPointOfInterest();
         }
+
         return [
-            'fit' => $fit
+            'fit' => $fit,
         ];
     }
 
@@ -27,7 +28,7 @@ trait MediaTrait
     {
         return [
             Parameter::PARAMETER_ID      => $this->getId(),
-            Parameter::PARAMETER_VERSION => $this->getUpdatedAt()->getTimestamp()
+            Parameter::PARAMETER_VERSION => $this->getUpdatedAt()->getTimestamp(),
         ];
     }
 }

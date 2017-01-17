@@ -63,8 +63,7 @@ class YouTubeProvider extends ImageProvider implements ProviderInterface
     {
         $formMapper
             ->add('providerName', 'hidden')
-            ->add('providerReference', 'text', ['label' => 'YouTube ID'])
-        ;
+            ->add('providerReference', 'text', ['label' => 'YouTube ID']);
     }
 
     /**

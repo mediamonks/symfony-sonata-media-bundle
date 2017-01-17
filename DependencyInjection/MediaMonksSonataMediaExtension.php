@@ -2,6 +2,7 @@
 
 namespace MediaMonks\SonataMediaBundle\DependencyInjection;
 
+use MediaMonks\SonataMediaBundle\MediaMonksSonataMediaBundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Reference;
@@ -40,7 +41,8 @@ class MediaMonksSonataMediaExtension extends Extension
             );
 
         $container->getDefinition('mediamonks.media.helper.controller')
-            ->replaceArgument(2, $config['media_base_url']);
+            ->replaceArgument(2, $config['redirect_url'])
+            ->replaceArgument(3, $config['redirect_cache_ttl']);
 
         $providerPool = $container->getDefinition('mediamonks.media.provider.pool');
         foreach ($config['providers'] as $provider) {
@@ -53,6 +55,6 @@ class MediaMonksSonataMediaExtension extends Extension
      */
     public function getAlias()
     {
-        return 'mediamonks_sonata_media';
+        return MediaMonksSonataMediaBundle::BUNDLE_CONFIG_NAME;
     }
 }

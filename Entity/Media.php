@@ -159,6 +159,7 @@ class Media implements MediaInterface
     public function setProviderName($providerName)
     {
         $this->providerName = $providerName;
+
         return $this;
     }
 
@@ -209,6 +210,7 @@ class Media implements MediaInterface
     public function setImage($image)
     {
         $this->image = $image;
+
         return $this;
     }
 
@@ -227,6 +229,7 @@ class Media implements MediaInterface
     public function setPointOfInterest($pointOfInterest)
     {
         $this->pointOfInterest = $pointOfInterest;
+
         return $this;
     }
 
@@ -261,6 +264,7 @@ class Media implements MediaInterface
     public function setAuthorName($authorName)
     {
         $this->authorName = $authorName;
+
         return $this;
     }
 
@@ -279,6 +283,7 @@ class Media implements MediaInterface
     public function setBinaryContent($binaryContent)
     {
         $this->binaryContent = $binaryContent;
+
         return $this;
     }
 
@@ -295,7 +300,7 @@ class Media implements MediaInterface
      */
     public function getMediaType()
     {
-       $provider = explode('.', $this->getProviderName());
+        $provider = explode('.', $this->getProviderName());
 
         return $provider[3];
     }
