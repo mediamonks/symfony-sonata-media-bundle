@@ -1,0 +1,7 @@
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+ 
+{% block field%}
+    {% if admin.datagrid.results|length > 1 %}
+        <div>{{ object|media_type }}</div>
+    {% endif %}
+{% endblock %}

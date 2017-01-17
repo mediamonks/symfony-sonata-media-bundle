@@ -60,6 +60,12 @@ class MediaExtension extends \Twig_Extension
                     'is_safe'           => ['html'],
                 ]
             ),
+            new \Twig_SimpleFilter(
+                'media_type', [$this, 'mediaType'], [
+                    'needs_environment' => true,
+                    'is_safe'           => ['html'],
+                ]
+            ),
         ];
     }
 
@@ -154,5 +160,14 @@ class MediaExtension extends \Twig_Extension
             $height,
             $media->getTitle()
         );
+    }
+
+    /**
+     * @param \Twig_Environment $environment
+     * @param MediaInterface $media
+     */
+    public function mediaType(\Twig_Environment $environment, MediaInterface $media)
+    {
+        return $this->providerPool->getProvider($media->getProviderName())->getName();
     }
 }

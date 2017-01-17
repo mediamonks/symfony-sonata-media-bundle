@@ -37,7 +37,10 @@ class MediaAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->add('title')
+            ->addIdentifier('title')
+            ->add('type', null, [
+                'template' => 'MediaMonksMediaBundle:MediaAdmin:list_type.html.twig'
+            ])
             ->add(
                 'updatedAt',
                 'datetime'

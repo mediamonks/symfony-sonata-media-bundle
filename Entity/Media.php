@@ -68,12 +68,6 @@ class Media implements MediaInterface
     private $authorName;
 
     /**
-     * @var boolean
-     * @ORM\Column(type="boolean", nullable=true, options={"default" = 0})
-     */
-    private $featured = false;
-
-    /**
      * @ORM\Column(type="json_array", nullable=true)
      */
     private $tags;
@@ -294,25 +288,6 @@ class Media implements MediaInterface
     public function getSlug()
     {
         return $this->getId();
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isFeatured()
-    {
-        return $this->featured;
-    }
-
-    /**
-     * @param boolean $featured
-     * @return Media
-     */
-    public function setFeatured($featured)
-    {
-        $this->featured = $featured;
-
-        return $this;
     }
 
     /**
