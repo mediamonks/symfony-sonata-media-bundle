@@ -1,3 +1,13 @@
+[![Build Status](https://travis-ci.org/mediamonks/symfony-sonata-media-bundle.svg?branch=master)](https://travis-ci.org/mediamonks/symfony-sonata-media-bundle)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mediamonks/symfony-sonata-media-bundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mediamonks/symfony-sonata-media-bundle/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/mediamonks/symfony-sonata-media-bundle/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/mediamonks/symfony-sonata-media-bundle/?branch=master)
+[![Total Downloads](https://poser.pugx.org/mediamonks/sonata-media-bundle/downloads)](https://packagist.org/packages/mediamonks/crawler-bundle)
+[![Latest Stable Version](https://poser.pugx.org/mediamonks/sonata-media-bundle/v/stable)](https://packagist.org/packages/mediamonks/crawler-bundle)
+[![Latest Unstable Version](https://poser.pugx.org/mediamonks/sonata-media-bundle/v/unstable)](https://packagist.org/packages/mediamonks/crawler-bundle)
+[![SensioLabs Insight](https://img.shields.io/sensiolabs/i/3840ec2c-d443-4f15-a786-d9206614fe1d.svg)](https://insight.sensiolabs.com/projects/3840ec2c-d443-4f15-a786-d9206614fe1d)
+[![License](https://poser.pugx.org/mediamonks/sonata-media-bundle/license)](https://packagist.org/packages/mediamonks/sonata-media-bundle)
+
+
 ### Under construction, not yet ready for usage!
 
 # MediaMonksSonataMediaBundle
@@ -10,9 +20,9 @@ first request for a specific thumbnail hits your own server.
 
 ## Features
 
-- Supports many file systems to store the media (S3, Azure, Google Cloud, (S)FTP, Rackspace)
+- Supports many [file systems](http://flysystem.thephpleague.com/adapter/local/) to store the media (S3, Azure, Google Cloud, (S)FTP, Rackspace)
 - Supports image uploads & YouTube (planned: Vimeo, Facebook, SoundCloud, Mixcloud)
-- Generate thumbnails with various options including a focal point
+- Generate thumbnails with [various options](http://glide.thephpleague.com/1.0/api/quick-reference/)
 - Caches thumbnails in your CDN by using cache control headers
 
 ## Documentation

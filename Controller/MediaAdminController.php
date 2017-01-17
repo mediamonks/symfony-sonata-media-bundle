@@ -13,7 +13,7 @@ class MediaAdminController extends CRUDController
     {
         if (!$this->getRequest()->get('provider') && $this->getRequest()->isMethod('get')) {
             return $this->render(
-                '@MediaMonksMedia/MediaAdmin/select_provider.html.twig',
+                '@MediaMonksSonataMedia/MediaAdmin/select_provider.html.twig',
                 [
                     'providers'     => $this->get('mediamonks.media.provider.pool')->getProviders(),
                     'base_template' => $this->getBaseTemplate(),
