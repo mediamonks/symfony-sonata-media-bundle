@@ -22,11 +22,15 @@ class MediaMonksSonataMediaExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
 
+        if (empty($config['filesystem_cache'])) {
+            $config['filesystem_cache'] = $config['filesystem'];
+        }
+
         $container->getDefinition('mediamonks.media.provider.image')
-            ->replaceArgument(0, new Reference($config['filesystem_source']));
+            ->replaceArgument(0, new Reference($config['filesystem']));
 
         $container->getDefinition('mediamonks.media.provider.youtube')
-            ->replaceArgument(0, new Reference($config['filesystem_source']));
+            ->replaceArgument(0, new Reference($config['filesystem']));
 
         $container->getDefinition('mediamonks.media.glide.server')
             ->replaceArgument(
@@ -34,8 +38,8 @@ class MediaMonksSonataMediaExtension extends Extension
                 array_merge(
                     $config['glide'],
                     [
-                        'source' => new Reference($config['filesystem_source']),
-                        'cache'  => new Reference($config['filesystem_source']),
+                        'source' => new Reference($config['filesystem']),
+                        'cache'  => new Reference($config['filesystem_cache']),
                     ]
                 )
             );

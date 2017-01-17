@@ -20,8 +20,8 @@ final class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root(MediaMonksSonataMediaBundle::BUNDLE_CONFIG_NAME);
 
         $this->addFilesystem($rootNode);
-        $this->addMediaBaseUrl($rootNode);
-        $this->addCacheTtl($rootNode);
+        $this->addRedirectUrl($rootNode);
+        $this->addRedirectCacheTtl($rootNode);
         $this->addProviders($rootNode);
         $this->addGlideConfig($rootNode);
 
@@ -36,7 +36,7 @@ final class Configuration implements ConfigurationInterface
     private function addFilesystem(ArrayNodeDefinition $node)
     {
         $node->children()
-            ->scalarNode('filesystem_source')
+            ->scalarNode('filesystem')
             ->end();
 
         $node->children()
@@ -48,7 +48,7 @@ final class Configuration implements ConfigurationInterface
     /**
      * @param ArrayNodeDefinition $node
      */
-    private function addMediaBaseUrl(ArrayNodeDefinition $node)
+    private function addRedirectUrl(ArrayNodeDefinition $node)
     {
         $node->children()
             ->scalarNode('redirect_url')
@@ -59,7 +59,7 @@ final class Configuration implements ConfigurationInterface
     /**
      * @param ArrayNodeDefinition $node
      */
-    private function addCacheTtl(ArrayNodeDefinition $node)
+    private function addRedirectCacheTtl(ArrayNodeDefinition $node)
     {
         $node->children()
             ->scalarNode('redirect_cache_ttl')
