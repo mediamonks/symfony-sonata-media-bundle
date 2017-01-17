@@ -37,6 +37,11 @@ class Parameter
     protected $destinationPrefix;
 
     /**
+     * @var string
+     */
+    protected $hashAlgorithm = 'sha256';
+
+    /**
      * UrlGenerator constructor.
      * @param Router $router
      * @param array $routeNames
@@ -45,8 +50,8 @@ class Parameter
      */
     public function __construct(Router $router, array $routeNames, $secret, $destinationPrefix = 'thumbs/')
     {
-        $this->router            = $router;
-        $this->secret            = $secret;
+        $this->router = $router;
+        $this->secret = $secret;
         $this->destinationPrefix = $destinationPrefix;
 
         $this->setRouteNames($routeNames);
@@ -89,6 +94,7 @@ class Parameter
     protected function signParameters(array $parameters)
     {
         $parameters['s'] = $this->calculateSignature($parameters);
+
         return $parameters;
     }
 
@@ -98,7 +104,7 @@ class Parameter
      */
     protected function calculateSignature(array $parameters)
     {
-        return hash_hmac('sha26', $this->secret, json_encode($this->normalizeParameters($parameters)));
+        return hash_hmac($this->hashAlgorithm, $this->secret, json_encode($this->normalizeParameters($parameters)));
     }
 
     /**
@@ -119,6 +125,7 @@ class Parameter
         foreach ($parameters as $k => $v) {
             $parametersNormalized[$k] = (string)$v;
         }
+
         return $parametersNormalized;
     }
 
@@ -131,6 +138,7 @@ class Parameter
         if (!hash_equals($this->calculateSignature($parameters), $parameters[self::PARAMETER_SIGNATURE])) {
             return false;
         }
+
         return true;
     }
 
@@ -140,9 +148,10 @@ class Parameter
      */
     protected function getFormat(array $parameters)
     {
-        if(isset($parameters['fm'])) {
+        if (isset($parameters['fm'])) {
             return $parameters['fm'];
         }
+
         return 'jpg';
     }
 
@@ -157,9 +166,10 @@ class Parameter
 
         $parametersFlat = [];
         foreach ($parameters as $k => $v) {
-            $parametersFlat[] = $k . $v;
+            $parametersFlat[] = $k.$v;
         }
-        return $this->destinationPrefix .
-        pathinfo($source, PATHINFO_FILENAME) . '/' . implode('_', $parametersFlat) . '.'. $this->getFormat($parameters);
+
+        return $this->destinationPrefix.
+            pathinfo($source, PATHINFO_FILENAME).'/'.implode('_', $parametersFlat).'.'.$this->getFormat($parameters);
     }
 }

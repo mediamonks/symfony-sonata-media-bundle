@@ -18,14 +18,6 @@ class YouTubeProvider extends ImageProvider implements ProviderInterface
     const URL_IMAGE_HQ = 'https://i.ytimg.com/vi/%s/hqdefault.jpg';
 
     /**
-     * @var array
-     */
-    protected $templates = [
-        'helper_media'       => 'MediaMonksMediaBundle:Provider:youtube_media.html.twig',
-        'helper_media_admin' => 'MediaMonksMediaBundle:Provider:youtube_media_admin.html.twig',
-    ];
-
-    /**
      * @param FormMapper $formMapper
      */
     public function buildEditForm(FormMapper $formMapper)
@@ -70,8 +62,9 @@ class YouTubeProvider extends ImageProvider implements ProviderInterface
     public function buildCreateForm(FormMapper $formMapper)
     {
         $formMapper
-            ->add('providerName', HiddenType::class)
-            ->add('providerReference', TextType::class, ['label' => 'YouTube ID']);
+            ->add('providerName', 'hidden')
+            ->add('providerReference', 'text', ['label' => 'YouTube ID'])
+        ;
     }
 
     /**
@@ -219,5 +212,19 @@ class YouTubeProvider extends ImageProvider implements ProviderInterface
         return 'youtube';
     }
 
+    /**
+     * @return string
+     */
+    public function getMediaTemplate()
+    {
+        return 'MediaMonksMediaBundle:Provider:youtube_media.html.twig';
+    }
 
+    /**
+     * @return string
+     */
+    public function getAdminMediaTemplate()
+    {
+        return 'MediaMonksMediaBundle:Provider:youtube_media_admin.html.twig';
+    }
 }

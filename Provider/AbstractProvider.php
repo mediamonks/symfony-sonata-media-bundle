@@ -2,11 +2,8 @@
 
 namespace MediaMonks\MediaBundle\Provider;
 
-use Intervention\Image\ImageManagerStatic;
 use League\Flysystem\Filesystem;
 use MediaMonks\MediaBundle\Model\MediaInterface;
-use Monolog\Logger;
-use Sonata\AdminBundle\Form\FormMapper;
 
 abstract class AbstractProvider implements ProviderInterface
 {
@@ -16,23 +13,16 @@ abstract class AbstractProvider implements ProviderInterface
     protected $filesystem;
 
     /**
-     * @var Logger
-     */
-    protected $logger;
-
-    /**
      * @var array
      */
     protected $templates = [];
 
     /**
-     * AbstractProvider constructor.
      * @param Filesystem $filesystem
      */
-    public function __construct(Filesystem $filesystem, Logger $logger)
+    public function __construct(Filesystem $filesystem)
     {
         $this->filesystem = $filesystem;
-        $this->logger     = $logger;
     }
 
     /**
@@ -81,15 +71,6 @@ abstract class AbstractProvider implements ProviderInterface
             'copyright'   => $media->getCopyright(),
             'tags'        => $media->getTags()
         ];
-    }
-
-    /**
-     * @param $name
-     * @return string
-     */
-    public function getTemplate($name)
-    {
-        return $this->templates[$name];
     }
 
     /**

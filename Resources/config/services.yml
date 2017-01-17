@@ -9,7 +9,6 @@ services:
         class: MediaMonks\MediaBundle\Provider\ImageProvider
         arguments:
             - '@oneup_flysystem.default_filesystem'
-            - '@monolog.logger'
         tags:
             - { name: mediamonks.media.provider }
 
@@ -17,7 +16,6 @@ services:
         class: MediaMonks\MediaBundle\Provider\YouTubeProvider
         arguments:
             - '@oneup_flysystem.default_filesystem'
-            - '@monolog.logger'
         tags:
             - { name: mediamonks.media.provider }
 
@@ -26,3 +24,41 @@ services:
         calls:
             - [addProvider, ['mediamonks.media.provider.image', '@mediamonks.media.provider.image']]
             - [addProvider, ['mediamonks.media.provider.youtube', '@mediamonks.media.provider.youtube']]
+
+    mediamonks.media.twig.extension:
+        class: MediaMonks\MediaBundle\Twig\Extension\MediaExtension
+        arguments:
+            - '@mediamonks.media.provider.pool'
+            - '@mediamonks.media.helper.parameter'
+        tags:
+            - { name: twig.extension }
+
+    mediamonks.media.glide.server:
+        class: League\Glide\Server
+        factory: [League\Glide\ServerFactory, create]
+        arguments:
+          ~:
+              source: '@oneup_flysystem.default_filesystem'
+              cache: '@oneup_flysystem.default_filesystem'
+
+
+    mediamonks.media.helper.parameter:
+        class: MediaMonks\MediaBundle\Helper\Parameter
+        arguments:
+            - '@router.default'
+            -
+              public: 'mediamonks_media_thumbnail'
+              private: 'admin_mediamonks_core_media_thumbnail'
+            - '%secret%'
+
+    mediamonks.media.helper.thumbnail:
+        class: MediaMonks\MediaBundle\Helper\Thumbnail
+        arguments:
+            - '@mediamonks.media.glide.server'
+
+    mediamonks.media.helper.controller:
+        class: MediaMonks\MediaBundle\Helper\Controller
+        arguments:
+            - '@mediamonks.media.helper.parameter'
+            - '@mediamonks.media.helper.thumbnail'
+            - 'http://localhost/mediamonks-sonata-media/web/data/'

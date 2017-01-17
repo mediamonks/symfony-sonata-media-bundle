@@ -14,14 +14,6 @@ use Symfony\Component\Validator\Constraints as Constraint;
 class ImageProvider extends AbstractProvider
 {
     /**
-     * @var array
-     */
-    protected $templates = [
-        'helper_media' => 'MediaMonksMediaBundle:Provider:image_media.html.twig',
-        'helper_media_admin' => 'MediaMonksMediaBundle:Provider:image_media_admin.html.twig'
-    ];
-
-    /**
      * @param FormMapper $formMapper
      */
     public function buildEditForm(FormMapper $formMapper)
@@ -158,5 +150,21 @@ class ImageProvider extends AbstractProvider
     public function getTypeName()
     {
         return 'image';
+    }
+
+    /**
+     * @return string
+     */
+    public function getMediaTemplate()
+    {
+        return 'MediaMonksMediaBundle:Provider:image_media.html.twig';
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdminMediaTemplate()
+    {
+        return 'MediaMonksMediaBundle:Provider:image_media_admin.html.twig';
     }
 }

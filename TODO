@@ -1,7 +1,5 @@
 - Create controller for getting thumbnails based on MediaInterface objects
 
-- Implement provider templates with getters
-
 - Show thumbnail image in overview
 - Show thumbnail in edit
 - Show full embed in edit
@@ -16,3 +14,5 @@
     - cache ttl
 
 - Improve looks for template which chooses a provider
+- Add submenu to media to quickly add new provider
+- Override "Add new" to show a dropdown with providers
