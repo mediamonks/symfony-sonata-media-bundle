@@ -26,20 +26,4 @@ class MediaAdminController extends CRUDController
 
         return parent::createAction();
     }
-
-    /**
-     * @param Request $request
-     * @param int $id
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     */
-    public function imageAction(Request $request, $id)
-    {
-        return $this->get('mediamonks.sonata_media.helper.controller')->redirectToThumbnail(
-            $request,
-            $id,
-            function ($id) {
-                return $this->getDoctrine()->getManager()->find('MediaMonksSonataMediaBundle:Media', $id);
-            }
-        );
-    }
 }

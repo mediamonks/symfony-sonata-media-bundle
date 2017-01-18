@@ -49,14 +49,15 @@ class UrlGenerator
         $routeName = null,
         $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH
     ) {
+
         if (empty($routeName)) {
             $routeName = $this->defaultRouteName;
         }
 
         return $this->router->generate(
-            $routeName,
-            $this->parameterHandler->getQueryString($media, $parameters),
-            $referenceType
-        );
+                $routeName,
+                ['id' => $media->getId()],
+                $referenceType
+            ).'?'.$this->parameterHandler->getQueryString($media, $parameters);
     }
 }

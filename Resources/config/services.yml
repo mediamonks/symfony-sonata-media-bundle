@@ -35,7 +35,7 @@ services:
         class: '%mediamonks.sonata_media.twig.extension.class%'
         arguments:
             - '@mediamonks.sonata_media.provider.pool'
-            - '@mediamonks.sonata_media.helper.parameter'
+            - '@mediamonks.sonata_media.generator.url_generator'
         tags:
             - { name: twig.extension }
 
@@ -43,27 +43,6 @@ services:
         class: League\Glide\Server
         factory: ['League\Glide\ServerFactory', 'create']
         arguments:
-            - ~
-
-    mediamonks.sonata_media.helper.parameter:
-        class: '%mediamonks.sonata_media.helper.parameter.class%'
-        arguments:
-            - '@router.default'
-            -
-              default: 'mediamonks_media_image'
-            - '%secret%'
-
-    mediamonks.sonata_media.helper.thumbnail:
-        class: '%mediamonks.sonata_media.helper.thumbnail.class%'
-        arguments:
-            - '@mediamonks.sonata_media.glide.server'
-
-    mediamonks.sonata_media.helper.controller:
-        class: '%mediamonks.sonata_media.helper.controller.class%'
-        arguments:
-            - '@mediamonks.sonata_media.helper.parameter'
-            - '@mediamonks.sonata_media.helper.thumbnail'
-            - ~
             - ~
 
     mediamonks.sonata_media.handler.signature_parameter_handler:

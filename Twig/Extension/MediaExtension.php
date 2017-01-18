@@ -2,6 +2,7 @@
 
 namespace MediaMonks\SonataMediaBundle\Twig\Extension;
 
+use MediaMonks\SonataMediaBundle\Generator\UrlGenerator;
 use MediaMonks\SonataMediaBundle\Provider\ProviderInterface;
 use MediaMonks\SonataMediaBundle\Provider\ProviderPool;
 use MediaMonks\SonataMediaBundle\Helper\Parameter;
@@ -12,21 +13,21 @@ class MediaExtension extends \Twig_Extension
     /**
      * @var ProviderPool
      */
-    protected $providerPool;
+    private $providerPool;
 
     /**
-     * @var Parameter
+     * @var UrlGenerator
      */
-    protected $parameterHelper;
+    private $urlGenerator;
 
     /**
      * @param ProviderPool $providerPool
-     * @param Parameter $parameter
+     * @param UrlGenerator $urlGenerator
      */
-    public function __construct(ProviderPool $providerPool, Parameter $parameter)
+    public function __construct(ProviderPool $providerPool, UrlGenerator $urlGenerator)
     {
         $this->providerPool = $providerPool;
-        $this->parameterHelper = $parameter;
+        $this->urlGenerator = $urlGenerator;
     }
 
     /**
@@ -51,13 +52,12 @@ class MediaExtension extends \Twig_Extension
             ),
             new \Twig_SimpleFilter(
                 'media_image', [$this, 'mediaImage'], [
-                    'is_safe' => ['html'],
+                    'needs_environment' => true,
+                    'is_safe'           => ['html'],
                 ]
             ),
             new \Twig_SimpleFilter(
-                'media_type', [$this, 'mediaType'], [
-                    'is_safe' => ['html'],
-                ]
+                'media_type', [$this, 'mediaType']
             ),
         ];
     }
@@ -65,10 +65,10 @@ class MediaExtension extends \Twig_Extension
     /**
      * @param \Twig_Environment $environment
      * @param MediaInterface $media
-     * @param int $width
-     * @param int $height
-     * @param string $routeName
+     * @param $width
+     * @param $height
      * @param array $parameters
+     * @param null $routeName
      * @return string
      */
     public function media(
@@ -76,8 +76,8 @@ class MediaExtension extends \Twig_Extension
         MediaInterface $media,
         $width,
         $height,
-        $routeName = null,
-        array $parameters = []
+        array $parameters = [],
+        $routeName = null
     ) {
         return $environment->render(
             $this->getProviderByMedia($media)->getMediaTemplate(),
@@ -92,15 +92,22 @@ class MediaExtension extends \Twig_Extension
     }
 
     /**
+     * @param \Twig_Environment $environment
      * @param MediaInterface $media
-     * @param int $width
-     * @param int $height
-     * @param string $routeName
+     * @param $width
+     * @param $height
      * @param array $parameters
+     * @param null $routeName
      * @return string
      */
-    public function mediaImage(MediaInterface $media, $width, $height, $routeName = null, array $parameters = [])
-    {
+    public function mediaImage(
+        \Twig_Environment $environment,
+        MediaInterface $media,
+        $width,
+        $height,
+        array $parameters = [],
+        $routeName = null
+    ) {
         $parameters += [
             'w' => $width,
             'h' => $height,
@@ -108,10 +115,10 @@ class MediaExtension extends \Twig_Extension
 
         return sprintf(
             '<img src="%s" width="%d" height="%d" title="%s">',
-            $this->parameterHelper->generateUrl($media, $parameters, $routeName),
+            $this->urlGenerator->generate($media, $parameters, $routeName),
             $width,
             $height,
-            $media->getTitle()
+            twig_escape_filter($environment, $media->getTitle()) // @todo check if this is now escaped properly
         );
     }
 

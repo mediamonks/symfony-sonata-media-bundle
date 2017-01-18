@@ -44,10 +44,6 @@ class MediaMonksSonataMediaExtension extends Extension
                 )
             );
 
-        $container->getDefinition('mediamonks.sonata_media.helper.controller')
-            ->replaceArgument(2, $config['redirect_url'])
-            ->replaceArgument(3, $config['redirect_cache_ttl']);
-
         $providerPool = $container->getDefinition('mediamonks.sonata_media.provider.pool');
         foreach ($config['providers'] as $provider) {
             $providerPool->addMethodCall('addProvider', [new Reference($provider)]);
