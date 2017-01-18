@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class Parameter
 {
-    const ROUTE_NAME_PUBLIC = 'public';
+    const ROUTE_NAME_DEFAULT = 'public';
     const ROUTE_NAME_PRIVATE = 'private';
 
     const PARAMETER_ID = 'id';
@@ -63,8 +63,8 @@ class Parameter
      */
     protected function setRouteNames(array $routeNames)
     {
-        if (!array_key_exists(self::ROUTE_NAME_PUBLIC, $routeNames)) {
-            throw new \Exception(sprintf('Route name "%s" is required', self::ROUTE_NAME_PUBLIC));
+        if (!array_key_exists(self::ROUTE_NAME_DEFAULT, $routeNames)) {
+            throw new \Exception(sprintf('Route name "%s" is required', self::ROUTE_NAME_DEFAULT));
         }
         if (!array_key_exists(self::ROUTE_NAME_PRIVATE, $routeNames)) {
             throw new \Exception(sprintf('Route name "%s" is required', self::ROUTE_NAME_PRIVATE));
@@ -78,7 +78,7 @@ class Parameter
      * @param string $route
      * @return string
      */
-    public function generateUrl(MediaInterface $media, $parameters, $route = self::ROUTE_NAME_PUBLIC)
+    public function generateUrl(MediaInterface $media, $parameters, $route = self::ROUTE_NAME_DEFAULT)
     {
         return $this->router->generate(
             $this->routeNames[$route],

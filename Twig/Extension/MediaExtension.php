@@ -49,13 +49,7 @@ class MediaExtension extends \Twig_Extension
                 ]
             ),
             new \Twig_SimpleFilter(
-                'media_admin', [$this, 'mediaAdmin'], [
-                    'needs_environment' => true,
-                    'is_safe'           => ['html'],
-                ]
-            ),
-            new \Twig_SimpleFilter(
-                'media_thumbnail', [$this, 'mediaThumbnail'], [
+                'media_image', [$this, 'mediaImage'], [
                     'needs_environment' => true,
                     'is_safe'           => ['html'],
                 ]
@@ -83,7 +77,7 @@ class MediaExtension extends \Twig_Extension
         MediaInterface $media,
         $width,
         $height,
-        $type = Parameter::ROUTE_NAME_PUBLIC,
+        $type = Parameter::ROUTE_NAME_DEFAULT,
         array $parameters = []
     ) {
         $provider = $this->providerPool->getProvider($media->getProviderName());
@@ -105,47 +99,16 @@ class MediaExtension extends \Twig_Extension
      * @param MediaInterface $media
      * @param int $width
      * @param int $height
-     * @param string $type
+     * @param string $routeName
      * @param array $parameters
      * @return string
      */
-    public function mediaAdmin(
+    public function mediaImage(
         \Twig_Environment $environment,
         MediaInterface $media,
         $width,
         $height,
-        $type = Parameter::ROUTE_NAME_PUBLIC,
-        array $parameters = []
-    ) {
-        $provider = $this->providerPool->getProvider($media->getProviderName());
-
-        return $environment->render(
-            $provider->getAdminMediaTemplate(),
-            [
-                'media'      => $media,
-                'width'      => $width,
-                'height'     => $height,
-                'type'       => $type,
-                'parameters' => $parameters,
-            ]
-        );
-    }
-
-    /**
-     * @param \Twig_Environment $environment
-     * @param MediaInterface $media
-     * @param int $width
-     * @param int $height
-     * @param string $type
-     * @param array $parameters
-     * @return string
-     */
-    public function mediaThumbnail(
-        \Twig_Environment $environment,
-        MediaInterface $media,
-        $width,
-        $height,
-        $type = Parameter::ROUTE_NAME_PUBLIC,
+        $routeName = Parameter::ROUTE_NAME_DEFAULT,
         array $parameters = []
     ) {
         $parameters += [
@@ -155,7 +118,7 @@ class MediaExtension extends \Twig_Extension
 
         return sprintf(
             '<img src="%s" width="%d" height="%d" title="%s">',
-            $this->parameterHelper->generateUrl($media, $parameters, $type),
+            $this->parameterHelper->generateUrl($media, $parameters, $routeName),
             $width,
             $height,
             $media->getTitle()

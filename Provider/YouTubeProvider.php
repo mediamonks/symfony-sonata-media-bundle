@@ -51,7 +51,6 @@ class YouTubeProvider extends ImageProvider implements ProviderInterface
                     'choices'  => $this->getPointOfInterestChoices(),
                 ]
             )
-            ->add('featured')
             ->end()
             ->end();
     }

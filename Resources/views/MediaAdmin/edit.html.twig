@@ -10,7 +10,13 @@
                 <div class="box box-primary">
                     <div class="box-header">Preview</div>
                     <div class="box-body">
-                        {{ object|media_admin(360, 230) }}
+                        <label>Embed</label>
+                        <br style="clear: both;">
+                        {{ object|media(360, 230) }}
+                        <br><br>
+                        <label>Image</label>
+                        <br>
+                        {{ object|media_image(360, 230) }}
                     </div>
                 </div>
             {% endif %}
