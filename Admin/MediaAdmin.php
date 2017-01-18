@@ -9,7 +9,6 @@ use MediaMonks\SonataMediaBundle\Provider\ProviderInterface;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Symfony\Component\Validator\Constraints as Constraint;
 
 class MediaAdmin extends AbstractAdmin
 {
@@ -120,7 +119,7 @@ class MediaAdmin extends AbstractAdmin
             } elseif ($this->getRequest()->query->has('provider')) {
                 $media->setProviderName($this->getRequest()->query->get('provider'));
             } else {
-                $media->setProviderName('mediamonks.media.provider.image'); // @todo load default provider from config
+                throw new \InvalidArgumentException('No provider was set');
             }
         }
 

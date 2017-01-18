@@ -25,8 +25,6 @@ final class Configuration implements ConfigurationInterface
         $this->addProviders($rootNode);
         $this->addGlideConfig($rootNode);
 
-        // @todo routes?
-
         return $treeBuilder;
     }
 
