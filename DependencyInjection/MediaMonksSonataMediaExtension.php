@@ -26,13 +26,13 @@ class MediaMonksSonataMediaExtension extends Extension
             $config['filesystem_cache'] = $config['filesystem'];
         }
 
-        $container->getDefinition('mediamonks.media.provider.image')
+        $container->getDefinition('mediamonks.sonata_media.provider.image')
             ->replaceArgument(0, new Reference($config['filesystem']));
 
-        $container->getDefinition('mediamonks.media.provider.youtube')
+        $container->getDefinition('mediamonks.sonata_media.provider.youtube')
             ->replaceArgument(0, new Reference($config['filesystem']));
 
-        $container->getDefinition('mediamonks.media.glide.server')
+        $container->getDefinition('mediamonks.sonata_media.glide.server')
             ->replaceArgument(
                 0,
                 array_merge(
@@ -44,11 +44,11 @@ class MediaMonksSonataMediaExtension extends Extension
                 )
             );
 
-        $container->getDefinition('mediamonks.media.helper.controller')
+        $container->getDefinition('mediamonks.sonata_media.helper.controller')
             ->replaceArgument(2, $config['redirect_url'])
             ->replaceArgument(3, $config['redirect_cache_ttl']);
 
-        $providerPool = $container->getDefinition('mediamonks.media.provider.pool');
+        $providerPool = $container->getDefinition('mediamonks.sonata_media.provider.pool');
         foreach ($config['providers'] as $provider) {
             $providerPool->addMethodCall('addProvider', [new Reference($provider)]);
         }

@@ -11,7 +11,7 @@ All available configuration options are listed below with their default values.
         redirect_url: 'https://url.of.your.cdn/'
         redirect_cache_ttl: 7776000
         providers:
-            - 'mediamonks.media.provider.image'
-            - 'mediamonks.media.provider.youtube'
+            - 'mediamonks.sonata_media.provider.image'
+            - 'mediamonks.sonata_media.provider.youtube'
         glide:
             <any option supported by glide server>

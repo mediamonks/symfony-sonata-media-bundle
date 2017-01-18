@@ -74,8 +74,8 @@ final class Configuration implements ConfigurationInterface
             ->arrayNode('providers')
             ->defaultValue(
                 [
-                    'mediamonks.media.provider.image',
-                    'mediamonks.media.provider.youtube',
+                    'mediamonks.sonata_media.provider.image',
+                    'mediamonks.sonata_media.provider.youtube',
                 ]
             )
             ->prototype('scalar')->end()

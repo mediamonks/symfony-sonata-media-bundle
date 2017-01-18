@@ -48,19 +48,12 @@ class Controller
 
     /**
      * @param Request $request
-     * @param $id
-     * @param callable $converter
+     * @param MediaInterface $media
      * @return RedirectResponse
      */
-    public function redirectToThumbnail(Request $request, $id, callable $converter)
+    public function redirectToThumbnail(Request $request, MediaInterface $media)
     {
-        $parameters = $this->verifyParameters($request, $id);
-        try {
-            $media = $converter($id);
-        } catch (\Exception $e) {
-            throw new NotFoundHttpException('media_not_found');
-        }
-
+        $parameters = $this->verifyParameters($request, $media->getId());
         return $this->handleCreationAndRedirect($media, $parameters);
     }
 

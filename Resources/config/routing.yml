@@ -1,6 +1,13 @@
-mediamonks_media_thumbnail:
-    path:  /media/thumbnail/{id}
-    defaults: {_controller: MediaMonksSonataMediaBundle:Media:thumbnail}
+mediamonks_media_admin_image:
+    path:  /admin/media/image/{id}
+    defaults: {_controller: MediaMonksSonataMediaBundle:MediaAdmin:image}
+    methods:  [GET]
+    requirements:
+        id: \d+
+
+mediamonks_media_image:
+    path:  /media/image/{id}
+    defaults: {_controller: MediaMonksSonataMediaBundle:Media:image}
     methods:  [GET]
     requirements:
         id: \d+

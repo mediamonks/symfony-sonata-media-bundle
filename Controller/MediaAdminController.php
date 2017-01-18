@@ -3,6 +3,7 @@
 namespace MediaMonks\SonataMediaBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController;
+use Symfony\Component\HttpFoundation\Request;
 
 class MediaAdminController extends CRUDController
 {
@@ -15,7 +16,7 @@ class MediaAdminController extends CRUDController
             return $this->render(
                 '@MediaMonksSonataMedia/MediaAdmin/select_provider.html.twig',
                 [
-                    'providers'     => $this->get('mediamonks.media.provider.pool')->getProviders(),
+                    'providers'     => $this->get('mediamonks.sonata_media.provider.pool')->getProviders(),
                     'base_template' => $this->getBaseTemplate(),
                     'admin'         => $this->admin,
                     'action'        => 'create',
@@ -24,5 +25,21 @@ class MediaAdminController extends CRUDController
         }
 
         return parent::createAction();
+    }
+
+    /**
+     * @param Request $request
+     * @param int $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function imageAction(Request $request, $id)
+    {
+        return $this->get('mediamonks.sonata_media.helper.controller')->redirectToThumbnail(
+            $request,
+            $id,
+            function ($id) {
+                return $this->getDoctrine()->getManager()->find('MediaMonksSonataMediaBundle:Media', $id);
+            }
+        );
     }
 }

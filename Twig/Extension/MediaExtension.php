@@ -20,7 +20,7 @@ class MediaExtension extends \Twig_Extension
     protected $parameterHelper;
 
     /**
-     * MediaExtension constructor.
+     * @param ProviderPool $providerPool
      * @param Parameter $parameter
      */
     public function __construct(ProviderPool $providerPool, Parameter $parameter)
@@ -51,12 +51,12 @@ class MediaExtension extends \Twig_Extension
             ),
             new \Twig_SimpleFilter(
                 'media_image', [$this, 'mediaImage'], [
-                    'is_safe'           => ['html'],
+                    'is_safe' => ['html'],
                 ]
             ),
             new \Twig_SimpleFilter(
                 'media_type', [$this, 'mediaType'], [
-                    'is_safe'           => ['html'],
+                    'is_safe' => ['html'],
                 ]
             ),
         ];
@@ -99,13 +99,8 @@ class MediaExtension extends \Twig_Extension
      * @param array $parameters
      * @return string
      */
-    public function mediaImage(
-        MediaInterface $media,
-        $width,
-        $height,
-        $routeName = null,
-        array $parameters = []
-    ) {
+    public function mediaImage(MediaInterface $media, $width, $height, $routeName = null, array $parameters = [])
+    {
         $parameters += [
             'w' => $width,
             'h' => $height,
