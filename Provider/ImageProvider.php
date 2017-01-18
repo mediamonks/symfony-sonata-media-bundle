@@ -166,12 +166,4 @@ class ImageProvider extends AbstractProvider
     {
         return 'MediaMonksSonataMediaBundle:Provider:image_media.html.twig';
     }
-
-    /**
-     * @return string
-     */
-    public function getAdminMediaTemplate()
-    {
-        return 'MediaMonksSonataMediaBundle:Provider:image_media_admin.html.twig';
-    }
 }

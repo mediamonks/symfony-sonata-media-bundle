@@ -2,6 +2,7 @@
 
 namespace MediaMonks\SonataMediaBundle\Twig\Extension;
 
+use MediaMonks\SonataMediaBundle\Provider\ProviderInterface;
 use MediaMonks\SonataMediaBundle\Provider\ProviderPool;
 use MediaMonks\SonataMediaBundle\Helper\Parameter;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
@@ -50,13 +51,11 @@ class MediaExtension extends \Twig_Extension
             ),
             new \Twig_SimpleFilter(
                 'media_image', [$this, 'mediaImage'], [
-                    'needs_environment' => true,
                     'is_safe'           => ['html'],
                 ]
             ),
             new \Twig_SimpleFilter(
                 'media_type', [$this, 'mediaType'], [
-                    'needs_environment' => true,
                     'is_safe'           => ['html'],
                 ]
             ),
@@ -68,7 +67,7 @@ class MediaExtension extends \Twig_Extension
      * @param MediaInterface $media
      * @param int $width
      * @param int $height
-     * @param string $type
+     * @param string $routeName
      * @param array $parameters
      * @return string
      */
@@ -77,25 +76,22 @@ class MediaExtension extends \Twig_Extension
         MediaInterface $media,
         $width,
         $height,
-        $type = Parameter::ROUTE_NAME_DEFAULT,
+        $routeName = null,
         array $parameters = []
     ) {
-        $provider = $this->providerPool->getProvider($media->getProviderName());
-
         return $environment->render(
-            $provider->getMediaTemplate(),
+            $this->getProviderByMedia($media)->getMediaTemplate(),
             [
                 'media'      => $media,
                 'width'      => $width,
                 'height'     => $height,
-                'type'       => $type,
+                'routeName'  => $routeName,
                 'parameters' => $parameters,
             ]
         );
     }
 
     /**
-     * @param \Twig_Environment $environment
      * @param MediaInterface $media
      * @param int $width
      * @param int $height
@@ -104,11 +100,10 @@ class MediaExtension extends \Twig_Extension
      * @return string
      */
     public function mediaImage(
-        \Twig_Environment $environment,
         MediaInterface $media,
         $width,
         $height,
-        $routeName = Parameter::ROUTE_NAME_DEFAULT,
+        $routeName = null,
         array $parameters = []
     ) {
         $parameters += [
@@ -126,11 +121,20 @@ class MediaExtension extends \Twig_Extension
     }
 
     /**
-     * @param \Twig_Environment $environment
      * @param MediaInterface $media
+     * @return string
      */
-    public function mediaType(\Twig_Environment $environment, MediaInterface $media)
+    public function mediaType(MediaInterface $media)
     {
-        return $this->providerPool->getProvider($media->getProviderName())->getName();
+        return $this->getProviderByMedia($media)->getName();
+    }
+
+    /**
+     * @param MediaInterface $media
+     * @return ProviderInterface
+     */
+    private function getProviderByMedia(MediaInterface $media)
+    {
+        return $this->providerPool->getProvider($media->getProviderName());
     }
 }

@@ -50,8 +50,7 @@ services:
         arguments:
             - '@router.default'
             -
-              public: 'mediamonks_media_thumbnail'
-              private: 'admin_mediamonks_core_media_thumbnail'
+              default: 'mediamonks_media_thumbnail'
             - '%secret%'
 
     mediamonks.media.helper.thumbnail:

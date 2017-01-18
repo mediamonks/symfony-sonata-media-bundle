@@ -26,6 +26,4 @@ interface ProviderInterface
     public function getIcon();
 
     public function getMediaTemplate();
-
-    public function getAdminMediaTemplate();
 }

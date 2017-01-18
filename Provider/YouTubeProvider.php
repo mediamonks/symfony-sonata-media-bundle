@@ -217,12 +217,4 @@ class YouTubeProvider extends ImageProvider implements ProviderInterface
     {
         return 'MediaMonksSonataMediaBundle:Provider:youtube_media.html.twig';
     }
-
-    /**
-     * @return string
-     */
-    public function getAdminMediaTemplate()
-    {
-        return 'MediaMonksSonataMediaBundle:Provider:youtube_media_admin.html.twig';
-    }
 }

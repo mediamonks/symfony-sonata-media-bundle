@@ -8,8 +8,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class Parameter
 {
-    const ROUTE_NAME_DEFAULT = 'public';
-    const ROUTE_NAME_PRIVATE = 'private';
+    const ROUTE_NAME_DEFAULT = 'default';
 
     const PARAMETER_ID = 'id';
     const PARAMETER_SIGNATURE = 's';
@@ -42,13 +41,12 @@ class Parameter
     protected $hashAlgorithm = 'sha256';
 
     /**
-     * UrlGenerator constructor.
      * @param Router $router
      * @param array $routeNames
      * @param string $secret
      * @param string $destinationPrefix
      */
-    public function __construct(Router $router, array $routeNames, $secret, $destinationPrefix = 'thumbs/')
+    public function __construct(Router $router, array $routeNames, $secret, $destinationPrefix = 'images/')
     {
         $this->router = $router;
         $this->secret = $secret;
@@ -66,22 +64,24 @@ class Parameter
         if (!array_key_exists(self::ROUTE_NAME_DEFAULT, $routeNames)) {
             throw new \Exception(sprintf('Route name "%s" is required', self::ROUTE_NAME_DEFAULT));
         }
-        if (!array_key_exists(self::ROUTE_NAME_PRIVATE, $routeNames)) {
-            throw new \Exception(sprintf('Route name "%s" is required', self::ROUTE_NAME_PRIVATE));
-        }
+
         $this->routeNames = $routeNames;
     }
 
     /**
      * @param MediaInterface $media
      * @param array $parameters
-     * @param string $route
+     * @param string $routeName
      * @return string
      */
-    public function generateUrl(MediaInterface $media, $parameters, $route = self::ROUTE_NAME_DEFAULT)
+    public function generateUrl(MediaInterface $media, $parameters, $routeName = null)
     {
+        if (empty($routeName)) {
+            $routeName = self::ROUTE_NAME_DEFAULT;
+        }
+
         return $this->router->generate(
-            $this->routeNames[$route],
+            $this->routeNames[$routeName],
             $this->signParameters($media->getDefaultUrlParameters() + $parameters),
             UrlGeneratorInterface::ABSOLUTE_URL
         );
@@ -93,7 +93,7 @@ class Parameter
      */
     protected function signParameters(array $parameters)
     {
-        $parameters['s'] = $this->calculateSignature($parameters);
+        $parameters[self::PARAMETER_SIGNATURE] = $this->calculateSignature($parameters);
 
         return $parameters;
     }
