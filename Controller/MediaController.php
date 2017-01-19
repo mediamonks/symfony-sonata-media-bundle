@@ -16,6 +16,6 @@ class MediaController extends Controller
     {
         $media = $this->getDoctrine()->getManager()->find('MediaMonksSonataMediaBundle:Media', $id);
 
-        return $this->get('mediamonks.sonata_media.helper.redirect_helper')->redirectToMediaImage($media, $request);
+        return $this->get('mediamonks.sonata_media.utility.image')->getRedirectResponse($media, $request);
     }
 }

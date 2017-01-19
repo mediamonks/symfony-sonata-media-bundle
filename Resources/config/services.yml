@@ -10,7 +10,7 @@ parameters:
     mediamonks.sonata_media.generator.url_generator.class: 'MediaMonks\SonataMediaBundle\Generator\UrlGenerator'
     mediamonks.sonata_media.generator.filename_generator.default.class: 'MediaMonks\SonataMediaBundle\Generator\DefaultFilenameGenerator'
     mediamonks.sonata_media.generator.image.class: 'MediaMonks\SonataMediaBundle\Generator\ImageGenerator'
-    mediamonks.sonata_media.helper.redirect_helper.class: 'MediaMonks\SonataMediaBundle\Helper\RedirectHelper'
+    mediamonks.sonata_media.utility.image.class: 'MediaMonks\SonataMediaBundle\Utility\ImageUtility'
 
 services:
     mediamonks.sonata_media.admin.media:
@@ -70,8 +70,8 @@ services:
             - '@mediamonks.sonata_media.glide.server'
             - '@mediamonks.sonata_media.generator.filename_generator.default'
 
-    mediamonks.sonata_media.helper.redirect_helper:
-        class: '%mediamonks.sonata_media.helper.redirect_helper.class%'
+    mediamonks.sonata_media.utility.image:
+        class: '%mediamonks.sonata_media.utility.image.class%'
         arguments:
             - '@mediamonks.sonata_media.handler.signature_parameter_handler'
             - '@mediamonks.sonata_media.generator.image'

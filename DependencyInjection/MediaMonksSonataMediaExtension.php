@@ -49,11 +49,10 @@ class MediaMonksSonataMediaExtension extends Extension
             $providerPool->addMethodCall('addProvider', [new Reference($provider)]);
         }
 
-        $container->getDefinition('mediamonks.sonata_media.helper.redirect_helper')
+        $container->getDefinition('mediamonks.sonata_media.utility.image')
             ->replaceArgument(2, $config['redirect_url'])
             ->replaceArgument(3, $config['redirect_cache_ttl'])
-            ->replaceArgument(4, $config['default_image_parameters'])
-        ;
+            ->replaceArgument(4, $config['default_image_parameters']);
     }
 
     /**

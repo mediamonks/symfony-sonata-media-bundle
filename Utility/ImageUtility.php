@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaMonks\SonataMediaBundle\Helper;
+namespace MediaMonks\SonataMediaBundle\Utility;
 
 use MediaMonks\SonataMediaBundle\Generator\ImageGenerator;
 use MediaMonks\SonataMediaBundle\Handler\ParameterHandlerInterface;
@@ -8,7 +8,7 @@ use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class RedirectHelper
+class ImageUtility
 {
     /**
      * @var ParameterHandlerInterface
@@ -62,15 +62,27 @@ class RedirectHelper
      * @param array $parameters
      * @return RedirectResponse
      */
-    public function redirectToMediaImage(MediaInterface $media, Request $request, array $parameters = [])
+    public function getRedirectResponse(MediaInterface $media, Request $request, array $parameters = [])
+    {
+        $response = new RedirectResponse($this->mediaBaseUrl.$this->getFilename($media, $request, $parameters));
+        $response->setSharedMaxAge($this->cacheTtl);
+        $response->setMaxAge($this->cacheTtl);
+
+        return $response;
+    }
+
+    /**
+     * @param MediaInterface $media
+     * @param Request $request
+     * @param array $parameters
+     * @return string
+     */
+    public function getFilename(MediaInterface $media, Request $request, array $parameters)
     {
         $urlParameters = $this->parameterHandler->getPayload($media, $request);
         $parameters = array_merge($this->defaultParameters, $parameters, $urlParameters);
         $filename = $this->imageGenerator->generate($media, $parameters);
 
-        $response = new RedirectResponse($this->mediaBaseUrl.$filename);
-        $response->setSharedMaxAge($this->cacheTtl);
-        $response->setMaxAge($this->cacheTtl);
-        return $response;
+        return $filename;
     }
 }

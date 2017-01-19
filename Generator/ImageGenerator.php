@@ -49,7 +49,7 @@ class ImageGenerator
     /**
      * @param MediaInterface $media
      * @param array $parameters
-     * @return mixed
+     * @return string
      * @throws FilesystemException
      */
     public function generate(MediaInterface $media, array $parameters)
