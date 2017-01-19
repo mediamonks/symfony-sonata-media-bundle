@@ -133,13 +133,14 @@ class YouTubeProvider extends ImageProvider implements ProviderInterface
      */
     protected function getDataByYouTubeId($id)
     {
-        $data = json_decode(
-            @file_get_contents(
-                sprintf(self::URL_OEMBED, $id)
-            ),
-            true
+        set_error_handler(
+            function () {
+            }
         );
-        if (empty($data)) {
+        $data = json_decode(file_get_contents(sprintf(self::URL_OEMBED, $id)), true);
+        restore_error_handler();
+
+        if (empty($data['title'])) {
             throw new \Exception(sprintf('Could not get data from YouTube for id "%s", is the id correct?', $id));
         }
 
