@@ -68,7 +68,6 @@ class MediaExtension extends \Twig_Extension
      * @param $width
      * @param $height
      * @param array $parameters
-     * @param null $routeName
      * @return string
      */
     public function media(
@@ -76,8 +75,7 @@ class MediaExtension extends \Twig_Extension
         MediaInterface $media,
         $width,
         $height,
-        array $parameters = [],
-        $routeName = null
+        array $parameters = []
     ) {
         return $environment->render(
             $this->getProviderByMedia($media)->getMediaTemplate(),
@@ -85,7 +83,6 @@ class MediaExtension extends \Twig_Extension
                 'media'      => $media,
                 'width'      => $width,
                 'height'     => $height,
-                'routeName'  => $routeName,
                 'parameters' => $parameters,
             ]
         );

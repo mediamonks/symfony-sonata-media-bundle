@@ -12,12 +12,25 @@ class MediaController extends Controller
      * @param int $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function imageAction(Request $request, $id)
+    public function imageRedirectAction(Request $request, $id)
+    {
+        $media = $this->getDoctrine()->getManager()->find('MediaMonksSonataMediaBundle:Media', $id);
+
+        return $this->get('mediamonks.sonata_media.helper.redirect_helper')->redirectToMediaImage($media, $request);
+    }
+
+    /**
+     * @param Request $request
+     * @param int $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function imageRedirectAdminAction(Request $request, $id)
     {
         $media = $this->getDoctrine()->getManager()->find('MediaMonksSonataMediaBundle:Media', $id);
 
         return $this->get('mediamonks.sonata_media.helper.redirect_helper')->redirectToMediaImage($media, $request, [
-            'fit' => 'crop'
+            'con' => 100,
+            'blur' => 10
         ]);
     }
 }
