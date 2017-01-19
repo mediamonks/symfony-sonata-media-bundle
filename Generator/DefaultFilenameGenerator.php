@@ -4,7 +4,7 @@ namespace MediaMonks\SonataMediaBundle\Generator;
 
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 
-class UnderscoreFilenameGenerator implements FilenameGeneratorInterface
+class DefaultFilenameGenerator implements FilenameGeneratorInterface
 {
     const FORMAT_JPG = 'jpg';
 
