@@ -51,13 +51,13 @@ class RedirectHelper
     /**
      * @param MediaInterface $media
      * @param Request $request
+     * @param array $parameters
      * @return RedirectResponse
      */
-    public function redirectToMediaImage(MediaInterface $media, Request $request)
+    public function redirectToMediaImage(MediaInterface $media, Request $request, array $parameters = [])
     {
-        $parameters = $this->parameterHandler->getPayload($media, $request);
-        // @todo apply default parameters?
-        // @todo apply media parameters
+        $urlParameters = $this->parameterHandler->getPayload($media, $request);
+        $parameters = array_merge($parameters, $urlParameters);
         $filename = $this->imageGenerator->generate($media, $parameters);
 
         $response = new RedirectResponse($this->mediaBaseUrl.$filename);
