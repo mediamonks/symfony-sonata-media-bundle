@@ -9,6 +9,7 @@ use MediaMonks\SonataMediaBundle\Provider\ProviderInterface;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Route\RouteCollection;
 
 class MediaAdmin extends AbstractAdmin
 {
@@ -133,5 +134,13 @@ class MediaAdmin extends AbstractAdmin
     public function toString($object)
     {
         return $object instanceof MediaInterface ? $object->getTitle() : 'Media';
+    }
+
+    /**
+     * @param RouteCollection $collection
+     */
+    public function configureRoutes(RouteCollection $collection)
+    {
+        $collection->add('image_redirect', $this->getRouterIdParameter().'/image/redirect');
     }
 }

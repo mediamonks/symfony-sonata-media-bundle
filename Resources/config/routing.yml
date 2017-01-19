@@ -1,10 +1,3 @@
-mediamonks_media_admin_image:
-    path:  /mediamonks/sonatamedia/media/image/{id}
-    defaults: {_controller: MediaMonksSonataMediaBundle:Media:imageRedirectAdmin}
-    methods:  [GET]
-    requirements:
-        id: \d+
-
 mediamonks_media_image:
     path:  /media/image/{id}
     defaults: {_controller: MediaMonksSonataMediaBundle:Media:imageRedirect}

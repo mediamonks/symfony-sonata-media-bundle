@@ -3,6 +3,7 @@
 namespace MediaMonks\SonataMediaBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController;
+use Sonata\AdminBundle\Route\RouteCollection;
 use Symfony\Component\HttpFoundation\Request;
 
 class MediaAdminController extends CRUDController
@@ -36,6 +37,6 @@ class MediaAdminController extends CRUDController
     {
         $media = $this->getDoctrine()->getManager()->find('MediaMonksSonataMediaBundle:Media', $id);
 
-
+        return $this->get('mediamonks.sonata_media.helper.redirect_helper')->redirectToMediaImage($media, $request);
     }
 }
