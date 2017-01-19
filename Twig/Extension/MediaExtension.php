@@ -5,7 +5,6 @@ namespace MediaMonks\SonataMediaBundle\Twig\Extension;
 use MediaMonks\SonataMediaBundle\Generator\UrlGenerator;
 use MediaMonks\SonataMediaBundle\Provider\ProviderInterface;
 use MediaMonks\SonataMediaBundle\Provider\ProviderPool;
-use MediaMonks\SonataMediaBundle\Helper\Parameter;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 
 class MediaExtension extends \Twig_Extension
@@ -110,12 +109,14 @@ class MediaExtension extends \Twig_Extension
             'h' => $height,
         ];
 
-        return sprintf(
-            '<img src="%s" width="%d" height="%d" title="%s">',
-            $this->urlGenerator->generate($media, $parameters, $routeName),
-            $width,
-            $height,
-            twig_escape_filter($environment, $media->getTitle()) // @todo check if this is now escaped properly
+        return $environment->render(
+            'MediaMonksSonataMediaBundle:Image:image.html.twig',
+            [
+                'src'    => $this->urlGenerator->generate($media, $parameters, $routeName),
+                'width'  => $width,
+                'height' => $height,
+                'title'  => $media->getTitle(),
+            ]
         );
     }
 

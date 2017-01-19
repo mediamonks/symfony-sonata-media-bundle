@@ -3,7 +3,6 @@
 namespace MediaMonks\SonataMediaBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController;
-use Sonata\AdminBundle\Route\RouteCollection;
 use Symfony\Component\HttpFoundation\Request;
 
 class MediaAdminController extends CRUDController
