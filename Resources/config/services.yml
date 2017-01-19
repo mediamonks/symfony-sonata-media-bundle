@@ -4,9 +4,13 @@ parameters:
     mediamonks.sonata_media.provider.youtube.class: 'MediaMonks\SonataMediaBundle\Provider\YouTubeProvider'
     mediamonks.sonata_media.provider.pool.class: 'MediaMonks\SonataMediaBundle\Provider\ProviderPool'
     mediamonks.sonata_media.twig.extension.class: 'MediaMonks\SonataMediaBundle\Twig\Extension\MediaExtension'
-    mediamonks.sonata_media.helper.parameter.class: 'MediaMonks\SonataMediaBundle\Helper\Parameter'
-    mediamonks.sonata_media.helper.thumbnail.class: 'MediaMonks\SonataMediaBundle\Helper\Thumbnail'
-    mediamonks.sonata_media.helper.controller.class: 'MediaMonks\SonataMediaBundle\Helper\Controller'
+    mediamonks.sonata_media.glide.server.class: 'League\Glide\Server'
+    mediamonks.sonata_media.glide.server.factory.class: 'League\Glide\ServerFactory'
+    mediamonks.sonata_media.handler.signature_parameter_handler.class: 'MediaMonks\SonataMediaBundle\Handler\SignatureParameterHandler'
+    mediamonks.sonata_media.generator.url_generator.class: 'MediaMonks\SonataMediaBundle\Generator\UrlGenerator'
+    mediamonks.sonata_media.generator.filename_generator.default.class: 'MediaMonks\SonataMediaBundle\Generator\DefaultFilenameGenerator'
+    mediamonks.sonata_media.generator.image.class: 'MediaMonks\SonataMediaBundle\Generator\ImageGenerator'
+    mediamonks.sonata_media.helper.redirect_helper.class: 'MediaMonks\SonataMediaBundle\Helper\RedirectHelper'
 
 services:
     mediamonks.sonata_media.admin.media:
@@ -40,36 +44,37 @@ services:
             - { name: twig.extension }
 
     mediamonks.sonata_media.glide.server:
-        class: League\Glide\Server
-        factory: ['League\Glide\ServerFactory', 'create']
+        class: '%mediamonks.sonata_media.glide.server.class%'
+        factory: ['%mediamonks.sonata_media.glide.server.factory.class%', 'create']
         arguments:
             - ~
 
     mediamonks.sonata_media.handler.signature_parameter_handler:
-        class: 'MediaMonks\SonataMediaBundle\Handler\SignatureParameterHandler'
+        class: '%mediamonks.sonata_media.handler.signature_parameter_handler.class%'
         arguments:
             - '%secret%'
 
     mediamonks.sonata_media.generator.url_generator:
-        class: 'MediaMonks\SonataMediaBundle\Generator\UrlGenerator'
+        class: '%mediamonks.sonata_media.generator.url_generator.class%'
         arguments:
             - '@router'
             - '@mediamonks.sonata_media.handler.signature_parameter_handler'
             - 'mediamonks_media_image'
 
     mediamonks.sonata_media.generator.filename_generator.default:
-        class: 'MediaMonks\SonataMediaBundle\Generator\DefaultFilenameGenerator'
+        class: '%mediamonks.sonata_media.generator.filename_generator.default.class%'
 
     mediamonks.sonata_media.generator.image:
-        class: 'MediaMonks\SonataMediaBundle\Generator\ImageGenerator'
+        class: '%mediamonks.sonata_media.generator.image.class%'
         arguments:
             - '@mediamonks.sonata_media.glide.server'
             - '@mediamonks.sonata_media.generator.filename_generator.default'
 
     mediamonks.sonata_media.helper.redirect_helper:
-        class: 'MediaMonks\SonataMediaBundle\Helper\RedirectHelper'
+        class: '%mediamonks.sonata_media.helper.redirect_helper.class%'
         arguments:
             - '@mediamonks.sonata_media.handler.signature_parameter_handler'
             - '@mediamonks.sonata_media.generator.image'
             - ~
             - ~
+            - []

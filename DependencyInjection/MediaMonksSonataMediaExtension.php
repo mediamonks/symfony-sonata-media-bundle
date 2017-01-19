@@ -51,7 +51,9 @@ class MediaMonksSonataMediaExtension extends Extension
 
         $container->getDefinition('mediamonks.sonata_media.helper.redirect_helper')
             ->replaceArgument(2, $config['redirect_url'])
-            ->replaceArgument(3, $config['redirect_cache_ttl']);
+            ->replaceArgument(3, $config['redirect_cache_ttl'])
+            ->replaceArgument(4, $config['default_image_parameters'])
+        ;
     }
 
     /**

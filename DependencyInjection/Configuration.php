@@ -24,6 +24,7 @@ final class Configuration implements ConfigurationInterface
         $this->addRedirectCacheTtl($rootNode);
         $this->addProviders($rootNode);
         $this->addGlideConfig($rootNode);
+        $this->addDefaultImageParameters($rootNode);
 
         return $treeBuilder;
     }
@@ -89,6 +90,17 @@ final class Configuration implements ConfigurationInterface
     {
         $node->children()
             ->arrayNode('glide')
+            ->prototype('scalar')->end()
+            ->end();
+    }
+
+    /**
+     * @param ArrayNodeDefinition $node
+     */
+    private function addDefaultImageParameters(ArrayNodeDefinition $node)
+    {
+        $node->children()
+            ->arrayNode('default_image_parameters')
             ->prototype('scalar')->end()
             ->end();
     }
