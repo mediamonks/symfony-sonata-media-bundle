@@ -51,6 +51,11 @@ class Media implements MediaInterface
     private $image;
 
     /**
+     * @ORM\Column(type="json_array")
+     */
+    private $imageMetaData = [];
+
+    /**
      * @ORM\Column(type="string", nullable=true)
      */
     private $pointOfInterest;
@@ -64,11 +69,6 @@ class Media implements MediaInterface
      * @ORM\Column(type="string", nullable=true)
      */
     private $authorName;
-
-    /**
-     * @ORM\Column(type="json_array", nullable=true)
-     */
-    private $tags;
 
     /**
      * @var \DateTime
@@ -87,9 +87,13 @@ class Media implements MediaInterface
      */
     private $binaryContent;
 
+    /**
+     * @var string
+     */
+    private $imageContent;
+
     public function __construct()
     {
-        $this->tags = [];
         $this->createdAt = new \DateTime;
         $this->updatedAt = new \DateTime;
     }
@@ -213,6 +217,25 @@ class Media implements MediaInterface
     }
 
     /**
+     * @return array
+     */
+    public function getImageMetaData()
+    {
+        return $this->imageMetaData;
+    }
+
+    /**
+     * @param array $imageMetaData
+     * @return Media
+     */
+    public function setImageMetaData(array $imageMetaData)
+    {
+        $this->imageMetaData = $imageMetaData;
+
+        return $this;
+    }
+
+    /**
      * @return mixed
      */
     public function getPointOfInterest()
@@ -294,35 +317,6 @@ class Media implements MediaInterface
     }
 
     /**
-     * @return string
-     */
-    public function getMediaType()
-    {
-        $provider = explode('.', $this->getProviderName());
-
-        return $provider[3];
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTags()
-    {
-        return $this->tags;
-    }
-
-    /**
-     * @param mixed $tags
-     * @return Media
-     */
-    public function setTags($tags)
-    {
-        $this->tags = $tags;
-
-        return $this;
-    }
-
-    /**
      * @return mixed
      */
     public function getCreatedAt()
@@ -356,6 +350,25 @@ class Media implements MediaInterface
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImageContent()
+    {
+        return $this->imageContent;
+    }
+
+    /**
+     * @param string $imageContent
+     * @return Media
+     */
+    public function setImageContent($imageContent)
+    {
+        $this->imageContent = $imageContent;
 
         return $this;
     }

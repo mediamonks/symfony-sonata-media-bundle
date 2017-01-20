@@ -2,6 +2,7 @@ parameters:
     mediamonks.sonata_media.admin.media.class: 'MediaMonks\SonataMediaBundle\Admin\MediaAdmin'
     mediamonks.sonata_media.provider.image.class: 'MediaMonks\SonataMediaBundle\Provider\ImageProvider'
     mediamonks.sonata_media.provider.youtube.class: 'MediaMonks\SonataMediaBundle\Provider\YouTubeProvider'
+    mediamonks.sonata_media.provider.file.class: 'MediaMonks\SonataMediaBundle\Provider\FileProvider'
     mediamonks.sonata_media.provider.pool.class: 'MediaMonks\SonataMediaBundle\Provider\ProviderPool'
     mediamonks.sonata_media.twig.extension.class: 'MediaMonks\SonataMediaBundle\Twig\Extension\MediaExtension'
     mediamonks.sonata_media.glide.server.class: 'League\Glide\Server'
@@ -32,6 +33,11 @@ services:
 
     mediamonks.sonata_media.provider.youtube:
         class: '%mediamonks.sonata_media.provider.youtube.class%'
+        arguments:
+            - ~
+
+    mediamonks.sonata_media.provider.file:
+        class: '%mediamonks.sonata_media.provider.file.class%'
         arguments:
             - ~
 

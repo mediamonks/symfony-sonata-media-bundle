@@ -6,14 +6,14 @@ use MediaMonks\SonataMediaBundle\Entity\Media;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\Validator\Constraints as Constraint;
 
-class ImageProvider extends AbstractProvider
+class FileProvider extends AbstractProvider
 {
     /**
      * @param FormMapper $formMapper
      */
     public function buildProviderCreateForm(FormMapper $formMapper)
     {
-        $this->addFileUploadField($formMapper, 'binaryContent', 'Image');
+        $this->addFileUploadField($formMapper, 'binaryContent', 'File');
     }
 
     /**
@@ -25,6 +25,9 @@ class ImageProvider extends AbstractProvider
             $filename = $this->handleFileUpload($media);
             $media->setProviderReference($filename);
         }
+        if (!is_null($media->getImageContent())) {
+            $this->handleImageUpload($media);
+        }
     }
 
     /**
@@ -32,7 +35,7 @@ class ImageProvider extends AbstractProvider
      */
     public function getIcon()
     {
-        return 'photo';
+        return 'file';
     }
 
     /**
@@ -40,12 +43,12 @@ class ImageProvider extends AbstractProvider
      */
     public function getName()
     {
-        return 'Image';
+        return 'File';
     }
 
     public function getTypeName()
     {
-        return 'image';
+        return 'file';
     }
 
     /**
@@ -53,6 +56,6 @@ class ImageProvider extends AbstractProvider
      */
     public function getMediaTemplate()
     {
-        return 'MediaMonksSonataMediaBundle:Provider:image_media.html.twig';
+        return 'MediaMonksSonataMediaBundle:Provider:file_media.html.twig';
     }
 }

@@ -56,6 +56,12 @@ class MediaExtension extends \Twig_Extension
                 ]
             ),
             new \Twig_SimpleFilter(
+                'media_download', [$this, 'mediaDownload'], [
+                    'needs_environment' => true,
+                    'is_safe'           => ['html'],
+                ]
+            ),
+            new \Twig_SimpleFilter(
                 'media_type', [$this, 'mediaType']
             ),
         ];
@@ -111,6 +117,39 @@ class MediaExtension extends \Twig_Extension
 
         return $environment->render(
             'MediaMonksSonataMediaBundle:Image:image.html.twig',
+            [
+                'src'    => $this->urlGenerator->generate($media, $parameters, $routeName),
+                'width'  => $width,
+                'height' => $height,
+                'title'  => $media->getTitle(),
+            ]
+        );
+    }
+
+    /**
+     * @param \Twig_Environment $environment
+     * @param MediaInterface $media
+     * @param $width
+     * @param $height
+     * @param array $parameters
+     * @param null $routeName
+     * @return string
+     */
+    public function mediaDownload(
+        \Twig_Environment $environment,
+        MediaInterface $media,
+        $width,
+        $height,
+        array $parameters = [],
+        $routeName = null
+    ) {
+        $parameters += [
+            'w' => $width,
+            'h' => $height,
+        ];
+
+        return $environment->render(
+            'MediaMonksSonataMediaBundle:Image:file.html.twig',
             [
                 'src'    => $this->urlGenerator->generate($media, $parameters, $routeName),
                 'width'  => $width,

@@ -22,8 +22,6 @@ interface MediaInterface
 
     public function getProviderMetaData();
 
-    public function getTags();
-
     public function getPointOfInterest();
 
     public function getCreatedAt();

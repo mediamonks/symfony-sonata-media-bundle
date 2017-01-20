@@ -32,6 +32,9 @@ class MediaMonksSonataMediaExtension extends Extension
         $container->getDefinition('mediamonks.sonata_media.provider.youtube')
             ->replaceArgument(0, new Reference($config['filesystem']));
 
+        $container->getDefinition('mediamonks.sonata_media.provider.file')
+            ->replaceArgument(0, new Reference($config['filesystem']));
+
         $container->getDefinition('mediamonks.sonata_media.glide.server')
             ->replaceArgument(
                 0,

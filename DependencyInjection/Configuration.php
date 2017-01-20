@@ -77,6 +77,7 @@ final class Configuration implements ConfigurationInterface
                 [
                     'mediamonks.sonata_media.provider.image',
                     'mediamonks.sonata_media.provider.youtube',
+                    'mediamonks.sonata_media.provider.file',
                 ]
             )
             ->prototype('scalar')->end()

@@ -2,11 +2,9 @@
 
 namespace MediaMonks\SonataMediaBundle\Provider;
 
+use MediaMonks\SonataMediaBundle\Entity\Media;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Sonata\AdminBundle\Form\FormMapper;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints as Constraint;
@@ -20,56 +18,24 @@ class YouTubeProvider extends ImageProvider implements ProviderInterface
     /**
      * @param FormMapper $formMapper
      */
-    public function buildEditForm(FormMapper $formMapper)
+    public function buildProviderEditForm(FormMapper $formMapper)
     {
-        $formMapper
-            ->with('General')
-            ->add('providerName', HiddenType::class)
-            ->add('providerReference', TextType::class, ['label' => 'YouTube ID'])
-            ->add(
-                'binaryContent',
-                FileType::class,
-                [
-                    'required'    => false,
-                    'constraints' => [
-                        new Constraint\File(),
-                    ],
-                    'label'       => 'Replacement Image',
-                ]
-            )
-            ->add('title')
-            ->add('description')
-            ->add('authorName')
-            ->add('copyright')
-            ->add('tags')
-            ->add(
-                'pointOfInterest',
-                ChoiceType::class,
-                [
-                    'required' => false,
-                    'label'    => 'Point Of Interest',
-                    'choices'  => $this->getPointOfInterestChoices(),
-                ]
-            )
-            ->end()
-            ->end();
+        $formMapper->add('providerReference', TextType::class, ['label' => 'YouTube ID']);
     }
 
     /**
      * @param FormMapper $formMapper
      */
-    public function buildCreateForm(FormMapper $formMapper)
+    public function buildProviderCreateForm(FormMapper $formMapper)
     {
-        $formMapper
-            ->add('providerName', 'hidden')
-            ->add('providerReference', 'text', ['label' => 'YouTube ID']);
+        $formMapper->add('providerReference', TextType::class, ['label' => 'YouTube ID']);
     }
 
     /**
-     * @param MediaInterface $media
+     * @param Media $media
      * @throws \Exception
      */
-    public function update(MediaInterface $media)
+    public function update(Media $media)
     {
         $currentYoutubeId = $media->getProviderReference();
         $media->setProviderReference($this->parseYouTubeId($media->getProviderReference()));
@@ -169,9 +135,9 @@ class YouTubeProvider extends ImageProvider implements ProviderInterface
 
         if (strpos($value, 'youtu.be')) {
             $url = parse_url($value);
-            $vid = substr($url['path'], 1);
+            $id = substr($url['path'], 1);
 
-            return $vid;
+            return $id;
         }
 
         return $value;
@@ -185,7 +151,6 @@ class YouTubeProvider extends ImageProvider implements ProviderInterface
     public function toArray(MediaInterface $media, array $options = [])
     {
         return parent::toArray($media, $options) + [
-                'type' => $this->getTypeName(),
                 'id'   => $media->getProviderReference(),
             ];
     }
