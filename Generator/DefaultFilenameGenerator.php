@@ -17,11 +17,11 @@ class DefaultFilenameGenerator implements FilenameGeneratorInterface
     {
         $parametersFlat = [];
         foreach ($parameters as $k => $v) {
-            $parametersFlat[] = $k.$v;
+            $parametersFlat[] = $k.'_'.$v;
         }
 
         return pathinfo($media->getImage(), PATHINFO_FILENAME).
-            '/'.implode('_', $parametersFlat).
+            '/'.implode('-', $parametersFlat).
             '.'.$this->getFormat($parameters);
     }
 

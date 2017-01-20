@@ -2,11 +2,13 @@
 
 namespace MediaMonks\SonataMediaBundle\Handler;
 
+use MediaMonks\SonataMediaBundle\Exception\InvalidQueryParameterException;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class SignatureParameterHandler implements ParameterHandlerInterface
 {
+    const PARAMETER_ID = 'id';
     const PARAMETER_SIGNATURE = 's';
 
     /**
@@ -36,8 +38,9 @@ class SignatureParameterHandler implements ParameterHandlerInterface
      */
     public function getQueryString(MediaInterface $media, array $parameters)
     {
-        $parameters = $this->normalize($parameters);
-        $parameters[self::PARAMETER_SIGNATURE] = $this->calculateSignature($parameters);
+        $parameters[self::PARAMETER_SIGNATURE] = $this->calculateSignature(
+            array_merge($parameters, [self::PARAMETER_ID => $media->getId()])
+        );
 
         return http_build_query($parameters);
     }
@@ -51,9 +54,11 @@ class SignatureParameterHandler implements ParameterHandlerInterface
     public function getPayload(MediaInterface $media, Request $request)
     {
         $parameters = $request->query->all();
-        if (!$this->isValid($parameters + ['id' => $media->getId()])) {
-            throw new \Exception('Invalid Signature');
+        if (!$this->isValid(array_merge($parameters, [self::PARAMETER_ID => $media->getId()]))) {
+            throw new InvalidQueryParameterException('Signature Invalid');
         }
+
+        unset($parameters[self::PARAMETER_SIGNATURE]);
 
         return $parameters;
     }
@@ -65,7 +70,7 @@ class SignatureParameterHandler implements ParameterHandlerInterface
      */
     private function isValid(array $parameters)
     {
-        return !hash_equals($this->calculateSignature($parameters), $parameters[self::PARAMETER_SIGNATURE]);
+        return hash_equals($this->calculateSignature($parameters), $parameters[self::PARAMETER_SIGNATURE]);
     }
 
     /**
