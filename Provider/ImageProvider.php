@@ -102,9 +102,18 @@ class ImageProvider extends AbstractProvider
             $file->getClientOriginalExtension()
         );
 
+        set_error_handler(
+            function () {
+            }
+        );
         $stream = fopen($file->getRealPath(), 'r+');
-        $this->getFilesystem()->writeStream($filename, $stream);
-        @fclose($stream); // this sometime messes up
+        $written = $this->getFilesystem()->writeStream($filename, $stream);
+        fclose($stream); // this sometime messes up
+        restore_error_handler();
+
+        if (!$written) {
+            throw new \Exception('Could not write to file system');
+        }
 
         $media->setProviderMetadata(
             array_merge(

@@ -26,10 +26,6 @@ interface MediaInterface
 
     public function getPointOfInterest();
 
-    public function getDefaultImageOptions();
-
-    public function getDefaultUrlParameters();
-
     public function getCreatedAt();
 
     public function getUpdatedAt();

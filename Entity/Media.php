@@ -13,8 +13,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Media implements MediaInterface
 {
-    use MediaTrait;
-
     /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -180,7 +178,7 @@ class Media implements MediaInterface
     }
 
     /**
-     * @return mixed
+     * @return array
      */
     public function getProviderMetaData()
     {
@@ -188,9 +186,9 @@ class Media implements MediaInterface
     }
 
     /**
-     * @param mixed $providerMetaData
+     * @param array $providerMetaData
      */
-    public function setProviderMetaData($providerMetaData)
+    public function setProviderMetaData(array $providerMetaData)
     {
         $this->providerMetaData = $providerMetaData;
     }
