@@ -69,4 +69,17 @@ class SignatureParameterHandlerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(['w' => 400, 'h' => 300], $handler->getPayload($media, $request));
     }
+
+    public function test_flow()
+    {
+        $media = $this->getMediaMock();
+        $handler = $this->getHandler();
+
+        $queryString = $handler->getQueryString($media, ['w' => 400, 'h' => 300]);
+        parse_str($queryString, $queryParameters);
+
+        $request = new Request($queryParameters);
+
+        $this->assertEquals(['w' => 400, 'h' => 300], $handler->getPayload($media, $request));
+    }
 }

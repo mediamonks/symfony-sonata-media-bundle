@@ -93,6 +93,6 @@ class SignatureParameterHandler implements ParameterHandlerInterface
         }
         ksort($parameters);
 
-        return $parameters;
+        return array_map('strval', $parameters);;
     }
 }
