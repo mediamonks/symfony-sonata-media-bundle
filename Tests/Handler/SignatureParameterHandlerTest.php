@@ -35,7 +35,7 @@ class SignatureParameterHandlerTest extends \PHPUnit_Framework_TestCase
         $handler = $this->getHandler();
 
         $this->assertEquals(
-            'w=400&h=300&s=51bf85519cc41a9b9787005a1370b01959e0f82644de1331cae3302efc57910a',
+            'w=400&h=300&s=3e3656e6ff5deace12e4b6e07e5e29ca1411a4eeca963b21757b18d467f27899',
             $handler->getQueryString($media, ['w' => 400, 'h' => 300])
         );
     }
@@ -45,7 +45,7 @@ class SignatureParameterHandlerTest extends \PHPUnit_Framework_TestCase
         $request = new Request([
             'w' => 400,
             'h' => 300,
-            's' => '51bf85519cc41a9b9787005a1370b01959e0f82644de1331cae3302efc57910a'
+            's' => '3e3656e6ff5deace12e4b6e07e5e29ca1411a4eeca963b21757b18d467f27899'
         ]);
 
         $media = $this->getMediaMock();
