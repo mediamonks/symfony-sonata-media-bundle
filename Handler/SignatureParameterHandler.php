@@ -6,7 +6,7 @@ use MediaMonks\SonataMediaBundle\Exception\InvalidQueryParameterException;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class SignatureParameterHandler implements ParameterHandlerInterface
+class SignatureParameterHandler extends AbstractParameterHandler implements ParameterHandlerInterface
 {
     const PARAMETER_ID = 'id';
     const PARAMETER_SIGNATURE = 's';
@@ -91,8 +91,11 @@ class SignatureParameterHandler implements ParameterHandlerInterface
         if (isset($parameters[self::PARAMETER_SIGNATURE])) {
             unset($parameters[self::PARAMETER_SIGNATURE]);
         }
+        if (isset($parameters[self::PARAMETER_BUST_CACHE])) {
+            unset($parameters[self::PARAMETER_BUST_CACHE]);
+        }
         ksort($parameters);
 
-        return array_map('strval', $parameters);;
+        return array_map('strval', $parameters);
     }
 }

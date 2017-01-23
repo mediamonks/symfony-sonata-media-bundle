@@ -167,7 +167,7 @@ abstract class AbstractProvider implements ProviderInterface
     /**
      * @param Media $media
      * @param bool $useAsImage
-     * @throws \Exception
+     * @return string|void
      */
     protected function handleFileUpload(Media $media, $useAsImage = false)
     {
@@ -193,6 +193,8 @@ abstract class AbstractProvider implements ProviderInterface
         if (empty($media->getTitle())) {
             $media->setTitle(str_replace('_', ' ', pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)));
         }
+
+        return $filename;
     }
 
     /**

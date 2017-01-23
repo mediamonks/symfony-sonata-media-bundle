@@ -1,1 +1,1 @@
-{{ media|media_image(width, height, parameters) }}
+{{ media|media_image(width, height, parameters|default([]), routeName|default(null), bustCache|default(false)) }}

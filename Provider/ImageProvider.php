@@ -17,13 +17,34 @@ class ImageProvider extends AbstractProvider
     }
 
     /**
+     * @param FormMapper $formMapper
+     */
+    public function buildProviderEditForm(FormMapper $formMapper)
+    {
+        $this->addFileUploadField($formMapper, 'binaryContent', 'Image');
+    }
+
+    /**
+     * @param FormMapper $formMapper
+     */
+    public function buildEditForm(FormMapper $formMapper)
+    {
+        parent::buildEditForm($formMapper);
+
+        $formMapper->remove('imageContent');
+    }
+
+    /**
      * @param Media $media
      */
     public function update(Media $media)
     {
         if (!is_null($media->getBinaryContent())) {
+            $media->setImage(null);
             $filename = $this->handleFileUpload($media, true);
-            $media->setProviderReference($filename);
+            if (!empty($filename)) {
+                $media->setProviderReference($filename);
+            }
         }
 
         parent::update($media);

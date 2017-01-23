@@ -97,6 +97,7 @@ class MediaExtension extends \Twig_Extension
      * @param $height
      * @param array $parameters
      * @param null $routeName
+     * @param bool $bustCache
      * @return string
      */
     public function mediaImage(
@@ -105,17 +106,24 @@ class MediaExtension extends \Twig_Extension
         $width,
         $height,
         array $parameters = [],
-        $routeName = null
+        $routeName = null,
+        $bustCache = false
     ) {
         $parameters += [
             'w' => $width,
             'h' => $height,
         ];
 
+        $src = $this->urlGenerator->generate($media, $parameters, $routeName);
+
+        if ($bustCache) {
+            $src .= '&bc='.time();
+        }
+
         return $environment->render(
             'MediaMonksSonataMediaBundle:Image:image.html.twig',
             [
-                'src'    => $this->urlGenerator->generate($media, $parameters, $routeName),
+                'src'    => $src,
                 'width'  => $width,
                 'height' => $height,
                 'title'  => $media->getTitle(),
