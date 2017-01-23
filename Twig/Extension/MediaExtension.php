@@ -61,9 +61,6 @@ class MediaExtension extends \Twig_Extension
                     'is_safe'           => ['html'],
                 ]
             ),
-            new \Twig_SimpleFilter(
-                'media_type', [$this, 'mediaType']
-            ),
         ];
     }
 
@@ -161,19 +158,10 @@ class MediaExtension extends \Twig_Extension
 
     /**
      * @param MediaInterface $media
-     * @return string
-     */
-    public function mediaType(MediaInterface $media)
-    {
-        return $this->getProviderByMedia($media)->getName();
-    }
-
-    /**
-     * @param MediaInterface $media
      * @return ProviderInterface
      */
     private function getProviderByMedia(MediaInterface $media)
     {
-        return $this->providerPool->getProvider($media->getProviderName());
+        return $this->providerPool->getProvider($media->getProvider());
     }
 }

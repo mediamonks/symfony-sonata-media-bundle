@@ -9,7 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints as Constraint;
 
-class YouTubeProvider extends ImageProvider implements ProviderInterface
+class YouTubeProvider extends AbstractProvider implements ProviderInterface
 {
     const URL_OEMBED = 'http://www.youtube.com/oembed?url=http://www.youtube.com/watch?v=%s&format=json';
     const URL_IMAGE_MAX_RES = 'https://i.ytimg.com/vi/%s/maxresdefault.jpg';
@@ -18,7 +18,7 @@ class YouTubeProvider extends ImageProvider implements ProviderInterface
     /**
      * @param FormMapper $formMapper
      */
-    public function buildProviderEditForm(FormMapper $formMapper)
+    public function buildProviderCreateForm(FormMapper $formMapper)
     {
         $formMapper->add('providerReference', TextType::class, ['label' => 'YouTube ID']);
     }
@@ -26,7 +26,7 @@ class YouTubeProvider extends ImageProvider implements ProviderInterface
     /**
      * @param FormMapper $formMapper
      */
-    public function buildProviderCreateForm(FormMapper $formMapper)
+    public function buildProviderEditForm(FormMapper $formMapper)
     {
         $formMapper->add('providerReference', TextType::class, ['label' => 'YouTube ID']);
     }
@@ -55,15 +55,13 @@ class YouTubeProvider extends ImageProvider implements ProviderInterface
             }
         }
 
-        if (!is_null($media->getBinaryContent())) {
-            $this->handleFileUpload($media);
-        }
+        parent::update($media);
     }
 
     /**
-     * @param MediaInterface $media
+     * @param Media $media
      */
-    public function refreshThumbnail(MediaInterface $media)
+    public function refreshThumbnail(Media $media)
     {
         $filename = sprintf('%s_%d.%s', sha1($media->getProviderReference()), time(), 'jpg');
         $thumbnailUrl = $this->getThumbnailUrlByYouTubeId($media->getProviderReference());
@@ -166,12 +164,12 @@ class YouTubeProvider extends ImageProvider implements ProviderInterface
     /**
      * @return string
      */
-    public function getName()
+    public function getTitle()
     {
         return 'YouTube Video';
     }
 
-    public function getTypeName()
+    public function getType()
     {
         return 'youtube';
     }

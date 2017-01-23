@@ -61,6 +61,15 @@ abstract class AbstractProvider implements ProviderInterface
      */
     public function update(Media $media)
     {
+        $this->replaceImage($media);
+    }
+
+    /**
+     * @return string
+     */
+    public function getTranslationDomain()
+    {
+        return 'MediaMonksSonataMediaBundle';
     }
 
     /**
@@ -71,7 +80,7 @@ abstract class AbstractProvider implements ProviderInterface
     public function toArray(MediaInterface $media, array $options = [])
     {
         return [
-            'type'        => $this->getTypeName(),
+            'type'        => $this->getType(),
             'title'       => $media->getTitle(),
             'description' => $media->getDescription(),
             'authorName'  => $media->getAuthorName(),
@@ -105,7 +114,7 @@ abstract class AbstractProvider implements ProviderInterface
     public function buildCreateForm(FormMapper $formMapper)
     {
         $formMapper
-            ->add('providerName', 'hidden');
+            ->add('provider', 'hidden');
 
         $this->buildProviderCreateForm($formMapper);
     }
@@ -117,12 +126,12 @@ abstract class AbstractProvider implements ProviderInterface
     {
         $formMapper
             ->with('General')
-            ->add('providerName', HiddenType::class);
+            ->add('provider', HiddenType::class);
 
         $this->buildProviderEditForm($formMapper);
 
         $formMapper->add(
-            'binaryContent',
+            'imageContent',
             'file',
             [
                 'required'    => false,
@@ -157,54 +166,67 @@ abstract class AbstractProvider implements ProviderInterface
 
     /**
      * @param Media $media
-     * @return string
+     * @param bool $useAsImage
      * @throws \Exception
      */
-    protected function handleFileUpload(Media $media)
+    protected function handleFileUpload(Media $media, $useAsImage = false)
     {
         /**
          * @var UploadedFile $file
          */
         $file = $media->getBinaryContent();
 
-        $filename = sprintf(
-            '%s_%d.%s',
-            sha1($file->getClientOriginalName()),
-            time(),
-            $file->getClientOriginalExtension()
-        );
-
-        set_error_handler(
-            function () {
-            }
-        );
-        $stream = fopen($file->getRealPath(), 'r+');
-        $written = $this->getFilesystem()->writeStream($filename, $stream);
-        fclose($stream); // this sometime messes up
-        restore_error_handler();
-
-        if (!$written) {
-            throw new \Exception('Could not write to file system');
+        if (empty($file)) {
+            return;
         }
 
-        $media->setProviderMetadata(
-            array_merge(
-                $media->getProviderMetaData(),
-                [
-                    'originalName'      => $file->getClientOriginalName(),
-                    'originalExtension' => $file->getClientOriginalExtension(),
-                    'mimeType'          => $file->getClientMimeType(),
-                    'size'              => $file->getSize(),
-                ]
-            )
-        );
-        $media->setImage($filename);
+        $filename = $this->getFilenameByFile($file);
+        $this->writeToFilesystem($file, $filename);
+
+        $media->setProviderMetadata(array_merge($media->getProviderMetaData(), $this->getFileMetaData($file)));
+
+        if (empty($media->getImage()) && $useAsImage) {
+            $media->setImage($filename);
+            $media->setImageMetaData($media->getProviderMetaData());
+        }
 
         if (empty($media->getTitle())) {
             $media->setTitle(str_replace('_', ' ', pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)));
         }
+    }
 
-        return $filename;
+    /**
+     * @param UploadedFile $file
+     * @return array
+     */
+    protected function getFileMetaData(UploadedFile $file)
+    {
+        return [
+            'originalName'      => $file->getClientOriginalName(),
+            'originalExtension' => $file->getClientOriginalExtension(),
+            'mimeType'          => $file->getClientMimeType(),
+            'size'              => $file->getSize(),
+        ];
+    }
+
+    /**
+     * @param Media $media
+     */
+    public function replaceImage(Media $media)
+    {
+        /**
+         * @var UploadedFile $file
+         */
+        $file = $media->getImageContent();
+        if (empty($file)) {
+            return;
+        }
+
+        $filename = $this->getFilenameByFile($file);
+        $this->writeToFilesystem($file, $filename);
+
+        $media->setImage($filename);
+        $media->setImageMetaData($this->getFileMetaData($file));
     }
 
     /**
@@ -231,7 +253,38 @@ abstract class AbstractProvider implements ProviderInterface
             );
     }
 
-    // @todo handle image replacement
+    /**
+     * @param UploadedFile $file
+     * @return string
+     */
+    protected function getFilenameByFile(UploadedFile $file)
+    {
+        return sprintf(
+            '%s_%d.%s',
+            sha1($file->getClientOriginalName()),
+            time(),
+            $file->getClientOriginalExtension()
+        );
+    }
 
-    // @todo handle binary upload replacement
+    /**
+     * @param UploadedFile $file
+     * @param $filename
+     * @throws \Exception
+     */
+    protected function writeToFilesystem(UploadedFile $file, $filename)
+    {
+        set_error_handler(
+            function () {
+            }
+        );
+        $stream = fopen($file->getRealPath(), 'r+');
+        $written = $this->getFilesystem()->writeStream($filename, $stream);
+        fclose($stream); // this sometime messes up
+        restore_error_handler();
+
+        if (!$written) {
+            throw new \Exception('Could not write to file system');
+        }
+    }
 }

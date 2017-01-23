@@ -17,6 +17,14 @@ class FileProvider extends AbstractProvider
     }
 
     /**
+     * @param FormMapper $formMapper
+     */
+    public function buildProviderEditForm(FormMapper $formMapper)
+    {
+        $this->addFileUploadField($formMapper, 'binaryContent', 'File');
+    }
+
+    /**
      * @param Media $media
      */
     public function update(Media $media)
@@ -41,12 +49,12 @@ class FileProvider extends AbstractProvider
     /**
      * @return string
      */
-    public function getName()
+    public function getTitle()
     {
         return 'File';
     }
 
-    public function getTypeName()
+    public function getType()
     {
         return 'file';
     }

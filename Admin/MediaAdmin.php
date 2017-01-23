@@ -39,11 +39,7 @@ class MediaAdmin extends AbstractAdmin
         $listMapper
             ->addIdentifier('title')
             ->add(
-                'type',
-                null,
-                [
-                    'template' => 'MediaMonksSonataMediaBundle:MediaAdmin:list_type.html.twig',
-                ]
+                'type'
             )
             ->add(
                 'updatedAt',
@@ -105,7 +101,7 @@ class MediaAdmin extends AbstractAdmin
      */
     protected function getProvider(MediaInterface $media)
     {
-        return $this->providerPool->getProvider($media->getProviderName());
+        return $this->providerPool->getProvider($media->getProvider());
     }
 
     /**
@@ -116,13 +112,16 @@ class MediaAdmin extends AbstractAdmin
         $media = parent::getNewInstance();
         if ($this->hasRequest()) {
             if ($this->getRequest()->isMethod('POST')) {
-                $media->setProviderName($this->getRequest()->get($this->getUniqid())['providerName']);
+                $media->setProvider($this->getRequest()->get($this->getUniqid())['provider']);
             } elseif ($this->getRequest()->query->has('provider')) {
-                $media->setProviderName($this->getRequest()->query->get('provider'));
+                $media->setProvider($this->getRequest()->query->get('provider'));
             } else {
                 throw new \InvalidArgumentException('No provider was set');
             }
         }
+
+        $provider = $this->getProvider($media);
+        $media->setType($provider->getType());
 
         return $media;
     }

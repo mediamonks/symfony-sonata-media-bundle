@@ -25,7 +25,7 @@ class ProviderPool
      */
     public function addProvider(AbstractProvider $provider)
     {
-        $this->providers[$provider->getTypeName()] = $provider;
+        $this->providers[get_class($provider)] = $provider;
     }
 
     /**
@@ -50,6 +50,6 @@ class ProviderPool
      */
     public function getByMedia(MediaInterface $media)
     {
-        return $this->getProvider($media->getProviderName());
+        return $this->getProvider($media->getProvider());
     }
 }

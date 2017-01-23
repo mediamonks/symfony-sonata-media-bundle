@@ -22,9 +22,11 @@ class ImageProvider extends AbstractProvider
     public function update(Media $media)
     {
         if (!is_null($media->getBinaryContent())) {
-            $filename = $this->handleFileUpload($media);
+            $filename = $this->handleFileUpload($media, true);
             $media->setProviderReference($filename);
         }
+
+        parent::update($media);
     }
 
     /**
@@ -38,12 +40,12 @@ class ImageProvider extends AbstractProvider
     /**
      * @return string
      */
-    public function getName()
+    public function getTitle()
     {
         return 'Image';
     }
 
-    public function getTypeName()
+    public function getType()
     {
         return 'image';
     }

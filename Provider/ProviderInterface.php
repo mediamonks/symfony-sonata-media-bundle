@@ -20,11 +20,13 @@ interface ProviderInterface
 
     public function toArray(MediaInterface $media, array $options);
 
-    public function getName();
+    public function getTitle();
 
-    public function getTypeName();
+    public function getType();
 
     public function getIcon();
 
     public function getMediaTemplate();
+
+    public function getTranslationDomain();
 }

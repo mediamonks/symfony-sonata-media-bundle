@@ -10,13 +10,15 @@ interface MediaInterface
 
     public function getDescription();
 
+    public function getType();
+
     public function getImage();
 
     public function getAuthorName();
 
     public function getCopyright();
 
-    public function getProviderName();
+    public function getProvider();
 
     public function getProviderReference();
 

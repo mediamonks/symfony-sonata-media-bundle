@@ -33,7 +33,12 @@ class Media implements MediaInterface
     /**
      * @ORM\Column(type="string")
      */
-    private $providerName;
+    private $provider;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $type;
 
     /**
      * @ORM\Column(type="string")
@@ -149,18 +154,37 @@ class Media implements MediaInterface
     /**
      * @return mixed
      */
-    public function getProviderName()
+    public function getProvider()
     {
-        return $this->providerName;
+        return $this->provider;
     }
 
     /**
-     * @param mixed $providerName
+     * @param mixed $provider
      * @return Media
      */
-    public function setProviderName($providerName)
+    public function setProvider($provider)
     {
-        $this->providerName = $providerName;
+        $this->provider = $provider;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param mixed $type
+     * @return Media
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
 
         return $this;
     }
