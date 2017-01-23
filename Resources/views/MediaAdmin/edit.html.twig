@@ -1,25 +1,32 @@
 {% extends 'SonataAdminBundle:CRUD:edit.html.twig' %}
 
 {% block sonata_tab_content %}
-        <div class="col-md-7">
-            <div class="row">
-                {{ parent() }}
-            </div>
+    <div class="col-md-7">
+        <div class="row">
+            {{ parent() }}
         </div>
-        <div class="col-md-5" style="padding-left:0;">
-            {% if object.providerReference is not empty %}
-                <div class="box box-primary">
-                    <div class="box-header"><h4 class="box-title">Preview</h4></div>
-                    <div class="box-body">
-                        <label>Embed</label>
-                        <br style="clear: both;">
-                        {{ object|media(360, 230) }}
-                        <br><br>
-                        <label>Image</label>
-                        <br>
-                        {{ object|media_image(360, 230, [], 'admin_mediamonks_sonatamedia_media_image_redirect', true) }}
-                    </div>
+    </div>
+    <div class="col-md-5" style="padding-left:0;">
+        {% if object.providerReference is not empty %}
+            <div class="box box-primary">
+                <div class="box-header"><h4 class="box-title">Preview</h4></div>
+                <div class="box-body">
+                    <label>Embed</label>
+                    <br style="clear: both;">
+                    {{ object|media(360, 230) }}
+                    <br><br>
+                    <label>Image</label>
+                    <br>
+                    {{ object|media_image(360, 230, [], 'admin_mediamonks_sonatamedia_media_image', true) }}
+                    {% if object|media_supports('download') %}
+                    <br><br>
+                    <label>Download</label>
+                    <br>
+                    <a href="{{ path('admin_mediamonks_sonatamedia_media_download', {id: object.id}) }}"
+                       class="btn btn-default" role="button"><i class="fa fa-fw fa-download"></i> Download Original</a>
+                    {% endif %}
                 </div>
-            {% endif %}
-        </div>
+            </div>
+        {% endif %}
+    </div>
 {% endblock %}

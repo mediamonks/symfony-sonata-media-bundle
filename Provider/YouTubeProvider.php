@@ -181,4 +181,28 @@ class YouTubeProvider extends AbstractProvider implements ProviderInterface
     {
         return 'MediaMonksSonataMediaBundle:Provider:youtube_media.html.twig';
     }
+
+    /**
+     * @return bool
+     */
+    public function supportsDownload()
+    {
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function supportsEmbed()
+    {
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
+    public function supportsImage()
+    {
+        return true;
+    }
 }

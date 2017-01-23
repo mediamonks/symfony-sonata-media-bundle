@@ -187,4 +187,28 @@ class FileProvider extends AbstractProvider
     {
         return __DIR__.'/../Resources/image/file/';
     }
+
+    /**
+     * @return bool
+     */
+    public function supportsDownload()
+    {
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
+    public function supportsEmbed()
+    {
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
+    public function supportsImage()
+    {
+        return true;
+    }
 }

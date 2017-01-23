@@ -78,4 +78,28 @@ class ImageProvider extends AbstractProvider
     {
         return 'MediaMonksSonataMediaBundle:Provider:image_media.html.twig';
     }
+
+    /**
+     * @return bool
+     */
+    public function supportsDownload()
+    {
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
+    public function supportsEmbed()
+    {
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
+    public function supportsImage()
+    {
+        return true;
+    }
 }

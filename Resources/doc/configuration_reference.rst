@@ -6,13 +6,14 @@ All available configuration options are listed below with their default values.
 .. code-block:: yaml
 
     mediamonks_sonata_media:
-        filesystem: 'service_id_of_a_flysystem_filesystem'
-        filesystem_cache: 'service_id_of_a_flysystem_filesystem'
+        filesystem_private: 'service_id_of_a_flysystem_filesystem'
+        filesystem_public: 'service_id_of_a_flysystem_filesystem'
         redirect_url: 'https://url-to-where-your-files-are-stored/'
         redirect_cache_ttl: 7776000
         providers:
             - 'mediamonks.sonata_media.provider.image'
             - 'mediamonks.sonata_media.provider.youtube'
+            - 'mediamonks.sonata_media.provider.file'
         glide:
             <any option supported by glide server>
         default_image_parameters:

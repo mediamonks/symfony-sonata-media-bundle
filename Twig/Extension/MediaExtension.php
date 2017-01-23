@@ -61,6 +61,9 @@ class MediaExtension extends \Twig_Extension
                     'is_safe'           => ['html'],
                 ]
             ),
+            new \Twig_SimpleFilter(
+                'media_supports', [$this, 'mediaSupports']
+            ),
         ];
     }
 
@@ -162,6 +165,16 @@ class MediaExtension extends \Twig_Extension
                 'title'  => $media->getTitle(),
             ]
         );
+    }
+
+    /**
+     * @param MediaInterface $media
+     * @param $type
+     * @return mixed
+     */
+    public function mediaSupports(MediaInterface $media, $type)
+    {
+        return $this->getProviderByMedia($media)->supports($type);
     }
 
     /**

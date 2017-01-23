@@ -29,4 +29,12 @@ interface ProviderInterface
     public function getMediaTemplate();
 
     public function getTranslationDomain();
+
+    public function supports($type);
+
+    public function supportsDownload();
+
+    public function supportsEmbed();
+
+    public function supportsImage();
 }

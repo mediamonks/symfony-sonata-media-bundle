@@ -274,16 +274,15 @@ abstract class AbstractProvider implements ProviderInterface
 
     /**
      * @param UploadedFile $file
-     * @param string $suffix
      * @return string
      */
-    protected function getFilenameByFile(UploadedFile $file, $suffix = '.bin')
+    protected function getFilenameByFile(UploadedFile $file)
     {
         return sprintf(
             '%s_%d.%s',
             sha1($file->getClientOriginalName()),
             time(),
-            $file->getClientOriginalExtension() . $suffix
+            $file->getClientOriginalExtension()
         );
     }
 
@@ -306,5 +305,24 @@ abstract class AbstractProvider implements ProviderInterface
         if (!$written) {
             throw new \Exception('Could not write to file system');
         }
+    }
+
+    /**
+     * @param $type
+     * @return boolean
+     */
+    public function supports($type)
+    {
+        if ($type === 'download') {
+            return $this->supportsDownload();
+        }
+        if ($type === 'embed') {
+            return $this->supportsEmbed();
+        }
+        if ($type === 'image') {
+            return $this->supportsImage();
+        }
+
+        return false;
     }
 }

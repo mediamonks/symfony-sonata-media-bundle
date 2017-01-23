@@ -140,6 +140,7 @@ class MediaAdmin extends AbstractAdmin
      */
     public function configureRoutes(RouteCollection $collection)
     {
-        $collection->add('image_redirect', $this->getRouterIdParameter().'/image/redirect');
+        $collection->add('image', $this->getRouterIdParameter().'/image');
+        $collection->add('download', $this->getRouterIdParameter().'/download');
     }
 }

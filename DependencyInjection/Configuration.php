@@ -35,11 +35,11 @@ final class Configuration implements ConfigurationInterface
     private function addFilesystem(ArrayNodeDefinition $node)
     {
         $node->children()
-            ->scalarNode('filesystem')
+            ->scalarNode('filesystem_private')
             ->end();
 
         $node->children()
-            ->scalarNode('filesystem_cache')
+            ->scalarNode('filesystem_public')
             ->defaultNull()
             ->end();
     }
