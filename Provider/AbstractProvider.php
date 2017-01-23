@@ -61,7 +61,7 @@ abstract class AbstractProvider implements ProviderInterface
      */
     public function update(Media $media)
     {
-        $this->replaceImage($media);
+        $this->updateImage($media);
     }
 
     /**
@@ -214,7 +214,7 @@ abstract class AbstractProvider implements ProviderInterface
     /**
      * @param Media $media
      */
-    public function replaceImage(Media $media)
+    public function updateImage(Media $media)
     {
         /**
          * @var UploadedFile $file
@@ -274,15 +274,16 @@ abstract class AbstractProvider implements ProviderInterface
 
     /**
      * @param UploadedFile $file
+     * @param string $suffix
      * @return string
      */
-    protected function getFilenameByFile(UploadedFile $file)
+    protected function getFilenameByFile(UploadedFile $file, $suffix = '.bin')
     {
         return sprintf(
             '%s_%d.%s',
             sha1($file->getClientOriginalName()),
             time(),
-            $file->getClientOriginalExtension()
+            $file->getClientOriginalExtension() . $suffix
         );
     }
 
