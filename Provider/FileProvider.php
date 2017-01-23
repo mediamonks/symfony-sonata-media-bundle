@@ -13,7 +13,7 @@ class FileProvider extends AbstractProvider
      */
     public function buildProviderCreateForm(FormMapper $formMapper)
     {
-        $this->addFileUploadField($formMapper, 'binaryContent', 'File');
+        $this->addRequiredFileUploadField($formMapper, 'binaryContent', 'File');
     }
 
     /**
@@ -31,11 +31,12 @@ class FileProvider extends AbstractProvider
     {
         if (!is_null($media->getBinaryContent())) {
             $filename = $this->handleFileUpload($media);
-            $media->setProviderReference($filename);
+            if (!empty($filename)) {
+                $media->setProviderReference($filename);
+            }
         }
-        if (!is_null($media->getImageContent())) {
-            $this->handleImageUpload($media);
-        }
+
+        parent::update($media);
     }
 
     /**

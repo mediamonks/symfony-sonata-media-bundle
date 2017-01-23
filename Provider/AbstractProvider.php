@@ -235,9 +235,19 @@ abstract class AbstractProvider implements ProviderInterface
      * @param FormMapper $formMapper
      * @param $name
      * @param $label
+     * @param $required
      */
-    public function addFileUploadField(FormMapper $formMapper, $name, $label)
+    public function addFileUploadField(FormMapper $formMapper, $name, $label, $required = false)
     {
+        $constraints = [];
+        if ($required) {
+            $constraints = [
+                new Constraint\NotBlank(),
+                new Constraint\NotNull(),
+            ];
+        }
+        $constraints[] = new Constraint\File();
+
         $formMapper
             ->add(
                 $name,
@@ -245,14 +255,21 @@ abstract class AbstractProvider implements ProviderInterface
                 [
                     'multiple'    => false,
                     'data_class'  => null,
-                    'constraints' => [
-                        new Constraint\NotBlank(),
-                        new Constraint\NotNull(),
-                        new Constraint\File(),
-                    ],
+                    'constraints' => $constraints,
                     'label'       => $label,
+                    'required'    => $required,
                 ]
             );
+    }
+
+    /**
+     * @param FormMapper $formMapper
+     * @param $name
+     * @param $label
+     */
+    public function addRequiredFileUploadField(FormMapper $formMapper, $name, $label)
+    {
+        $this->addFileUploadField($formMapper, $name, $label, true);
     }
 
     /**
