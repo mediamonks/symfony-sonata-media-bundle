@@ -4,8 +4,6 @@ namespace MediaMonks\SonataMediaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
-use MediaMonks\SonataMediaBundle\Model\MediaTrait;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="MediaRepository")
@@ -395,5 +393,13 @@ class Media implements MediaInterface
         $this->imageContent = $imageContent;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function __toString()
+    {
+        return $this->getTitle();
     }
 }
