@@ -2,7 +2,9 @@
 
 namespace MediaMonks\SonataMediaBundle;
 
+use MediaMonks\SonataMediaBundle\DependencyInjection\Compiler\ProviderPass;
 use MediaMonks\SonataMediaBundle\DependencyInjection\MediaMonksSonataMediaExtension;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
@@ -11,6 +13,14 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 class MediaMonksSonataMediaBundle extends Bundle
 {
     const BUNDLE_CONFIG_NAME = 'mediamonks_sonata_media';
+
+    /**
+     * @param ContainerBuilder $container
+     */
+    public function build(ContainerBuilder $container)
+    {
+        $container->addCompilerPass(new ProviderPass());
+    }
 
     /**
      * @inheritdoc

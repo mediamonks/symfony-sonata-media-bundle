@@ -400,6 +400,6 @@ class Media implements MediaInterface
      */
     public function __toString()
     {
-        return $this->getTitle();
+        return sprintf('%s (%s)', $this->getTitle(), $this->getType());
     }
 }

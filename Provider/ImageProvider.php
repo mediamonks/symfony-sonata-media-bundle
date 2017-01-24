@@ -4,7 +4,6 @@ namespace MediaMonks\SonataMediaBundle\Provider;
 
 use MediaMonks\SonataMediaBundle\Entity\Media;
 use Sonata\AdminBundle\Form\FormMapper;
-use Symfony\Component\Validator\Constraints as Constraint;
 
 class ImageProvider extends AbstractProvider
 {
@@ -74,9 +73,9 @@ class ImageProvider extends AbstractProvider
     /**
      * @return string
      */
-    public function getMediaTemplate()
+    public function getEmbedTemplate()
     {
-        return 'MediaMonksSonataMediaBundle:Provider:image_media.html.twig';
+        return 'MediaMonksSonataMediaBundle:Provider:image_embed.html.twig';
     }
 
     /**

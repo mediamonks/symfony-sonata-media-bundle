@@ -7,7 +7,6 @@ use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Validator\Constraints as Constraint;
 
 class YouTubeProvider extends AbstractProvider implements ProviderInterface
 {
@@ -97,12 +96,9 @@ class YouTubeProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getDataByYouTubeId($id)
     {
-        set_error_handler(
-            function () {
-            }
-        );
+        $this->disableErrorHandler();
         $data = json_decode(file_get_contents(sprintf(self::URL_OEMBED, $id)), true);
-        restore_error_handler();
+        $this->restoreErrorHandler();
 
         if (empty($data['title'])) {
             throw new \Exception(sprintf('Could not get data from YouTube for id "%s", is the id correct?', $id));
@@ -177,9 +173,9 @@ class YouTubeProvider extends AbstractProvider implements ProviderInterface
     /**
      * @return string
      */
-    public function getMediaTemplate()
+    public function getEmbedTemplate()
     {
-        return 'MediaMonksSonataMediaBundle:Provider:youtube_media.html.twig';
+        return 'MediaMonksSonataMediaBundle:Provider:youtube_embed.html.twig';
     }
 
     /**

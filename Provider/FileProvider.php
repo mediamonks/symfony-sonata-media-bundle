@@ -5,7 +5,6 @@ namespace MediaMonks\SonataMediaBundle\Provider;
 use MediaMonks\SonataMediaBundle\Entity\Media;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\Validator\Constraints as Constraint;
 
 class FileProvider extends AbstractProvider
 {
@@ -67,9 +66,9 @@ class FileProvider extends AbstractProvider
     /**
      * @return string
      */
-    public function getMediaTemplate()
+    public function getEmbedTemplate()
     {
-        return 'MediaMonksSonataMediaBundle:Provider:file_media.html.twig';
+        return 'MediaMonksSonataMediaBundle:Provider:file_embed.html.twig';
     }
 
     /**

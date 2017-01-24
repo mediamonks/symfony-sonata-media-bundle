@@ -117,7 +117,7 @@ class MediaExtension extends \Twig_Extension
         array $parameters = []
     ) {
         return $environment->render(
-            $this->getProviderByMedia($media)->getMediaTemplate(),
+            $this->getProviderByMedia($media)->getEmbedTemplate(),
             [
                 'media'      => $media,
                 'width'      => $width,

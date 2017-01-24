@@ -26,15 +26,15 @@ interface ProviderInterface
 
     public function getIcon();
 
-    public function getMediaTemplate();
+    public function getEmbedTemplate();
 
     public function getTranslationDomain();
 
     public function supports($type);
 
-    public function supportsDownload();
-
     public function supportsEmbed();
 
     public function supportsImage();
+
+    public function supportsDownload();
 }

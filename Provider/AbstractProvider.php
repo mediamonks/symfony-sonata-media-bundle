@@ -14,6 +14,10 @@ use Symfony\Component\Validator\Constraints as Constraint;
 
 abstract class AbstractProvider implements ProviderInterface
 {
+    const TYPE_EMBED = 'embed';
+    const TYPE_IMAGE = 'image';
+    const TYPE_DOWNLOAD = 'download';
+
     /**
      * @var Filesystem
      */
@@ -313,16 +317,35 @@ abstract class AbstractProvider implements ProviderInterface
      */
     public function supports($type)
     {
-        if ($type === 'download') {
-            return $this->supportsDownload();
-        }
-        if ($type === 'embed') {
+        if ($type === self::TYPE_EMBED) {
             return $this->supportsEmbed();
         }
-        if ($type === 'image') {
+        if ($type === self::TYPE_IMAGE) {
             return $this->supportsImage();
+        }
+        if ($type === self::TYPE_DOWNLOAD) {
+            return $this->supportsDownload();
         }
 
         return false;
+    }
+
+    /**
+     *
+     */
+    protected function disableErrorHandler()
+    {
+        set_error_handler(
+            function () {
+            }
+        );
+    }
+
+    /**
+     *
+     */
+    protected function restoreErrorHandler()
+    {
+        restore_error_handler();
     }
 }

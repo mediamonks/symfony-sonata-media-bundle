@@ -5,6 +5,7 @@ namespace MediaMonks\SonataMediaBundle\DependencyInjection;
 use MediaMonks\SonataMediaBundle\MediaMonksSonataMediaBundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
@@ -22,14 +23,8 @@ class MediaMonksSonataMediaExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
 
-        $container->getDefinition('mediamonks.sonata_media.provider.image')
-            ->replaceArgument(0, new Reference($config['filesystem_private']));
-
-        $container->getDefinition('mediamonks.sonata_media.provider.youtube')
-            ->replaceArgument(0, new Reference($config['filesystem_private']));
-
-        $container->getDefinition('mediamonks.sonata_media.provider.file')
-            ->replaceArgument(0, new Reference($config['filesystem_private']));
+        $container->setAlias('mediamonks.sonata_media.filesystem.private', $config['filesystem_private']);
+        $container->setAlias('mediamonks.sonata_media.filesystem.public', $config['filesystem_public']);
 
         $container->getDefinition('mediamonks.sonata_media.glide.server')
             ->replaceArgument(
