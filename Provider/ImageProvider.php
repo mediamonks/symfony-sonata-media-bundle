@@ -92,7 +92,7 @@ class ImageProvider extends AbstractProvider
      */
     public function supportsEmbed()
     {
-        return true;
+        return false;
     }
 
     /**

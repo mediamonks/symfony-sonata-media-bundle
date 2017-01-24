@@ -201,7 +201,7 @@ class FileProvider extends AbstractProvider
      */
     public function supportsEmbed()
     {
-        return true;
+        return false;
     }
 
     /**

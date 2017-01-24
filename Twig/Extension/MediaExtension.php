@@ -50,6 +50,12 @@ class MediaExtension extends \Twig_Extension
                 ]
             ),
             new \Twig_SimpleFilter(
+                'media_embed', [$this, 'mediaEmbed'], [
+                    'needs_environment' => true,
+                    'is_safe'           => ['html'],
+                ]
+            ),
+            new \Twig_SimpleFilter(
                 'media_image', [$this, 'mediaImage'], [
                     'needs_environment' => true,
                     'is_safe'           => ['html'],
@@ -73,9 +79,37 @@ class MediaExtension extends \Twig_Extension
      * @param $width
      * @param $height
      * @param array $parameters
+     * @param null $routeName
+     * @param bool $bustCache
      * @return string
      */
     public function media(
+        \Twig_Environment $environment,
+        MediaInterface $media,
+        $width,
+        $height,
+        array $parameters = [],
+        $routeName = null,
+        $bustCache = false
+    ) {
+        $provider = $this->getProviderByMedia($media);
+
+        if ($provider->supportsEmbed()) {
+            return $this->mediaEmbed($environment, $media, $width, $height, $parameters);
+        }
+
+        return $this->mediaImage($environment, $media, $width, $height, $parameters, $routeName, $bustCache);
+    }
+
+    /**
+     * @param \Twig_Environment $environment
+     * @param MediaInterface $media
+     * @param $width
+     * @param $height
+     * @param array $parameters
+     * @return string
+     */
+    public function mediaEmbed(
         \Twig_Environment $environment,
         MediaInterface $media,
         $width,

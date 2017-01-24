@@ -150,7 +150,7 @@ abstract class AbstractProvider implements ProviderInterface
                 ChoiceType::class,
                 [
                     'required' => false,
-                    'label'    => 'Point Of Interest',
+                    'label'    => 'Image Point Of Interest',
                     'choices'  => $this->getPointOfInterestChoices(),
                 ]
             )
