@@ -1,6 +1,9 @@
 {% extends 'SonataAdminBundle:CRUD:edit.html.twig' %}
 
 {% block sonata_tab_content %}
+    {% if object.providerReference is empty %}
+        {{ parent() }}
+    {% else %}
     <div class="col-md-7">
         <div class="row">
             {{ parent() }}
@@ -33,4 +36,5 @@
             </div>
         {% endif %}
     </div>
+    {% endif %}
 {% endblock %}

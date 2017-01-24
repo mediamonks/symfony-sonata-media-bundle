@@ -99,84 +99,41 @@ class FileProvider extends AbstractProvider
      */
     protected function getImageByExtension($extension)
     {
-        switch ($extension) {
-            case 'zip':
-            case 'rar':
-            case 'tar':
-                return 'archive.png';
-            case 'wav':
-            case 'mp3':
-            case 'flac':
-            case 'aac':
-            case 'aiff':
-            case 'm4a':
-            case 'ogg':
-            case 'oga':
-            case 'wma':
-                return 'audio.png';
-            case 'php':
-            case 'html':
-            case 'css':
-            case 'js':
-            case 'vb':
-            case 'phar':
-            case 'py':
-            case 'jar':
-            case 'json':
-            case 'yml':
-                return 'code.png';
-            case 'xls':
-            case 'xlt':
-            case 'xlm':
-            case 'xlsx':
-            case 'xlsm':
-            case 'xltx':
-            case 'xltm':
-                return 'excel.png';
-            case 'jpg':
-            case 'jpeg':
-            case 'gif':
-            case 'bmp':
-            case 'tiff':
-            case 'ai':
-            case 'psd':
-            case 'png':
-                return 'image.png';
-            case 'mp4':
-            case 'avi':
-            case 'mkv':
-            case 'mpg':
-            case 'mpeg':
-                return 'movie.png';
-            case 'pdf':
-                return 'pdf.png';
-            case 'ppt':
-            case 'pot':
-            case 'pps':
-            case 'pptx':
-            case 'pptm':
-            case 'potx':
-            case 'potm':
-            case 'ppam':
-            case 'ppsx':
-            case 'ppsm':
-            case 'sldx':
-            case 'sldm':
-                return 'powerpoint.png';
-            case 'txt':
-                return 'text.png';
-            case 'doc':
-            case 'dot':
-            case 'wbk':
-            case 'docx':
-            case 'docm':
-            case 'dotx':
-            case 'dotm':
-            case 'docb':
-                return 'word.png';
-            default:
-                return 'default.png';
+        if (in_array($extension, ['zip', 'rar', 'tar', 'gz'])) {
+            return 'archive.png';
         }
+        if (in_array($extension, ['wav', 'mp3', 'flac', 'aac', 'aiff', 'm4a', 'ogg', 'oga', 'wma'])) {
+            return 'audio.png';
+        }
+        if (in_array($extension, ['php', 'html', 'css', 'js', 'vb', 'phar', 'py', 'jar', 'json', 'yml'])) {
+            return 'code.png';
+        }
+        if (in_array($extension, ['xls', 'xlt', 'xlm', 'xlsx', 'xlsm', 'xltx', 'xltm'])) {
+            return 'excel.png';
+        }
+        if (in_array($extension, ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'tiff', 'ai', 'psd'])) {
+            return 'image.png';
+        }
+        if (in_array($extension, ['mp4', 'avi', 'mkv', 'mpg', 'mpeg'])) {
+            return 'movie.png';
+        }
+        if (in_array($extension, ['pdf'])) {
+            return 'pdf.png';
+        }
+        if (in_array(
+            $extension,
+            ['ppt', 'pot', 'pos', 'pps', 'pptx', 'pptm', 'potx', 'potm', 'ppam', 'ppsx', 'ppsm', 'sldx', 'sldm']
+        )) {
+            return 'powerpoint.png';
+        }
+        if (in_array($extension, ['txt'])) {
+            return 'txt.png';
+        }
+        if (in_array($extension, ['doc', 'dot', 'wbk', 'docx', 'docm', 'dotx', 'dotm', 'docb'])) {
+            return 'word.png';
+        }
+
+        return 'default.png';
     }
 
     /**
