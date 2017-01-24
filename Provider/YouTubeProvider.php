@@ -138,18 +138,6 @@ class YouTubeProvider extends AbstractProvider implements ProviderInterface
     }
 
     /**
-     * @param MediaInterface $media
-     * @param array $options
-     * @return array
-     */
-    public function toArray(MediaInterface $media, array $options = [])
-    {
-        return parent::toArray($media, $options) + [
-                'id'   => $media->getProviderReference(),
-            ];
-    }
-
-    /**
      * @return string
      */
     public function getIcon()

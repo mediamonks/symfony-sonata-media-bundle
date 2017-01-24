@@ -10,7 +10,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class SoundCloudProvider extends AbstractProvider implements ProviderInterface
 {
-    const URL_OEMBED = 'http://soundcloud.com/oembed?format=json&url=https://soundcloud.com/%s';
+    const URL_OEMBED = 'https://soundcloud.com/oembed?format=json&url=https://soundcloud.com/%s';
+    const URL = 'https://soundcloud.com/%s';
 
     /**
      * @param FormMapper $formMapper
@@ -122,18 +123,6 @@ class SoundCloudProvider extends AbstractProvider implements ProviderInterface
         parse_str($data['query'], $data);
 
         return $data['url'];
-    }
-
-    /**
-     * @param MediaInterface $media
-     * @param array $options
-     * @return array
-     */
-    public function toArray(MediaInterface $media, array $options = [])
-    {
-        return parent::toArray($media, $options) + [
-                'id' => $media->getProviderReference(),
-            ];
     }
 
     /**

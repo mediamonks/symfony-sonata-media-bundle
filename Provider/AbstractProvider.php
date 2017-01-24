@@ -89,6 +89,7 @@ abstract class AbstractProvider implements ProviderInterface
             'description' => $media->getDescription(),
             'authorName'  => $media->getAuthorName(),
             'copyright'   => $media->getCopyright(),
+            'reference'   => $media->getProviderReference(),
         ];
     }
 
