@@ -18,7 +18,7 @@
                        data-placement="top"
                        title="{{ provider.title|trans({}, provider.translationDomain) }}"
 >
-                        <i class="fa fa-{{ provider.getIcon() }}"></i>
+                        <i class="{{ provider.getIcon() }}"></i>
                         {{ provider.title|trans({}, provider.translationDomain) }}
                     </a>
                 </div>

@@ -20,7 +20,7 @@ services:
         class: '%mediamonks.sonata_media.admin.media.class%'
         arguments: [~, 'MediaMonks\SonataMediaBundle\Entity\Media', 'MediaMonksSonataMediaBundle:MediaAdmin', '@mediamonks.sonata_media.provider.pool']
         tags:
-            - { name: sonata.admin, manager_type: orm, label: Media }
+            - { name: sonata.admin, manager_type: orm, label: Media, group: "Media" }
         calls:
             - [ setTemplate, ['outer_list_rows_mosaic', 'MediaMonksSonataMediaBundle:MediaAdmin:outer_list_rows_mosaic.html.twig']]
             - [ setTemplate, ['edit', 'MediaMonksSonataMediaBundle:MediaAdmin:edit.html.twig']]
@@ -104,3 +104,10 @@ services:
         class: '%mediamonks.sonata_media.utility.download.class%'
         arguments:
             - ~
+
+    mediamonks.sonata_media.utility.event_listener.menu_builder_listener:
+        class: 'MediaMonks\SonataMediaBundle\EventListener\MenuBuilderListener'
+        arguments:
+            - '@mediamonks.sonata_media.provider.pool'
+        tags:
+            - { name: kernel.event_listener, event: sonata.admin.event.configure.menu.sidebar, method: addMenuItems }

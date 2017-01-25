@@ -103,12 +103,7 @@ class MediaAdmin extends AbstractAdmin
      */
     public function preUpdate($media)
     {
-        try {
-            $this->getProvider($media)->update($media, $this->isProviderReferenceUpdated($media));
-        }
-        catch (\Exception $e) {
-
-        }
+        $this->getProvider($media)->update($media, $this->isProviderReferenceUpdated($media));
     }
 
     /**

@@ -55,7 +55,7 @@ class ImageProvider extends AbstractProvider
      */
     public function getIcon()
     {
-        return 'photo';
+        return 'fa fa-photo';
     }
 
     /**

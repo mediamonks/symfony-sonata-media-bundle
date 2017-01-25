@@ -128,7 +128,7 @@ class SoundCloudProvider extends AbstractProvider implements ProviderInterface
      */
     public function getIcon()
     {
-        return 'soundcloud';
+        return 'fa fa-soundcloud';
     }
 
     /**

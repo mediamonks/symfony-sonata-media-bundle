@@ -48,7 +48,7 @@ class FileProvider extends AbstractProvider
      */
     public function getIcon()
     {
-        return 'file';
+        return 'fa fa-file';
     }
 
     /**

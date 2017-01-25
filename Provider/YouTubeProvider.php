@@ -157,7 +157,7 @@ class YouTubeProvider extends AbstractProvider implements ProviderInterface
      */
     public function getIcon()
     {
-        return 'youtube-play';
+        return 'fa fa-youtube-play';
     }
 
     /**

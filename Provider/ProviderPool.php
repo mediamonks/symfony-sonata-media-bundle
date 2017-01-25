@@ -37,7 +37,7 @@ class ProviderPool
     }
 
     /**
-     * @return array
+     * @return ProviderInterface[]
      */
     public function getProviders()
     {
