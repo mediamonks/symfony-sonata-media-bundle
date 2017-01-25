@@ -13,9 +13,18 @@ class ProviderPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
+        $config = $container->getExtensionConfig('mediamonks_sonata_media')[0];
+
         $taggedServices = $container->findTaggedServiceIds('sonata_media.provider');
         foreach ($taggedServices as $id => $tags) {
-            $container->getDefinition($id)->replaceArgument(0, new Reference('mediamonks.sonata_media.filesystem.private'));
+            $container->getDefinition($id)->addMethodCall(
+                'setFilesystem',
+                [new Reference('mediamonks.sonata_media.filesystem.private')]
+            );
+            $container->getDefinition($id)->addMethodCall(
+                'setImageConstraintOptions',
+                [$config['image_constraints']]
+            );
         }
     }
 }

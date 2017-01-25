@@ -25,6 +25,8 @@ final class Configuration implements ConfigurationInterface
         $this->addProviders($rootNode);
         $this->addGlideConfig($rootNode);
         $this->addDefaultImageParameters($rootNode);
+        $this->addImageConstraints($rootNode);
+        $this->addFileConstraints($rootNode);
 
         return $treeBuilder;
     }
@@ -104,6 +106,26 @@ final class Configuration implements ConfigurationInterface
         $node->children()
             ->arrayNode('default_image_parameters')
             ->prototype('scalar')->end()
+            ->end();
+    }
+
+    /**
+     * @param ArrayNodeDefinition $node
+     */
+    private function addImageConstraints(ArrayNodeDefinition $node)
+    {
+        $node->children()
+            ->variableNode('image_constraints')
+            ->end();
+    }
+
+    /**
+     * @param ArrayNodeDefinition $node
+     */
+    private function addFileConstraints(ArrayNodeDefinition $node)
+    {
+        $node->children()
+            ->variableNode('file_constraints')
             ->end();
     }
 }

@@ -2,6 +2,7 @@
 
 namespace MediaMonks\SonataMediaBundle\Provider;
 
+use League\Flysystem\Filesystem;
 use MediaMonks\SonataMediaBundle\Entity\Media;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -9,6 +10,10 @@ use Sonata\CoreBundle\Validator\ErrorElement;
 
 interface ProviderInterface
 {
+    public function setFilesystem(Filesystem $filesystem);
+
+    public function setImageConstraintOptions(array $options);
+
     public function buildCreateForm(FormMapper $formMapper);
 
     public function buildEditForm(FormMapper $formMapper);

@@ -30,29 +30,23 @@ services:
 
     mediamonks.sonata_media.provider.image:
         class: '%mediamonks.sonata_media.provider.image.class%'
-        arguments:
-            - ~
         tags:
             - { name: sonata_media.provider }
 
     mediamonks.sonata_media.provider.youtube:
         class: '%mediamonks.sonata_media.provider.youtube.class%'
-        arguments:
-            - ~
         tags:
             - { name: sonata_media.provider }
 
     mediamonks.sonata_media.provider.file:
         class: '%mediamonks.sonata_media.provider.file.class%'
         arguments:
-            - ~
+            - []
         tags:
             - { name: sonata_media.provider }
 
     mediamonks.sonata_media.provider.soundcloud:
         class: '%mediamonks.sonata_media.provider.soundcloud.class%'
-        arguments:
-            - ~
         tags:
             - { name: sonata_media.provider }
 

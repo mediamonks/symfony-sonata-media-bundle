@@ -5,15 +5,30 @@ namespace MediaMonks\SonataMediaBundle\Provider;
 use MediaMonks\SonataMediaBundle\Entity\Media;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Constraint;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class FileProvider extends AbstractProvider
 {
+    /**
+     * @var array
+     */
+    private $fileConstraintOptions = [];
+
+    /**
+     * @param array $fileConstraintOptions
+     */
+    public function __construct(array $fileConstraintOptions = [])
+    {
+        $this->fileConstraintOptions = $fileConstraintOptions;
+    }
+
     /**
      * @param FormMapper $formMapper
      */
     public function buildProviderCreateForm(FormMapper $formMapper)
     {
-        $this->addRequiredFileUploadField($formMapper, 'binaryContent', 'File');
+        $this->addRequiredFileField($formMapper, 'binaryContent', 'File');
     }
 
     /**
@@ -21,7 +36,7 @@ class FileProvider extends AbstractProvider
      */
     public function buildProviderEditForm(FormMapper $formMapper)
     {
-        $this->addFileUploadField($formMapper, 'binaryContent', 'File');
+        $this->addFileField($formMapper, 'binaryContent', 'File');
     }
 
     /**
@@ -92,6 +107,71 @@ class FileProvider extends AbstractProvider
                 $imageFilename
             )
         );
+    }
+
+    /**
+     * @param FormMapper $formMapper
+     * @param string $name
+     * @param string $label
+     * @param array $options
+     */
+    public function addFileField(FormMapper $formMapper, $name, $label, $options = [])
+    {
+        $this->doAddFileField(
+            $formMapper,
+            $name,
+            $label,
+            false,
+            [
+                new Constraint\File($this->getFileConstraintOptions($options)),
+                new Constraint\Callback([$this, 'validateExtension']),
+            ]
+        );
+    }
+
+    /**
+     * @param FormMapper $formMapper
+     * @param string $name
+     * @param string $label
+     * @param array $options
+     */
+    public function addRequiredFileField(FormMapper $formMapper, $name, $label, $options = [])
+    {
+        $this->doAddFileField(
+            $formMapper,
+            $name,
+            $label,
+            true,
+            [
+                new Constraint\File($this->getFileConstraintOptions($options)),
+                new Constraint\Callback([$this, 'validateExtension']),
+            ]
+        );
+    }
+
+    /**
+     * @param array $options
+     * @return array
+     */
+    protected function getFileConstraintOptions(array $options = [])
+    {
+        $merged = array_merge($this->fileConstraintOptions, $options);
+        unset($merged['extensions']);
+
+        return $merged;
+    }
+
+    /**
+     * @param $object
+     * @param ExecutionContextInterface $context
+     */
+    public function validateExtension($object, ExecutionContextInterface $context)
+    {
+        if ($object instanceof UploadedFile && isset($this->fileConstraintOptions['extensions'])) {
+            if (!in_array($object->getClientOriginalExtension(), $this->fileConstraintOptions['extensions'])) {
+                $context->addViolation('It\'s not allowed to upload a file with extension "%s"');
+            }
+        }
     }
 
     /**

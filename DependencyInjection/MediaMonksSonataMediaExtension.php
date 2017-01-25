@@ -37,6 +37,9 @@ class MediaMonksSonataMediaExtension extends Extension
                 )
             );
 
+        $container->getDefinition('mediamonks.sonata_media.provider.file')
+            ->replaceArgument(0, $config['file_constraints']);
+
         $providerPool = $container->getDefinition('mediamonks.sonata_media.provider.pool');
         foreach ($config['providers'] as $provider) {
             $providerPool->addMethodCall('addProvider', [new Reference($provider)]);

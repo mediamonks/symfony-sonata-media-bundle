@@ -12,7 +12,7 @@ class ImageProvider extends AbstractProvider
      */
     public function buildProviderCreateForm(FormMapper $formMapper)
     {
-        $this->addRequiredFileUploadField($formMapper, 'binaryContent', 'Image');
+        $this->addRequiredImageField($formMapper, 'binaryContent', 'Image');
     }
 
     /**
@@ -20,7 +20,7 @@ class ImageProvider extends AbstractProvider
      */
     public function buildProviderEditForm(FormMapper $formMapper)
     {
-        $this->addFileUploadField($formMapper, 'binaryContent', 'Image');
+        $this->addImageField($formMapper, 'binaryContent', 'Image');
     }
 
     /**

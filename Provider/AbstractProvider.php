@@ -27,14 +27,22 @@ abstract class AbstractProvider implements ProviderInterface
     /**
      * @var array
      */
-    protected $templates = [];
+    private $imageConstraintOptions = [];
 
     /**
      * @param Filesystem $filesystem
      */
-    public function __construct(Filesystem $filesystem)
+    public function setFilesystem(Filesystem $filesystem)
     {
         $this->filesystem = $filesystem;
+    }
+
+    /**
+     * @param array $options
+     */
+    public function setImageConstraintOptions(array $options)
+    {
+        $this->imageConstraintOptions = $options;
     }
 
     /**
@@ -222,22 +230,14 @@ abstract class AbstractProvider implements ProviderInterface
         $media->setImageMetaData($this->getFileMetaData($file));
     }
 
-    /**
-     * @param FormMapper $formMapper
-     * @param $name
-     * @param $label
-     * @param $required
-     */
-    public function addFileUploadField(FormMapper $formMapper, $name, $label, $required = false)
+    protected function doAddFileField(FormMapper $formMapper, $name, $label, $required, $constraints = [])
     {
-        $constraints = [];
         if ($required) {
-            $constraints = [
+            $constraints = array_merge([
                 new Constraint\NotBlank(),
                 new Constraint\NotNull(),
-            ];
+            ], $constraints);
         }
-        $constraints[] = new Constraint\File();
 
         $formMapper
             ->add(
@@ -255,12 +255,28 @@ abstract class AbstractProvider implements ProviderInterface
 
     /**
      * @param FormMapper $formMapper
+     * @param string $name
+     * @param string $label
+     * @param array $options
+     */
+    public function addImageField(FormMapper $formMapper, $name, $label, $options = [])
+    {
+        $this->doAddFileField($formMapper, $name, $label, false, [
+            new Constraint\Image(array_merge($this->imageConstraintOptions, $options))
+        ]);
+    }
+
+    /**
+     * @param FormMapper $formMapper
      * @param $name
      * @param $label
+     * @param array $options
      */
-    public function addRequiredFileUploadField(FormMapper $formMapper, $name, $label)
+    public function addRequiredImageField(FormMapper $formMapper, $name, $label, $options = [])
     {
-        $this->addFileUploadField($formMapper, $name, $label, true);
+        $this->doAddFileField($formMapper, $name, $label, true, [
+            new Constraint\Image(array_merge($this->imageConstraintOptions, $options))
+        ]);
     }
 
     /**
