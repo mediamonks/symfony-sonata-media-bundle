@@ -5,18 +5,19 @@ namespace MediaMonks\SonataMediaBundle\Provider;
 use MediaMonks\SonataMediaBundle\Entity\Media;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\CoreBundle\Validator\ErrorElement;
 
 interface ProviderInterface
 {
-    public function buildProviderEditForm(FormMapper $formMapper);
+    public function buildCreateForm(FormMapper $formMapper);
+
+    public function buildEditForm(FormMapper $formMapper);
 
     public function buildProviderCreateForm(FormMapper $formMapper);
 
-    public function preUpdate(Media $media);
+    public function buildProviderEditForm(FormMapper $formMapper);
 
-    public function prePersist(Media $media);
-
-    public function update(Media $media);
+    public function update(Media $media, $providerReferenceUpdated);
 
     public function toArray(MediaInterface $media, array $options);
 
@@ -37,4 +38,6 @@ interface ProviderInterface
     public function supportsImage();
 
     public function supportsDownload();
+
+    public function validate(ErrorElement $errorElement, Media $media);
 }

@@ -3,10 +3,8 @@
 namespace MediaMonks\SonataMediaBundle\Provider;
 
 use MediaMonks\SonataMediaBundle\Entity\Media;
-use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\HttpFoundation\Response;
 
 class SoundCloudProvider extends AbstractProvider implements ProviderInterface
 {
@@ -31,14 +29,14 @@ class SoundCloudProvider extends AbstractProvider implements ProviderInterface
 
     /**
      * @param Media $media
+     * @param bool $providerReferenceUpdated
      * @throws \Exception
      */
-    public function update(Media $media)
+    public function update(Media $media, $providerReferenceUpdated)
     {
-        $currentSoundCloudId = $media->getProviderReference();
-        $media->setProviderReference($this->parseReference($media->getProviderReference()));
+        if ($providerReferenceUpdated) {
+            $media->setProviderReference($this->parseReference($media->getProviderReference()));
 
-        if ($currentSoundCloudId !== $media->getProviderReference()) {
             $data = $this->getDataByReference($media->getProviderReference());
 
             $data['embedUrl'] = $this->extractEmbedUrl($data);
@@ -58,7 +56,7 @@ class SoundCloudProvider extends AbstractProvider implements ProviderInterface
             }
         }
 
-        parent::update($media);
+        parent::update($media, $providerReferenceUpdated);
     }
 
     /**

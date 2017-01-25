@@ -3,8 +3,8 @@
 namespace MediaMonks\SonataMediaBundle\Provider;
 
 use MediaMonks\SonataMediaBundle\Entity\Media;
-use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\CoreBundle\Validator\ErrorElement;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -31,30 +31,45 @@ class YouTubeProvider extends AbstractProvider implements ProviderInterface
     }
 
     /**
+     * @param ErrorElement $errorElement
      * @param Media $media
-     * @throws \Exception
      */
-    public function update(Media $media)
+    public function validate(ErrorElement $errorElement, Media $media)
     {
-        $currentYoutubeId = $media->getProviderReference();
-        $media->setProviderReference($this->parseYouTubeId($media->getProviderReference()));
+        try {
+            $this->getDataByYouTubeId($this->parseYouTubeId($media->getProviderReference()));
+        }
+        catch (\Exception $e) {
+            $errorElement->with('providerReference')->addViolation($e->getMessage());
+        }
+    }
 
-        if ($currentYoutubeId !== $media->getProviderReference()) {
-            $data = $this->getDataByYouTubeId($media->getProviderReference());
+    /**
+     * @param Media $media
+     * @param bool $providerReferenceUpdated
+     */
+    public function update(Media $media, $providerReferenceUpdated)
+    {
+        if ($providerReferenceUpdated) {
+            $media->setProviderReference($this->parseYouTubeId($media->getProviderReference()));
 
-            if (empty($media->getTitle())) {
-                $media->setTitle($data['title']);
-            }
-            if (empty($media->getAuthorName())) {
-                $media->setAuthorName($data['author_name']);
-            }
+            if ($media->getProviderReference()) {
+                $data = $this->getDataByYouTubeId($media->getProviderReference());
 
-            if (empty($media->getImage())) {
-                $this->refreshThumbnail($media);
+                if (empty($media->getTitle())) {
+                    $media->setTitle($data['title']);
+                }
+                if (empty($media->getAuthorName())) {
+                    $media->setAuthorName($data['author_name']);
+                }
+
+                if (empty($media->getImage())) {
+                    $this->refreshThumbnail($media);
+                }
             }
         }
 
-        parent::update($media);
+        parent::update($media, $providerReferenceUpdated);
     }
 
     /**
@@ -101,7 +116,7 @@ class YouTubeProvider extends AbstractProvider implements ProviderInterface
         $this->restoreErrorHandler();
 
         if (empty($data['title'])) {
-            throw new \Exception(sprintf('Could not get data from YouTube for id "%s", is the id correct?', $id));
+            throw new \Exception(sprintf('YouTube ID "%s" seems to be incorrect', $id));
         }
 
         return $data;

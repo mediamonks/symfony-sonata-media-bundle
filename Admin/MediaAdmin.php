@@ -11,6 +11,9 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\CoreBundle\Validator\ErrorElement;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\Response;
 
 class MediaAdmin extends AbstractAdmin
 {
@@ -18,6 +21,11 @@ class MediaAdmin extends AbstractAdmin
      * @var ProviderPool
      */
     private $providerPool;
+
+    /**
+     * @var string
+     */
+    private $originalProviderReference;
 
     /**
      * @param string $code
@@ -71,6 +79,8 @@ class MediaAdmin extends AbstractAdmin
             $media = $this->getNewInstance();
         }
 
+        $this->originalProviderReference = $media->getProviderReference();
+
         $provider = $this->getProvider($media);
 
         if ($media->getId()) {
@@ -81,19 +91,33 @@ class MediaAdmin extends AbstractAdmin
     }
 
     /**
-     * @param MediaInterface $media
+     * @param Media $media
      */
     public function prePersist($media)
     {
-        $this->getProvider($media)->prePersist($media);
+        $this->getProvider($media)->update($media, true);
     }
 
     /**
-     * @param MediaInterface $media
+     * @param Media $media
      */
     public function preUpdate($media)
     {
-        $this->getProvider($media)->preUpdate($media);
+        try {
+            $this->getProvider($media)->update($media, $this->isProviderReferenceUpdated($media));
+        }
+        catch (\Exception $e) {
+
+        }
+    }
+
+    /**
+     * @param $media
+     * @return bool
+     */
+    protected function isProviderReferenceUpdated(Media $media)
+    {
+        return $this->originalProviderReference !== $media->getProviderReference();
     }
 
     /**
@@ -151,5 +175,13 @@ class MediaAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper->add('title');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function validate(ErrorElement $errorElement, $object)
+    {
+        $this->getProvider($object)->validate($errorElement, $object);
     }
 }

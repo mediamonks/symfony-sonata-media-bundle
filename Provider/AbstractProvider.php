@@ -6,6 +6,7 @@ use League\Flysystem\Filesystem;
 use MediaMonks\SonataMediaBundle\Entity\Media;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\CoreBundle\Validator\ErrorElement;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -46,24 +47,9 @@ abstract class AbstractProvider implements ProviderInterface
 
     /**
      * @param Media $media
+     * @param $providerReferenceUpdated
      */
-    public function prePersist(Media $media)
-    {
-        $this->update($media);
-    }
-
-    /**
-     * @param Media $media
-     */
-    public function preUpdate(Media $media)
-    {
-        $this->update($media);
-    }
-
-    /**
-     * @param Media $media
-     */
-    public function update(Media $media)
+    public function update(Media $media, $providerReferenceUpdated)
     {
         $this->updateImage($media);
     }
@@ -348,5 +334,13 @@ abstract class AbstractProvider implements ProviderInterface
     protected function restoreErrorHandler()
     {
         restore_error_handler();
+    }
+
+    /**
+     * @param ErrorElement $errorElement
+     * @param Media $media
+     */
+    public function validate(ErrorElement $errorElement, Media $media)
+    {
     }
 }

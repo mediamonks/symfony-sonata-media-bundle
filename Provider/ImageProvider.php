@@ -35,8 +35,9 @@ class ImageProvider extends AbstractProvider
 
     /**
      * @param Media $media
+     * @param bool $providerReferenceUpdated
      */
-    public function update(Media $media)
+    public function update(Media $media, $providerReferenceUpdated)
     {
         if (!is_null($media->getBinaryContent())) {
             $media->setImage(null);
@@ -46,7 +47,7 @@ class ImageProvider extends AbstractProvider
             }
         }
 
-        parent::update($media);
+        parent::update($media, $providerReferenceUpdated);
     }
 
     /**
