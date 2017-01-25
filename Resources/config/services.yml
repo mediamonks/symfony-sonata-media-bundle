@@ -14,6 +14,8 @@ parameters:
     mediamonks.sonata_media.generator.image.class: 'MediaMonks\SonataMediaBundle\Generator\ImageGenerator'
     mediamonks.sonata_media.utility.image.class: 'MediaMonks\SonataMediaBundle\Utility\ImageUtility'
     mediamonks.sonata_media.utility.download.class: 'MediaMonks\SonataMediaBundle\Utility\DownloadUtility'
+    mediamonks.sonata_media.utility.event_listener.menu_builder.class: 'MediaMonks\SonataMediaBundle\EventListener\MenuBuilderListener'
+    mediamonks.sonata_media.form.type.media_autocomplete.class: 'MediaMonks\SonataMediaBundle\Form\Type\MediaAutocompleteType'
 
 services:
     mediamonks.sonata_media.admin.media:
@@ -99,9 +101,16 @@ services:
         arguments:
             - ~
 
-    mediamonks.sonata_media.utility.event_listener.menu_builder_listener:
-        class: 'MediaMonks\SonataMediaBundle\EventListener\MenuBuilderListener'
+    mediamonks.sonata_media.utility.event_listener.menu_builder:
+        class: '%mediamonks.sonata_media.utility.event_listener.menu_builder.class%'
         arguments:
             - '@mediamonks.sonata_media.provider.pool'
         tags:
             - { name: kernel.event_listener, event: sonata.admin.event.configure.menu.sidebar, method: addMenuItems }
+
+    mediamonks.sonata_media.form.type.media_autocomplete:
+        class: '%mediamonks.sonata_media.form.type.media_autocomplete.class%'
+        arguments:
+            - '@templating'
+        tags:
+            - { name: form.type }
