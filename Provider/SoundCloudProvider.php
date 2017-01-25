@@ -4,6 +4,8 @@ namespace MediaMonks\SonataMediaBundle\Provider;
 
 use MediaMonks\SonataMediaBundle\Entity\Media;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\CoreBundle\Form\Type\ImmutableArrayType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class SoundCloudProvider extends AbstractProvider implements ProviderInterface
@@ -25,6 +27,23 @@ class SoundCloudProvider extends AbstractProvider implements ProviderInterface
     public function buildProviderEditForm(FormMapper $formMapper)
     {
         $formMapper->add('providerReference', TextType::class, ['label' => 'SoundCloud URL']);
+
+        $formMapper->add(
+            'providerMetaData',
+            ImmutableArrayType::class,
+            [
+                'keys' => [
+                    ['autoPlay', CheckboxType::class, ['label' => 'Auto Play', 'required' => false]],
+                    ['hideRelated', CheckboxType::class, ['label' => 'Hide Related', 'required' => false]],
+                    ['showComments', CheckboxType::class, ['label' => 'Show Comments', 'required' => false]],
+                    ['showUser', CheckboxType::class, ['label' => 'Show User', 'required' => false]],
+                    ['showReposts', CheckboxType::class, ['label' => 'Show Reposts', 'required' => false]],
+                    ['showVisual', CheckboxType::class, ['label' => 'Show Visual', 'required' => false]],
+                ],
+                'label' => 'Embed Options',
+                'required' => false
+            ]
+        );
     }
 
     /**
