@@ -15,6 +15,10 @@ class ProviderPass implements CompilerPassInterface
     {
         $config = $container->getExtensionConfig('mediamonks_sonata_media')[0];
 
+        if (empty($config['image_constraints'])) {
+            $config['image_constraints'] = [];
+        }
+
         $taggedServices = $container->findTaggedServiceIds('sonata_media.provider');
         foreach ($taggedServices as $id => $tags) {
             $container->getDefinition($id)->addMethodCall(

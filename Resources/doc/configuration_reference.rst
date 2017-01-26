@@ -12,9 +12,15 @@ All available configuration options are listed below with their default values.
         redirect_cache_ttl: 7776000
         providers:
             - 'mediamonks.sonata_media.provider.image'
-            - 'mediamonks.sonata_media.provider.youtube'
             - 'mediamonks.sonata_media.provider.file'
+            - 'mediamonks.sonata_media.provider.youtube'
+            - 'mediamonks.sonata_media.provider.soundcloud'
         glide:
             <any option supported by glide server>
         default_image_parameters:
             <any parameter supported by glide image api>
+        image_constraints:
+            <any parameter supported by symfony image constraint>
+        file_constraints:
+            <any parameter supported by symfony file constraint>
+            extensions: <an array of supported extensions>

@@ -116,6 +116,12 @@ final class Configuration implements ConfigurationInterface
     {
         $node->children()
             ->variableNode('image_constraints')
+            ->defaultValue([
+                'minWidth' => 100,
+                'minHeight' => 100,
+                'maxWidth' => 5000,
+                'maxHeight' => 5000
+            ])
             ->end();
     }
 
@@ -126,6 +132,10 @@ final class Configuration implements ConfigurationInterface
     {
         $node->children()
             ->variableNode('file_constraints')
+            ->defaultValue([
+                'maxSize' => '5MB',
+                'extensions' => ['pdf', 'csv', 'txt', 'docx']
+            ])
             ->end();
     }
 }

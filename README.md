@@ -8,7 +8,7 @@
 [![License](https://poser.pugx.org/mediamonks/sonata-media-bundle/license)](https://packagist.org/packages/mediamonks/sonata-media-bundle)
 
 
-### Under construction, not yet ready for usage!
+### Under construction, this has not been tested in production and is under heavy development.
 
 # MediaMonksSonataMediaBundle
 
@@ -21,7 +21,7 @@ first request for a specific thumbnail hits your own server.
 ## Features
 
 - Supports many [file systems](http://flysystem.thephpleague.com/adapter/local/) to store the media (S3, Azure, Google Cloud, (S)FTP, Rackspace)
-- Supports image uploads & YouTube (planned: Vimeo, Facebook, SoundCloud, Mixcloud)
+- Supports image uploads, file uploads, YouTube, SoundCloud 
 - Generate thumbnails with [various options](http://glide.thephpleague.com/1.0/api/quick-reference/)
 - Caches thumbnails in your CDN by using cache control headers
 
