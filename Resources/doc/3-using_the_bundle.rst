@@ -54,23 +54,25 @@ The ``media_image`` filter will render an image and should be supported at all t
 
     {{ media_object|media_image(800, 600) }}
 
+Every media should always support to render an image.
 
-
-The ``media_embed`` filter will render the full embed of the media, so for YouTube this will render a video player but for
-SoundCloud this will render an audio player:
+The ``media_embed`` filter will render the full embed of the media,
+so for YouTube this will render a video player but for SoundCloud this will render an audio player.
 
 .. code-block:: html+twig
 
     {{ media_object|media_embed(800, 600) }}
 
-Please note that not necessarily all media objects will support embed.
+Please note that not necessarily all media objects will support this.
 
 
 The ``media_download`` will render a download option for this type of media if supported:
 
 .. code-block:: html+twig
 
-    {{ media_object|media_image(800, 600) }}
+    {{ media_object|media_download(800, 600) }}
+
+Please note that not necessarily all media objects will support this.
 
 To verify if your media supports any of the above features you can and should always test this before using one of
 these filter methods with ``media_supports``:
@@ -82,7 +84,11 @@ these filter methods with ``media_supports``:
     {% endif %}
 
 
-You can also use the ``media`` filter to render the embed if possible but fall back to the
+You can also use the ``media`` filter to render the embed if possible but fall back to the image if embedding is not available:
+
+.. code-block:: html+twig
+
+    {{ media_object|media(800, 600) }}
 
 
 Generaring a custom url
