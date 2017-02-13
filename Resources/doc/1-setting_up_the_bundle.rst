@@ -37,3 +37,15 @@ file of your project:
     }
 
 .. _`installation chapter`: https://getcomposer.org/doc/00-intro.md
+
+C) Load routes
+--------------
+
+To make sure the images in the admin are resolved to the controller it is required to load the bundle routes by adding
+the following lines to your app's routing.yml:
+
+.. code-block:: yml
+
+    // app/routing.yml
+    _mediamonks_media:
+        resource: "@MediaMonksSonataMediaBundle/Resources/config/routing.yml"
