@@ -83,8 +83,8 @@ these filter methods with ``media_supports``:
         {{ media_object|media_image(800, 600) }}
     {% endif %}
 
-
-You can also use the ``media`` filter to render the embed if possible but fall back to the image if embedding is not available:
+You can also use the ``media`` filter to render the embed if possible, it will fall back to rendering an
+image if embedding is not available:
 
 .. code-block:: html+twig
 
@@ -98,9 +98,8 @@ With the url generator you can generate links to media with customized parameter
 
 .. code-block:: php
 
-    # This example assumes you are inside a basic Symfony Framework controller, it's advised to inject these services instead
-
-    use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+    # This example assumes you are inside a basic Symfony Framework controller,
+    # it's advised to inject these services instead
 
     // inside your controller action
     $media = $this->getDoctrine()->getManager()->find('MediaMonksSonataMediaBundle:Media', 1);
@@ -117,7 +116,7 @@ With the url generator you can generate links to media with customized parameter
         $media,
         ['w' => 400, 'h' => 300],
         null,
-        UrlGeneratorInterface::ABSOLUTE_URL
+        \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL
     );
 
     // generate path to a 400x300 image of this media using a custom route name
