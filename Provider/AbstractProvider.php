@@ -15,9 +15,9 @@ use Symfony\Component\Validator\Constraints as Constraint;
 
 abstract class AbstractProvider implements ProviderInterface
 {
-    const RENDER_EMBED = 'embed';
-    const RENDER_IMAGE = 'image';
-    const RENDER_DOWNLOAD = 'download';
+    const SUPPORT_EMBED = 'embed';
+    const SUPPORT_IMAGE = 'image';
+    const SUPPORT_DOWNLOAD = 'download';
 
     const TYPE_AUDIO = 'audio';
     const TYPE_IMAGE = 'image';
@@ -325,13 +325,13 @@ abstract class AbstractProvider implements ProviderInterface
      */
     public function supports($renderType)
     {
-        if ($renderType === self::RENDER_EMBED) {
+        if ($renderType === self::SUPPORT_EMBED) {
             return $this->supportsEmbed();
         }
-        if ($renderType === self::RENDER_IMAGE) {
+        if ($renderType === self::SUPPORT_IMAGE) {
             return $this->supportsImage();
         }
-        if ($renderType === self::RENDER_DOWNLOAD) {
+        if ($renderType === self::SUPPORT_DOWNLOAD) {
             return $this->supportsDownload();
         }
 
