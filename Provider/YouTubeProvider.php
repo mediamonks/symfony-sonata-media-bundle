@@ -8,89 +8,26 @@ use Sonata\CoreBundle\Validator\ErrorElement;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Response;
 
-class YouTubeProvider extends AbstractProvider implements ProviderInterface
+class YouTubeProvider extends AbstractOembedProvider implements ProviderInterface
 {
     const URL_OEMBED = 'http://www.youtube.com/oembed?url=http://www.youtube.com/watch?v=%s&format=json';
     const URL_IMAGE_MAX_RES = 'https://i.ytimg.com/vi/%s/maxresdefault.jpg';
     const URL_IMAGE_HQ = 'https://i.ytimg.com/vi/%s/hqdefault.jpg';
 
     /**
-     * @param FormMapper $formMapper
+     * @param string $id
+     * @return string
      */
-    public function buildProviderCreateForm(FormMapper $formMapper)
+    public function getOembedUrl($id)
     {
-        $formMapper->add('providerReference', TextType::class, ['label' => 'YouTube ID']);
-    }
-
-    /**
-     * @param FormMapper $formMapper
-     */
-    public function buildProviderEditForm(FormMapper $formMapper)
-    {
-        $formMapper->add('providerReference', TextType::class, ['label' => 'YouTube ID']);
-    }
-
-    /**
-     * @param ErrorElement $errorElement
-     * @param Media $media
-     */
-    public function validate(ErrorElement $errorElement, Media $media)
-    {
-        try {
-            $this->getDataByYouTubeId($this->parseYouTubeId($media->getProviderReference()));
-        }
-        catch (\Exception $e) {
-            $errorElement->with('providerReference')->addViolation($e->getMessage());
-        }
-    }
-
-    /**
-     * @param Media $media
-     * @param bool $providerReferenceUpdated
-     */
-    public function update(Media $media, $providerReferenceUpdated)
-    {
-        if ($providerReferenceUpdated) {
-            $media->setProviderReference($this->parseYouTubeId($media->getProviderReference()));
-
-            if ($media->getProviderReference()) {
-                $data = $this->getDataByYouTubeId($media->getProviderReference());
-
-                if (empty($media->getTitle())) {
-                    $media->setTitle($data['title']);
-                }
-                if (empty($media->getAuthorName())) {
-                    $media->setAuthorName($data['author_name']);
-                }
-
-                if (empty($media->getImage())) {
-                    $this->refreshThumbnail($media);
-                }
-            }
-        }
-
-        parent::update($media, $providerReferenceUpdated);
-    }
-
-    /**
-     * @param Media $media
-     */
-    public function refreshThumbnail(Media $media)
-    {
-        $filename = sprintf('%s_%d.%s', sha1($media->getProviderReference()), time(), 'jpg');
-        $thumbnailUrl = $this->getThumbnailUrlByYouTubeId($media->getProviderReference());
-        $this->getFilesystem()->write(
-            $filename,
-            file_get_contents($thumbnailUrl)
-        );
-        $media->setImage($filename);
+        return sprintf(self::URL_OEMBED, $id);
     }
 
     /**
      * @param string $id
      * @return string
      */
-    public function getThumbnailUrlByYouTubeId($id)
+    public function getImageUrl($id)
     {
         // try to get max res image (only available for 720P videos)
         $urlMaxRes = sprintf(self::URL_IMAGE_MAX_RES, $id);
@@ -105,29 +42,11 @@ class YouTubeProvider extends AbstractProvider implements ProviderInterface
     }
 
     /**
-     * @param $id
-     * @return mixed
-     * @throws \Exception
-     */
-    protected function getDataByYouTubeId($id)
-    {
-        $this->disableErrorHandler();
-        $data = json_decode(file_get_contents(sprintf(self::URL_OEMBED, $id)), true);
-        $this->restoreErrorHandler();
-
-        if (empty($data['title'])) {
-            throw new \Exception(sprintf('YouTube ID "%s" seems to be incorrect', $id));
-        }
-
-        return $data;
-    }
-
-    /**
      * @param $value
      * @return string
      * @throws \Exception
      */
-    protected function parseYouTubeId($value)
+    public function parseProviderReference($value)
     {
         if (strpos($value, 'youtube.com')) {
             $url = parse_url($value);
@@ -179,29 +98,5 @@ class YouTubeProvider extends AbstractProvider implements ProviderInterface
     public function getEmbedTemplate()
     {
         return 'MediaMonksSonataMediaBundle:Provider:youtube_embed.html.twig';
-    }
-
-    /**
-     * @return bool
-     */
-    public function supportsDownload()
-    {
-        return false;
-    }
-
-    /**
-     * @return bool
-     */
-    public function supportsEmbed()
-    {
-        return true;
-    }
-
-    /**
-     * @return bool
-     */
-    public function supportsImage()
-    {
-        return true;
     }
 }

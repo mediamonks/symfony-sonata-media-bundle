@@ -8,18 +8,10 @@ use Sonata\CoreBundle\Form\Type\ImmutableArrayType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class SoundCloudProvider extends AbstractProvider implements ProviderInterface
+class SoundCloudProvider extends AbstractOembedProvider implements ProviderInterface
 {
     const URL_OEMBED = 'https://soundcloud.com/oembed?format=json&url=https://soundcloud.com/%s';
     const URL = 'https://soundcloud.com/%s';
-
-    /**
-     * @param FormMapper $formMapper
-     */
-    public function buildProviderCreateForm(FormMapper $formMapper)
-    {
-        $formMapper->add('providerReference', TextType::class, ['label' => 'SoundCloud URL']);
-    }
 
     /**
      * @param FormMapper $formMapper
@@ -47,69 +39,12 @@ class SoundCloudProvider extends AbstractProvider implements ProviderInterface
     }
 
     /**
-     * @param Media $media
-     * @param bool $providerReferenceUpdated
-     * @throws \Exception
+     * @param string $id
+     * @return string
      */
-    public function update(Media $media, $providerReferenceUpdated)
+    public function getOembedUrl($id)
     {
-        if ($providerReferenceUpdated) {
-            $media->setProviderReference($this->parseReference($media->getProviderReference()));
-
-            $data = $this->getDataByReference($media->getProviderReference());
-
-            $data['embedUrl'] = $this->extractEmbedUrl($data);
-            $media->setProviderMetaData($data);
-
-            if (empty($media->getTitle())) {
-                $media->setTitle($data['title']);
-            }
-            if (empty($media->getDescription())) {
-                $media->setDescription($data['description']);
-            }
-            if (empty($media->getAuthorName())) {
-                $media->setAuthorName($data['author_name']);
-            }
-            if (empty($media->getImage())) {
-                $this->setImage($media, $data['thumbnail_url']);
-            }
-        }
-
-        parent::update($media, $providerReferenceUpdated);
-    }
-
-    /**
-     * @param Media $media
-     * @param $thumbnailUrl
-     */
-    public function setImage(Media $media, $thumbnailUrl)
-    {
-        $filename = sprintf('%s_%d.%s', sha1($media->getProviderReference()), time(), 'jpg');
-        $this->getFilesystem()->write(
-            $filename,
-            file_get_contents($thumbnailUrl)
-        );
-        $media->setImage($filename);
-    }
-
-    /**
-     * @param $reference
-     * @return mixed
-     * @throws \Exception
-     */
-    protected function getDataByReference($reference)
-    {
-        $this->disableErrorHandler();
-        $data = json_decode(file_get_contents(sprintf(self::URL_OEMBED, $reference)), true);
-        $this->restoreErrorHandler();
-
-        if (empty($data['title'])) {
-            throw new \Exception(
-                sprintf('Could not get data from SoundCloud for id "%s", is the name correct?', $reference)
-            );
-        }
-
-        return $data;
+        return sprintf(self::URL_OEMBED, $id);
     }
 
     /**
@@ -117,7 +52,7 @@ class SoundCloudProvider extends AbstractProvider implements ProviderInterface
      * @return string
      * @throws \Exception
      */
-    protected function parseReference($value)
+    public function parseProviderReference($value)
     {
         if (strpos($value, 'soundcloud.com')) {
             $url = parse_url($value);
@@ -126,6 +61,18 @@ class SoundCloudProvider extends AbstractProvider implements ProviderInterface
         }
 
         return $value;
+    }
+
+    /**
+     * @param $id
+     * @return array
+     */
+    protected function getProviderOembedData($id)
+    {
+        $data = parent::getProviderOembedData($id);
+        $data['embedUrl'] = $this->extractEmbedUrl($data);
+
+        return $data;
     }
 
     /**
@@ -169,29 +116,5 @@ class SoundCloudProvider extends AbstractProvider implements ProviderInterface
     public function getEmbedTemplate()
     {
         return 'MediaMonksSonataMediaBundle:Provider:soundcloud_embed.html.twig';
-    }
-
-    /**
-     * @return bool
-     */
-    public function supportsDownload()
-    {
-        return false;
-    }
-
-    /**
-     * @return bool
-     */
-    public function supportsEmbed()
-    {
-        return true;
-    }
-
-    /**
-     * @return bool
-     */
-    public function supportsImage()
-    {
-        return true;
     }
 }

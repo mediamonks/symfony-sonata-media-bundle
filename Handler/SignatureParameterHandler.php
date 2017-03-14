@@ -2,7 +2,7 @@
 
 namespace MediaMonks\SonataMediaBundle\Handler;
 
-use MediaMonks\SonataMediaBundle\Exception\InvalidQueryParameterException;
+use MediaMonks\SonataMediaBundle\Exception\SignatureInvalidException;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -55,7 +55,7 @@ class SignatureParameterHandler extends AbstractParameterHandler implements Para
     {
         $parameters = $request->query->all();
         if (!$this->isValid(array_merge($parameters, [self::PARAMETER_ID => $media->getId()]))) {
-            throw new InvalidQueryParameterException('Signature Invalid');
+            throw new SignatureInvalidException();
         }
 
         unset($parameters[self::PARAMETER_SIGNATURE]);
