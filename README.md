@@ -8,22 +8,23 @@
 [![License](https://poser.pugx.org/mediamonks/sonata-media-bundle/license)](https://packagist.org/packages/mediamonks/sonata-media-bundle)
 
 
-### Under construction, this has not been tested in production and is under heavy development.
+### Under construction, this has not been tested in production and is under development.
 
 # MediaMonksSonataMediaBundle
 
 This bundle is an alternative to the existing Sonata Media Bundle.
 
 The concept of this bundle is to provide an easy method of uploading different kinds of media to your admin with an easy
-method of displaying thumbnails and embeds. It is assumed you have a CDN where you place your thumbnails on so only the
-first request for a specific thumbnail hits your own server.
+method of displaying thumbnails and embeds. It is assumed you have some kind of persistent storage behind a CDN or reverse 
+proxy where you place your images on and your CDN or reverse proxy can cache redirect headers to prevent end users hitting
+your web servers.
 
 ## Features
 
 - Supports many [file systems](http://flysystem.thephpleague.com/adapter/local/) to store the media (S3, Azure, Google Cloud, (S)FTP, Rackspace)
-- Supports image uploads, file uploads, YouTube, SoundCloud 
+- Supports image uploads, file uploads, YouTube, Vimeo & SoundCloud 
 - Generate thumbnails with [various options](http://glide.thephpleague.com/1.0/api/quick-reference/)
-- Caches thumbnails in your CDN by using cache control headers
+- Caches redirects to your images in your CDN or reverse proxy by using cache control headers
 
 ## Documentation
 
