@@ -58,8 +58,8 @@ class VimeoProvider extends AbstractOembedProvider implements OembedProviderInte
     /**
      * @return string
      */
-    public function getEmbedTemplate()
+    public function getCategory()
     {
-        return 'MediaMonksSonataMediaBundle:Provider:vimeo_embed.html.twig';
+        return AbstractProvider::CATEGORY_VIDEO;
     }
 }

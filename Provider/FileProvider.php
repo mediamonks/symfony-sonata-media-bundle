@@ -82,9 +82,9 @@ class FileProvider extends AbstractProvider
     /**
      * @return string
      */
-    public function getEmbedTemplate()
+    public function getCategory()
     {
-        return 'MediaMonksSonataMediaBundle:Provider:file_embed.html.twig';
+        return AbstractProvider::CATEGORY_FILE;
     }
 
     /**

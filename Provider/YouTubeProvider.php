@@ -95,6 +95,14 @@ class YouTubeProvider extends AbstractOembedProvider implements ProviderInterfac
     /**
      * @return string
      */
+    public function getCategory()
+    {
+        return AbstractProvider::CATEGORY_VIDEO;
+    }
+
+    /**
+     * @return string
+     */
     public function getEmbedTemplate()
     {
         return 'MediaMonksSonataMediaBundle:Provider:youtube_embed.html.twig';

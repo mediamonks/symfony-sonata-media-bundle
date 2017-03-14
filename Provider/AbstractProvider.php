@@ -19,6 +19,11 @@ abstract class AbstractProvider implements ProviderInterface
     const TYPE_IMAGE = 'image';
     const TYPE_DOWNLOAD = 'download';
 
+    const CATEGORY_AUDIO = 'audio';
+    const CATEGORY_FILE = 'file';
+    const CATEGORY_IMAGE = 'image';
+    const CATEGORY_VIDEO = 'video';
+
     /**
      * @var Filesystem
      */
@@ -358,5 +363,13 @@ abstract class AbstractProvider implements ProviderInterface
      */
     public function validate(ErrorElement $errorElement, Media $media)
     {
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmbedTemplate()
+    {
+        return sprintf('MediaMonksSonataMediaBundle:Provider:%s_embed.html.twig', $this->getType());
     }
 }

@@ -24,7 +24,7 @@ abstract class AbstractOembedProvider extends AbstractProvider implements Oembed
         if ($providerReferenceUpdated) {
             $media->setProviderReference($this->parseProviderReference($media->getProviderReference()));
 
-            $data = $this->getProviderOembedData($media->getProviderReference());
+            $data = $this->getOembedData($media->getProviderReference());
 
             $media->setProviderMetaData($data);
 
@@ -76,7 +76,7 @@ abstract class AbstractOembedProvider extends AbstractProvider implements Oembed
     public function validate(ErrorElement $errorElement, Media $media)
     {
         try {
-            $this->getProviderOembedData($this->parseProviderReference($media->getProviderReference()));
+            $this->getOembedData($this->parseProviderReference($media->getProviderReference()));
         }
         catch (\Exception $e) {
             $errorElement->with('providerReference')->addViolation($e->getMessage());
@@ -104,7 +104,7 @@ abstract class AbstractOembedProvider extends AbstractProvider implements Oembed
      */
     public function getImageUrl($id)
     {
-        return $this->getProviderOembedData($id)['thumbnail_url'];
+        return $this->getOembedData($id)['thumbnail_url'];
     }
 
     /**
@@ -112,7 +112,7 @@ abstract class AbstractOembedProvider extends AbstractProvider implements Oembed
      * @return mixed
      * @throws \Exception
      */
-    protected function getProviderOembedData($id)
+    protected function getOembedData($id)
     {
         if (empty($this->oembedData)) {
 

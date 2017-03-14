@@ -30,6 +30,8 @@ interface ProviderInterface
 
     public function getType();
 
+    public function getCategory();
+
     public function getIcon();
 
     public function getEmbedTemplate();

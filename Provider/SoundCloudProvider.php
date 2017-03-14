@@ -67,9 +67,9 @@ class SoundCloudProvider extends AbstractOembedProvider implements ProviderInter
      * @param $id
      * @return array
      */
-    protected function getProviderOembedData($id)
+    protected function getOembedData($id)
     {
-        $data = parent::getProviderOembedData($id);
+        $data = parent::getOembedData($id);
         $data['embedUrl'] = $this->extractEmbedUrl($data);
 
         return $data;
@@ -107,7 +107,15 @@ class SoundCloudProvider extends AbstractOembedProvider implements ProviderInter
 
     public function getType()
     {
-        return 'audio';
+        return 'soundcloud';
+    }
+
+    /**
+     * @return string
+     */
+    public function getCategory()
+    {
+        return AbstractProvider::CATEGORY_AUDIO;
     }
 
     /**
