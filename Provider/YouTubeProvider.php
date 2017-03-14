@@ -87,7 +87,10 @@ class YouTubeProvider extends AbstractOembedProvider implements ProviderInterfac
         return 'YouTube Video';
     }
 
-    public function getType()
+    /**
+     * @return string
+     */
+    public function getName()
     {
         return 'youtube';
     }
@@ -95,9 +98,9 @@ class YouTubeProvider extends AbstractOembedProvider implements ProviderInterfac
     /**
      * @return string
      */
-    public function getCategory()
+    public function getType()
     {
-        return AbstractProvider::CATEGORY_VIDEO;
+        return AbstractProvider::TYPE_VIDEO;
     }
 
     /**

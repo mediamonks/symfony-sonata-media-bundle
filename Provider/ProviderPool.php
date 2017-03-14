@@ -25,7 +25,7 @@ class ProviderPool
      */
     public function addProvider(AbstractProvider $provider)
     {
-        $this->providers[get_class($provider)] = $provider;
+        $this->providers[$provider->getName()] = $provider;
     }
 
     /**

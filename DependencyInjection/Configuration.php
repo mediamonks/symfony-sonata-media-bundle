@@ -134,7 +134,7 @@ final class Configuration implements ConfigurationInterface
         $node->children()
             ->variableNode('file_constraints')
             ->defaultValue([
-                'maxSize' => '5MB',
+                'maxSize' => '5M',
                 'extensions' => ['pdf', 'csv', 'txt', 'docx']
             ])
             ->end();

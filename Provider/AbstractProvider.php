@@ -15,14 +15,14 @@ use Symfony\Component\Validator\Constraints as Constraint;
 
 abstract class AbstractProvider implements ProviderInterface
 {
-    const TYPE_EMBED = 'embed';
-    const TYPE_IMAGE = 'image';
-    const TYPE_DOWNLOAD = 'download';
+    const RENDER_EMBED = 'embed';
+    const RENDER_IMAGE = 'image';
+    const RENDER_DOWNLOAD = 'download';
 
-    const CATEGORY_AUDIO = 'audio';
-    const CATEGORY_FILE = 'file';
-    const CATEGORY_IMAGE = 'image';
-    const CATEGORY_VIDEO = 'video';
+    const TYPE_AUDIO = 'audio';
+    const TYPE_IMAGE = 'image';
+    const TYPE_FILE = 'file';
+    const TYPE_VIDEO = 'video';
 
     /**
      * @var Filesystem
@@ -83,7 +83,7 @@ abstract class AbstractProvider implements ProviderInterface
     public function toArray(MediaInterface $media, array $options = [])
     {
         return [
-            'type'        => $this->getType(),
+            'type'        => $this->getName(),
             'title'       => $media->getTitle(),
             'description' => $media->getDescription(),
             'authorName'  => $media->getAuthorName(),
@@ -320,18 +320,18 @@ abstract class AbstractProvider implements ProviderInterface
     }
 
     /**
-     * @param $type
+     * @param $renderType
      * @return boolean
      */
-    public function supports($type)
+    public function supports($renderType)
     {
-        if ($type === self::TYPE_EMBED) {
+        if ($renderType === self::RENDER_EMBED) {
             return $this->supportsEmbed();
         }
-        if ($type === self::TYPE_IMAGE) {
+        if ($renderType === self::RENDER_IMAGE) {
             return $this->supportsImage();
         }
-        if ($type === self::TYPE_DOWNLOAD) {
+        if ($renderType === self::RENDER_DOWNLOAD) {
             return $this->supportsDownload();
         }
 
@@ -370,6 +370,6 @@ abstract class AbstractProvider implements ProviderInterface
      */
     public function getEmbedTemplate()
     {
-        return sprintf('MediaMonksSonataMediaBundle:Provider:%s_embed.html.twig', $this->getType());
+        return sprintf('MediaMonksSonataMediaBundle:Provider:%s_embed.html.twig', $this->getName());
     }
 }

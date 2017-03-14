@@ -66,7 +66,10 @@ class ImageProvider extends AbstractProvider
         return 'Image';
     }
 
-    public function getType()
+    /**
+     * @return string
+     */
+    public function getName()
     {
         return 'image';
     }
@@ -74,9 +77,9 @@ class ImageProvider extends AbstractProvider
     /**
      * @return string
      */
-    public function getCategory()
+    public function getType()
     {
-        return AbstractProvider::CATEGORY_IMAGE;
+        return AbstractProvider::TYPE_IMAGE;
     }
 
     /**

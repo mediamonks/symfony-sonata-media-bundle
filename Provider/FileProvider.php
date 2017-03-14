@@ -74,7 +74,10 @@ class FileProvider extends AbstractProvider
         return 'File';
     }
 
-    public function getType()
+    /**
+     * @return string
+     */
+    public function getName()
     {
         return 'file';
     }
@@ -82,9 +85,9 @@ class FileProvider extends AbstractProvider
     /**
      * @return string
      */
-    public function getCategory()
+    public function getType()
     {
-        return AbstractProvider::CATEGORY_FILE;
+        return AbstractProvider::TYPE_FILE;
     }
 
     /**

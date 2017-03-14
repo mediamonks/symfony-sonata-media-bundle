@@ -50,7 +50,10 @@ class VimeoProvider extends AbstractOembedProvider implements OembedProviderInte
         return 'Vimeo Video';
     }
 
-    public function getType()
+    /**
+     * @return string
+     */
+    public function getName()
     {
         return 'vimeo';
     }
@@ -58,8 +61,8 @@ class VimeoProvider extends AbstractOembedProvider implements OembedProviderInte
     /**
      * @return string
      */
-    public function getCategory()
+    public function getType()
     {
-        return AbstractProvider::CATEGORY_VIDEO;
+        return AbstractProvider::TYPE_VIDEO;
     }
 }

@@ -78,5 +78,5 @@ file uploads of any file type. Below are the default settings:
     # app/config/config.yml
     mediamonks_sonata_media:
         file_constraints:
-            maxSize: '5MB',
+            maxSize: '5M',
             extensions: ['pdf', 'csv', 'txt', 'docx']

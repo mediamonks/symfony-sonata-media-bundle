@@ -105,7 +105,10 @@ class SoundCloudProvider extends AbstractOembedProvider implements ProviderInter
         return 'SoundCloud';
     }
 
-    public function getType()
+    /**
+     * @return string
+     */
+    public function getName()
     {
         return 'soundcloud';
     }
@@ -113,16 +116,8 @@ class SoundCloudProvider extends AbstractOembedProvider implements ProviderInter
     /**
      * @return string
      */
-    public function getCategory()
+    public function getType()
     {
-        return AbstractProvider::CATEGORY_AUDIO;
-    }
-
-    /**
-     * @return string
-     */
-    public function getEmbedTemplate()
-    {
-        return 'MediaMonksSonataMediaBundle:Provider:soundcloud_embed.html.twig';
+        return AbstractProvider::TYPE_AUDIO;
     }
 }

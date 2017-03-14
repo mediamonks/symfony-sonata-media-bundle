@@ -28,9 +28,9 @@ interface ProviderInterface
 
     public function getTitle();
 
-    public function getType();
+    public function getName();
 
-    public function getCategory();
+    public function getType();
 
     public function getIcon();
 
@@ -38,7 +38,7 @@ interface ProviderInterface
 
     public function getTranslationDomain();
 
-    public function supports($type);
+    public function supports($renderType);
 
     public function supportsEmbed();
 
