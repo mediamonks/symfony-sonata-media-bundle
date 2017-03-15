@@ -23,8 +23,10 @@ your web servers.
 
 - Supports many [file systems](http://flysystem.thephpleague.com/adapter/local/) to store the media (S3, Azure, Google Cloud, (S)FTP, Rackspace)
 - Supports image uploads, file uploads, YouTube, Vimeo & SoundCloud 
+- Supports a private and public storage
 - Generate thumbnails with [various options](http://glide.thephpleague.com/1.0/api/quick-reference/)
 - Caches redirects to your images in your CDN or reverse proxy by using cache control headers
+- Embed media with Twig filters
 
 ## Documentation
 

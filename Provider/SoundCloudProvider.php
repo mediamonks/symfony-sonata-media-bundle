@@ -25,14 +25,14 @@ class SoundCloudProvider extends AbstractOembedProvider implements ProviderInter
             ImmutableArrayType::class,
             [
                 'keys' => [
-                    ['autoPlay', CheckboxType::class, ['label' => 'Auto Play', 'required' => false]],
-                    ['hideRelated', CheckboxType::class, ['label' => 'Hide Related', 'required' => false]],
-                    ['showComments', CheckboxType::class, ['label' => 'Show Comments', 'required' => false]],
-                    ['showUser', CheckboxType::class, ['label' => 'Show User', 'required' => false]],
-                    ['showReposts', CheckboxType::class, ['label' => 'Show Reposts', 'required' => false]],
-                    ['showVisual', CheckboxType::class, ['label' => 'Show Visual', 'required' => false]],
+                    ['autoPlay', CheckboxType::class, ['label' => 'form.auto_play', 'required' => false]],
+                    ['hideRelated', CheckboxType::class, ['label' => 'form.hide_related', 'required' => false]],
+                    ['showComments', CheckboxType::class, ['label' => 'form.show_comments', 'required' => false]],
+                    ['showUser', CheckboxType::class, ['label' => 'form.show_user', 'required' => false]],
+                    ['showReposts', CheckboxType::class, ['label' => 'form.show_reposts', 'required' => false]],
+                    ['showVisual', CheckboxType::class, ['label' => 'form.show_visual', 'required' => false]],
                 ],
-                'label' => 'Embed Options',
+                'label' => 'form.embed_options',
                 'required' => false
             ]
         );
@@ -119,5 +119,13 @@ class SoundCloudProvider extends AbstractOembedProvider implements ProviderInter
     public function getType()
     {
         return AbstractProvider::TYPE_AUDIO;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReferenceName()
+    {
+        return 'URL';
     }
 }

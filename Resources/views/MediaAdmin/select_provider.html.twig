@@ -1,6 +1,6 @@
 {% extends base_template %}
 
-{% block title %}{{ 'title_select_provider'|trans({}, 'MediaMonksSonataMediaBundle') }}{% endblock %}
+{% block title %}{{ 'title_select_provider'|trans }}{% endblock %}
 
 {% block form %}
     <div class="box box-success">
@@ -23,7 +23,7 @@
                     </a>
                 </div>
             {% else %}
-                <span class="alert alert-info">{{ 'no_provider_available'|trans({}, 'MediaMonksSonataMediaBundle') }}</span>
+                <span class="alert alert-info">{{ 'no_provider_available'|trans }}</span>
             {% endfor %}
             <div class="clearfix"></div>
         </div>
