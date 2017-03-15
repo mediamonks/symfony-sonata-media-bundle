@@ -1,3 +1,12 @@
 {% extends 'SonataAdminBundle:CRUD:list_outer_rows_mosaic.html.twig' %}
 
 {% block sonata_mosaic_background %}{{ object|media_image(245, 100, [], 'admin_mediamonks_sonatamedia_media_image') }}{% endblock %}
+
+{% block sonata_mosaic_default_view %}
+    <span class="mosaic-box-label label label-primary pull-right">{{ object.type }}</span>
+{% endblock %}
+
+{% block sonata_mosaic_hover_view %}
+    <span class="mosaic-box-label label label-primary pull-right">{{ object.type }}</span>
+    {{ meta.description }}
+{% endblock %}

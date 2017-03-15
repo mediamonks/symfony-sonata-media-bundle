@@ -37,7 +37,7 @@ class MenuBuilderListener
     {
         $menu = $event->getMenu();
 
-        $child = $menu->getChild('Media');
+        $child = $menu->getChild($this->translator->trans('menu.title'));
 
         foreach ($this->providerPool->getProviders(
         ) as $providerClass => $provider) {

@@ -22,6 +22,7 @@ form.image_point_of_interest: Image Point Of Interest
 form.soundcloud.reference: SoundCloud URL
 form.vimeo.reference: Vimeo ID or URL
 form.youtube.reference: YouTube ID or URL
+menu.title: Media
 menu.provider: Add %provider%
 youtube: YouTube
 soundcloud: SoundCloud

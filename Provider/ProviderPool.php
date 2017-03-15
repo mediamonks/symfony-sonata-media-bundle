@@ -17,6 +17,12 @@ class ProviderPool
      */
     public function getProvider($name)
     {
+        if (!isset($this->providers[$name])) {
+            throw new \InvalidArgumentException(
+                sprintf('Provider with name "%s" does not exist', $name)
+            );
+        }
+
         return $this->providers[$name];
     }
 
