@@ -38,7 +38,9 @@ You need:
 
 - **PHP >= 5.5.0**
 - **Symfony Framework >= 2.8**
-- **Sonata Admin >=3**
+- **Sonata Admin >= 3.0**
+- **Flysystem >= 1.0**
+- **Glide >= 1.2**
 
 To use the library.
 
