@@ -121,13 +121,24 @@ abstract class AbstractOembedProvider extends AbstractProvider implements Oembed
             $this->restoreErrorHandler();
 
             if (empty($data['title'])) {
-                throw new \Exception(sprintf('%s reference "%s" seems to be incorrect', $this->getTitle(), $id));
+                throw new \Exception($this->getTranslator()->trans('error.provider_reference', [
+                    '%provider%' => $this->getName(),
+                    '%reference%' => $id
+                ]));
             }
 
             $this->oembedData = $data;
         }
 
         return $this->oembedData;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReferenceLabel()
+    {
+        return sprintf('form.%s.reference', $this->getName());
     }
 
     /**

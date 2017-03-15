@@ -26,9 +26,9 @@ interface ProviderInterface
 
     public function toArray(MediaInterface $media, array $options);
 
-    public function getTitle();
-
     public function getName();
+
+    public function getTitle();
 
     public function getType();
 

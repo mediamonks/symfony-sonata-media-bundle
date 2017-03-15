@@ -4,6 +4,7 @@ namespace MediaMonks\SonataMediaBundle\EventListener;
 
 use MediaMonks\SonataMediaBundle\Provider\ProviderPool;
 use Sonata\AdminBundle\Event\ConfigureMenuEvent;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class MenuBuilderListener
 {
@@ -13,11 +14,20 @@ class MenuBuilderListener
     private $providerPool;
 
     /**
-     * @param ProviderPool $providerPool
+     * @var TranslatorInterface
      */
-    public function __construct(ProviderPool $providerPool)
-    {
+    private $translator;
+
+    /**
+     * @param ProviderPool $providerPool
+     * @param TranslatorInterface $translator
+     */
+    public function __construct(
+        ProviderPool $providerPool,
+        TranslatorInterface $translator
+    ) {
         $this->providerPool = $providerPool;
+        $this->translator = $translator;
     }
 
     /**
@@ -29,18 +39,32 @@ class MenuBuilderListener
 
         $child = $menu->getChild('Media');
 
-        foreach ($this->providerPool->getProviders() as $providerClass => $provider) {
+        foreach ($this->providerPool->getProviders(
+        ) as $providerClass => $provider) {
             $providerChild = $child->addChild(
                 'provider_'.spl_object_hash($provider),
                 [
-                    'route'           => 'admin_mediamonks_sonatamedia_media_create',
+                    'route' => 'admin_mediamonks_sonatamedia_media_create',
                     'routeParameters' => [
                         'provider' => $providerClass,
                     ],
                 ]
             );
-            $providerChild->setAttribute('icon', sprintf('<i class="%s" aria-hidden="true"></i>', $provider->getIcon()));
-            $providerChild->setLabel('Add '.$provider->getTitle());
+            $providerChild->setAttribute(
+                'icon',
+                sprintf(
+                    '<i class="%s" aria-hidden="true"></i>',
+                    $provider->getIcon()
+                )
+            );
+            $providerChild->setLabel(
+                $this->translator->trans(
+                    'menu.provider',
+                    [
+                        '%provider%' => $this->translator->trans($provider->getName())
+                    ]
+                )
+            );
         }
     }
 }

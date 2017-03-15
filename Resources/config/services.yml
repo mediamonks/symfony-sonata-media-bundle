@@ -111,6 +111,7 @@ services:
         class: '%mediamonks.sonata_media.utility.event_listener.menu_builder.class%'
         arguments:
             - '@mediamonks.sonata_media.provider.pool'
+            - '@translator'
         tags:
             - { name: kernel.event_listener, event: sonata.admin.event.configure.menu.sidebar, method: addMenuItems }
 

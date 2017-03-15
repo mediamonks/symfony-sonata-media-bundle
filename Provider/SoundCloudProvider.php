@@ -100,14 +100,6 @@ class SoundCloudProvider extends AbstractOembedProvider implements ProviderInter
     /**
      * @return string
      */
-    public function getTitle()
-    {
-        return 'SoundCloud';
-    }
-
-    /**
-     * @return string
-     */
     public function getName()
     {
         return 'soundcloud';
@@ -119,13 +111,5 @@ class SoundCloudProvider extends AbstractOembedProvider implements ProviderInter
     public function getType()
     {
         return AbstractProvider::TYPE_AUDIO;
-    }
-
-    /**
-     * @return string
-     */
-    public function getReferenceLabel()
-    {
-        return 'form.soundcloud.reference';
     }
 }

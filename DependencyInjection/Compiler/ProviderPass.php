@@ -29,6 +29,10 @@ class ProviderPass implements CompilerPassInterface
                 'setImageConstraintOptions',
                 [$config['image_constraints']]
             );
+            $container->getDefinition($id)->addMethodCall(
+                'setTranslator',
+                [new Reference('translator')]
+            );
         }
     }
 }

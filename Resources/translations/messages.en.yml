@@ -6,6 +6,10 @@ image: Image
 download: Download
 download_original: Download original
 file: File
+form.title: Title
+form.description: Description
+form.authorName: Author
+form.copyright: Copyright
 form.embed_options: Embed Options
 form.auto_play: Auto Play
 form.hide_related: Hide Related
@@ -18,3 +22,17 @@ form.image_point_of_interest: Image Point Of Interest
 form.soundcloud.reference: SoundCloud URL
 form.vimeo.reference: Vimeo ID or URL
 form.youtube.reference: YouTube ID or URL
+menu.provider: Add %provider%
+youtube: YouTube
+soundcloud: SoundCloud
+vimeo: Vimeo
+error.provider_reference: '"%reference%" does not exist'
+form.image_poi.top_left: Top Left
+form.image_poi.top: Top
+form.image_poi.top_right: Top Right
+form.image_poi.left: Left
+form.image_poi.center: Center
+form.image_poi.right: Right
+form.image_poi.bottom_left: Bottom Left
+form.image_poi.bottom: Bottom
+form.image_poi.bottom_right: Bottom Right

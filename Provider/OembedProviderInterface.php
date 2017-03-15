@@ -7,6 +7,4 @@ interface OembedProviderInterface extends ProviderInterface
     public function getOembedUrl($id);
 
     public function parseProviderReference($value);
-
-    public function getReferenceLabel();
 }

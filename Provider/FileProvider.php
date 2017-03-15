@@ -69,14 +69,6 @@ class FileProvider extends AbstractProvider
     /**
      * @return string
      */
-    public function getTitle()
-    {
-        return 'File';
-    }
-
-    /**
-     * @return string
-     */
     public function getName()
     {
         return 'file';

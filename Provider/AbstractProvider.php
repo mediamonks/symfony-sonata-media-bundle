@@ -10,7 +10,9 @@ use Sonata\CoreBundle\Validator\ErrorElement;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraints as Constraint;
 
 abstract class AbstractProvider implements ProviderInterface
@@ -30,6 +32,11 @@ abstract class AbstractProvider implements ProviderInterface
     protected $filesystem;
 
     /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+
+    /**
      * @var array
      */
     private $imageConstraintOptions = [];
@@ -40,6 +47,22 @@ abstract class AbstractProvider implements ProviderInterface
     public function setFilesystem(Filesystem $filesystem)
     {
         $this->filesystem = $filesystem;
+    }
+
+    /**
+     * @param TranslatorInterface $translator
+     */
+    public function setTranslator(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
+    /**
+     * @return \Symfony\Component\Translation\TranslatorInterface
+     */
+    public function getTranslator()
+    {
+        return $this->translator;
     }
 
     /**
@@ -99,15 +122,33 @@ abstract class AbstractProvider implements ProviderInterface
     {
         return array_flip(
             [
-                'top-left'     => 'Top Left',
-                'top'          => 'Top',
-                'top-right'    => 'Top Right',
-                'left'         => 'Left',
-                'center'       => 'Center',
-                'right'        => 'Right',
-                'bottom-left'  => 'Bottom Left',
-                'bottom'       => 'Bottom',
-                'bottom-right' => 'Bottom Right',
+                'top-left'     => $this->translator->trans(
+                    'form.image_poi.top_left'
+                ),
+                'top'          => $this->translator->trans(
+                    'form.image_poi.top'
+                ),
+                'top-right'    => $this->translator->trans(
+                    'form.image_poi.top_right'
+                ),
+                'left'         => $this->translator->trans(
+                    'form.image_poi.left'
+                ),
+                'center'       => $this->translator->trans(
+                    'form.image_poi.center'
+                ),
+                'right'        => $this->translator->trans(
+                    'form.image_poi.right'
+                ),
+                'bottom-left'  => $this->translator->trans(
+                    'form.image_poi.bottom_left'
+                ),
+                'bottom'       => $this->translator->trans(
+                    'form.image_poi.bottom'
+                ),
+                'bottom-right' => $this->translator->trans(
+                    'form.image_poi.bottom_right'
+                ),
             ]
         );
     }
@@ -145,10 +186,22 @@ abstract class AbstractProvider implements ProviderInterface
                 'label'       => 'form.replacement_image',
             ]
         )
-            ->add('title')
-            ->add('description')
-            ->add('authorName')
-            ->add('copyright')
+            ->add('title', TextType::class, ['label' => 'form.title'])
+            ->add(
+                'description',
+                TextType::class,
+                ['label' => 'form.description', 'required' => false]
+            )
+            ->add(
+                'authorName',
+                TextType::class,
+                ['label' => 'form.authorName', 'required' => false]
+            )
+            ->add(
+                'copyright',
+                TextType::class,
+                ['label' => 'form.copyright', 'required' => false]
+            )
             ->add(
                 'pointOfInterest',
                 ChoiceType::class,
@@ -424,5 +477,13 @@ abstract class AbstractProvider implements ProviderInterface
             'MediaMonksSonataMediaBundle:Provider:%s_embed.html.twig',
             $this->getName()
         );
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->translator->trans($this->getName());
     }
 }
