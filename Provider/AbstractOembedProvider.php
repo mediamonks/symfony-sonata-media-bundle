@@ -53,7 +53,7 @@ abstract class AbstractOembedProvider extends AbstractProvider implements Oembed
         $formMapper->add(
             'providerReference',
             TextType::class,
-            ['label' => sprintf('%s %s', $this->getTitle(), $this->getReferenceName())]
+            ['label' => $this->getReferenceLabel()]
         );
     }
 
@@ -65,7 +65,7 @@ abstract class AbstractOembedProvider extends AbstractProvider implements Oembed
         $formMapper->add(
             'providerReference',
             TextType::class,
-            ['label' => sprintf('%s %s', $this->getTitle(), $this->getReferenceName())]
+            ['label' => $this->getReferenceLabel()]
         );
     }
 
@@ -121,21 +121,13 @@ abstract class AbstractOembedProvider extends AbstractProvider implements Oembed
             $this->restoreErrorHandler();
 
             if (empty($data['title'])) {
-                throw new \Exception(sprintf('%s %s "%s" seems to be incorrect', $this->getTitle(), $this->getReferenceName(), $id));
+                throw new \Exception(sprintf('%s reference "%s" seems to be incorrect', $this->getTitle(), $id));
             }
 
             $this->oembedData = $data;
         }
 
         return $this->oembedData;
-    }
-
-    /**
-     * @return string
-     */
-    public function getReferenceName()
-    {
-        return 'Reference';
     }
 
     /**

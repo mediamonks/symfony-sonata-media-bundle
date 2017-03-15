@@ -47,7 +47,7 @@ class VimeoProvider extends AbstractOembedProvider implements OembedProviderInte
      */
     public function getTitle()
     {
-        return 'Vimeo Video';
+        return 'Vimeo';
     }
 
     /**
@@ -64,5 +64,13 @@ class VimeoProvider extends AbstractOembedProvider implements OembedProviderInte
     public function getType()
     {
         return AbstractProvider::TYPE_VIDEO;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReferenceLabel()
+    {
+        return 'form.vimeo.reference';
     }
 }

@@ -142,7 +142,7 @@ abstract class AbstractProvider implements ProviderInterface
                 'constraints' => [
                     new Constraint\File(),
                 ],
-                'label'       => 'Replacement Image',
+                'label'       => 'form.replacement_image',
             ]
         )
             ->add('title')
@@ -154,7 +154,7 @@ abstract class AbstractProvider implements ProviderInterface
                 ChoiceType::class,
                 [
                     'required' => false,
-                    'label'    => 'Image Point Of Interest',
+                    'label'    => 'form.image_point_of_interest',
                     'choices'  => $this->getPointOfInterestChoices(),
                 ]
             )
@@ -187,7 +187,12 @@ abstract class AbstractProvider implements ProviderInterface
         $filename = $this->getFilenameByFile($file);
         $this->writeToFilesystem($file, $filename);
 
-        $media->setProviderMetadata(array_merge($media->getProviderMetaData(), $this->getFileMetaData($file)));
+        $media->setProviderMetadata(
+            array_merge(
+                $media->getProviderMetaData(),
+                $this->getFileMetaData($file)
+            )
+        );
 
         if (empty($media->getImage()) && $useAsImage) {
             $media->setImage($filename);
@@ -195,7 +200,13 @@ abstract class AbstractProvider implements ProviderInterface
         }
 
         if (empty($media->getTitle())) {
-            $media->setTitle(str_replace('_', ' ', pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)));
+            $media->setTitle(
+                str_replace(
+                    '_',
+                    ' ',
+                    pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)
+                )
+            );
         }
 
         return $filename;
@@ -235,13 +246,28 @@ abstract class AbstractProvider implements ProviderInterface
         $media->setImageMetaData($this->getFileMetaData($file));
     }
 
-    protected function doAddFileField(FormMapper $formMapper, $name, $label, $required, $constraints = [])
-    {
+    /**
+     * @param \Sonata\AdminBundle\Form\FormMapper $formMapper
+     * @param $name
+     * @param $label
+     * @param $required
+     * @param array $constraints
+     */
+    protected function doAddFileField(
+        FormMapper $formMapper,
+        $name,
+        $label,
+        $required,
+        $constraints = []
+    ) {
         if ($required) {
-            $constraints = array_merge([
-                new Constraint\NotBlank(),
-                new Constraint\NotNull(),
-            ], $constraints);
+            $constraints = array_merge(
+                [
+                    new Constraint\NotBlank(),
+                    new Constraint\NotNull(),
+                ],
+                $constraints
+            );
         }
 
         $formMapper
@@ -264,11 +290,23 @@ abstract class AbstractProvider implements ProviderInterface
      * @param string $label
      * @param array $options
      */
-    public function addImageField(FormMapper $formMapper, $name, $label, $options = [])
-    {
-        $this->doAddFileField($formMapper, $name, $label, false, [
-            new Constraint\Image(array_merge($this->imageConstraintOptions, $options))
-        ]);
+    public function addImageField(
+        FormMapper $formMapper,
+        $name,
+        $label,
+        $options = []
+    ) {
+        $this->doAddFileField(
+            $formMapper,
+            $name,
+            $label,
+            false,
+            [
+                new Constraint\Image(
+                    array_merge($this->imageConstraintOptions, $options)
+                ),
+            ]
+        );
     }
 
     /**
@@ -277,11 +315,23 @@ abstract class AbstractProvider implements ProviderInterface
      * @param $label
      * @param array $options
      */
-    public function addRequiredImageField(FormMapper $formMapper, $name, $label, $options = [])
-    {
-        $this->doAddFileField($formMapper, $name, $label, true, [
-            new Constraint\Image(array_merge($this->imageConstraintOptions, $options))
-        ]);
+    public function addRequiredImageField(
+        FormMapper $formMapper,
+        $name,
+        $label,
+        $options = []
+    ) {
+        $this->doAddFileField(
+            $formMapper,
+            $name,
+            $label,
+            true,
+            [
+                new Constraint\Image(
+                    array_merge($this->imageConstraintOptions, $options)
+                ),
+            ]
+        );
     }
 
     /**
@@ -370,6 +420,9 @@ abstract class AbstractProvider implements ProviderInterface
      */
     public function getEmbedTemplate()
     {
-        return sprintf('MediaMonksSonataMediaBundle:Provider:%s_embed.html.twig', $this->getName());
+        return sprintf(
+            'MediaMonksSonataMediaBundle:Provider:%s_embed.html.twig',
+            $this->getName()
+        );
     }
 }

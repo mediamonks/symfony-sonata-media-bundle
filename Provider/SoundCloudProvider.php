@@ -124,8 +124,8 @@ class SoundCloudProvider extends AbstractOembedProvider implements ProviderInter
     /**
      * @return string
      */
-    public function getReferenceName()
+    public function getReferenceLabel()
     {
-        return 'URL';
+        return 'form.soundcloud.reference';
     }
 }

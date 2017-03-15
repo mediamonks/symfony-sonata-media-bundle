@@ -84,7 +84,7 @@ class YouTubeProvider extends AbstractOembedProvider implements ProviderInterfac
      */
     public function getTitle()
     {
-        return 'YouTube Video';
+        return 'YouTube';
     }
 
     /**
@@ -109,5 +109,13 @@ class YouTubeProvider extends AbstractOembedProvider implements ProviderInterfac
     public function getEmbedTemplate()
     {
         return 'MediaMonksSonataMediaBundle:Provider:youtube_embed.html.twig';
+    }
+
+    /**
+     * @return string
+     */
+    public function getReferenceLabel()
+    {
+        return 'form.youtube.reference';
     }
 }

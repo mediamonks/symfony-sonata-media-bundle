@@ -5,6 +5,7 @@ preview: Preview
 image: Image
 download: Download
 download_original: Download original
+file: File
 form.embed_options: Embed Options
 form.auto_play: Auto Play
 form.hide_related: Hide Related
@@ -12,3 +13,8 @@ form.show_comments: Show Comments
 form.show_user: Show User
 form.show_reposts: Show Reposts
 form.show_visual: Show Visual
+form.replacement_image: Replacement Image
+form.image_point_of_interest: Image Point Of Interest
+form.soundcloud.reference: SoundCloud URL
+form.vimeo.reference: Vimeo ID or URL
+form.youtube.reference: YouTube ID or URL
