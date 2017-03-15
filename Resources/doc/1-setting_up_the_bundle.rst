@@ -46,6 +46,6 @@ the following lines to your app's routing.yml:
 
 .. code-block:: yml
 
-    // app/routing.yml
+    // app/config/routing.yml
     _mediamonks_media:
         resource: "@MediaMonksSonataMediaBundle/Resources/config/routing.yml"
