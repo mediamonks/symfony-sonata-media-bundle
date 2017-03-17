@@ -2,6 +2,7 @@
 
 namespace MediaMonks\SonataMediaBundle\Form\Type;
 
+use MediaMonks\SonataMediaBundle\Admin\MediaAdmin;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType as BaseModelAutocompleteType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Templating\EngineInterface;
@@ -14,11 +15,18 @@ class MediaAutocompleteType extends BaseModelAutocompleteType
     private $templateEngine;
 
     /**
-     * @param EngineInterface $templateEngine
+     * @var MediaAdmin
      */
-    public function __construct(EngineInterface $templateEngine)
+    private $mediaAdmin;
+
+    /**
+     * @param EngineInterface $templateEngine
+     * @param MediaAdmin $mediaAdmin
+     */
+    public function __construct(EngineInterface $templateEngine, MediaAdmin $mediaAdmin)
     {
         $this->templateEngine = $templateEngine;
+        $this->mediaAdmin = $mediaAdmin;
     }
 
     /**
@@ -39,6 +47,7 @@ class MediaAutocompleteType extends BaseModelAutocompleteType
                         ]
                     );
                 },
+                'model_manager' => $this->mediaAdmin->getModelManager()
             ]
         );
     }
