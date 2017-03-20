@@ -61,7 +61,7 @@ class Media implements MediaInterface
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    private $pointOfInterest;
+    private $focalPoint;
 
     /**
      * @ORM\Column(type="string", nullable=true)
@@ -260,18 +260,18 @@ class Media implements MediaInterface
     /**
      * @return mixed
      */
-    public function getPointOfInterest()
+    public function getFocalPoint()
     {
-        return $this->pointOfInterest;
+        return $this->focalPoint;
     }
 
     /**
-     * @param mixed $pointOfInterest
+     * @param mixed $focalPoint
      * @return Media
      */
-    public function setPointOfInterest($pointOfInterest)
+    public function setFocalPoint($focalPoint)
     {
-        $this->pointOfInterest = $pointOfInterest;
+        $this->focalPoint = $focalPoint;
 
         return $this;
     }

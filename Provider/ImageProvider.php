@@ -18,7 +18,7 @@ class ImageProvider extends AbstractProvider
     /**
      * @param FormMapper $formMapper
      */
-    public function buildProviderEditForm(FormMapper $formMapper)
+    public function buildProviderEditFormBefore(FormMapper $formMapper)
     {
         $this->addImageField($formMapper, 'binaryContent', 'image');
     }

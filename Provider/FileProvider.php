@@ -34,7 +34,7 @@ class FileProvider extends AbstractProvider
     /**
      * @param FormMapper $formMapper
      */
-    public function buildProviderEditForm(FormMapper $formMapper)
+    public function buildProviderEditFormBefore(FormMapper $formMapper)
     {
         $this->addFileField($formMapper, 'binaryContent', 'file');
     }

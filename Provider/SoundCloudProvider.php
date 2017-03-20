@@ -16,26 +16,35 @@ class SoundCloudProvider extends AbstractOembedProvider implements ProviderInter
     /**
      * @param FormMapper $formMapper
      */
-    public function buildProviderEditForm(FormMapper $formMapper)
+    public function buildProviderEditFormBefore(FormMapper $formMapper)
     {
-        $formMapper->add('providerReference', TextType::class, ['label' => 'SoundCloud URL']);
+        $formMapper->add('providerReference', TextType::class, ['label' => $this->getReferenceLabel()]);
+    }
 
-        $formMapper->add(
-            'providerMetaData',
-            ImmutableArrayType::class,
-            [
-                'keys' => [
-                    ['autoPlay', CheckboxType::class, ['label' => 'form.auto_play', 'required' => false]],
-                    ['hideRelated', CheckboxType::class, ['label' => 'form.hide_related', 'required' => false]],
-                    ['showComments', CheckboxType::class, ['label' => 'form.show_comments', 'required' => false]],
-                    ['showUser', CheckboxType::class, ['label' => 'form.show_user', 'required' => false]],
-                    ['showReposts', CheckboxType::class, ['label' => 'form.show_reposts', 'required' => false]],
-                    ['showVisual', CheckboxType::class, ['label' => 'form.show_visual', 'required' => false]],
-                ],
-                'label' => 'form.embed_options',
-                'required' => false
-            ]
-        );
+    /**
+     * @param FormMapper $formMapper
+     */
+    public function buildProviderEditFormAfter(FormMapper $formMapper)
+    {
+        $formMapper
+            ->tab('Embed Options')
+            ->add(
+                'providerMetaData',
+                ImmutableArrayType::class,
+                [
+                    'keys' => [
+                        ['autoPlay', CheckboxType::class, ['label' => 'form.auto_play', 'required' => false]],
+                        ['hideRelated', CheckboxType::class, ['label' => 'form.hide_related', 'required' => false]],
+                        ['showComments', CheckboxType::class, ['label' => 'form.show_comments', 'required' => false]],
+                        ['showUser', CheckboxType::class, ['label' => 'form.show_user', 'required' => false]],
+                        ['showReposts', CheckboxType::class, ['label' => 'form.show_reposts', 'required' => false]],
+                        ['showVisual', CheckboxType::class, ['label' => 'form.show_visual', 'required' => false]],
+                    ],
+                    'label' => 'form.embed_options',
+                    'required' => false
+                ]
+            )->end()
+        ;
     }
 
     /**

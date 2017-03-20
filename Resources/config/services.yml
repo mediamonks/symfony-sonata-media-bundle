@@ -26,7 +26,7 @@ services:
             - { name: sonata.admin, manager_type: orm, label: Media, group: "Media" }
         calls:
             - [ setTemplate, ['outer_list_rows_mosaic', 'MediaMonksSonataMediaBundle:MediaAdmin:outer_list_rows_mosaic.html.twig']]
-            - [ setTemplate, ['edit', 'MediaMonksSonataMediaBundle:MediaAdmin:edit.html.twig']]
+            - [ setTemplate, ['edit', 'MediaMonksSonataMediaBundle:CRUD:edit.html.twig']]
 
     mediamonks.sonata_media.provider.pool:
         class: '%mediamonks.sonata_media.provider.pool.class%'

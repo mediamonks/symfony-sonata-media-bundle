@@ -18,7 +18,7 @@ form.show_user: Show User
 form.show_reposts: Show Reposts
 form.show_visual: Show Visual
 form.replacement_image: Replacement Image
-form.image_point_of_interest: Image Point Of Interest
+form.image_focal_point: Focal Point
 form.soundcloud.reference: SoundCloud URL
 form.vimeo.reference: Vimeo ID or URL
 form.youtube.reference: YouTube ID or URL
@@ -28,12 +28,12 @@ youtube: YouTube
 soundcloud: SoundCloud
 vimeo: Vimeo
 error.provider_reference: '"%reference%" does not exist'
-form.image_poi.top_left: Top Left
-form.image_poi.top: Top
-form.image_poi.top_right: Top Right
-form.image_poi.left: Left
-form.image_poi.center: Center
-form.image_poi.right: Right
-form.image_poi.bottom_left: Bottom Left
-form.image_poi.bottom: Bottom
-form.image_poi.bottom_right: Bottom Right
+form.image_focal_point.top_left: Top Left
+form.image_focal_point.top: Top
+form.image_focal_point.top_right: Top Right
+form.image_focal_point.left: Left
+form.image_focal_point.center: Center
+form.image_focal_point.right: Right
+form.image_focal_point.bottom_left: Bottom Left
+form.image_focal_point.bottom: Bottom
+form.image_focal_point.bottom_right: Bottom Right

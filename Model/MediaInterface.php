@@ -24,7 +24,7 @@ interface MediaInterface
 
     public function getProviderMetaData();
 
-    public function getPointOfInterest();
+    public function getFocalPoint();
 
     public function getCreatedAt();
 

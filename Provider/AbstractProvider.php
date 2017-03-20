@@ -118,36 +118,36 @@ abstract class AbstractProvider implements ProviderInterface
     /**
      * @return array
      */
-    protected function getPointOfInterestChoices()
+    protected function getFocalPoint()
     {
         return array_flip(
             [
                 'top-left'     => $this->translator->trans(
-                    'form.image_poi.top_left'
+                    'form.image_focal_point.top_left'
                 ),
                 'top'          => $this->translator->trans(
-                    'form.image_poi.top'
+                    'form.image_focal_point.top'
                 ),
                 'top-right'    => $this->translator->trans(
-                    'form.image_poi.top_right'
+                    'form.image_focal_point.top_right'
                 ),
                 'left'         => $this->translator->trans(
-                    'form.image_poi.left'
+                    'form.image_focal_point.left'
                 ),
                 'center'       => $this->translator->trans(
-                    'form.image_poi.center'
+                    'form.image_focal_point.center'
                 ),
                 'right'        => $this->translator->trans(
-                    'form.image_poi.right'
+                    'form.image_focal_point.right'
                 ),
                 'bottom-left'  => $this->translator->trans(
-                    'form.image_poi.bottom_left'
+                    'form.image_focal_point.bottom_left'
                 ),
                 'bottom'       => $this->translator->trans(
-                    'form.image_poi.bottom'
+                    'form.image_focal_point.bottom'
                 ),
                 'bottom-right' => $this->translator->trans(
-                    'form.image_poi.bottom_right'
+                    'form.image_focal_point.bottom_right'
                 ),
             ]
         );
@@ -170,10 +170,10 @@ abstract class AbstractProvider implements ProviderInterface
     public function buildEditForm(FormMapper $formMapper)
     {
         $formMapper
-            ->with('General')
+            ->tab('General')
             ->add('provider', HiddenType::class);
 
-        $this->buildProviderEditForm($formMapper);
+        $this->buildProviderEditFormBefore($formMapper);
 
         $formMapper->add(
             'imageContent',
@@ -202,22 +202,36 @@ abstract class AbstractProvider implements ProviderInterface
                 TextType::class,
                 ['label' => 'form.copyright', 'required' => false]
             )
+            ->end()
+            ->end()
+            ->tab('Image')
             ->add(
-                'pointOfInterest',
+                'focalPoint',
                 ChoiceType::class,
                 [
                     'required' => false,
-                    'label'    => 'form.image_point_of_interest',
-                    'choices'  => $this->getPointOfInterestChoices(),
+                    'label'    => 'form.image_focal_point',
+                    'choices'  => $this->getFocalPoint(),
                 ]
             )
-            ->end();
+            ->end()
+            ->end()
+        ;
+
+        $this->buildProviderEditFormAfter($formMapper);
     }
 
     /**
      * @param FormMapper $formMapper
      */
-    public function buildProviderEditForm(FormMapper $formMapper)
+    public function buildProviderEditFormBefore(FormMapper $formMapper)
+    {
+    }
+
+    /**
+     * @param FormMapper $formMapper
+     */
+    public function buildProviderEditFormAfter(FormMapper $formMapper)
     {
     }
 

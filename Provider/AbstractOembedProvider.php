@@ -60,7 +60,7 @@ abstract class AbstractOembedProvider extends AbstractProvider implements Oembed
     /**
      * @param FormMapper $formMapper
      */
-    public function buildProviderEditForm(FormMapper $formMapper)
+    public function buildProviderEditFormBefore(FormMapper $formMapper)
     {
         $formMapper->add(
             'providerReference',

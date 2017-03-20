@@ -20,7 +20,7 @@ interface ProviderInterface
 
     public function buildProviderCreateForm(FormMapper $formMapper);
 
-    public function buildProviderEditForm(FormMapper $formMapper);
+    public function buildProviderEditFormBefore(FormMapper $formMapper);
 
     public function update(Media $media, $providerReferenceUpdated);
 
