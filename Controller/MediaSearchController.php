@@ -3,9 +3,11 @@
 namespace MediaMonks\SonataMediaBundle\Controller;
 
 use MediaMonks\SonataMediaBundle\Entity\Media;
+use Sonata\AdminBundle\Filter\FilterInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class MediaSearchController extends Controller
 {
