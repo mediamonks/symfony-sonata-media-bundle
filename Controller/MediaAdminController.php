@@ -37,7 +37,11 @@ class MediaAdminController extends CRUDController
      */
     public function downloadAction(Request $request, $id)
     {
-        return $this->get('mediamonks.sonata_media.utility.download')->getStreamedResponse($this->getMediaById($id));
+        $object = $this->admin->getObject($id);
+
+        $this->admin->checkAccess('show', $object);
+
+        return $this->get('mediamonks.sonata_media.utility.download')->getStreamedResponse($object);
     }
 
     /**
@@ -47,18 +51,10 @@ class MediaAdminController extends CRUDController
      */
     public function imageAction(Request $request, $id)
     {
-        return $this->get('mediamonks.sonata_media.utility.image')->getRedirectResponse(
-            $this->getMediaById($id),
-            $request
-        );
-    }
+        $object = $this->admin->getObject($id);
 
-    /**
-     * @param $id
-     * @return MediaInterface
-     */
-    protected function getMediaById($id)
-    {
-        return $this->getDoctrine()->getManager()->find('MediaMonksSonataMediaBundle:Media', $id);
+        $this->admin->checkAccess('show', $object);
+
+        return $this->get('mediamonks.sonata_media.utility.image')->getRedirectResponse($object, $request);
     }
 }

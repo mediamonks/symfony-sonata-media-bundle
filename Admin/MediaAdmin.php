@@ -168,7 +168,11 @@ class MediaAdmin extends AbstractAdmin
      */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
-        $datagridMapper->add('title');
+        $datagridMapper
+            ->add('title')
+            ->add('type')
+            ->add('provider')
+        ;
     }
 
     /**

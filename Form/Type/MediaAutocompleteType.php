@@ -47,7 +47,8 @@ class MediaAutocompleteType extends BaseModelAutocompleteType
                         ]
                     );
                 },
-                'model_manager' => $this->mediaAdmin->getModelManager()
+                'model_manager' => $this->mediaAdmin->getModelManager(),
+                'route' => ['name' => 'mediamonks_media_autocomplete', 'parameters' => []],
             ]
         );
     }
