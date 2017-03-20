@@ -6,7 +6,6 @@ use MediaMonks\SonataMediaBundle\Entity\Media;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class MediaSearchController extends Controller
 {
@@ -16,11 +15,6 @@ class MediaSearchController extends Controller
      */
     public function getAutocompleteItemsAction(Request $request)
     {
-        $targetAdmin = $this->get('sonata.admin.pool')->getInstance($request->get('admin_code'));
-        if (!$targetAdmin->isGranted('CREATE') && !$targetAdmin->isGranted('EDIT')) {
-            throw new AccessDeniedHttpException();
-        }
-
         $mediaAdmin = $this->get('mediamonks.sonata_media.admin.media');
         $mediaAdmin->checkAccess('list');
 
@@ -38,7 +32,6 @@ class MediaSearchController extends Controller
         $mediaAdmin->setPersistFilters(false);
         $datagrid = $mediaAdmin->getDatagrid();
         $datagrid->setValue('title', null, $searchText);
-        $datagrid->setValue('type', null, 'image');
         $datagrid->setValue('_per_page', null, 100);
         $datagrid->setValue('_page', null, $request->query->get(1, 1));
         $datagrid->buildPager();
