@@ -1,8 +1,3 @@
-mediamonks_media_autocomplete:
-    path: /media/autocomplete
-    defaults: {_controller: MediaMonksSonataMediaBundle:MediaSearch:getAutocompleteItems}
-    methods:  [GET]
-
 mediamonks_media_image:
     path:  /media/image/{id}
     defaults: {_controller: MediaMonksSonataMediaBundle:Media:imageRedirect}

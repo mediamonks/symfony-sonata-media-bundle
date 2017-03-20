@@ -17,6 +17,7 @@ parameters:
     mediamonks.sonata_media.utility.download.class: 'MediaMonks\SonataMediaBundle\Utility\DownloadUtility'
     mediamonks.sonata_media.utility.event_listener.menu_builder.class: 'MediaMonks\SonataMediaBundle\EventListener\MenuBuilderListener'
     mediamonks.sonata_media.form.type.media_autocomplete.class: 'MediaMonks\SonataMediaBundle\Form\Type\MediaAutocompleteType'
+    mediamonks.sonata_media.controller.helper.class: 'MediaMonks\SonataMediaBundle\Controller\MediaHelperController'
 
 services:
     mediamonks.sonata_media.admin.media:
@@ -119,6 +120,11 @@ services:
         class: '%mediamonks.sonata_media.form.type.media_autocomplete.class%'
         arguments:
             - '@templating'
-            - '@mediamonks.sonata_media.admin.media'
         tags:
             - { name: form.type }
+
+    mediamonks.sonata_media.controller.helper:
+        class: '%mediamonks.sonata_media.controller.helper.class%'
+        arguments:
+            - '@mediamonks.sonata_media.admin.media'
+            - '@templating'

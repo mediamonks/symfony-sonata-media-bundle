@@ -1,0 +1,4 @@
+mediamonks_media_autocomplete:
+    path: /media/autocomplete
+    defaults: {_controller: mediamonks.sonata_media.controller.helper:getAutocompleteItemsAction}
+    methods:  [GET]

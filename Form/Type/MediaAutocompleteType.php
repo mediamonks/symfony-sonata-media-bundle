@@ -15,18 +15,11 @@ class MediaAutocompleteType extends BaseModelAutocompleteType
     private $templateEngine;
 
     /**
-     * @var MediaAdmin
-     */
-    private $mediaAdmin;
-
-    /**
      * @param EngineInterface $templateEngine
-     * @param MediaAdmin $mediaAdmin
      */
-    public function __construct(EngineInterface $templateEngine, MediaAdmin $mediaAdmin)
+    public function __construct(EngineInterface $templateEngine)
     {
         $this->templateEngine = $templateEngine;
-        $this->mediaAdmin = $mediaAdmin;
     }
 
     /**
@@ -47,7 +40,6 @@ class MediaAutocompleteType extends BaseModelAutocompleteType
                         ]
                     );
                 },
-                'model_manager' => $this->mediaAdmin->getModelManager(),
                 'route' => ['name' => 'mediamonks_media_autocomplete', 'parameters' => []],
             ]
         );
