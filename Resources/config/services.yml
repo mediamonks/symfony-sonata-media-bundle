@@ -119,6 +119,7 @@ services:
     mediamonks.sonata_media.form.type.media_autocomplete:
         class: '%mediamonks.sonata_media.form.type.media_autocomplete.class%'
         arguments:
+            - '@mediamonks.sonata_media.admin.media'
             - '@templating'
         tags:
             - { name: form.type }

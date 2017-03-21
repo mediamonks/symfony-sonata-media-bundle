@@ -10,15 +10,22 @@ use Symfony\Component\Templating\EngineInterface;
 class MediaAutocompleteType extends BaseModelAutocompleteType
 {
     /**
+     * @var MediaAdmin
+     */
+    private $mediaAdmin;
+
+    /**
      * @var EngineInterface
      */
     private $templateEngine;
 
     /**
+     * @param MediaAdmin $mediaAdmin
      * @param EngineInterface $templateEngine
      */
-    public function __construct(EngineInterface $templateEngine)
+    public function __construct(MediaAdmin $mediaAdmin, EngineInterface $templateEngine)
     {
+        $this->mediaAdmin = $mediaAdmin;
         $this->templateEngine = $templateEngine;
     }
 
@@ -41,6 +48,7 @@ class MediaAutocompleteType extends BaseModelAutocompleteType
                     );
                 },
                 'route' => ['name' => 'mediamonks_media_autocomplete', 'parameters' => []],
+                'model_manager' => $this->mediaAdmin->getModelManager()
             ]
         );
     }
