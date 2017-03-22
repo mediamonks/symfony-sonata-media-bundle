@@ -47,7 +47,7 @@ class MediaHelperController
 
         $this->mediaAdmin->setPersistFilters(false);
         $datagrid = $this->mediaAdmin->getDatagrid();
-        $datagrid->setValue('title', null, 'Suc');
+        $datagrid->setValue('title', null, $searchText);
         $datagrid->setValue('_per_page', null, $request->query->get('_per_page', 1));
         $datagrid->setValue('_page', null, $request->query->get('_page', 10));
         $datagrid->buildPager();
