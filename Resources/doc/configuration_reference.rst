@@ -24,3 +24,6 @@ All available configuration options are listed below with their default values.
         file_constraints:
             <any parameter supported by symfony file constraint>
             extensions: <an array of supported extensions>
+        fallback_image: <path to an image file>
+        tmp_path: <path to local file system with read and write permission>
+        tmp_prefix: <custom prefix for temporary files>

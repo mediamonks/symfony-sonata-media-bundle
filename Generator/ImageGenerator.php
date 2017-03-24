@@ -29,19 +29,27 @@ class ImageGenerator
     private $tmpPrefix;
 
     /**
+     * @var string
+     */
+    private $fallbackImage;
+
+    /**
      * @param Server $server
      * @param FilenameGeneratorInterface $filenameGenerator
-     * @param string $tmpPath
-     * @param string $tmpPrefix
+     * @param null $fallbackImage
+     * @param null $tmpPath
+     * @param null $tmpPrefix
      */
     public function __construct(
         Server $server,
         FilenameGeneratorInterface $filenameGenerator,
+        $fallbackImage = null,
         $tmpPath = null,
         $tmpPrefix = null
     ) {
         $this->server = $server;
         $this->filenameGenerator = $filenameGenerator;
+        $this->fallbackImage = $fallbackImage;
         $this->tmpPath = $tmpPath;
         $this->tmpPrefix = $tmpPrefix;
     }
@@ -73,7 +81,19 @@ class ImageGenerator
     private function generateImage(MediaInterface $media, array $parameters, $filename)
     {
         $tmp = $this->getTemporaryFile();
-        if (@file_put_contents($tmp, $this->server->getSource()->read($media->getImage())) === false) {
+        if ($this->server->getSource()->has($media->getImage())) {
+            $imageData = $this->server->getSource()->read($media->getImage());
+        }
+        else {
+            if (!is_null($this->fallbackImage)) {
+                $imageData = file_get_contents($this->fallbackImage);
+            }
+            else {
+                throw new FilesystemException('File not found');
+            }
+        }
+
+        if (@file_put_contents($tmp, $imageData) === false) {
             throw new FilesystemException('Unable to write temporary file');
         }
         try {

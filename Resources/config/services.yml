@@ -93,6 +93,9 @@ services:
         arguments:
             - '@mediamonks.sonata_media.glide.server'
             - '@mediamonks.sonata_media.generator.filename_generator.default'
+            - ~
+            - ~
+            - ~
 
     mediamonks.sonata_media.utility.image:
         class: '%mediamonks.sonata_media.utility.image.class%'

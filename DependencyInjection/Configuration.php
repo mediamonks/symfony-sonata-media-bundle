@@ -27,6 +27,8 @@ final class Configuration implements ConfigurationInterface
         $this->addDefaultImageParameters($rootNode);
         $this->addImageConstraints($rootNode);
         $this->addFileConstraints($rootNode);
+        $this->addFallbackImage($rootNode);
+        $this->addTmp($rootNode);
 
         return $treeBuilder;
     }
@@ -137,6 +139,33 @@ final class Configuration implements ConfigurationInterface
                 'maxSize' => '5M',
                 'extensions' => ['pdf', 'csv', 'txt', 'docx']
             ])
+            ->end();
+    }
+
+    /**
+     * @param ArrayNodeDefinition $node
+     */
+    private function addFallbackImage(ArrayNodeDefinition $node)
+    {
+        $node->children()
+            ->scalarNode('fallback_image')
+            ->defaultNull()
+            ->end();
+    }
+
+    /**
+     * @param ArrayNodeDefinition $node
+     */
+    private function addTmp(ArrayNodeDefinition $node)
+    {
+        $node->children()
+            ->scalarNode('tmp_path')
+            ->defaultNull()
+            ->end();
+
+        $node->children()
+            ->scalarNode('tmp_prefix')
+            ->defaultNull()
             ->end();
     }
 }
