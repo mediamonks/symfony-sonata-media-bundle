@@ -139,4 +139,44 @@ class ImageGenerator
 
         return tempnam($this->tmpPath, $this->tmpPrefix);
     }
+
+    /**
+     * @return Server
+     */
+    public function getServer()
+    {
+        return $this->server;
+    }
+
+    /**
+     * @return FilenameGeneratorInterface
+     */
+    public function getFilenameGenerator()
+    {
+        return $this->filenameGenerator;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTmpPath()
+    {
+        return $this->tmpPath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTmpPrefix()
+    {
+        return $this->tmpPrefix;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFallbackImage()
+    {
+        return $this->fallbackImage;
+    }
 }
