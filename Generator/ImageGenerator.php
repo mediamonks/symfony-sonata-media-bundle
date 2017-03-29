@@ -81,28 +81,47 @@ class ImageGenerator
     private function generateImage(MediaInterface $media, array $parameters, $filename)
     {
         $tmp = $this->getTemporaryFile();
-        if ($this->server->getSource()->has($media->getImage())) {
-            $imageData = $this->server->getSource()->read($media->getImage());
-        }
-        else {
-            if (!is_null($this->fallbackImage)) {
-                $imageData = file_get_contents($this->fallbackImage);
-            }
-            else {
-                throw new FilesystemException('File not found');
-            }
-        }
+        $imageData = $this->getImageData($media);
 
         if (@file_put_contents($tmp, $imageData) === false) {
             throw new FilesystemException('Unable to write temporary file');
         }
+
         try {
-            $this->server->getCache()->write($filename, $this->server->getApi()->run($tmp, $parameters));
+            $this->doGenerateImage($filename, $tmp, $parameters);
         } catch (\Exception $e) {
             throw new \Exception('Could not generate image', 0, $e);
         } finally {
             @unlink($tmp);
         }
+    }
+
+    /**
+     * @param MediaInterface $media
+     * @return string
+     * @throws FilesystemException
+     */
+    private function getImageData(MediaInterface $media)
+    {
+        if ($this->server->getSource()->has($media->getImage())) {
+            return $this->server->getSource()->read($media->getImage());
+        }
+
+        if (!is_null($this->fallbackImage)) {
+            return file_get_contents($this->fallbackImage);
+        }
+
+        throw new FilesystemException('File not found');
+    }
+
+    /**
+     * @param $filename
+     * @param $tmp
+     * @param array $parameters
+     */
+    private function doGenerateImage($filename, $tmp, array $parameters)
+    {
+        $this->server->getCache()->write($filename, $this->server->getApi()->run($tmp, $parameters));
     }
 
     /**
