@@ -88,7 +88,7 @@ class ImageGenerator
         }
 
         try {
-            $this->doGenerateImage($filename, $tmp, $parameters);
+            $this->doGenerateImage($media, $filename, $tmp, $parameters);
         } catch (\Exception $e) {
             throw new \Exception('Could not generate image', 0, $e);
         } finally {
@@ -115,11 +115,12 @@ class ImageGenerator
     }
 
     /**
-     * @param $filename
-     * @param $tmp
+     * @param MediaInterface $media
+     * @param string $filename
+     * @param string $tmp
      * @param array $parameters
      */
-    protected function doGenerateImage($filename, $tmp, array $parameters)
+    protected function doGenerateImage(MediaInterface $media, $filename, $tmp, array $parameters)
     {
         $this->server->getCache()->write($filename, $this->server->getApi()->run($tmp, $parameters));
     }
