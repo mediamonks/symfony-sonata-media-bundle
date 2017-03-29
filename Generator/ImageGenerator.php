@@ -78,7 +78,7 @@ class ImageGenerator
      * @throws FilesystemException
      * @throws \Exception
      */
-    private function generateImage(MediaInterface $media, array $parameters, $filename)
+    protected function generateImage(MediaInterface $media, array $parameters, $filename)
     {
         $tmp = $this->getTemporaryFile();
         $imageData = $this->getImageData($media);
@@ -101,7 +101,7 @@ class ImageGenerator
      * @return string
      * @throws FilesystemException
      */
-    private function getImageData(MediaInterface $media)
+    protected function getImageData(MediaInterface $media)
     {
         if ($this->server->getSource()->has($media->getImage())) {
             return $this->server->getSource()->read($media->getImage());
@@ -119,7 +119,7 @@ class ImageGenerator
      * @param $tmp
      * @param array $parameters
      */
-    private function doGenerateImage($filename, $tmp, array $parameters)
+    protected function doGenerateImage($filename, $tmp, array $parameters)
     {
         $this->server->getCache()->write($filename, $this->server->getApi()->run($tmp, $parameters));
     }
@@ -127,7 +127,7 @@ class ImageGenerator
     /**
      * @return string
      */
-    private function getTemporaryFile()
+    protected function getTemporaryFile()
     {
         if (empty($this->tmpPath)) {
             $this->tmpPath = sys_get_temp_dir();
