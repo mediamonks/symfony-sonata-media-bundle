@@ -75,11 +75,7 @@ class ImageGenerator
         $filename = $this->filenameGenerator->generate($media, $parameterBag);
 
         if (!$this->server->getSource()->has($filename)) {
-            $this->generateImage(
-                $media,
-                $parameterBag,
-                $filename
-            );
+            $this->generateImage($media, $parameterBag, $filename);
         }
 
         return $filename;
@@ -102,10 +98,7 @@ class ImageGenerator
         }
 
         try {
-            $this->server->getCache()->write(
-                $filename,
-                $this->doGenerateImage($media, $filename, $tmp, $parameterBag)
-            );
+            $this->server->getCache()->put($filename, $this->doGenerateImage($media, $tmp, $parameterBag));
         } catch (\Exception $e) {
             throw new \Exception('Could not generate image', 0, $e);
         } finally {
@@ -133,12 +126,11 @@ class ImageGenerator
 
     /**
      * @param MediaInterface $media
-     * @param $filename
      * @param $tmp
      * @param ParameterBag $parameterBag
      * @return string
      */
-    protected function doGenerateImage(MediaInterface $media, $filename, $tmp, ParameterBag $parameterBag)
+    protected function doGenerateImage(MediaInterface $media, $tmp, ParameterBag $parameterBag)
     {
         $parameters = $parameterBag->getExtra();
         $parameters['w'] = $parameterBag->getWidth();
