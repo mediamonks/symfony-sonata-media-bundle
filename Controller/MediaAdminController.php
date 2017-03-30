@@ -49,12 +49,17 @@ class MediaAdminController extends CRUDController
      * @param int $id
      * @return RedirectResponse
      */
-    public function imageAction(Request $request, $id)
+    public function imageAction(Request $request, $id, $width, $height)
     {
         $object = $this->admin->getObject($id);
 
         $this->admin->checkAccess('show', $object);
 
-        return $this->get('mediamonks.sonata_media.utility.image')->getRedirectResponse($object, $request);
+        return $this->get('mediamonks.sonata_media.utility.image')->getRedirectResponse(
+            $object,
+            $width,
+            $height,
+            $request->query->all()
+        );
     }
 }

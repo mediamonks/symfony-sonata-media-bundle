@@ -3,6 +3,7 @@
 namespace MediaMonks\SonataMediaBundle\Utility;
 
 use MediaMonks\SonataMediaBundle\Generator\ImageGenerator;
+use MediaMonks\SonataMediaBundle\Handler\ParameterBag;
 use MediaMonks\SonataMediaBundle\Handler\ParameterHandlerInterface;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -58,13 +59,14 @@ class ImageUtility
 
     /**
      * @param MediaInterface $media
-     * @param Request $request
-     * @param array $parameters
+     * @param int $width
+     * @param int $height
+     * @param array $extra
      * @return RedirectResponse
      */
-    public function getRedirectResponse(MediaInterface $media, Request $request, array $parameters = [])
+    public function getRedirectResponse(MediaInterface $media, $width, $height, array $extra = [])
     {
-        $response = new RedirectResponse($this->mediaBaseUrl.$this->getFilename($media, $request, $parameters));
+        $response = new RedirectResponse($this->mediaBaseUrl.$this->getFilename($media, $width, $height, $extra));
         $response->setSharedMaxAge($this->cacheTtl);
         $response->setMaxAge($this->cacheTtl);
 
@@ -73,15 +75,15 @@ class ImageUtility
 
     /**
      * @param MediaInterface $media
-     * @param Request $request
+     * @param int $width
+     * @param int $height
      * @param array $parameters
      * @return string
      */
-    public function getFilename(MediaInterface $media, Request $request, array $parameters)
+    public function getFilename(MediaInterface $media, $width, $height, array $parameters)
     {
-        $urlParameters = $this->parameterHandler->getPayload($media, $request);
-        $parameters = array_merge($this->defaultParameters, $parameters, $urlParameters);
-        $filename = $this->imageGenerator->generate($media, $parameters);
+        $parameterBag = $this->parameterHandler->getPayload($media->getId(), $width, $height, $parameters);
+        $filename = $this->imageGenerator->generate($media, $parameterBag);
 
         return $filename;
     }

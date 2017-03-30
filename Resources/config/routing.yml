@@ -1,5 +1,5 @@
 mediamonks_media_image:
-    path:  /media/image/{id}
+    path:  /media/image/{id}/{width}/{height}
     defaults: {_controller: MediaMonksSonataMediaBundle:Media:imageRedirect}
     methods:  [GET]
     requirements:

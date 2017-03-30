@@ -132,7 +132,7 @@ class MediaExtension extends \Twig_Extension
      * @param MediaInterface $media
      * @param $width
      * @param $height
-     * @param array $parameters
+     * @param array $extra
      * @param null $routeName
      * @param bool $bustCache
      * @return string
@@ -142,20 +142,15 @@ class MediaExtension extends \Twig_Extension
         MediaInterface $media,
         $width,
         $height,
-        array $parameters = [],
+        array $extra = [],
         $routeName = null,
         $bustCache = false
     ) {
-        $parameters += [
-            'w' => $width,
-            'h' => $height,
-        ];
-
-        $src = $this->urlGenerator->generate($media, $parameters, $routeName);
 
         if ($bustCache) {
-            $src .= '&bc='.time();
+            $extra['bc'] = time();
         }
+        $src = $this->urlGenerator->generate($media->getId(), $width, $height, $extra, $routeName);
 
         return $environment->render(
             'MediaMonksSonataMediaBundle:Image:image.html.twig',
@@ -185,15 +180,10 @@ class MediaExtension extends \Twig_Extension
         array $parameters = [],
         $routeName = null
     ) {
-        $parameters += [
-            'w' => $width,
-            'h' => $height,
-        ];
-
         return $environment->render(
             'MediaMonksSonataMediaBundle:Image:file.html.twig',
             [
-                'src'    => $this->urlGenerator->generate($media, $parameters, $routeName),
+                'src'    => $this->urlGenerator->generate($media->getId(), $width, $height, $parameters, $routeName),
                 'width'  => $width,
                 'height' => $height,
                 'title'  => $media->getTitle(),

@@ -12,10 +12,10 @@ class MediaController extends Controller
      * @param int $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function imageRedirectAction(Request $request, $id)
+    public function imageRedirectAction(Request $request, $id, $width, $height)
     {
         $media = $this->getDoctrine()->getManager()->find('MediaMonksSonataMediaBundle:Media', $id);
 
-        return $this->get('mediamonks.sonata_media.utility.image')->getRedirectResponse($media, $request);
+        return $this->get('mediamonks.sonata_media.utility.image')->getRedirectResponse($media, $width, $height, $request->query->all());
     }
 }

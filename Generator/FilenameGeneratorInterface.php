@@ -2,9 +2,9 @@
 
 namespace MediaMonks\SonataMediaBundle\Generator;
 
-use MediaMonks\SonataMediaBundle\Model\MediaInterface;
+use MediaMonks\SonataMediaBundle\Handler\ParameterBag;
 
 interface FilenameGeneratorInterface
 {
-    public function generate(MediaInterface $media, array $parameters);
+    public function generate(ParameterBag $parameterBag);
 }

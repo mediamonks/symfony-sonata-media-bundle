@@ -4,6 +4,7 @@ namespace MediaMonks\SonataMediaBundle\Generator;
 
 use League\Glide\Filesystem\FilesystemException;
 use League\Glide\Server;
+use MediaMonks\SonataMediaBundle\Handler\ParameterBag;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 
 class ImageGenerator
@@ -56,16 +57,19 @@ class ImageGenerator
 
     /**
      * @param MediaInterface $media
-     * @param array $parameters
-     * @return string
-     * @throws FilesystemException
+     * @param ParameterBag $parameterBag
+     * @return mixed
      */
-    public function generate(MediaInterface $media, array $parameters)
+    public function generate(MediaInterface $media, ParameterBag $parameterBag)
     {
-        $filename = $this->filenameGenerator->generate($media, $parameters);
+        $filename = $this->filenameGenerator->generate($parameterBag);
 
         if (!$this->server->getSource()->has($filename)) {
-            $this->generateImage($media, $parameters, $filename);
+            $this->generateImage(
+                $media,
+                $parameterBag,
+                $filename
+            );
         }
 
         return $filename;
@@ -73,12 +77,12 @@ class ImageGenerator
 
     /**
      * @param MediaInterface $media
-     * @param array $parameters
+     * @param ParameterBag $parameterBag
      * @param $filename
      * @throws FilesystemException
      * @throws \Exception
      */
-    protected function generateImage(MediaInterface $media, array $parameters, $filename)
+    protected function generateImage(MediaInterface $media, ParameterBag $parameterBag, $filename)
     {
         $tmp = $this->getTemporaryFile();
         $imageData = $this->getImageData($media);
@@ -88,7 +92,10 @@ class ImageGenerator
         }
 
         try {
-            $this->doGenerateImage($media, $filename, $tmp, $parameters);
+            $this->server->getCache()->write(
+                $filename,
+                $this->doGenerateImage($media, $filename, $tmp, $parameterBag)
+            );
         } catch (\Exception $e) {
             throw new \Exception('Could not generate image', 0, $e);
         } finally {
@@ -116,13 +123,18 @@ class ImageGenerator
 
     /**
      * @param MediaInterface $media
-     * @param string $filename
-     * @param string $tmp
-     * @param array $parameters
+     * @param $filename
+     * @param $tmp
+     * @param ParameterBag $parameterBag
+     * @return string
      */
-    protected function doGenerateImage(MediaInterface $media, $filename, $tmp, array $parameters)
+    protected function doGenerateImage(MediaInterface $media, $filename, $tmp, ParameterBag $parameterBag)
     {
-        $this->server->getCache()->write($filename, $this->server->getApi()->run($tmp, $parameters));
+        $parameters = $parameterBag->getExtra();
+        $parameters['w'] = $parameterBag->getWidth();
+        $parameters['h'] = $parameterBag->getHeight();
+
+        return $this->server->getApi()->run($tmp, $parameters);
     }
 
     /**

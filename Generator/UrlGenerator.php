@@ -2,7 +2,7 @@
 
 namespace MediaMonks\SonataMediaBundle\Generator;
 
-use MediaMonks\SonataMediaBundle\Model\MediaInterface;
+use MediaMonks\SonataMediaBundle\Handler\ParameterBag;
 use MediaMonks\SonataMediaBundle\Handler\ParameterHandlerInterface;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -37,27 +37,30 @@ class UrlGenerator
     }
 
     /**
-     * @param MediaInterface $media
-     * @param array $parameters
+     * @param $id
+     * @param $width
+     * @param $height
+     * @param array $extra
      * @param null $routeName
      * @param int $referenceType
      * @return string
      */
     public function generate(
-        MediaInterface $media,
-        array $parameters,
+        $id,
+        $width,
+        $height,
+        array $extra = [],
         $routeName = null,
         $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH
     ) {
-
         if (empty($routeName)) {
             $routeName = $this->defaultRouteName;
         }
 
         return $this->router->generate(
                 $routeName,
-                ['id' => $media->getId()],
+                $this->parameterHandler->getRouteParameters(new ParameterBag($id, $width, $height, $extra)),
                 $referenceType
-            ).'?'.$this->parameterHandler->getQueryString($media, $parameters);
+            );
     }
 }
