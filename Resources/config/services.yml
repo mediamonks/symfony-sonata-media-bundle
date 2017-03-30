@@ -96,6 +96,7 @@ services:
             - ~
             - ~
             - ~
+            - ~
 
     mediamonks.sonata_media.utility.image:
         class: '%mediamonks.sonata_media.utility.image.class%'

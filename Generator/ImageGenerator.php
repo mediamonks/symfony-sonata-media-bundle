@@ -20,6 +20,11 @@ class ImageGenerator
     private $filenameGenerator;
 
     /**
+     * @var array
+     */
+    private $defaultImageParameters;
+
+    /**
      * @var string
      */
     private $tmpPath;
@@ -37,6 +42,7 @@ class ImageGenerator
     /**
      * @param Server $server
      * @param FilenameGeneratorInterface $filenameGenerator
+     * @param array $defaultImageParameters
      * @param null $fallbackImage
      * @param null $tmpPath
      * @param null $tmpPrefix
@@ -44,12 +50,14 @@ class ImageGenerator
     public function __construct(
         Server $server,
         FilenameGeneratorInterface $filenameGenerator,
+        $defaultImageParameters = [],
         $fallbackImage = null,
         $tmpPath = null,
         $tmpPrefix = null
     ) {
         $this->server = $server;
         $this->filenameGenerator = $filenameGenerator;
+        $this->defaultImageParameters = $defaultImageParameters;
         $this->fallbackImage = $fallbackImage;
         $this->tmpPath = $tmpPath;
         $this->tmpPrefix = $tmpPrefix;
@@ -62,7 +70,9 @@ class ImageGenerator
      */
     public function generate(MediaInterface $media, ParameterBag $parameterBag)
     {
-        $filename = $this->filenameGenerator->generate($parameterBag);
+        $parameterBag->setDefaults($this->defaultImageParameters);
+
+        $filename = $this->filenameGenerator->generate($media, $parameterBag);
 
         if (!$this->server->getSource()->has($filename)) {
             $this->generateImage(

@@ -3,23 +3,25 @@
 namespace MediaMonks\SonataMediaBundle\Generator;
 
 use MediaMonks\SonataMediaBundle\Handler\ParameterBag;
+use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 
 class DefaultFilenameGenerator implements FilenameGeneratorInterface
 {
     const FORMAT_JPG = 'jpg';
 
     /**
+     * @param MediaInterface $media
      * @param ParameterBag $parameterBag
      * @return string
      */
-    public function generate(ParameterBag $parameterBag)
+    public function generate(MediaInterface $media, ParameterBag $parameterBag)
     {
         $parametersFlat = [];
         foreach ($parameterBag->toArray() as $k => $v) {
             $parametersFlat[] = $k.'_'.$v;
         }
 
-        return pathinfo($parameterBag->getId(), PATHINFO_FILENAME).
+        return pathinfo($media->getImage(), PATHINFO_FILENAME).
             '/'.implode('-', $parametersFlat).
             '.'.$this->getFormat($parameterBag->getExtra());
     }

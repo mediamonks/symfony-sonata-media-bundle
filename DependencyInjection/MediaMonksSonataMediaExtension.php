@@ -47,16 +47,16 @@ class MediaMonksSonataMediaExtension extends Extension
 
         $container->getDefinition('mediamonks.sonata_media.utility.image')
             ->replaceArgument(2, $config['redirect_url'])
-            ->replaceArgument(3, $config['redirect_cache_ttl'])
-            ->replaceArgument(4, $config['default_image_parameters']);
+            ->replaceArgument(3, $config['redirect_cache_ttl']);
 
         $container->getDefinition('mediamonks.sonata_media.utility.download')
             ->replaceArgument(0, new Reference($config['filesystem_private']));
 
         $container->getDefinition('mediamonks.sonata_media.generator.image')
-            ->replaceArgument(2, $config['fallback_image'])
-            ->replaceArgument(3, $config['tmp_path'])
-            ->replaceArgument(4, $config['tmp_prefix']);
+            ->replaceArgument(2, $config['default_image_parameters'])
+            ->replaceArgument(3, $config['fallback_image'])
+            ->replaceArgument(4, $config['tmp_path'])
+            ->replaceArgument(5, $config['tmp_prefix']);
     }
 
     /**

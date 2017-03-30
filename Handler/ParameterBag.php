@@ -71,6 +71,14 @@ class ParameterBag implements ParameterBagInterface
     }
 
     /**
+     * @param array $defaults
+     */
+    public function setDefaults(array $defaults)
+    {
+        $this->extra = array_merge($defaults, $this->extra);
+    }
+
+    /**
      * @return array
      */
     public function toArray()

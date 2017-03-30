@@ -32,29 +32,21 @@ class ImageUtility
     private $cacheTtl;
 
     /**
-     * @var array
-     */
-    private $defaultParameters;
-
-    /**
      * @param ParameterHandlerInterface $parameterHandler
      * @param ImageGenerator $imageGenerator
      * @param string $mediaBaseUrl
      * @param int $cacheTtl
-     * @param array $defaultParameters
      */
     public function __construct(
         ParameterHandlerInterface $parameterHandler,
         ImageGenerator $imageGenerator,
         $mediaBaseUrl,
-        $cacheTtl,
-        $defaultParameters = []
+        $cacheTtl
     ) {
         $this->parameterHandler = $parameterHandler;
         $this->imageGenerator = $imageGenerator;
         $this->mediaBaseUrl = $mediaBaseUrl;
         $this->cacheTtl = $cacheTtl;
-        $this->defaultParameters = $defaultParameters;
     }
 
     /**
