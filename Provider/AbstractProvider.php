@@ -285,12 +285,19 @@ abstract class AbstractProvider implements ProviderInterface
      */
     protected function getFileMetaData(UploadedFile $file)
     {
-        return [
+        $fileData = [
             'originalName'      => $file->getClientOriginalName(),
             'originalExtension' => $file->getClientOriginalExtension(),
             'mimeType'          => $file->getClientMimeType(),
             'size'              => $file->getSize(),
         ];
+        if (strpos($file->getClientMimeType(), 'image') !== false) {
+            list($width, $height) = getimagesize($file->getRealPath());
+            $fileData['height'] = $height;
+            $fileData['width']  = $width;
+        }
+
+        return $fileData;
     }
 
     /**
