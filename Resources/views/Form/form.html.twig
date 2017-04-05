@@ -1,0 +1,30 @@
+{% block media_focal_point_widget %}
+    <input type="hidden" name="{{ full_name }}" id="{{ id }}" value="{{ value }}" />
+
+    <p>
+        Click on the point of interest in the image to make sure this always is a part of the generated thumbnails.
+    </p>
+
+    <div id="{{ id }}_focal_point">
+        {{ media|media_image(500, 0) }}
+    </div>
+
+    <script type="text/javascript">
+        $("#{{ id }}_focal_point").click(function(e) {
+            var image = $("#{{ id }}_focal_point img")[0];
+            var imageWidth = image.clientWidth;
+            var imageHeight = image.clientHeight;
+
+            var parentOffset = $(this).parent().offset();
+            var positionX = e.pageX - parentOffset.left;
+            var positionY = e.pageY - parentOffset.top;
+
+            var percentageX = Math.round((positionX / imageWidth) * 100);
+            var percentageY = Math.round((positionY / imageHeight) * 100);
+
+            var formValue = percentageX+'-'+percentageY;
+
+            $('#{{ id }}').val(formValue);
+        });
+    </script>
+{% endblock %}

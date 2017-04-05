@@ -81,6 +81,7 @@ class MediaAdmin extends AbstractAdmin
         $this->originalProviderReference = $media->getProviderReference();
 
         $provider = $this->getProvider($media);
+        $provider->setMedia($media);
 
         if ($media->getId()) {
             $provider->buildEditForm($formMapper);

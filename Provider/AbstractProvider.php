@@ -4,6 +4,7 @@ namespace MediaMonks\SonataMediaBundle\Provider;
 
 use League\Flysystem\Filesystem;
 use MediaMonks\SonataMediaBundle\Entity\Media;
+use MediaMonks\SonataMediaBundle\Form\Type\MediaFocalPointType;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\CoreBundle\Validator\ErrorElement;
@@ -40,6 +41,11 @@ abstract class AbstractProvider implements ProviderInterface
      * @var array
      */
     private $imageConstraintOptions = [];
+
+    /**
+     * @var Media
+     */
+    private $media;
 
     /**
      * @param Filesystem $filesystem
@@ -79,6 +85,17 @@ abstract class AbstractProvider implements ProviderInterface
     public function getFilesystem()
     {
         return $this->filesystem;
+    }
+
+    /**
+     * @param Media $media
+     * @return AbstractProvider
+     */
+    public function setMedia($media)
+    {
+        $this->media = $media;
+
+        return $this;
     }
 
     /**
@@ -205,15 +222,9 @@ abstract class AbstractProvider implements ProviderInterface
             ->end()
             ->end()
             ->tab('Image')
-            ->add(
-                'focalPoint',
-                ChoiceType::class,
-                [
-                    'required' => false,
-                    'label'    => 'form.image_focal_point',
-                    'choices'  => $this->getFocalPoint(),
-                ]
-            )
+            ->add('focalPoint', MediaFocalPointType::class, [
+                'media' => $this->media
+            ])
             ->end()
             ->end()
         ;
