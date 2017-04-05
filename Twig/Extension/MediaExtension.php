@@ -150,7 +150,8 @@ class MediaExtension extends \Twig_Extension
         if ($bustCache) {
             $extra['bc'] = time();
         }
-        $src = $this->urlGenerator->generate($media->getId(), $width, $height, $extra, $routeName);
+
+        $src = $this->urlGenerator->generate($media, $width, $height, $extra, $routeName);
 
         return $environment->render(
             'MediaMonksSonataMediaBundle:Image:image.html.twig',
@@ -183,7 +184,7 @@ class MediaExtension extends \Twig_Extension
         return $environment->render(
             'MediaMonksSonataMediaBundle:Image:file.html.twig',
             [
-                'src'    => $this->urlGenerator->generate($media->getId(), $width, $height, $parameters, $routeName),
+                'src'    => $this->urlGenerator->generate($media, $width, $height, $parameters, $routeName),
                 'width'  => $width,
                 'height' => $height,
                 'title'  => $media->getTitle(),
