@@ -291,10 +291,18 @@ abstract class AbstractProvider implements ProviderInterface
             'mimeType'          => $file->getClientMimeType(),
             'size'              => $file->getSize(),
         ];
+
         if (strpos($file->getClientMimeType(), 'image') !== false) {
-            list($width, $height) = getimagesize($file->getRealPath());
-            $fileData['height'] = $height;
-            $fileData['width']  = $width;
+            $this->disableErrorHandler();
+            $imageSize = getimagesize($file->getRealPath());
+            if (is_array($imageSize)) {
+                list($width, $height) = $imageSize;
+                if (is_int($width) && is_int($height)) {
+                    $fileData['height'] = $height;
+                    $fileData['width']  = $width;
+                }
+            }
+            $this->restoreErrorHandler();
         }
 
         return $fileData;
