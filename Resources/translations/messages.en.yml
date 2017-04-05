@@ -28,12 +28,4 @@ youtube: YouTube
 soundcloud: SoundCloud
 vimeo: Vimeo
 error.provider_reference: '"%reference%" does not exist'
-form.image_focal_point.top_left: Top Left
-form.image_focal_point.top: Top
-form.image_focal_point.top_right: Top Right
-form.image_focal_point.left: Left
-form.image_focal_point.center: Center
-form.image_focal_point.right: Right
-form.image_focal_point.bottom_left: Bottom Left
-form.image_focal_point.bottom: Bottom
-form.image_focal_point.bottom_right: Bottom Right
+form.image_focal_point.description: Click on the point of interest in the image to make sure this always is a part of the generated thumbnails.

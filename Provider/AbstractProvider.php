@@ -133,44 +133,6 @@ abstract class AbstractProvider implements ProviderInterface
     }
 
     /**
-     * @return array
-     */
-    protected function getFocalPoint()
-    {
-        return array_flip(
-            [
-                'top-left'     => $this->translator->trans(
-                    'form.image_focal_point.top_left'
-                ),
-                'top'          => $this->translator->trans(
-                    'form.image_focal_point.top'
-                ),
-                'top-right'    => $this->translator->trans(
-                    'form.image_focal_point.top_right'
-                ),
-                'left'         => $this->translator->trans(
-                    'form.image_focal_point.left'
-                ),
-                'center'       => $this->translator->trans(
-                    'form.image_focal_point.center'
-                ),
-                'right'        => $this->translator->trans(
-                    'form.image_focal_point.right'
-                ),
-                'bottom-left'  => $this->translator->trans(
-                    'form.image_focal_point.bottom_left'
-                ),
-                'bottom'       => $this->translator->trans(
-                    'form.image_focal_point.bottom'
-                ),
-                'bottom-right' => $this->translator->trans(
-                    'form.image_focal_point.bottom_right'
-                ),
-            ]
-        );
-    }
-
-    /**
      * @param FormMapper $formMapper
      */
     public function buildCreateForm(FormMapper $formMapper)

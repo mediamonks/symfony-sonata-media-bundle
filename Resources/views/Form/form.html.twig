@@ -1,9 +1,7 @@
 {% block media_focal_point_widget %}
     <input type="hidden" name="{{ full_name }}" id="{{ id }}" value="{{ value }}" />
 
-    <p>
-        Click on the point of interest in the image to make sure this always is a part of the generated thumbnails.
-    </p>
+    <p>{{ 'form.image_focal_point.description'|trans }}</p>
 
     <div id="{{ id }}_focal_point" style="position: relative;">
         {{ media|media_image(500, 0) }}
