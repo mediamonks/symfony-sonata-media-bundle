@@ -5,17 +5,44 @@
         Click on the point of interest in the image to make sure this always is a part of the generated thumbnails.
     </p>
 
-    <div id="{{ id }}_focal_point">
+    <div id="{{ id }}_focal_point" style="position: relative;">
         {{ media|media_image(500, 0) }}
+        <i style="display:block; position:absolute;top:0;left:0;font-size:32px;color:#fff;" id="{{ id }}_focal_point_select" class="fa fa-crosshairs"></i>
     </div>
 
     <script type="text/javascript">
+        $( document ).ready(function() {
+
+            {% if value is not empty %}
+            var currentFocalPoint = '{{ value }}';
+            {% else %}
+            var currentFocalPoint = '50-50';
+            {% endif %}
+
+            var image = $("#{{ id }}_focal_point img")[0];
+            var imageWidth, imageHeight;
+            $("<img/>")
+                .attr("src", $(image).attr("src"))
+                .load(function() {
+                    imageWidth = this.width;
+                    imageHeight = this.height;
+
+                    var currentX = parseInt(currentFocalPoint.split('-')[0]);
+                    var currentY = parseInt(currentFocalPoint.split('-')[1]);
+
+                    var top = Math.round((currentY / 100) * imageHeight);
+                    var left = Math.round((currentX / 100) * imageWidth);
+
+                    $('#{{ id }}_focal_point_select').css('top', top - 13).css('left', left - 13);
+                });
+        });
+
         $("#{{ id }}_focal_point").click(function(e) {
             var image = $("#{{ id }}_focal_point img")[0];
             var imageWidth = image.clientWidth;
             var imageHeight = image.clientHeight;
 
-            var parentOffset = $(this).parent().offset();
+            var parentOffset = $(this).offset();
             var positionX = e.pageX - parentOffset.left;
             var positionY = e.pageY - parentOffset.top;
 
@@ -25,6 +52,7 @@
             var formValue = percentageX+'-'+percentageY;
 
             $('#{{ id }}').val(formValue);
+            $('#{{ id }}_focal_point_select').css('top', positionY - 13).css('left', positionX - 13);
         });
     </script>
 {% endblock %}

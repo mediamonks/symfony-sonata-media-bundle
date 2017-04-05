@@ -3,6 +3,7 @@
 namespace MediaMonks\SonataMediaBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class MediaController extends Controller
@@ -10,7 +11,9 @@ class MediaController extends Controller
     /**
      * @param Request $request
      * @param int $id
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @param int $width
+     * @param int $height
+     * @return RedirectResponse
      */
     public function imageRedirectAction(Request $request, $id, $width, $height)
     {
