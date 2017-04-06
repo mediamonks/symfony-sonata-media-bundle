@@ -29,6 +29,7 @@ final class Configuration implements ConfigurationInterface
         $this->addFileConstraints($rootNode);
         $this->addFallbackImage($rootNode);
         $this->addTmp($rootNode);
+        $this->addTemplates($rootNode);
 
         return $treeBuilder;
     }
@@ -166,6 +167,16 @@ final class Configuration implements ConfigurationInterface
         $node->children()
             ->scalarNode('tmp_prefix')
             ->defaultNull()
+            ->end();
+    }
+
+    private function addTemplates(ArrayNodeDefinition $node)
+    {
+        $node->children()
+            ->variableNode('templates')
+            ->defaultValue([
+                'form' => 'MediaMonksSonataMediaBundle:Form:form.html.twig'
+            ])
             ->end();
     }
 }

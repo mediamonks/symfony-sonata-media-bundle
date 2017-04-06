@@ -57,6 +57,15 @@ class MediaMonksSonataMediaExtension extends Extension
             ->replaceArgument(3, $config['fallback_image'])
             ->replaceArgument(4, $config['tmp_path'])
             ->replaceArgument(5, $config['tmp_prefix']);
+
+        $formResource = $config['templates']['form'];
+        $twigFormResourceParameterId = 'twig.form.resources';
+        $twigFormResources = $container->getParameter($twigFormResourceParameterId);
+        if (!empty($formResource) && !in_array($formResource, $twigFormResources)) {
+            $twigFormResources[] = $formResource;
+        }
+
+        $container->setParameter($twigFormResourceParameterId, $twigFormResources);
     }
 
     /**
