@@ -262,6 +262,10 @@ class Media implements MediaInterface
      */
     public function getFocalPoint()
     {
+        if (empty($this->focalPoint)) {
+            return '50-50';
+        }
+
         return $this->focalPoint;
     }
 
