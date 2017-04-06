@@ -58,7 +58,7 @@ class UrlGenerator
             $routeName = $this->defaultRouteName;
         }
 
-        if (!isset($extra['fit'])) {
+        if (!isset($extra['fit']) && !empty($media->getFocalPoint())) {
             $extra['fit'] = sprintf('crop-%s', $media->getFocalPoint());
         }
 

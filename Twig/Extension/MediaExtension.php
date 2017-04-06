@@ -46,25 +46,25 @@ class MediaExtension extends \Twig_Extension
             new \Twig_SimpleFilter(
                 'media', [$this, 'media'], [
                     'needs_environment' => true,
-                    'is_safe'           => ['html'],
+                    'is_safe' => ['html'],
                 ]
             ),
             new \Twig_SimpleFilter(
                 'media_embed', [$this, 'mediaEmbed'], [
                     'needs_environment' => true,
-                    'is_safe'           => ['html'],
+                    'is_safe' => ['html'],
                 ]
             ),
             new \Twig_SimpleFilter(
                 'media_image', [$this, 'mediaImage'], [
                     'needs_environment' => true,
-                    'is_safe'           => ['html'],
+                    'is_safe' => ['html'],
                 ]
             ),
             new \Twig_SimpleFilter(
                 'media_download', [$this, 'mediaDownload'], [
                     'needs_environment' => true,
-                    'is_safe'           => ['html'],
+                    'is_safe' => ['html'],
                 ]
             ),
             new \Twig_SimpleFilter(
@@ -119,9 +119,9 @@ class MediaExtension extends \Twig_Extension
         return $environment->render(
             $this->getProviderByMedia($media)->getEmbedTemplate(),
             [
-                'media'      => $media,
-                'width'      => $width,
-                'height'     => $height,
+                'media' => $media,
+                'width' => $width,
+                'height' => $height,
                 'parameters' => $parameters,
             ]
         );
@@ -154,12 +154,13 @@ class MediaExtension extends \Twig_Extension
         $src = $this->urlGenerator->generate($media, $width, $height, $extra, $routeName);
 
         return $environment->render(
-            'MediaMonksSonataMediaBundle:Image:image.html.twig',
+            'MediaMonksSonataMediaBundle:Media:image.html.twig',
             [
-                'src'    => $src,
-                'width'  => $width,
+                'media' => $media,
+                'src' => $src,
+                'width' => $width,
                 'height' => $height,
-                'title'  => $media->getTitle(),
+                'title' => $media->getTitle(),
             ]
         );
     }
@@ -182,12 +183,13 @@ class MediaExtension extends \Twig_Extension
         $routeName = null
     ) {
         return $environment->render(
-            'MediaMonksSonataMediaBundle:Image:file.html.twig',
+            'MediaMonksSonataMediaBundle:Media:file.html.twig',
             [
-                'src'    => $this->urlGenerator->generate($media, $width, $height, $parameters, $routeName),
-                'width'  => $width,
+                'media' => $media,
+                'src' => $this->urlGenerator->generate($media, $width, $height, $parameters, $routeName),
+                'width' => $width,
                 'height' => $height,
-                'title'  => $media->getTitle(),
+                'title' => $media->getTitle(),
             ]
         );
     }

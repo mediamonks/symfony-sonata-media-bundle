@@ -4,3 +4,10 @@ mediamonks_media_image:
     methods:  [GET]
     requirements:
         id: \d+
+
+mediamonks_media_download:
+    path:  /media/download/{id}
+    defaults: {_controller: MediaMonksSonataMediaBundle:Media:download}
+    methods:  [GET]
+    requirements:
+        id: \d+
