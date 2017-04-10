@@ -2,7 +2,7 @@
 
 namespace MediaMonks\SonataMediaBundle\Admin;
 
-use MediaMonks\SonataMediaBundle\Entity\Media;
+use MediaMonks\SonataMediaBundle\Model\AbstractMedia;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use MediaMonks\SonataMediaBundle\Provider\ProviderPool;
 use MediaMonks\SonataMediaBundle\Provider\ProviderInterface;
@@ -12,7 +12,6 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\CoreBundle\Validator\ErrorElement;
-use Symfony\Component\Form\FormError;
 
 class MediaAdmin extends AbstractAdmin
 {
@@ -25,6 +24,16 @@ class MediaAdmin extends AbstractAdmin
      * @var string
      */
     private $originalProviderReference;
+
+    /**
+     * @var string
+     */
+    protected $baseRouteName = 'admin_mediamonks_sonatamedia_media';
+
+    /**
+     * @var string
+     */
+    protected $baseRoutePattern = 'mediamonks/sonatamedia/media';
 
     /**
      * @param string $code
@@ -71,7 +80,7 @@ class MediaAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         /**
-         * @var Media $media
+         * @var AbstractMedia $media
          */
         $media = $this->getSubject();
         if (!$media) {
@@ -91,7 +100,7 @@ class MediaAdmin extends AbstractAdmin
     }
 
     /**
-     * @param Media $media
+     * @param AbstractMedia $media
      */
     public function prePersist($media)
     {
@@ -99,7 +108,7 @@ class MediaAdmin extends AbstractAdmin
     }
 
     /**
-     * @param Media $media
+     * @param AbstractMedia $media
      */
     public function preUpdate($media)
     {
@@ -110,7 +119,7 @@ class MediaAdmin extends AbstractAdmin
      * @param $media
      * @return bool
      */
-    protected function isProviderReferenceUpdated(Media $media)
+    protected function isProviderReferenceUpdated(AbstractMedia $media)
     {
         return $this->originalProviderReference !== $media->getProviderReference();
     }

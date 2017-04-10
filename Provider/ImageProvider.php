@@ -2,7 +2,7 @@
 
 namespace MediaMonks\SonataMediaBundle\Provider;
 
-use MediaMonks\SonataMediaBundle\Entity\Media;
+use MediaMonks\SonataMediaBundle\Model\AbstractMedia;
 use Sonata\AdminBundle\Form\FormMapper;
 
 class ImageProvider extends AbstractProvider
@@ -34,10 +34,10 @@ class ImageProvider extends AbstractProvider
     }
 
     /**
-     * @param Media $media
+     * @param AbstractMedia $media
      * @param bool $providerReferenceUpdated
      */
-    public function update(Media $media, $providerReferenceUpdated)
+    public function update(AbstractMedia $media, $providerReferenceUpdated)
     {
         if (!is_null($media->getBinaryContent())) {
             $media->setImage(null);

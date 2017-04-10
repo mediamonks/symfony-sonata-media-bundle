@@ -19,6 +19,7 @@ final class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root(MediaMonksSonataMediaBundle::BUNDLE_CONFIG_NAME);
 
+        $this->addModelClass($rootNode);
         $this->addFilesystem($rootNode);
         $this->addRedirectUrl($rootNode);
         $this->addRedirectCacheTtl($rootNode);
@@ -32,6 +33,16 @@ final class Configuration implements ConfigurationInterface
         $this->addTemplates($rootNode);
 
         return $treeBuilder;
+    }
+
+    /**
+     * @param ArrayNodeDefinition $node
+     */
+    private function addModelClass(ArrayNodeDefinition $node)
+    {
+        $node->children()
+            ->scalarNode('model_class')
+            ->end();
     }
 
     /**

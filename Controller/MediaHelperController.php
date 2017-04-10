@@ -3,7 +3,7 @@
 namespace MediaMonks\SonataMediaBundle\Controller;
 
 use MediaMonks\SonataMediaBundle\Admin\MediaAdmin;
-use MediaMonks\SonataMediaBundle\Entity\Media;
+use MediaMonks\SonataMediaBundle\Model\AbstractMedia;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

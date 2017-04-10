@@ -2,7 +2,7 @@
 
 namespace MediaMonks\SonataMediaBundle\Provider;
 
-use MediaMonks\SonataMediaBundle\Entity\Media;
+use MediaMonks\SonataMediaBundle\Model\AbstractMedia;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Constraint;
@@ -40,10 +40,10 @@ class FileProvider extends AbstractProvider
     }
 
     /**
-     * @param Media $media
+     * @param AbstractMedia $media
      * @param bool $providerReferenceUpdated
      */
-    public function update(Media $media, $providerReferenceUpdated)
+    public function update(AbstractMedia $media, $providerReferenceUpdated)
     {
         if (!is_null($media->getBinaryContent())) {
             if (empty($media->getImage())) {
@@ -83,9 +83,9 @@ class FileProvider extends AbstractProvider
     }
 
     /**
-     * @param Media $media
+     * @param AbstractMedia $media
      */
-    protected function setFileImage(Media $media)
+    protected function setFileImage(AbstractMedia $media)
     {
         /**
          * @var UploadedFile $file

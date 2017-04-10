@@ -25,6 +25,10 @@ class MediaMonksSonataMediaExtension extends Extension
         $container->setAlias('mediamonks.sonata_media.filesystem.private', $config['filesystem_private']);
         $container->setAlias('mediamonks.sonata_media.filesystem.public', $config['filesystem_public']);
 
+        if (!empty($config['model_class'])) {
+            $container->getDefinition('mediamonks.sonata_media.admin.media')->replaceArgument(1, $config['model_class']);
+        }
+
         $container->getDefinition('mediamonks.sonata_media.glide.server')
             ->replaceArgument(
                 0,

@@ -2,7 +2,7 @@
 
 namespace MediaMonks\SonataMediaBundle\Provider;
 
-use MediaMonks\SonataMediaBundle\Entity\Media;
+use MediaMonks\SonataMediaBundle\Model\AbstractMedia;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\CoreBundle\Validator\ErrorElement;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -15,11 +15,11 @@ abstract class AbstractOembedProvider extends AbstractProvider implements Oembed
     protected $oembedData;
 
     /**
-     * @param Media $media
+     * @param AbstractMedia $media
      * @param bool $providerReferenceUpdated
      * @throws \Exception
      */
-    public function update(Media $media, $providerReferenceUpdated)
+    public function update(AbstractMedia $media, $providerReferenceUpdated)
     {
         if ($providerReferenceUpdated) {
             $media->setProviderReference($this->parseProviderReference($media->getProviderReference()));
@@ -71,9 +71,9 @@ abstract class AbstractOembedProvider extends AbstractProvider implements Oembed
 
     /**
      * @param ErrorElement $errorElement
-     * @param Media $media
+     * @param AbstractMedia $media
      */
-    public function validate(ErrorElement $errorElement, Media $media)
+    public function validate(ErrorElement $errorElement, AbstractMedia $media)
     {
         try {
             $this->getOembedData($this->parseProviderReference($media->getProviderReference()));
@@ -84,9 +84,9 @@ abstract class AbstractOembedProvider extends AbstractProvider implements Oembed
     }
 
     /**
-     * @param \MediaMonks\SonataMediaBundle\Entity\Media $media
+     * @param \MediaMonks\SonataMediaBundle\Model\AbstractMedia $media
      */
-    public function refreshImage(Media $media)
+    public function refreshImage(AbstractMedia $media)
     {
         $filename = sprintf('%s_%d.%s', sha1($media->getProviderReference()), time(), 'jpg');
         $thumbnailUrl = $this->getImageUrl($media->getProviderReference());

@@ -1,4 +1,5 @@
 parameters:
+    mediamonks.sonata_media.entity.class: 'MediaMonks\SonataMediaBundle\Entity\Media'
     mediamonks.sonata_media.admin.media.class: 'MediaMonks\SonataMediaBundle\Admin\MediaAdmin'
     mediamonks.sonata_media.provider.image.class: 'MediaMonks\SonataMediaBundle\Provider\ImageProvider'
     mediamonks.sonata_media.provider.youtube.class: 'MediaMonks\SonataMediaBundle\Provider\YouTubeProvider'
@@ -22,7 +23,11 @@ parameters:
 services:
     mediamonks.sonata_media.admin.media:
         class: '%mediamonks.sonata_media.admin.media.class%'
-        arguments: [~, 'MediaMonks\SonataMediaBundle\Entity\Media', 'MediaMonksSonataMediaBundle:MediaAdmin', '@mediamonks.sonata_media.provider.pool']
+        arguments:
+            - ~
+            - '%mediamonks.sonata_media.entity.class%'
+            - 'MediaMonksSonataMediaBundle:MediaAdmin'
+            - '@mediamonks.sonata_media.provider.pool'
         tags:
             - { name: sonata.admin, manager_type: orm, label: Media, group: "Media" }
         calls:

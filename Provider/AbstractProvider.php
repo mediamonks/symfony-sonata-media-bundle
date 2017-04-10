@@ -3,7 +3,7 @@
 namespace MediaMonks\SonataMediaBundle\Provider;
 
 use League\Flysystem\Filesystem;
-use MediaMonks\SonataMediaBundle\Entity\Media;
+use MediaMonks\SonataMediaBundle\Model\AbstractMedia;
 use MediaMonks\SonataMediaBundle\Form\Type\MediaFocalPointType;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -43,7 +43,7 @@ abstract class AbstractProvider implements ProviderInterface
     private $imageConstraintOptions = [];
 
     /**
-     * @var Media
+     * @var AbstractMedia
      */
     private $media;
 
@@ -88,7 +88,7 @@ abstract class AbstractProvider implements ProviderInterface
     }
 
     /**
-     * @param Media $media
+     * @param AbstractMedia $media
      * @return AbstractProvider
      */
     public function setMedia($media)
@@ -99,10 +99,10 @@ abstract class AbstractProvider implements ProviderInterface
     }
 
     /**
-     * @param Media $media
+     * @param AbstractMedia $media
      * @param $providerReferenceUpdated
      */
-    public function update(Media $media, $providerReferenceUpdated)
+    public function update(AbstractMedia $media, $providerReferenceUpdated)
     {
         $this->updateImage($media);
     }
@@ -209,11 +209,11 @@ abstract class AbstractProvider implements ProviderInterface
     }
 
     /**
-     * @param Media $media
+     * @param AbstractMedia $media
      * @param bool $useAsImage
      * @return string|void
      */
-    protected function handleFileUpload(Media $media, $useAsImage = false)
+    protected function handleFileUpload(AbstractMedia $media, $useAsImage = false)
     {
         /**
          * @var UploadedFile $file
@@ -282,9 +282,9 @@ abstract class AbstractProvider implements ProviderInterface
     }
 
     /**
-     * @param Media $media
+     * @param AbstractMedia $media
      */
-    public function updateImage(Media $media)
+    public function updateImage(AbstractMedia $media)
     {
         /**
          * @var UploadedFile $file
@@ -464,9 +464,9 @@ abstract class AbstractProvider implements ProviderInterface
 
     /**
      * @param ErrorElement $errorElement
-     * @param Media $media
+     * @param AbstractMedia $media
      */
-    public function validate(ErrorElement $errorElement, Media $media)
+    public function validate(ErrorElement $errorElement, AbstractMedia $media)
     {
     }
 

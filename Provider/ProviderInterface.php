@@ -3,7 +3,7 @@
 namespace MediaMonks\SonataMediaBundle\Provider;
 
 use League\Flysystem\Filesystem;
-use MediaMonks\SonataMediaBundle\Entity\Media;
+use MediaMonks\SonataMediaBundle\Model\AbstractMedia;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\CoreBundle\Validator\ErrorElement;
@@ -22,7 +22,7 @@ interface ProviderInterface
 
     public function buildProviderEditFormBefore(FormMapper $formMapper);
 
-    public function update(Media $media, $providerReferenceUpdated);
+    public function update(AbstractMedia $media, $providerReferenceUpdated);
 
     public function toArray(MediaInterface $media, array $options);
 
@@ -46,5 +46,5 @@ interface ProviderInterface
 
     public function supportsDownload();
 
-    public function validate(ErrorElement $errorElement, Media $media);
+    public function validate(ErrorElement $errorElement, AbstractMedia $media);
 }
