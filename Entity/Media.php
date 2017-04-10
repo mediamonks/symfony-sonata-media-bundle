@@ -5,10 +5,6 @@ namespace MediaMonks\SonataMediaBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use MediaMonks\SonataMediaBundle\Model\AbstractMedia;
 
-/**
- * @ORM\Entity(repositoryClass="MediaMonks\SonataMediaBundle\Repository\MediaRepository")
- * @ORM\Table(name="media")
- */
 class Media extends AbstractMedia
 {
     /**

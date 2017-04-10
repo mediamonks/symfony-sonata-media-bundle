@@ -49,3 +49,22 @@ the following lines to your app's routing.yml:
     // app/config/routing.yml
     _mediamonks_media:
         resource: "@MediaMonksSonataMediaBundle/Resources/config/routing.yml"
+
+D) Create entity
+----------------
+
+Currently this bundle only works with Doctrine ORM. Create a file ``Media.php`` in ``src/AppBundle/Entity``
+and add these lines to it:
+
+.. code-block:: php
+
+    // src/AppBundle/Entity/Media.php
+    use Doctrine\ORM\Mapping as ORM;
+    use MediaMonks\SonataMediaBundle\Model\AbstractMedia;
+
+    /**
+     * @ORM\Entity(repositoryClass="MediaMonks\SonataMediaBundle\Repository\MediaRepository")
+     * @ORM\Table(name="media")
+     */
+
+Feel free to add your own custom properties or extensions to it.
