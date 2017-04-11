@@ -92,10 +92,8 @@ abstract class AbstractOembedProvider extends AbstractProvider implements Oembed
         $filename = sprintf('%s_%d.%s', sha1($media->getProviderReference()), time(), 'jpg');
         $thumbnailUrl = $this->getImageUrl($media->getProviderReference());
 
-        $this->getFilesystem()->write(
-            $filename,
-            file_get_contents($thumbnailUrl)
-        );
+        $this->getFilesystem()->write($filename, $this->getUrlData($thumbnailUrl));
+
         $media->setImage($filename);
     }
 
