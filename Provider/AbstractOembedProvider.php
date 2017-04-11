@@ -117,7 +117,7 @@ abstract class AbstractOembedProvider extends AbstractProvider implements Oembed
         if (empty($this->oembedData)) {
 
             $this->disableErrorHandler();
-            $data = json_decode(file_get_contents($this->getOembedUrl($id)), true);
+            $data = json_decode($this->getUrlData($this->getOembedUrl($id)), true);
             $this->restoreErrorHandler();
 
             if (empty($data['title'])) {
@@ -163,5 +163,23 @@ abstract class AbstractOembedProvider extends AbstractProvider implements Oembed
     public function supportsImage()
     {
         return true;
+    }
+
+    /**
+     * @param $url
+     * @return mixed
+     */
+    protected function getUrlData($url)
+    {
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_URL, $url);
+
+        $data = curl_exec($ch);
+        curl_close($ch);
+
+        return $data;
     }
 }
