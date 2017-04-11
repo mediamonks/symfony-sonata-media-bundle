@@ -6,6 +6,7 @@ use MediaMonks\SonataMediaBundle\Model\AbstractMedia;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\CoreBundle\Validator\ErrorElement;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\Response;
 
 abstract class AbstractOembedProvider extends AbstractProvider implements OembedProviderInterface
 {
@@ -181,5 +182,26 @@ abstract class AbstractOembedProvider extends AbstractProvider implements Oembed
         curl_close($ch);
 
         return $data;
+    }
+
+    /**
+     * @param string $url
+     * @return bool
+     */
+    protected function urlExists($url)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_NOBODY, true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'HEAD');
+
+        curl_exec($ch);
+        $info = curl_getinfo($ch);
+        curl_close($ch);
+
+        return $info === Response::HTTP_OK;
     }
 }

@@ -2,12 +2,6 @@
 
 namespace MediaMonks\SonataMediaBundle\Provider;
 
-use MediaMonks\SonataMediaBundle\Model\AbstractMedia;
-use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\CoreBundle\Validator\ErrorElement;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\HttpFoundation\Response;
-
 class YouTubeProvider extends AbstractOembedProvider implements ProviderInterface
 {
     const URL_OEMBED = 'http://www.youtube.com/oembed?url=http://www.youtube.com/watch?v=%s&format=json';
@@ -31,10 +25,7 @@ class YouTubeProvider extends AbstractOembedProvider implements ProviderInterfac
     {
         // try to get max res image (only available for 720P videos)
         $urlMaxRes = sprintf(self::URL_IMAGE_MAX_RES, $id);
-        stream_context_set_default(['http' => ['method' => 'HEAD']]);
-        $headers = get_headers($urlMaxRes);
-        stream_context_set_default(['http' => ['method' => 'GET']]);
-        if ((int)substr($headers[0], 9, 3) === Response::HTTP_OK) {
+        if ($this->urlExists($urlMaxRes)) {
             return $urlMaxRes;
         }
 
