@@ -27,6 +27,7 @@ class MediaMonksSonataMediaExtension extends Extension
 
         if (!empty($config['model_class'])) {
             $container->getDefinition('mediamonks.sonata_media.admin.media')->replaceArgument(1, $config['model_class']);
+            $container->setParameter('mediamonks.sonata_media.entity.class', $config['model_class']);
         }
 
         $container->getDefinition('mediamonks.sonata_media.glide.server')

@@ -2,6 +2,7 @@
 
 namespace MediaMonks\SonataMediaBundle\Controller;
 
+use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,20 +19,32 @@ class MediaController extends Controller
      */
     public function imageRedirectAction(Request $request, $id, $width, $height)
     {
-        $media = $this->getDoctrine()->getManager()->find('MediaMonksSonataMediaBundle:Media', $id);
-
-        return $this->get('mediamonks.sonata_media.utility.image')->getRedirectResponse($media, $width, $height, $request->query->all());
+        return $this->get('mediamonks.sonata_media.utility.image')->getRedirectResponse(
+            $this->getMediaById($id),
+            $width,
+            $height,
+            $request->query->all()
+        );
     }
 
     /**
-     * @param Request $request
      * @param $id
      * @return StreamedResponse
      */
-    public function downloadAction(Request $request, $id)
+    public function downloadAction($id)
     {
-        $media = $this->getDoctrine()->getManager()->find('MediaMonksSonataMediaBundle:Media', $id);
+        return $this->get('mediamonks.sonata_media.utility.download')->getStreamedResponse($this->getMediaById($id));
+    }
 
-        return $this->get('mediamonks.sonata_media.utility.download')->getStreamedResponse($media);
+    /**
+     * @param $id
+     * @return MediaInterface
+     */
+    protected function getMediaById($id)
+    {
+        return $this->getDoctrine()->getManager()->find(
+            $this->getParameter('mediamonks.sonata_media.entity.class'),
+            $id
+        );
     }
 }
