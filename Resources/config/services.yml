@@ -48,9 +48,9 @@ services:
             - { name: sonata_media.provider }
 
     mediamonks.sonata_media.provider.vimeo:
-            class: '%mediamonks.sonata_media.provider.vimeo.class%'
-            tags:
-                - { name: sonata_media.provider }
+        class: '%mediamonks.sonata_media.provider.vimeo.class%'
+        tags:
+            - { name: sonata_media.provider }
 
     mediamonks.sonata_media.provider.file:
         class: '%mediamonks.sonata_media.provider.file.class%'

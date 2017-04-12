@@ -48,7 +48,7 @@
                     {% if object|media_supports('image') %}
                         <label>{{ 'image'|trans }}</label>
                         <br>
-                        {{ object|media_image(360, 230, [], 'admin_mediamonks_sonatamedia_media_image', true) }}
+                        {{ object|media_image(360, 0, [], 'admin_mediamonks_sonatamedia_media_image', true) }}
                         <br><br>
                     {% endif %}
                     {% if object|media_supports('download') %}
