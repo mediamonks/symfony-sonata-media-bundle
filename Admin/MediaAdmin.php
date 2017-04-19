@@ -9,6 +9,7 @@ use MediaMonks\SonataMediaBundle\Provider\ProviderInterface;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Exception\ModelManagerException;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\CoreBundle\Validator\ErrorElement;
@@ -125,11 +126,18 @@ class MediaAdmin extends AbstractAdmin
     }
 
     /**
-     * @param $media
+     * @param AbstractMedia $media
      * @return ProviderInterface
      */
-    protected function getProvider(MediaInterface $media)
+    protected function getProvider(AbstractMedia $media)
     {
+        if (empty($media->getProvider())) {
+            throw new \InvalidArgumentException('No provider was set');
+        }
+
+        $provider = $this->providerPool->getProvider($media->getProvider());
+        $media->setType($provider->getType());
+
         return $this->providerPool->getProvider($media->getProvider());
     }
 
@@ -139,18 +147,18 @@ class MediaAdmin extends AbstractAdmin
     public function getNewInstance()
     {
         $media = parent::getNewInstance();
+        $providerName = null;
         if ($this->hasRequest()) {
             if ($this->getRequest()->isMethod('POST')) {
-                $media->setProvider($this->getRequest()->get($this->getUniqid())['provider']);
+                $providerName = $this->getRequest()->get($this->getUniqid())['provider'];
             } elseif ($this->getRequest()->query->has('provider')) {
-                $media->setProvider($this->getRequest()->query->get('provider'));
-            } else {
-                throw new \InvalidArgumentException('No provider was set');
+                $providerName = $this->getRequest()->query->get('provider');
             }
         }
 
-        $provider = $this->getProvider($media);
-        $media->setType($provider->getType());
+        if (!empty($providerName)) {
+            $media->setProvider($providerName);
+        }
 
         return $media;
     }

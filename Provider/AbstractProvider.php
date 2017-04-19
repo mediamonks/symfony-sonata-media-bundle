@@ -410,14 +410,11 @@ abstract class AbstractProvider implements ProviderInterface
      */
     protected function writeToFilesystem(UploadedFile $file, $filename)
     {
-        set_error_handler(
-            function () {
-            }
-        );
+        $this->disableErrorHandler();
         $stream = fopen($file->getRealPath(), 'r+');
         $written = $this->getFilesystem()->writeStream($filename, $stream);
         fclose($stream); // this sometime messes up
-        restore_error_handler();
+        $this->restoreErrorHandler();
 
         if (!$written) {
             throw new \Exception('Could not write to file system');

@@ -76,9 +76,9 @@ class SoundCloudProvider extends AbstractOembedProvider implements ProviderInter
      * @param $id
      * @return array
      */
-    protected function getOembedData($id)
+    protected function getOembedDataCache($id)
     {
-        $data = parent::getOembedData($id);
+        $data = parent::getOembedDataCache($id);
         $data['embedUrl'] = $this->extractEmbedUrl($data);
 
         return $data;

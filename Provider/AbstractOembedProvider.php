@@ -13,7 +13,7 @@ abstract class AbstractOembedProvider extends AbstractProvider implements Oembed
     /**
      * @var array
      */
-    protected $oembedData;
+    protected $oembedDataCache;
 
     /**
      * @param AbstractMedia $media
@@ -25,7 +25,7 @@ abstract class AbstractOembedProvider extends AbstractProvider implements Oembed
         if ($providerReferenceUpdated) {
             $media->setProviderReference($this->parseProviderReference($media->getProviderReference()));
 
-            $data = $this->getOembedData($media->getProviderReference());
+            $data = $this->getOembedDataCache($media->getProviderReference());
 
             $media->setProviderMetaData($data);
 
@@ -77,7 +77,7 @@ abstract class AbstractOembedProvider extends AbstractProvider implements Oembed
     public function validate(ErrorElement $errorElement, AbstractMedia $media)
     {
         try {
-            $this->getOembedData($this->parseProviderReference($media->getProviderReference()));
+            $this->getOembedDataCache($this->parseProviderReference($media->getProviderReference()));
         }
         catch (\Exception $e) {
             $errorElement->with('providerReference')->addViolation($e->getMessage());
@@ -103,7 +103,7 @@ abstract class AbstractOembedProvider extends AbstractProvider implements Oembed
      */
     public function getImageUrl($id)
     {
-        return $this->getOembedData($id)['thumbnail_url'];
+        return $this->getOembedDataCache($id)['thumbnail_url'];
     }
 
     /**
@@ -111,9 +111,9 @@ abstract class AbstractOembedProvider extends AbstractProvider implements Oembed
      * @return mixed
      * @throws \Exception
      */
-    protected function getOembedData($id)
+    protected function getOembedDataCache($id)
     {
-        if (empty($this->oembedData)) {
+        if (empty($this->oembedDataCache[$id])) {
 
             $this->disableErrorHandler();
             $data = json_decode($this->getUrlData($this->getOembedUrl($id)), true);
@@ -126,10 +126,10 @@ abstract class AbstractOembedProvider extends AbstractProvider implements Oembed
                 ]));
             }
 
-            $this->oembedData = $data;
+            $this->oembedDataCache[$id] = $data;
         }
 
-        return $this->oembedData;
+        return $this->oembedDataCache[$id];
     }
 
     /**
