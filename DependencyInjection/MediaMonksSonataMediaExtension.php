@@ -18,6 +18,7 @@ class MediaMonksSonataMediaExtension extends Extension
     public function load(array $configs, ContainerBuilder $container)
     {
         $config = $this->processConfiguration(new Configuration(), $configs);
+        $container->setParameter('mediamonks.sonata_media.config', $config);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
@@ -26,7 +27,10 @@ class MediaMonksSonataMediaExtension extends Extension
         $container->setAlias('mediamonks.sonata_media.filesystem.public', $config['filesystem_public']);
 
         if (!empty($config['model_class'])) {
-            $container->getDefinition('mediamonks.sonata_media.admin.media')->replaceArgument(1, $config['model_class']);
+            $container->getDefinition('mediamonks.sonata_media.admin.media')->replaceArgument(
+                1,
+                $config['model_class']
+            );
             $container->setParameter('mediamonks.sonata_media.entity.class', $config['model_class']);
         }
 
@@ -37,7 +41,7 @@ class MediaMonksSonataMediaExtension extends Extension
                     $config['glide'],
                     [
                         'source' => new Reference($config['filesystem_private']),
-                        'cache'  => new Reference($config['filesystem_public']),
+                        'cache' => new Reference($config['filesystem_public']),
                     ]
                 )
             );

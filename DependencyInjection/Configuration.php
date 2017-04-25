@@ -134,8 +134,8 @@ final class Configuration implements ConfigurationInterface
             ->defaultValue([
                 'minWidth' => 100,
                 'minHeight' => 100,
-                'maxWidth' => 5000,
-                'maxHeight' => 5000
+                'maxWidth' => 3000,
+                'maxHeight' => 3000
             ])
             ->end();
     }
