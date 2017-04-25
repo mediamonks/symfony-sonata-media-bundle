@@ -102,8 +102,10 @@ class ImageGenerator
         } catch (\Exception $e) {
             throw new \Exception('Could not generate image', 0, $e);
         } finally {
-            if (!@unlink($tmp)) {
-                throw new FilesystemException('Unable to clean up temporary file');
+            if (file_exists($tmp)) {
+                if (!@unlink($tmp)) {
+                    throw new FilesystemException('Unable to clean up temporary file');
+                }
             }
         }
     }
