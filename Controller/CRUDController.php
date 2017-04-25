@@ -2,13 +2,12 @@
 
 namespace MediaMonks\SonataMediaBundle\Controller;
 
-use MediaMonks\SonataMediaBundle\Model\MediaInterface;
-use Sonata\AdminBundle\Controller\CRUDController;
+use Sonata\AdminBundle\Controller\CRUDController as BaseCRUDController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class MediaAdminController extends CRUDController
+class CRUDController extends BaseCRUDController
 {
     /**
      * @return \Symfony\Component\HttpFoundation\Response
@@ -17,7 +16,7 @@ class MediaAdminController extends CRUDController
     {
         if (!$this->getRequest()->get('provider') && $this->getRequest()->isMethod('get')) {
             return $this->render(
-                '@MediaMonksSonataMedia/MediaAdmin/select_provider.html.twig',
+                '@MediaMonksSonataMedia/CRUD/select_provider.html.twig',
                 [
                     'providers' => $this->get('mediamonks.sonata_media.provider.pool')->getProviders(),
                     'base_template' => $this->getBaseTemplate(),

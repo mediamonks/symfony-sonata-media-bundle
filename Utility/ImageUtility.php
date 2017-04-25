@@ -50,6 +50,14 @@ class ImageUtility
     }
 
     /**
+     * @param string $mediaBaseUrl
+     */
+    public function setMediaBaseUrl($mediaBaseUrl)
+    {
+        $this->mediaBaseUrl = $mediaBaseUrl;
+    }
+
+    /**
      * @param MediaInterface $media
      * @param int $width
      * @param int $height

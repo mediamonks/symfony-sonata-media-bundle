@@ -3,13 +3,13 @@
 namespace MediaMonks\SonataMediaBundle\Controller;
 
 use MediaMonks\SonataMediaBundle\Admin\MediaAdmin;
-use MediaMonks\SonataMediaBundle\Model\AbstractMedia;
+use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Templating\EngineInterface;
 
-class MediaHelperController
+class HelperController
 {
     /**
      * @var MediaAdmin
@@ -33,7 +33,7 @@ class MediaHelperController
 
     /**
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return JsonResponse
      */
     public function getAutocompleteItemsAction(Request $request)
     {
@@ -56,13 +56,13 @@ class MediaHelperController
         $results = $pager->getResults();
 
         /**
-         * @var Media $media
+         * @var MediaInterface $media
          */
         $items = [];
         foreach($results as $media) {
             $items[] = [
                 'id' => $media->getId(),
-                'label' => $this->templating->render('@MediaMonksSonataMedia/MediaAdmin/autocomplete.html.twig', [
+                'label' => $this->templating->render('@MediaMonksSonataMedia/CRUD/autocomplete.html.twig', [
                     'media' => $media
                 ])
             ];

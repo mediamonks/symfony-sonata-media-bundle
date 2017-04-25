@@ -41,7 +41,7 @@ class MediaAutocompleteType extends BaseModelAutocompleteType
                 'property' => 'title',
                 'to_string_callback' => function ($media, $property) {
                     return $this->templateEngine->render(
-                        'MediaMonksSonataMediaBundle:MediaAdmin:autocomplete.html.twig',
+                        'MediaMonksSonataMediaBundle:CRUD:autocomplete.html.twig',
                         [
                             'media' => $media,
                         ]

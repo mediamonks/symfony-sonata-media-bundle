@@ -29,3 +29,4 @@ soundcloud: SoundCloud
 vimeo: Vimeo
 error.provider_reference: '"%reference%" does not exist'
 form.image_focal_point.description: Click on the point of interest in the image to make sure this always is a part of the generated thumbnails.
+batch: Batch

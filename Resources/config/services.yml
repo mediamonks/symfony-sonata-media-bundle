@@ -1,4 +1,5 @@
 parameters:
+    mediamonks.sonata_media.controller.crud: 'MediaMonksSonataMediaBundle:CRUD'
     mediamonks.sonata_media.entity.class: 'MediaMonks\SonataMediaBundle\Entity\Media'
     mediamonks.sonata_media.admin.media.class: 'MediaMonks\SonataMediaBundle\Admin\MediaAdmin'
     mediamonks.sonata_media.provider.image.class: 'MediaMonks\SonataMediaBundle\Provider\ImageProvider'
@@ -18,7 +19,8 @@ parameters:
     mediamonks.sonata_media.utility.download.class: 'MediaMonks\SonataMediaBundle\Utility\DownloadUtility'
     mediamonks.sonata_media.utility.event_listener.menu_builder.class: 'MediaMonks\SonataMediaBundle\EventListener\MenuBuilderListener'
     mediamonks.sonata_media.form.type.media_autocomplete.class: 'MediaMonks\SonataMediaBundle\Form\Type\MediaAutocompleteType'
-    mediamonks.sonata_media.controller.helper.class: 'MediaMonks\SonataMediaBundle\Controller\MediaHelperController'
+    mediamonks.sonata_media.controller.helper.class: 'MediaMonks\SonataMediaBundle\Controller\HelperController'
+    mediamonks.sonata_media.controller.batch.class: 'MediaMonks\SonataMediaBundle\Controller\BatchController'
 
 services:
     mediamonks.sonata_media.admin.media:
@@ -26,12 +28,12 @@ services:
         arguments:
             - ~
             - '%mediamonks.sonata_media.entity.class%'
-            - 'MediaMonksSonataMediaBundle:MediaAdmin'
+            - '%mediamonks.sonata_media.controller.crud%'
             - '@mediamonks.sonata_media.provider.pool'
         tags:
             - { name: sonata.admin, manager_type: orm, label: Media, group: "Media" }
         calls:
-            - [ setTemplate, ['outer_list_rows_mosaic', 'MediaMonksSonataMediaBundle:MediaAdmin:outer_list_rows_mosaic.html.twig']]
+            - [ setTemplate, ['outer_list_rows_mosaic', 'MediaMonksSonataMediaBundle:CRUD:outer_list_rows_mosaic.html.twig']]
             - [ setTemplate, ['edit', 'MediaMonksSonataMediaBundle:CRUD:edit.html.twig']]
 
     mediamonks.sonata_media.provider.pool:
@@ -138,3 +140,10 @@ services:
         arguments:
             - '@mediamonks.sonata_media.admin.media'
             - '@templating'
+
+    mediamonks.sonata_media.controller.batch:
+        class: '%mediamonks.sonata_media.controller.batch.class%'
+        arguments:
+            - '@mediamonks.sonata_media.admin.media'
+            - '@templating'
+            - '@router'

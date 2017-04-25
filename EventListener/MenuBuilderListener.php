@@ -2,6 +2,7 @@
 
 namespace MediaMonks\SonataMediaBundle\EventListener;
 
+use Knp\Menu\ItemInterface;
 use MediaMonks\SonataMediaBundle\Provider\ProviderPool;
 use Sonata\AdminBundle\Event\ConfigureMenuEvent;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -39,32 +40,53 @@ class MenuBuilderListener
 
         $child = $menu->getChild($this->translator->trans('menu.title'));
 
-        foreach ($this->providerPool->getProviders(
-        ) as $providerClass => $provider) {
-            $providerChild = $child->addChild(
+        /*$this->addProviderMenuChild(
+            $child,
+            'batch',
+            'mediamonks_media_batch',
+            [],
+            'batch',
+            'fa fa-magic'
+        );*/
+
+        foreach ($this->providerPool->getProviders() as $providerClass => $provider) {
+            $this->addProviderMenuChild(
+                $child,
                 'provider_'.spl_object_hash($provider),
-                [
-                    'route' => 'admin_mediamonks_sonatamedia_media_create',
-                    'routeParameters' => [
-                        'provider' => $providerClass,
-                    ],
-                ]
-            );
-            $providerChild->setAttribute(
-                'icon',
-                sprintf(
-                    '<i class="%s" aria-hidden="true"></i>',
-                    $provider->getIcon()
-                )
-            );
-            $providerChild->setLabel(
-                $this->translator->trans(
-                    'menu.provider',
-                    [
-                        '%provider%' => $this->translator->trans($provider->getName())
-                    ]
-                )
+                'admin_mediamonks_sonatamedia_media_create',
+                ['provider' => $providerClass],
+                $provider->getName(),
+                $provider->getIcon()
             );
         }
+    }
+
+    /**
+     * @param ItemInterface $menu
+     * @param $route
+     * @param $routeParameters
+     * @param $label
+     * @param $icon
+     */
+    private function addProviderMenuChild($menu, $name, $route, $routeParameters, $label, $icon)
+    {
+        $child = $menu->addChild(
+            $name,
+            [
+                'route' => $route,
+                'routeParameters' => $routeParameters,
+            ]
+        );
+        $child->setLabel($this->translator->trans(
+            'menu.provider',
+            [
+                '%provider%' => $this->translator->trans($label),
+            ]
+        ));
+        $child->setAttribute(
+            'icon',
+            sprintf('<i class="%s" aria-hidden="true"></i>', $icon)
+        );
+
     }
 }

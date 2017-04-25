@@ -164,7 +164,12 @@ class FileProvider extends AbstractProvider
     {
         if ($object instanceof UploadedFile && isset($this->fileConstraintOptions['extensions'])) {
             if (!in_array($object->getClientOriginalExtension(), $this->fileConstraintOptions['extensions'])) {
-                $context->addViolation('It\'s not allowed to upload a file with extension "%s"');
+                $context->addViolation(
+                    sprintf(
+                        'It\'s not allowed to upload a file with extension "%s"',
+                        $object->getClientOriginalExtension()
+                    )
+                );
             }
         }
     }
