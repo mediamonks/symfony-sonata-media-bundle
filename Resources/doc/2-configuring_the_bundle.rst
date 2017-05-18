@@ -15,7 +15,8 @@ File Systems
 This bundle requires you to have 2 configured filesystems with Flysystem. The "private" file system stores all
 original uploads while the "public" file system stores all thumbnails. You can of course use the same file system
 for both but this can be risky since you might allow uploads that can harm the machine the file is stored on (eg:
-allow a php file to be uploaded and to be executed by the end user!).
+allow a php file to be uploaded and to be executed by the end user!). For the configuration of Flysystem we recommend
+using the `Flysystem Bundle`_.
 
 .. code-block:: yaml
 
@@ -80,3 +81,5 @@ file uploads of any file type. Below are the default settings:
         file_constraints:
             maxSize: '5M',
             extensions: ['pdf', 'csv', 'txt', 'docx']
+
+.. _Flysystem Bundle: https://github.com/1up-lab/OneupFlysystemBundle

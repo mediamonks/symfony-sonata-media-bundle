@@ -58,13 +58,18 @@ and add these lines to it:
 
 .. code-block:: php
 
-    // src/AppBundle/Entity/Media.php
+    namespace AppBundle\Entity;
+
     use Doctrine\ORM\Mapping as ORM;
-    use MediaMonks\SonataMediaBundle\Model\AbstractMedia;
+    use MediaMonks\SonataMediaBundle\Entity\Media as BaseMedia;
 
     /**
      * @ORM\Entity(repositoryClass="MediaMonks\SonataMediaBundle\Repository\MediaRepository")
-     * @ORM\Table(name="media")
+     * @ORM\Table
      */
+    class Media extends BaseMedia
+    {
+    }
 
-Feel free to add your own custom properties or extensions to it.
+Feel free to add your own custom properties or extensions to it or to put this entity in a different bundle (just make
+sure you update the namespace accordingly).
