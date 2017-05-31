@@ -1,6 +1,6 @@
 parameters:
     mediamonks.sonata_media.controller.crud: 'MediaMonksSonataMediaBundle:CRUD'
-    mediamonks.sonata_media.entity.class: 'MediaMonks\SonataMediaBundle\Entity\Media'
+    mediamonks.sonata_media.entity.class: 'AppBundle\Entity\Media'
     mediamonks.sonata_media.admin.media.class: 'MediaMonks\SonataMediaBundle\Admin\MediaAdmin'
     mediamonks.sonata_media.provider.image.class: 'MediaMonks\SonataMediaBundle\Provider\ImageProvider'
     mediamonks.sonata_media.provider.youtube.class: 'MediaMonks\SonataMediaBundle\Provider\YouTubeProvider'

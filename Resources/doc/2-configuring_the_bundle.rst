@@ -82,4 +82,17 @@ file uploads of any file type. Below are the default settings:
             maxSize: '5M',
             extensions: ['pdf', 'csv', 'txt', 'docx']
 
+Model Class
+-----------
+
+The bundle assumes that your entity is using FQCN ``AppBundle\Entity\Media``, if your entity is using a different
+FQCN you can use the option ``model_class`` to set it.
+
+.. code-block:: yaml
+
+    # app/config/config.yml
+    mediamonks_sonata_media:
+        model_class: Acme\AppBundle\Entity\Media
+
+
 .. _Flysystem Bundle: https://github.com/1up-lab/OneupFlysystemBundle

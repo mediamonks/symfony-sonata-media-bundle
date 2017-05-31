@@ -73,3 +73,6 @@ and add these lines to it:
 
 Feel free to add your own custom properties or extensions to it or to put this entity in a different bundle (just make
 sure you update the namespace accordingly).
+
+Important: If your entity has a different FQCN than the default ``AppBundle\Entity\Media`` you must use the option
+ ``model_class`` in the bundle configuration to set the correct FQCN.
