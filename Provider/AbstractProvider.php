@@ -8,7 +8,6 @@ use MediaMonks\SonataMediaBundle\Form\Type\MediaFocalPointType;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\CoreBundle\Validator\ErrorElement;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;

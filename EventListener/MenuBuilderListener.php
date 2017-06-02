@@ -64,12 +64,13 @@ class MenuBuilderListener
 
     /**
      * @param ItemInterface $menu
-     * @param $route
-     * @param $routeParameters
-     * @param $label
-     * @param $icon
+     * @param string $name
+     * @param string $route
+     * @param array $routeParameters
+     * @param string $label
+     * @param string $icon
      */
-    private function addProviderMenuChild($menu, $name, $route, $routeParameters, $label, $icon)
+    private function addProviderMenuChild(ItemInterface $menu, $name, $route, array $routeParameters, $label, $icon)
     {
         $child = $menu->addChild(
             $name,
@@ -88,6 +89,5 @@ class MenuBuilderListener
             'icon',
             sprintf('<i class="%s" aria-hidden="true"></i>', $icon)
         );
-
     }
 }

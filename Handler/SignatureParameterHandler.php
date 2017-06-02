@@ -4,7 +4,6 @@ namespace MediaMonks\SonataMediaBundle\Handler;
 
 use MediaMonks\SonataMediaBundle\Exception\SignatureInvalidException;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
-use Symfony\Component\HttpFoundation\Request;
 
 class SignatureParameterHandler implements ParameterHandlerInterface
 {

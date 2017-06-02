@@ -2,7 +2,6 @@
 
 namespace MediaMonks\SonataMediaBundle\Provider;
 
-use MediaMonks\SonataMediaBundle\Model\AbstractMedia;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\CoreBundle\Form\Type\ImmutableArrayType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;

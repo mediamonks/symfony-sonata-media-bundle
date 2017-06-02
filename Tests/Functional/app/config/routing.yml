@@ -1,0 +1,18 @@
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation
+
+_sonata_admin:
+    resource: "@SonataAdminBundle/Resources/config/routing/sonata_admin.xml"
+    prefix: /admin
+
+_sonata_admin_resource:
+  resource: .
+  type: sonata_admin
+
+_mediamonks_media_admin:
+    resource: "@MediaMonksSonataMediaBundle/Resources/config/routing_admin.yml"
+    prefix: /admin
+
+_mediamonks_media:
+    resource: "@MediaMonksSonataMediaBundle/Resources/config/routing.yml"

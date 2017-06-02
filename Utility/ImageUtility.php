@@ -3,11 +3,9 @@
 namespace MediaMonks\SonataMediaBundle\Utility;
 
 use MediaMonks\SonataMediaBundle\Generator\ImageGenerator;
-use MediaMonks\SonataMediaBundle\Handler\ParameterBag;
 use MediaMonks\SonataMediaBundle\Handler\ParameterHandlerInterface;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
 
 class ImageUtility
 {
