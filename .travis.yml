@@ -46,10 +46,10 @@ before_install:
 
 install:
   - composer update --prefer-source $COMPOSER_FLAGS
+  - if [ "$TRAVIS_PHP_VERSION" == "5.5" ]; then composer require "liip/functional-test-bundle" --dev --ignore-platform-reqs; fi;
 
 script:
   - if [ "$TRAVIS_PHP_VERSION" == "5.6" ]; then phpunit --coverage-clover=coverage.clover; else phpunit; fi;
-  - if [ "$TRAVIS_PHP_VERSION" == "5.5" ]; then composer require "liip/functional-test-bundle" --dev --ignore-platform-reqs; fi;
 
 after_script:
   - if [ "$TRAVIS_PHP_VERSION" == "5.6" ]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi;

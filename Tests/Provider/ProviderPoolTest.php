@@ -74,6 +74,14 @@ class ProviderPoolTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($provider, $providerPool->getByMedia($media));
     }
 
+    public function testGetUnknownProvider()
+    {
+        $this->setExpectedException(\InvalidArgumentException::class);
+
+        $providerPool = new ProviderPool();
+        $providerPool->getProvider('Test');
+    }
+
     /**
      * @param string $name
      * @return ProviderInterface
