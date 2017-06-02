@@ -27,19 +27,30 @@ class ProviderPool
     }
 
     /**
-     * @param AbstractProvider $provider
+     * @param ProviderInterface $provider
      */
-    public function addProvider(AbstractProvider $provider)
+    public function addProvider(ProviderInterface $provider)
     {
         $this->providers[$provider->getName()] = $provider;
     }
 
     /**
+     * @param ProviderInterface[] $providers
+     */
+    public function addProviders(array $providers)
+    {
+        foreach ($providers as $provider) {
+            $this->addProvider($provider);
+        }
+    }
+
+    /**
      * @param $providers
      */
-    public function setProviders($providers)
+    public function setProviders(array $providers)
     {
-        $this->providers = $providers;
+        $this->providers = [];
+        $this->addProviders($providers);
     }
 
     /**
