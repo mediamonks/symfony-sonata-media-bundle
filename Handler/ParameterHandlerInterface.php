@@ -2,9 +2,11 @@
 
 namespace MediaMonks\SonataMediaBundle\Handler;
 
+use MediaMonks\SonataMediaBundle\Model\MediaInterface;
+
 interface ParameterHandlerInterface
 {
-    public function getRouteParameters(ParameterBag $parameterBag);
+    public function getRouteParameters(MediaInterface $media, ParameterBag $parameterBag);
 
-    public function getPayload($id, $width, $height, array $extra);
+    public function getPayload(MediaInterface $media, $width, $height, array $extra);
 }

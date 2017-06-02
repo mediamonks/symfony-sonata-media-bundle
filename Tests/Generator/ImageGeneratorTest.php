@@ -7,6 +7,7 @@ use League\Glide\Api\ApiInterface;
 use League\Glide\Server;
 use MediaMonks\SonataMediaBundle\Generator\FilenameGeneratorInterface;
 use MediaMonks\SonataMediaBundle\Generator\ImageGenerator;
+use MediaMonks\SonataMediaBundle\Handler\ParameterBag;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Mockery as m;
 
@@ -14,10 +15,8 @@ class ImageGeneratorTest extends \PHPUnit_Framework_TestCase
 {
     public function test_generate()
     {
-        $parameters = ['w' => 400, 'h' => 300];
-
         $filesystem = m::mock(Filesystem::class);
-        $filesystem->shouldReceive('has')->once()->andReturn(false);
+        $filesystem->shouldReceive('has')->once()->andReturn(true);
         $filesystem->shouldReceive('read')->once()->andReturn('foo');
         $filesystem->shouldReceive('write')->withArgs(['image_handled.jpg', 'bar'])->once()->andReturn(true);
 
@@ -35,6 +34,7 @@ class ImageGeneratorTest extends \PHPUnit_Framework_TestCase
         $media = m::mock(MediaInterface::class);
         $media->shouldReceive('getImage')->once()->andReturn('image.jpg');
 
+        $parameters = new ParameterBag(400, 300);
         $imageGenerator = new ImageGenerator($server, $filenameGenerator);
         $filename = $imageGenerator->generate($media, $parameters);
 

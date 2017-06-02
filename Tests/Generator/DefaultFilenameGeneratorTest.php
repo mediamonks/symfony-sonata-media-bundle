@@ -3,27 +3,32 @@
 namespace MediaMonks\SonataMediaBundle\Tests\Generator;
 
 use MediaMonks\SonataMediaBundle\Generator\DefaultFilenameGenerator;
+use MediaMonks\SonataMediaBundle\Handler\ParameterBag;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
+use MediaMonks\SonataMediaBundle\Tests\MockeryTrait;
 use Mockery as m;
 
 class DefaultFilenameGeneratorTest extends \PHPUnit_Framework_TestCase
 {
-    protected function tearDown()
-    {
-        m::close();
-    }
+    use MockeryTrait;
 
     public function test_generate()
     {
         $generator = new DefaultFilenameGenerator();
 
         $media = m::mock(MediaInterface::class);
+        $media->shouldReceive('getId')->andReturn(1);
         $media->shouldReceive('getImage')->andReturn('test.jpg');
 
-        $this->assertEquals('test/w_400-h_300.jpg', $generator->generate($media, ['w' => 400, 'h' => 300]));
+        $parameterBag = new ParameterBag(400, 300);
+
+        $this->assertEquals('test/id_1-width_400-height_300.jpg', $generator->generate($media, $parameterBag));
+
+        $parameterBag->addExtra('fm', 'png');
+
         $this->assertEquals(
-            'test/w_400-h_300-fm_png.png',
-            $generator->generate($media, ['w' => 400, 'h' => 300, 'fm' => 'png'])
+            'test/fm_png-id_1-width_400-height_300.png',
+            $generator->generate($media, $parameterBag)
         );
     }
 }

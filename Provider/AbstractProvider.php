@@ -149,7 +149,7 @@ abstract class AbstractProvider implements ProviderInterface
     public function buildEditForm(FormMapper $formMapper)
     {
         $formMapper
-            ->tab('General')
+            ->tab('general')
             ->add('provider', HiddenType::class);
 
         $this->buildProviderEditFormBefore($formMapper);
@@ -183,7 +183,7 @@ abstract class AbstractProvider implements ProviderInterface
             )
             ->end()
             ->end()
-            ->tab('Image')
+            ->tab('image')
             ->add('focalPoint', MediaFocalPointType::class, [
                 'media' => $this->media
             ])

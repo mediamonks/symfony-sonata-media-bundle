@@ -2,13 +2,10 @@
 
 namespace MediaMonks\SonataMediaBundle\Handler;
 
+use MediaMonks\SonataMediaBundle\Model\MediaInterface;
+
 class ParameterBag implements ParameterBagInterface
 {
-    /**
-     * @var int
-     */
-    protected $id;
-
     /**
      * @var int
      */
@@ -25,25 +22,15 @@ class ParameterBag implements ParameterBagInterface
     protected $extra = [];
 
     /**
-     * @param int $id
      * @param int $width
      * @param int $height
      * @param array $extra
      */
-    public function __construct($id, $width, $height, array $extra = [])
+    public function __construct($width, $height, array $extra = [])
     {
-        $this->id = $id;
         $this->width = $width;
         $this->height = $height;
         $this->extra = $extra;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**
@@ -55,11 +42,27 @@ class ParameterBag implements ParameterBagInterface
     }
 
     /**
+     * @param int $width
+     */
+    public function setWidth($width)
+    {
+        $this->width = $width;
+    }
+
+    /**
      * @return int
      */
     public function getHeight()
     {
         return $this->height;
+    }
+
+    /**
+     * @param int $height
+     */
+    public function setHeight($height)
+    {
+        $this->height = $height;
     }
 
     /**
@@ -71,6 +74,23 @@ class ParameterBag implements ParameterBagInterface
     }
 
     /**
+     * @param array $extra
+     */
+    public function setExtra($extra)
+    {
+        $this->extra = $extra;
+    }
+
+    /**
+     * @param $key
+     * @param $value
+     */
+    public function addExtra($key, $value)
+    {
+        $this->extra[$key] = $value;
+    }
+
+    /**
      * @param array $defaults
      */
     public function setDefaults(array $defaults)
@@ -79,12 +99,13 @@ class ParameterBag implements ParameterBagInterface
     }
 
     /**
+     * @param MediaInterface $media
      * @return array
      */
-    public function toArray()
+    public function toArray(MediaInterface $media)
     {
         return array_merge($this->getExtra(), [
-            'id' => $this->getId(),
+            'id' => $media->getId(),
             'width' => $this->getWidth(),
             'height' => $this->getHeight(),
         ]);

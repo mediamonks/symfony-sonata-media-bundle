@@ -27,7 +27,7 @@ class SoundCloudProvider extends AbstractOembedProvider implements ProviderInter
     public function buildProviderEditFormAfter(FormMapper $formMapper)
     {
         $formMapper
-            ->tab('Embed Options')
+            ->tab('form.embed_options')
             ->add(
                 'providerMetaData',
                 ImmutableArrayType::class,

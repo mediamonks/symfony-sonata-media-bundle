@@ -64,7 +64,7 @@ class UrlGenerator
 
         return $this->router->generate(
                 $routeName,
-                $this->parameterHandler->getRouteParameters(new ParameterBag($media->getId(), $width, $height, $extra)),
+                $this->parameterHandler->getRouteParameters($media, new ParameterBag($width, $height, $extra)),
                 $referenceType
             );
     }

@@ -32,26 +32,27 @@ class SignatureParameterHandler implements ParameterHandlerInterface
     }
 
     /**
+     * @param MediaInterface $media
      * @param ParameterBag $parameterBag
      * @return array
      */
-    public function getRouteParameters(ParameterBag $parameterBag)
+    public function getRouteParameters(MediaInterface $media, ParameterBag $parameterBag)
     {
-        $parameters = $parameterBag->toArray();
+        $parameters = $parameterBag->toArray($media);
         $parameters[self::PARAMETER_SIGNATURE] = $this->calculateSignature($parameters);
 
         return $parameters;
     }
 
     /**
-     * @param $id
+     * @param MediaInterface $media
      * @param $width
      * @param $height
      * @param array $extra
      * @return ParameterBag
      * @throws SignatureInvalidException
      */
-    public function getPayload($id, $width, $height, array $extra)
+    public function getPayload(MediaInterface $media, $width, $height, array $extra = [])
     {
         if (!isset($extra[self::PARAMETER_SIGNATURE])) {
             throw new SignatureInvalidException();
@@ -60,8 +61,8 @@ class SignatureParameterHandler implements ParameterHandlerInterface
         $signature = $extra[self::PARAMETER_SIGNATURE];
         unset($extra[self::PARAMETER_SIGNATURE]);
 
-        $parameters = new ParameterBag($id, $width, $height, $extra);
-        if (!$this->isValid($parameters, $signature)) {
+        $parameters = new ParameterBag($width, $height, $extra);
+        if (!$this->isValid($media, $parameters, $signature)) {
             throw new SignatureInvalidException();
         }
 
@@ -69,13 +70,14 @@ class SignatureParameterHandler implements ParameterHandlerInterface
     }
 
     /**
+     * @param MediaInterface $media
      * @param ParameterBag $parameters
      * @param $expectedSignature
      * @return bool
      */
-    private function isValid(ParameterBag $parameters, $expectedSignature)
+    private function isValid(MediaInterface $media, ParameterBag $parameters, $expectedSignature)
     {
-        return hash_equals($this->calculateSignature($parameters->toArray()), $expectedSignature);
+        return hash_equals($this->calculateSignature($parameters->toArray($media)), $expectedSignature);
     }
 
     /**

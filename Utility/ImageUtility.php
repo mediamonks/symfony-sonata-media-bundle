@@ -82,7 +82,7 @@ class ImageUtility
      */
     public function getFilename(MediaInterface $media, $width, $height, array $parameters)
     {
-        $parameterBag = $this->parameterHandler->getPayload($media->getId(), $width, $height, $parameters);
+        $parameterBag = $this->parameterHandler->getPayload($media, $width, $height, $parameters);
         $filename = $this->imageGenerator->generate($media, $parameterBag);
 
         return $filename;

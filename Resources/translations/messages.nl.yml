@@ -1,0 +1,33 @@
+title_select_provider: Kies provider
+no_provider_available: Geen provider beschikbaar
+embed: Insluiten
+preview: Voorbeeld
+image: Afbeelding
+download: Download
+download_original: Download origineel
+file: Bestand
+form.title: Titel
+form.description: Beschrijving
+form.authorName: Auteur
+form.copyright: Rechthebbende
+form.embed_options: Insluitopties
+form.auto_play: Automatisch afspelen
+form.hide_related: Verberg gerelateerde
+form.show_comments: Toon reacties
+form.show_user: Toon gebruiker
+form.show_reposts: Toon reposts
+form.show_visual: Toon afbeelding
+form.replacement_image: Vervangende afbeelding
+form.image_focal_point: Plaats van interesse
+form.soundcloud.reference: SoundCloud URL
+form.vimeo.reference: Vimeo ID of URL
+form.youtube.reference: YouTube ID of URL
+menu.title: Media
+menu.provider: %provider% toevoegen
+youtube: YouTube
+soundcloud: SoundCloud
+vimeo: Vimeo
+error.provider_reference: '"%reference%" bestaat niet'
+form.image_focal_point.description: Klik op het punt in de afbeelding dat altijd zichtbaar moet zijn in de afbeelding.
+batch: Batch
+general: Algemeen

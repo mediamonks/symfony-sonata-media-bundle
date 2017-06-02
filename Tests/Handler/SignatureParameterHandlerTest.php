@@ -3,13 +3,21 @@
 namespace MediaMonks\SonataMediaBundle\Tests\Handler;
 
 use MediaMonks\SonataMediaBundle\Exception\InvalidQueryParameterException;
+use MediaMonks\SonataMediaBundle\Handler\ParameterBag;
 use MediaMonks\SonataMediaBundle\Handler\SignatureParameterHandler;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
+use MediaMonks\SonataMediaBundle\Tests\MockeryTrait;
 use Mockery as m;
-use Symfony\Component\HttpFoundation\Request;
 
 class SignatureParameterHandlerTest extends \PHPUnit_Framework_TestCase
 {
+    use MockeryTrait;
+
+    const ID = 1;
+    const WIDTH = 400;
+    const HEIGHT = 300;
+    const SIGNATURE = 'f725b76a0982ac2a1c6d101f34a3917afe5b52d18fecb6b4abac82ee33b00bbc';
+
     /**
      * @return SignatureParameterHandler
      */
@@ -24,62 +32,42 @@ class SignatureParameterHandlerTest extends \PHPUnit_Framework_TestCase
     private function getMediaMock()
     {
         $media = m::mock(MediaInterface::class);
-        $media->shouldReceive('getId')->once()->andReturn(1);
+        $media->shouldReceive('getId')->once()->andReturn(self::ID);
 
         return $media;
     }
 
-    public function test_getQueryString()
+    public function testGetRouteParameters()
     {
-        $media = $this->getMediaMock();
-        $handler = $this->getHandler();
-
         $this->assertEquals(
-            'w=400&h=300&s=3e3656e6ff5deace12e4b6e07e5e29ca1411a4eeca963b21757b18d467f27899',
-            $handler->getQueryString($media, ['w' => 400, 'h' => 300])
+            [
+                'id'     => self::ID,
+                'width'  => self::WIDTH,
+                'height' => self::HEIGHT,
+                's'      => self::SIGNATURE,
+            ],
+            $this->getHandler()->getRouteParameters($this->getMediaMock(), new ParameterBag(self::WIDTH, self::HEIGHT))
         );
     }
 
-    public function test_getPayload()
+    public function testGetPayload()
     {
-        $request = new Request([
-            'w' => 400,
-            'h' => 300,
-            's' => '3e3656e6ff5deace12e4b6e07e5e29ca1411a4eeca963b21757b18d467f27899'
-        ]);
-
-        $media = $this->getMediaMock();
-        $handler = $this->getHandler();
-
-        $this->assertEquals(['w' => 400, 'h' => 300], $handler->getPayload($media, $request));
+        $this->assertEquals(
+            $this->getHandler()->getPayload($this->getMediaMock(), self::WIDTH,self::HEIGHT, [
+                SignatureParameterHandler::PARAMETER_SIGNATURE => self::SIGNATURE
+            ]),
+            new ParameterBag(self::WIDTH, self::HEIGHT)
+        );
     }
 
-    public function test_getPayloadWithInvalidSignature()
+    public function testGetPayloadWithExtra()
     {
-        $this->setExpectedException(InvalidQueryParameterException::class);
-
-        $request = new Request([
-            'w' => 400,
-            'h' => 300,
-            's' => '41bf85519cc41a9b9787005a1370b01959e0f82644de1331cae3302efc57910a'
-        ]);
-
-        $media = $this->getMediaMock();
-        $handler = $this->getHandler();
-
-        $this->assertEquals(['w' => 400, 'h' => 300], $handler->getPayload($media, $request));
-    }
-
-    public function test_flow()
-    {
-        $media = $this->getMediaMock();
-        $handler = $this->getHandler();
-
-        $queryString = $handler->getQueryString($media, ['w' => 400, 'h' => 300]);
-        parse_str($queryString, $queryParameters);
-
-        $request = new Request($queryParameters);
-
-        $this->assertEquals(['w' => 400, 'h' => 300], $handler->getPayload($media, $request));
+        $this->assertEquals(
+            $this->getHandler()->getPayload($this->getMediaMock(), self::WIDTH,self::HEIGHT, [
+                SignatureParameterHandler::PARAMETER_SIGNATURE => 'b11d65fb09d95ee462ea945943708d69b794eb71cf08090bff858cbe5fe9c6a3',
+                'foo' => 'bar'
+            ]),
+            new ParameterBag(self::WIDTH, self::HEIGHT, ['foo' => 'bar'])
+        );
     }
 }

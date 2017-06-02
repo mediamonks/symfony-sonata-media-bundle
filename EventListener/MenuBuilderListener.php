@@ -38,7 +38,8 @@ class MenuBuilderListener
     {
         $menu = $event->getMenu();
 
-        $child = $menu->getChild($this->translator->trans('menu.title'));
+        $child = $menu->getChild('Media');
+        $child->setLabel($this->translator->trans('menu.title'));
 
         /*$this->addProviderMenuChild(
             $child,

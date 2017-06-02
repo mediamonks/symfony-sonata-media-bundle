@@ -17,7 +17,7 @@ class DefaultFilenameGenerator implements FilenameGeneratorInterface
     public function generate(MediaInterface $media, ParameterBag $parameterBag)
     {
         $parametersFlat = [];
-        foreach ($parameterBag->toArray() as $k => $v) {
+        foreach ($parameterBag->toArray($media) as $k => $v) {
             $parametersFlat[] = $k.'_'.$v;
         }
 
