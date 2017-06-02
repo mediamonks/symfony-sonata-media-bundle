@@ -1,0 +1,13 @@
+imports:
+    - { resource: config.yml }
+
+framework:
+    test: ~
+    session:
+        storage_id: session.storage.mock_file
+
+liip_functional_test:
+    cache_sqlite_db: true
+    authentication:
+        username: "admin"
+        password: "admin"

@@ -3,7 +3,6 @@ imports:
     - { resource: security.yml }
 
 framework:
-    test: ~
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
