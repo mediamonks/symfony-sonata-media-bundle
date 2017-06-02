@@ -19,22 +19,28 @@ matrix:
   include:
     - php: 5.6
       env: SYMFONY_VERSION=3.0.*@dev
+    - php: 5.6
+      env: SYMFONY_VERSION=3.3.*@dev
     - php: 7.0
       env: SYMFONY_VERSION=3.0.*@dev
     - php: 7.0
       env: SYMFONY_VERSION=3.1.*@dev
     - php: 7.0
       env: SYMFONY_VERSION=3.2.*@dev
+    - php: 7.0
+      env: SYMFONY_VERSION=3.3.*@dev
     - php: 7.1
       env: SYMFONY_VERSION=3.0.*@dev
     - php: 7.1
       env: SYMFONY_VERSION=3.1.*@dev
     - php: 7.1
       env: SYMFONY_VERSION=3.2.*@dev
+    - php: 7.1
+      env: SYMFONY_VERSION=3.3.*@dev
 
 before_install:
   - composer self-update
-  - if [ "$TRAVIS_PHP_VERSION" == "5.5" ]; then composer remove "liip/functional-test-bundle"; fi;
+  - if [ "$TRAVIS_PHP_VERSION" == "5.5" ]; then composer remove "liip/functional-test-bundle" --dev; fi;
   - if [ "$SYMFONY_VERSION" != "" ]; then composer require "symfony/symfony:${SYMFONY_VERSION}" --no-update; fi;
   - if [ "$SYMFONY_VERSION" == "3.0.*@dev" ]; then composer require "twig/twig:^1.31" --no-update; fi;
   - if [ "$TRAVIS_PHP_VERSION" == "5.6" ]; then composer require "codeclimate/php-test-reporter:dev-master@dev" --no-update; fi;
