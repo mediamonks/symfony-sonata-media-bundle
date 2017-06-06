@@ -66,6 +66,8 @@ abstract class AbstractBaseFunctionTest extends WebTestCase
             $file->isDir() ? rmdir($file) : unlink($file);
         }
 
+        @mkdir($path);
+
         return true;
     }
 
