@@ -60,13 +60,16 @@ abstract class AbstractBaseFunctionTest extends WebTestCase
      */
     protected function emptyFolder($path)
     {
-        $di = new \RecursiveDirectoryIterator($path, \FilesystemIterator::SKIP_DOTS);
-        $ri = new \RecursiveIteratorIterator($di, \RecursiveIteratorIterator::CHILD_FIRST);
-        foreach ($ri as $file) {
-            $file->isDir() ? rmdir($file) : unlink($file);
+        if (file_exists($path)) {
+            $di = new \RecursiveDirectoryIterator($path, \FilesystemIterator::SKIP_DOTS);
+            $ri = new \RecursiveIteratorIterator($di, \RecursiveIteratorIterator::CHILD_FIRST);
+            foreach ($ri as $file) {
+                $file->isDir() ? rmdir($file) : unlink($file);
+            }
         }
-
-        @mkdir($path);
+        else {
+            @mkdir($path);
+        }
 
         return true;
     }
