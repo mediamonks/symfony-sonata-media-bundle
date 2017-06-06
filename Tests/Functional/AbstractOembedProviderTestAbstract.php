@@ -2,9 +2,13 @@
 
 namespace MediaMonks\SonataMediaBundle\Tests\Functional;
 
+use MediaMonks\SonataMediaBundle\Handler\ParameterBag;
+use MediaMonks\SonataMediaBundle\Handler\SignatureParameterHandler;
+use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Symfony\Bundle\FrameworkBundle\Client;
+use Mockery as m;
 
-abstract class ProviderTest extends BaseFunctionTest
+abstract class AbstractOembedProviderTestAbstract extends AbstractBaseFunctionTest
 {
     const BASE_PATH = '/mediamonks/sonatamedia/media/';
 
@@ -23,6 +27,8 @@ abstract class ProviderTest extends BaseFunctionTest
 
         $this->client = $this->getAuthenticatedClient();
         $this->client->followRedirects();
+
+        $this->loadFixtures([]);
     }
 
     /**
@@ -34,6 +40,32 @@ abstract class ProviderTest extends BaseFunctionTest
     {
         $this->providerAdd($provider, $providerReference, $expectedValues);
         $this->providerUpdate($provider, $providerReference, $expectedValues);
+        $this->verifyMediaImageIsGenerated();
+    }
+
+    protected function verifyMediaImageIsGenerated()
+    {
+        $media = m::mock(MediaInterface::class);
+        $media->shouldReceive('getId')->andReturn(1);
+
+        $parameterBag = new ParameterBag(400, 300);
+
+        $signature = new SignatureParameterHandler('MediaMonksRestApiBundleSecret');
+        $parameters = $signature->getRouteParameters($media, $parameterBag);
+
+        $this->client->request(
+            'GET',
+            sprintf(
+                '%s%d/image/%d/%d?s=%s',
+                self::BASE_PATH,
+                $media->getId(),
+                $parameterBag->getWidth(),
+                $parameterBag->getHeight(),
+                $parameters['s']
+            )
+        );
+
+        $this->assertNumberOfFilesInPath(1, $this->getMediaPathPublic());
     }
 
     /**
@@ -43,19 +75,23 @@ abstract class ProviderTest extends BaseFunctionTest
      */
     protected function providerAdd($provider, $providerReference, array $expectedValues)
     {
-        $this->loadFixtures([]);
-
         $crawler = $this->client->request('GET', self::BASE_PATH.'create?provider='.$provider);
 
         $form = $crawler->selectButton('Create')->form();
 
-        $this->assertSonataFormValues($form, [
-            'provider' => $provider,
-        ]);
+        $this->assertSonataFormValues(
+            $form,
+            [
+                'provider' => $provider,
+            ]
+        );
 
-        $this->updateFormValues($form, [
-            'providerReference' => $providerReference
-        ]);
+        $this->updateFormValues(
+            $form,
+            [
+                'providerReference' => $providerReference,
+            ]
+        );
 
         $crawler = $this->client->submit($form);
         $form = $crawler->selectButton('Update')->form();
@@ -64,6 +100,8 @@ abstract class ProviderTest extends BaseFunctionTest
 
         $this->client->request('GET', self::BASE_PATH.'list');
         $this->assertContains($expectedValues['title'], $this->client->getResponse()->getContent());
+
+        $this->assertNumberOfFilesInPath(1, $this->getMediaPathPrivate());
     }
 
     /**
@@ -78,20 +116,26 @@ abstract class ProviderTest extends BaseFunctionTest
         $this->assertContains($expectedValues['title'], $this->client->getResponse()->getContent());
 
         $update = [
-            'title' => 'Updated Title',
+            'title'       => 'Updated Title',
             'description' => 'Updated Description',
-            'author' => 'Updated Author',
-            'copyright' => 'Updated Copyright'
+            'author'      => 'Updated Author',
+            'copyright'   => 'Updated Copyright',
         ];
 
         $form = $crawler->selectButton('Update')->form();
         $this->updateFormValues($form, $update);
         $this->client->submit($form);
 
-        $this->assertSonataFormValues($form, array_merge($update, [
-            'provider' => $provider,
-            'providerReference' => $expectedValues['providerReference'],
-        ]));
+        $this->assertSonataFormValues(
+            $form,
+            array_merge(
+                $update,
+                [
+                    'provider'          => $provider,
+                    'providerReference' => $expectedValues['providerReference'],
+                ]
+            )
+        );
 
         $this->client->request('GET', self::BASE_PATH.'list');
         $this->assertContains($update['title'], $this->client->getResponse()->getContent());

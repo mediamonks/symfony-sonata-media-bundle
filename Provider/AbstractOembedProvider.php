@@ -92,7 +92,7 @@ abstract class AbstractOembedProvider extends AbstractProvider implements Oembed
         $filename = sprintf('%s_%d.%s', sha1($media->getProviderReference()), time(), 'jpg');
         $thumbnailUrl = $this->getImageUrl($media->getProviderReference());
 
-        $this->getFilesystem()->write($filename, $this->getUrlData($thumbnailUrl));
+        $this->getFilesystem()->write($filename, $this->getHttpClient()->getData($thumbnailUrl));
 
         $media->setImage($filename);
     }
@@ -116,7 +116,7 @@ abstract class AbstractOembedProvider extends AbstractProvider implements Oembed
         if (empty($this->oembedDataCache[$id])) {
 
             $this->disableErrorHandler();
-            $data = json_decode($this->getUrlData($this->getOembedUrl($id)), true);
+            $data = json_decode($this->getHttpClient()->getData($this->getOembedUrl($id)), true);
             $this->restoreErrorHandler();
 
             if (empty($data['title'])) {
@@ -162,44 +162,5 @@ abstract class AbstractOembedProvider extends AbstractProvider implements Oembed
     public function supportsImage()
     {
         return true;
-    }
-
-    /**
-     * @param $url
-     * @return mixed
-     */
-    protected function getUrlData($url)
-    {
-        $ch = curl_init();
-
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_URL, $url);
-
-        $data = curl_exec($ch);
-        curl_close($ch);
-
-        return $data;
-    }
-
-    /**
-     * @param string $url
-     * @return bool
-     */
-    protected function urlExists($url)
-    {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_NOBODY, true);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-        curl_setopt($ch, CURLOPT_HEADER, false);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'HEAD');
-
-        curl_exec($ch);
-        $info = curl_getinfo($ch);
-        curl_close($ch);
-
-        return $info === Response::HTTP_OK;
     }
 }

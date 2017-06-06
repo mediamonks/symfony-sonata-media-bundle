@@ -33,6 +33,10 @@ class ProviderPass implements CompilerPassInterface
                 'setTranslator',
                 [new Reference('translator')]
             );
+            $container->getDefinition($id)->addMethodCall(
+                'setHttpClient',
+                [new Reference('mediamonks.sonata_media.http_client')]
+            );
         }
     }
 }

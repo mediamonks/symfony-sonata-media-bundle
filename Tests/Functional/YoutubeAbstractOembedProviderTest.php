@@ -2,7 +2,7 @@
 
 namespace MediaMonks\SonataMediaBundle\Tests\Functional;
 
-class YoutubeProviderTest extends ProviderTest
+class YoutubeAbstractOembedProviderTest extends AbstractOembedProviderTestAbstract
 {
     public function testYoutube()
     {

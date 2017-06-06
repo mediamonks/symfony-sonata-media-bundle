@@ -3,6 +3,7 @@
 namespace MediaMonks\SonataMediaBundle\Provider;
 
 use League\Flysystem\Filesystem;
+use MediaMonks\SonataMediaBundle\Client\HttpClientInterface;
 use MediaMonks\SonataMediaBundle\Model\AbstractMedia;
 use MediaMonks\SonataMediaBundle\Form\Type\MediaFocalPointType;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
@@ -42,6 +43,11 @@ abstract class AbstractProvider implements ProviderInterface
     private $imageConstraintOptions = [];
 
     /**
+     * @var HttpClientInterface
+     */
+    private $httpClient;
+
+    /**
      * @var AbstractMedia
      */
     private $media;
@@ -76,6 +82,22 @@ abstract class AbstractProvider implements ProviderInterface
     public function setImageConstraintOptions(array $options)
     {
         $this->imageConstraintOptions = $options;
+    }
+
+    /**
+     * @param HttpClientInterface $httpClient
+     */
+    public function setHttpClient(HttpClientInterface $httpClient)
+    {
+        $this->httpClient = $httpClient;
+    }
+
+    /**
+     * @return HttpClientInterface
+     */
+    public function getHttpClient()
+    {
+        return $this->httpClient;
     }
 
     /**

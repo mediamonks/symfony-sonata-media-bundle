@@ -2,7 +2,7 @@
 
 namespace MediaMonks\SonataMediaBundle\Tests\Functional;
 
-class AppTest extends BaseFunctionTest
+class AppTestAbstract extends AbstractBaseFunctionTest
 {
     public function testReady()
     {

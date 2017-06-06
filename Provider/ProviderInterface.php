@@ -3,16 +3,22 @@
 namespace MediaMonks\SonataMediaBundle\Provider;
 
 use League\Flysystem\Filesystem;
+use MediaMonks\SonataMediaBundle\Client\HttpClientInterface;
 use MediaMonks\SonataMediaBundle\Model\AbstractMedia;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\CoreBundle\Validator\ErrorElement;
+use Symfony\Component\Translation\TranslatorInterface;
 
 interface ProviderInterface
 {
     public function setFilesystem(Filesystem $filesystem);
 
     public function setImageConstraintOptions(array $options);
+
+    public function setHttpClient(HttpClientInterface $httpClient);
+
+    public function setTranslator(TranslatorInterface $translator);
 
     public function buildCreateForm(FormMapper $formMapper);
 

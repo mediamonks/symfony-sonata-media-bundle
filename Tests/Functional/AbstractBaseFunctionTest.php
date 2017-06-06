@@ -6,7 +6,7 @@ use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Form;
 use Symfony\Bundle\FrameworkBundle\Client;
 
-abstract class BaseFunctionTest extends WebTestCase
+abstract class AbstractBaseFunctionTest extends WebTestCase
 {
     protected function setUp()
     {
@@ -15,6 +15,50 @@ abstract class BaseFunctionTest extends WebTestCase
         }
 
         parent::setUp();
+
+        $this->emptyFolder($this->getMediaPathPublic());
+        $this->emptyFolder($this->getMediaPathPrivate());
+    }
+
+    /**
+     * @return string
+     */
+    protected function getMediaPathPublic()
+    {
+        return __DIR__.'/web/media';
+    }
+
+    /**
+     * @return string
+     */
+    protected function getMediaPathPrivate()
+    {
+        return __DIR__.'/var/media';
+    }
+
+    /**
+     * @param int $amount
+     * @param string $path
+     */
+    protected function assertNumberOfFilesInPath($amount, $path)
+    {
+        $fi = new \FilesystemIterator($path, \FilesystemIterator::SKIP_DOTS);
+        $this->assertEquals($amount, iterator_count($fi));
+    }
+
+    /**
+     * @param string $path
+     * @return bool
+     */
+    protected function emptyFolder($path)
+    {
+        $di = new \RecursiveDirectoryIterator($path, \FilesystemIterator::SKIP_DOTS);
+        $ri = new \RecursiveIteratorIterator($di, \RecursiveIteratorIterator::CHILD_FIRST);
+        foreach ($ri as $file) {
+            $file->isDir() ? rmdir($file) : unlink($file);
+        }
+
+        return true;
     }
 
     /**
@@ -65,9 +109,11 @@ abstract class BaseFunctionTest extends WebTestCase
         foreach ($form->getValues() as $formKey => $formValue) {
             foreach ($updates as $updateKey => $updateValue) {
                 if (strpos($formKey, sprintf('[%s]', $updateKey)) !== false) {
-                    $form->setValues([
-                        $formKey => $updateValue
-                    ]);
+                    $form->setValues(
+                        [
+                            $formKey => $updateValue,
+                        ]
+                    );
                 }
             }
         }

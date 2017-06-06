@@ -25,7 +25,7 @@ class YouTubeProvider extends AbstractOembedProvider implements ProviderInterfac
     {
         // try to get max res image (only available for 720P videos)
         $urlMaxRes = sprintf(self::URL_IMAGE_MAX_RES, $id);
-        if ($this->urlExists($urlMaxRes)) {
+        if ($this->getHttpClient()->exists($urlMaxRes)) {
             return $urlMaxRes;
         }
 

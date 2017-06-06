@@ -21,6 +21,7 @@ parameters:
     mediamonks.sonata_media.form.type.media_autocomplete.class: 'MediaMonks\SonataMediaBundle\Form\Type\MediaAutocompleteType'
     mediamonks.sonata_media.controller.helper.class: 'MediaMonks\SonataMediaBundle\Controller\HelperController'
     mediamonks.sonata_media.controller.batch.class: 'MediaMonks\SonataMediaBundle\Controller\BatchController'
+    mediamonks.sonata_media.http_client.class: 'MediaMonks\SonataMediaBundle\Client\CurlHttpClient'
 
 services:
     mediamonks.sonata_media.admin.media:
@@ -147,3 +148,6 @@ services:
             - '@mediamonks.sonata_media.admin.media'
             - '@templating'
             - '@router'
+
+    mediamonks.sonata_media.http_client:
+        class: '%mediamonks.sonata_media.http_client.class%'
