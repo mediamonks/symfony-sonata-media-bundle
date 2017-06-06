@@ -2,7 +2,7 @@
 
 namespace MediaMonks\SonataMediaBundle\Tests\Functional;
 
-class SoundcloudAbstractOembedProviderTest extends AbstractOembedProviderTestAbstract
+class SoundcloudProviderTest extends AbstractOembedProviderTestAbstract
 {
     public function testVimeo()
     {

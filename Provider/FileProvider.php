@@ -208,7 +208,7 @@ class FileProvider extends AbstractProvider
             return 'powerpoint.png';
         }
         if (in_array($extension, ['txt'])) {
-            return 'txt.png';
+            return 'text.png';
         }
         if (in_array($extension, ['doc', 'dot', 'wbk', 'docx', 'docm', 'dotx', 'dotm', 'docb'])) {
             return 'word.png';

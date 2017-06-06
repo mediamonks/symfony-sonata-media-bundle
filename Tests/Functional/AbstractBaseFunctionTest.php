@@ -25,7 +25,7 @@ abstract class AbstractBaseFunctionTest extends WebTestCase
      */
     protected function getMediaPathPublic()
     {
-        return __DIR__.'/web/media';
+        return __DIR__.'/web/media/';
     }
 
     /**
@@ -33,7 +33,15 @@ abstract class AbstractBaseFunctionTest extends WebTestCase
      */
     protected function getMediaPathPrivate()
     {
-        return __DIR__.'/var/media';
+        return __DIR__.'/var/media/';
+    }
+
+    /**
+     * @return string
+     */
+    protected function getFixturesPath()
+    {
+        return __DIR__.'/var/fixtures/';
     }
 
     /**
@@ -104,18 +112,34 @@ abstract class AbstractBaseFunctionTest extends WebTestCase
      * @param Form $form
      * @param array $updates
      */
-    protected function updateFormValues(Form $form, array $updates)
+    protected function updateSonataFormValues(Form $form, array $updates)
     {
         foreach ($form->getValues() as $formKey => $formValue) {
             foreach ($updates as $updateKey => $updateValue) {
                 if (strpos($formKey, sprintf('[%s]', $updateKey)) !== false) {
-                    $form->setValues(
-                        [
-                            $formKey => $updateValue,
-                        ]
-                    );
+                    $form[$formKey] = $updateValue;
                 }
             }
         }
+    }
+
+    protected function getSonataFormBaseKey(Form $form)
+    {
+        foreach ($form->getValues() as $k => $v) {
+            if (preg_match('~(.*)\[(.*)\]~', $k, $matches)) {
+                return $matches[1];
+            }
+        }
+    }
+
+    /**
+     * @param Form $form
+     * @param string $file
+     */
+    protected function setFormBinaryContent(Form $form, $file)
+    {
+        $baseKey = $this->getSonataFormBaseKey($form);
+
+        $form[sprintf('%s[binaryContent]', $baseKey)]->upload($file);
     }
 }

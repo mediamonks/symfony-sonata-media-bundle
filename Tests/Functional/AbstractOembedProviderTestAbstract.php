@@ -2,35 +2,8 @@
 
 namespace MediaMonks\SonataMediaBundle\Tests\Functional;
 
-use MediaMonks\SonataMediaBundle\Handler\ParameterBag;
-use MediaMonks\SonataMediaBundle\Handler\SignatureParameterHandler;
-use MediaMonks\SonataMediaBundle\Model\MediaInterface;
-use Symfony\Bundle\FrameworkBundle\Client;
-use Mockery as m;
-
-abstract class AbstractOembedProviderTestAbstract extends AbstractBaseFunctionTest
+abstract class AbstractOembedProviderTestAbstract extends AbstractProviderTestAbstract
 {
-    const BASE_PATH = '/mediamonks/sonatamedia/media/';
-
-    /**
-     * @var Client
-     */
-    private $client;
-
-    protected function setUp()
-    {
-        if (version_compare(PHP_VERSION, '5.6.0', '<')) {
-            $this->markTestSkipped('Functional tests only run on PHP 5.6+');
-        }
-
-        parent::setUp();
-
-        $this->client = $this->getAuthenticatedClient();
-        $this->client->followRedirects();
-
-        $this->loadFixtures([]);
-    }
-
     /**
      * @param string $provider
      * @param string $providerReference
@@ -41,31 +14,6 @@ abstract class AbstractOembedProviderTestAbstract extends AbstractBaseFunctionTe
         $this->providerAdd($provider, $providerReference, $expectedValues);
         $this->providerUpdate($provider, $providerReference, $expectedValues);
         $this->verifyMediaImageIsGenerated();
-    }
-
-    protected function verifyMediaImageIsGenerated()
-    {
-        $media = m::mock(MediaInterface::class);
-        $media->shouldReceive('getId')->andReturn(1);
-
-        $parameterBag = new ParameterBag(400, 300);
-
-        $signature = new SignatureParameterHandler('MediaMonksRestApiBundleSecret');
-        $parameters = $signature->getRouteParameters($media, $parameterBag);
-
-        $this->client->request(
-            'GET',
-            sprintf(
-                '%s%d/image/%d/%d?s=%s',
-                self::BASE_PATH,
-                $media->getId(),
-                $parameterBag->getWidth(),
-                $parameterBag->getHeight(),
-                $parameters['s']
-            )
-        );
-
-        $this->assertNumberOfFilesInPath(1, $this->getMediaPathPublic());
     }
 
     /**
@@ -86,7 +34,7 @@ abstract class AbstractOembedProviderTestAbstract extends AbstractBaseFunctionTe
             ]
         );
 
-        $this->updateFormValues(
+        $this->updateSonataFormValues(
             $form,
             [
                 'providerReference' => $providerReference,
@@ -123,7 +71,7 @@ abstract class AbstractOembedProviderTestAbstract extends AbstractBaseFunctionTe
         ];
 
         $form = $crawler->selectButton('Update')->form();
-        $this->updateFormValues($form, $update);
+        $this->updateSonataFormValues($form, $update);
         $this->client->submit($form);
 
         $this->assertSonataFormValues(
