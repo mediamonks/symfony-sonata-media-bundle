@@ -151,6 +151,10 @@ abstract class AbstractBaseFunctionTest extends WebTestCase
     protected function setFormBinaryContent(Form $form, $file)
     {
         $baseKey = $this->getSonataFormBaseKey($form);
-        $form[sprintf('%s[binaryContent]', $baseKey)]->upload($file);
+        $key = sprintf('%s[binaryContent]', $baseKey);
+        if (!file_exists($file)) {
+            throw new \Exception('Upload file does not exist at: '.$file);
+        }
+        $form[$key]->upload($file);
     }
 }

@@ -19,11 +19,15 @@ class ImageProviderTest extends AbstractProviderTestAbstract
             ]
         );
 
+        print_r($form->getPhpFiles());
+
         $this->setFormBinaryContent($form, $this->getFixturesPath().'monk.jpg');
 
-        echo $form->getMethod() . PHP_EOL;
         print_r($form->getPhpFiles());
-        print_r($form->getPhpValues());
+
+        $form[sprintf('%s[binaryContent]', $this->getSonataFormBaseKey($form))]->upload($this->getFixturesPath().'monk.jpg');
+
+        print_r($form->getPhpFiles());
 
         $crawler = $this->client->submit($form);
         $form = $crawler->selectButton('Update')->form();
