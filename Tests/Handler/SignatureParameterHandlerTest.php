@@ -3,6 +3,7 @@
 namespace MediaMonks\SonataMediaBundle\Tests\Handler;
 
 use MediaMonks\SonataMediaBundle\Exception\InvalidQueryParameterException;
+use MediaMonks\SonataMediaBundle\Exception\SignatureInvalidException;
 use MediaMonks\SonataMediaBundle\Handler\ParameterBag;
 use MediaMonks\SonataMediaBundle\Handler\SignatureParameterHandler;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
@@ -69,5 +70,22 @@ class SignatureParameterHandlerTest extends \PHPUnit_Framework_TestCase
             ]),
             new ParameterBag(self::WIDTH, self::HEIGHT, ['foo' => 'bar'])
         );
+    }
+
+    public function testGetPayloadWithoutSignature()
+    {
+        $this->setExpectedException(SignatureInvalidException::class);
+
+        $media = m::mock(MediaInterface::class);
+        $this->getHandler()->getPayload($media, self::WIDTH, self::HEIGHT);
+    }
+
+    public function testGetPayloadWithInvalidSignature()
+    {
+        $this->setExpectedException(SignatureInvalidException::class);
+
+        $this->getHandler()->getPayload($this->getMediaMock(), self::WIDTH, self::HEIGHT, [
+            SignatureParameterHandler::PARAMETER_SIGNATURE => 'foobar',
+        ]);
     }
 }
