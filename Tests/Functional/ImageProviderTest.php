@@ -21,6 +21,10 @@ class ImageProviderTest extends AbstractProviderTestAbstract
 
         $this->setFormBinaryContent($form, $this->getFixturesPath().'monk.jpg');
 
+        echo $form->getMethod() . PHP_EOL;
+        print_r($form->getPhpFiles());
+        print_r($form->getPhpValues());
+
         $crawler = $this->client->submit($form);
         $form = $crawler->selectButton('Update')->form();
 
