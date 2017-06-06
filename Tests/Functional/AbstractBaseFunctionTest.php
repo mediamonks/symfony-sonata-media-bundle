@@ -128,6 +128,10 @@ abstract class AbstractBaseFunctionTest extends WebTestCase
         }
     }
 
+    /**
+     * @param Form $form
+     * @return mixed
+     */
     protected function getSonataFormBaseKey(Form $form)
     {
         foreach ($form->getValues() as $k => $v) {
@@ -135,16 +139,18 @@ abstract class AbstractBaseFunctionTest extends WebTestCase
                 return $matches[1];
             }
         }
+
+        throw new \Exception('Could not find Sonata base key in form');
     }
 
     /**
      * @param Form $form
      * @param string $file
+     * @throws \Exception
      */
     protected function setFormBinaryContent(Form $form, $file)
     {
         $baseKey = $this->getSonataFormBaseKey($form);
-
         $form[sprintf('%s[binaryContent]', $baseKey)]->upload($file);
     }
 }

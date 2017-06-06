@@ -20,10 +20,6 @@ abstract class AbstractProviderTestAbstract extends AbstractBaseFunctionTest
 
     protected function setUp()
     {
-        if (version_compare(PHP_VERSION, '5.6.0', '<')) {
-            $this->markTestSkipped('Functional tests only run on PHP 5.6+');
-        }
-
         parent::setUp();
 
         $this->client = $this->getAuthenticatedClient();

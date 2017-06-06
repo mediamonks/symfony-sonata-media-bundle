@@ -21,14 +21,8 @@ class FileProviderTest extends AbstractProviderTestAbstract
 
         $this->setFormBinaryContent($form, $this->getFixturesPath().'text.txt');
 
-        try {
-            $crawler = $this->client->submit($form);
-            $form = $crawler->selectButton('Update')->form();
-        }
-        catch (\Exception $e) {
-            echo $this->client->getResponse()->getContent();
-            return;
-        }
+        $crawler = $this->client->submit($form);
+        $form = $crawler->selectButton('Update')->form();
 
         $this->assertSonataFormValues($form, ['title' => 'text']);
 

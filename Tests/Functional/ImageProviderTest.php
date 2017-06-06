@@ -21,14 +21,8 @@ class ImageProviderTest extends AbstractProviderTestAbstract
 
         $this->setFormBinaryContent($form, $this->getFixturesPath().'monk.jpg');
 
-        try {
-            $crawler = $this->client->submit($form);
-            $form = $crawler->selectButton('Update')->form();
-        }
-        catch (\Exception $e) {
-            echo $this->client->getResponse()->getContent();
-            return;
-        }
+        $crawler = $this->client->submit($form);
+        $form = $crawler->selectButton('Update')->form();
 
         $this->assertSonataFormValues($form, ['title' => 'monk']);
 
