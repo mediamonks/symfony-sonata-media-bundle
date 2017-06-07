@@ -60,10 +60,12 @@ abstract class AbstractBaseFunctionTest extends WebTestCase
      */
     protected function emptyFolder($path)
     {
+        echo 'Removing files in: '.$path.PHP_EOL;
         if (file_exists($path)) {
             $di = new \RecursiveDirectoryIterator($path, \FilesystemIterator::SKIP_DOTS);
             $ri = new \RecursiveIteratorIterator($di, \RecursiveIteratorIterator::CHILD_FIRST);
             foreach ($ri as $file) {
+                echo $file.PHP_EOL;
                 $file->isDir() ? rmdir($file) : unlink($file);
             }
         }
