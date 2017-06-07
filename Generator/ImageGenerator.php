@@ -130,7 +130,7 @@ class ImageGenerator
 
     /**
      * @param MediaInterface $media
-     * @param $tmp
+     * @param string $tmp
      * @param ParameterBag $parameterBag
      * @return string
      */
