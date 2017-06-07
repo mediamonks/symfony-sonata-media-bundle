@@ -1,6 +1,7 @@
-*
+app.db3
 !.gitignore
 !doctrine
 !cache
 !logs
 !media
+!fixtures
