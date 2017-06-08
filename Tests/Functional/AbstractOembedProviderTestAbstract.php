@@ -47,6 +47,7 @@ abstract class AbstractOembedProviderTestAbstract extends AbstractProviderTestAb
 
         $form = $crawler->selectButton('Update')->form();
 
+        $this->assertContains('has been successfully created', $this->client->getResponse()->getContent());
         $this->assertSonataFormValues($form, $expectedValues);
 
         $this->client->request('GET', self::BASE_PATH.'list');

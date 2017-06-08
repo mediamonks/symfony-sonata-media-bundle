@@ -24,12 +24,12 @@
             "access-control-allow-methods": "GET, PUT, POST, DELETE",
             "x-frame-options": "SAMEORIGIN",
             "etag": "\"05af05a8ed042b333da10a14f576882a\"",
-            "date": "Thu, 08 Jun 2017 08:24:03 GMT",
+            "date": "Thu, 08 Jun 2017 11:19:48 GMT",
             "Server": "am\/2",
             "X-Cache": "Miss from cloudfront",
-            "Via": "1.1 48e3cf3ee71856983cda4c8805113c56.cloudfront.net (CloudFront)",
-            "X-Amz-Cf-Id": "yhAfK3mwn4n67s9HRsmkKBRGVCku8PACBOXXv6QmpFvYDZ6WvikyaQ=="
+            "Via": "1.1 9d087ae042196d42f77dddb98f17f1fd.cloudfront.net (CloudFront)",
+            "X-Amz-Cf-Id": "RYIWW0-OyVup2HiexTekm00o18hh9YDsjdwU5LYnLhVRPBumyDUGgA=="
         },
         "body": "{\"version\":1.0,\"type\":\"rich\",\"provider_name\":\"SoundCloud\",\"provider_url\":\"http:\/\/soundcloud.com\",\"height\":400,\"width\":\"100%\",\"title\":\"Old Spice Workout Anthem by MediaMonks\",\"description\":\"http:\/\/www.musclesurprise.com\/\",\"thumbnail_url\":\"http:\/\/i1.sndcdn.com\/artworks-000147644440-2nl3y7-t500x500.jpg\",\"html\":\"\\u003Ciframe width=\\\"100%\\\" height=\\\"400\\\" scrolling=\\\"no\\\" frameborder=\\\"no\\\" src=\\\"https:\/\/w.soundcloud.com\/player\/?visual=true\\u0026url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F247676511\\u0026show_artwork=true\\\"\\u003E\\u003C\/iframe\\u003E\",\"author_name\":\"MediaMonks\",\"author_url\":\"https:\/\/soundcloud.com\/mediamonks-2\"}"
     }
-},,,,]
+},,,]

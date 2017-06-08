@@ -35,7 +35,7 @@ abstract class AbstractProviderTestAbstract extends AbstractBaseFunctionTest
 
         $parameterBag = new ParameterBag(400, 300);
 
-        $signature = new SignatureParameterHandler('MediaMonksRestApiBundleSecret');
+        $signature = new SignatureParameterHandler(self::$kernel->getContainer()->getParameter('secret'));
         $parameters = $signature->getRouteParameters($media, $parameterBag);
 
         $this->client->request(

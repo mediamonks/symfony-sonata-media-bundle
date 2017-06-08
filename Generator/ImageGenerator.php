@@ -175,6 +175,14 @@ class ImageGenerator
     }
 
     /**
+     * @return array
+     */
+    public function getDefaultImageParameters()
+    {
+        return $this->defaultImageParameters;
+    }
+
+    /**
      * @return string
      */
     public function getTmpPath()
