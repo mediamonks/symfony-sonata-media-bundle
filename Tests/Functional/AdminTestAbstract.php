@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Client;
 use Mockery as m;
 use Symfony\Component\DomCrawler\Form;
 
-abstract class AbstractProviderTestAbstract extends AbstractBaseFunctionTest
+abstract class AdminTestAbstract extends AbstractBaseFunctionTest
 {
     const BASE_PATH = '/mediamonks/sonatamedia/media/';
 
@@ -51,5 +51,20 @@ abstract class AbstractProviderTestAbstract extends AbstractBaseFunctionTest
         );
 
         $this->assertNumberOfFilesInPath(1, $this->getMediaPathPublic());
+    }
+
+    protected function uploadImage()
+    {
+        $provider = 'image';
+        $crawler = $this->client->request('GET', self::BASE_PATH.'create?provider='.$provider);
+        $form = $crawler->selectButton('Create')->form();
+        $this->assertSonataFormValues(
+            $form,
+            [
+                'provider' => $provider,
+            ]
+        );
+        $this->setFormBinaryContent($form, $this->getFixturesPath().'monk.jpg');
+        return $this->client->submit($form);
     }
 }

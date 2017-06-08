@@ -2,7 +2,7 @@
 
 namespace MediaMonks\SonataMediaBundle\Tests\Functional;
 
-abstract class AbstractOembedProviderTestAbstract extends AbstractProviderTestAbstract
+abstract class AbstractOembedProviderTestAbstract extends AdminTestAbstract
 {
     /**
      * @param string $provider

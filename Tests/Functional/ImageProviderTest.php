@@ -2,7 +2,7 @@
 
 namespace MediaMonks\SonataMediaBundle\Tests\Functional;
 
-class ImageProviderTest extends AbstractProviderTestAbstract
+class ImageProviderTest extends AdminTestAbstract
 {
     public function testImage()
     {

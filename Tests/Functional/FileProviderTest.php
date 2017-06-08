@@ -4,7 +4,7 @@ namespace MediaMonks\SonataMediaBundle\Tests\Functional;
 
 use Symfony\Component\DomCrawler\Crawler;
 
-class FileProviderTest extends AbstractProviderTestAbstract
+class FileProviderTest extends AdminTestAbstract
 {
     public function testFile()
     {
