@@ -72,6 +72,7 @@ abstract class AbstractOembedProviderTestAbstract extends AdminTestAbstract
             'description' => 'Updated Description',
             'author'      => 'Updated Author',
             'copyright'   => 'Updated Copyright',
+            'focalPoint'  => '75-25',
         ];
 
         $form = $crawler->selectButton('Update')->form();
