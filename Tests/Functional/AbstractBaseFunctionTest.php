@@ -71,9 +71,6 @@ abstract class AbstractBaseFunctionTest extends WebTestCase
             $di = new \RecursiveDirectoryIterator($path, \FilesystemIterator::SKIP_DOTS);
             $ri = new \RecursiveIteratorIterator($di, \RecursiveIteratorIterator::CHILD_FIRST);
             foreach ($ri as $file) {
-                if ($file->getFilename() === '.gitignore') {
-                    continue;
-                }
                 $file->isDir() ? rmdir($file) : unlink($file);
             }
         } else {

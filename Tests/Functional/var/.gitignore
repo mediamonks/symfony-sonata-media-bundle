@@ -1,4 +1,5 @@
 app.db3
+media/*
 !.gitignore
 !doctrine
 !cache
