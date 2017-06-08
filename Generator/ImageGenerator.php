@@ -155,7 +155,7 @@ class ImageGenerator
             $this->tmpPrefix = 'media';
         }
 
-        return tempnam($this->tmpPath, $this->tmpPrefix);
+        return @tempnam($this->tmpPath, $this->tmpPrefix);
     }
 
     /**

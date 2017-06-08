@@ -35,10 +35,19 @@ class FileProviderTest extends AbstractProviderTestAbstract
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'response status is 2xx');
     }
 
+    public function testInvalidFileUpload()
+    {
+        $this->uploadFile('text.exe');
+
+        $this->assertContains('An error has occurred during the creation of item', $this->client->getResponse()->getContent());
+        $this->assertContains('not allowed to upload a file with extension', $this->client->getResponse()->getContent());
+    }
+
     /**
+     * @param string $fileName
      * @return Crawler
      */
-    private function uploadFile()
+    private function uploadFile($fileName = 'text.txt')
     {
         $provider = 'file';
 
@@ -53,7 +62,7 @@ class FileProviderTest extends AbstractProviderTestAbstract
             ]
         );
 
-        $this->setFormBinaryContent($form, $this->getFixturesPath().'text.txt');
+        $this->setFormBinaryContent($form, $this->getFixturesPath().$fileName);
 
         $crawler = $this->client->submit($form);
 
