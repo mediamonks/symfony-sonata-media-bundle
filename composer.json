@@ -27,12 +27,12 @@
     "symfony/dependency-injection": "^2.8|^3.0",
     "symfony/http-kernel": "^2.8|^3.0",
     "league/flysystem": "^1.0",
-    "league/glide": "^1.2"
+    "league/glide": "^1.2",
+    "phpunit/phpunit": "~4.8"
   },
   "require-dev": {
     "sensio/framework-extra-bundle": "^3.0",
     "matthiasnoback/symfony-dependency-injection-test": "0.*",
-    "phpunit/phpunit": "^4.8",
     "mockery/mockery": "^0.9.4",
     "oneup/flysystem-bundle": "^1.13",
     "doctrine/doctrine-bundle": "^1.6",
@@ -40,7 +40,8 @@
     "sonata-project/doctrine-orm-admin-bundle": "~3.0",
     "liip/functional-test-bundle": "^1.7",
     "doctrine/doctrine-fixtures-bundle": "^2.3",
-    "symfony/symfony": "~2.8.0"
+    "symfony/symfony": "~2.8.0",
+    "php-vcr/php-vcr": "^1.3"
   },
   "suggest": {
     "oneup/flysystem-bundle": "Makes the Flysystem configuration a lot easier"

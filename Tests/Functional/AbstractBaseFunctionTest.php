@@ -18,6 +18,13 @@ abstract class AbstractBaseFunctionTest extends WebTestCase
 
         $this->emptyFolder($this->getMediaPathPublic());
         $this->emptyFolder($this->getMediaPathPrivate());
+
+        \VCR\VCR::configure()
+            ->setCassettePath($this->getFixturesPath())
+            ->enableLibraryHooks(['curl'])
+            ->setStorage('json');
+
+        \VCR\VCR::turnOn();
     }
 
     /**
@@ -66,8 +73,7 @@ abstract class AbstractBaseFunctionTest extends WebTestCase
             foreach ($ri as $file) {
                 $file->isDir() ? rmdir($file) : unlink($file);
             }
-        }
-        else {
+        } else {
             @mkdir($path);
         }
 

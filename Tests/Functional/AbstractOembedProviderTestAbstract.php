@@ -11,9 +11,11 @@ abstract class AbstractOembedProviderTestAbstract extends AbstractProviderTestAb
      */
     protected function providerFlow($provider, $providerReference, array $expectedValues)
     {
+        \VCR\VCR::insertCassette($provider);
         $this->providerAdd($provider, $providerReference, $expectedValues);
         $this->providerUpdate($provider, $providerReference, $expectedValues);
         $this->verifyMediaImageIsGenerated();
+        \VCR\VCR::eject();
     }
 
     /**
@@ -42,6 +44,7 @@ abstract class AbstractOembedProviderTestAbstract extends AbstractProviderTestAb
         );
 
         $crawler = $this->client->submit($form);
+
         $form = $crawler->selectButton('Update')->form();
 
         $this->assertSonataFormValues($form, $expectedValues);

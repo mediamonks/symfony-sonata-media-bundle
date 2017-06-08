@@ -4,7 +4,7 @@ namespace MediaMonks\SonataMediaBundle\Tests\Functional;
 
 class SoundcloudProviderTest extends AbstractOembedProviderTestAbstract
 {
-    public function testVimeo()
+    public function testSoundcloud()
     {
         $this->providerFlow(
             'soundcloud',
