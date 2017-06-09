@@ -16,9 +16,15 @@ class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
 {
     use MockeryTrait;
 
-    public function test_generate()
+    public function setUp()
     {
+        parent::setUp();
+
         m::resetContainer();
+    }
+
+    public function testGenerate()
+    {
         $router = m::mock(Router::class);
         $router->shouldReceive('generate')->withArgs(
             ['route_name', [], UrlGeneratorInterface::ABSOLUTE_PATH]
@@ -34,5 +40,24 @@ class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
         $media->shouldReceive('getFocalPoint')->andReturn('50-50');
 
         $this->assertEquals('http://route/1/', $generator->generate($media, 400,300));
+    }
+
+    public function testGenerateWithRouteName()
+    {
+        $router = m::mock(Router::class);
+        $router->shouldReceive('generate')->withArgs(
+            ['route_name_custom', [], UrlGeneratorInterface::ABSOLUTE_PATH]
+        )->andReturn('http://route-foo/1/');
+
+        $parameterHandler = m::mock(ParameterHandlerInterface::class);
+        $parameterHandler->shouldReceive('getQueryString')->andReturn('querystring');
+        $parameterHandler->shouldReceive('getRouteParameters')->andReturn([]);
+
+        $generator = new UrlGenerator($router, $parameterHandler, 'route_name');
+
+        $media = m::mock(MediaInterface::class);
+        $media->shouldReceive('getFocalPoint')->andReturn('50-50');
+
+        $this->assertEquals('http://route-foo/1/', $generator->generate($media, 400,300, [], 'route_name_custom'));
     }
 }

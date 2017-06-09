@@ -39,6 +39,9 @@ class MenuBuilderListener
         $menu = $event->getMenu();
 
         $child = $menu->getChild('Media');
+        if (empty($child)) {
+            return;
+        }
         $child->setLabel($this->translator->trans('menu.title'));
 
         /*$this->addProviderMenuChild(

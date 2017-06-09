@@ -14,6 +14,7 @@ class MediaMonksSonataMediaExtension extends Extension
     /**
      * @param array $configs
      * @param ContainerBuilder $container
+     * @throws \Exception
      */
     public function load(array $configs, ContainerBuilder $container)
     {
@@ -22,6 +23,10 @@ class MediaMonksSonataMediaExtension extends Extension
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+
+        if (empty($config['filesystem_private']) || empty($config['filesystem_public'])) {
+            throw new \Exception('Both a private and a public filesystem must be set');
+        }
 
         $container->setAlias('mediamonks.sonata_media.filesystem.private', $config['filesystem_private']);
         $container->setAlias('mediamonks.sonata_media.filesystem.public', $config['filesystem_public']);
@@ -69,12 +74,14 @@ class MediaMonksSonataMediaExtension extends Extension
 
         $formResource = $config['templates']['form'];
         $twigFormResourceParameterId = 'twig.form.resources';
-        $twigFormResources = $container->getParameter($twigFormResourceParameterId);
-        if (!empty($formResource) && !in_array($formResource, $twigFormResources)) {
-            $twigFormResources[] = $formResource;
-        }
+        if ($container->hasParameter($twigFormResourceParameterId)) {
+            $twigFormResources = $container->getParameter($twigFormResourceParameterId);
+            if (!empty($formResource) && !in_array($formResource, $twigFormResources)) {
+                $twigFormResources[] = $formResource;
+            }
 
-        $container->setParameter($twigFormResourceParameterId, $twigFormResources);
+            $container->setParameter($twigFormResourceParameterId, $twigFormResources);
+        }
     }
 
     /**

@@ -20,6 +20,8 @@ class VimeoProvider extends AbstractOembedProvider implements OembedProviderInte
                     return $urlPart;
                 }
             }
+
+            throw new \Exception('The supplied URL does not look like a Vimeo URL');
         }
 
         return $value;

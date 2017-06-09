@@ -64,6 +64,9 @@ class SoundCloudProvider extends AbstractOembedProvider implements ProviderInter
     {
         if (strpos($value, 'soundcloud.com')) {
             $url = parse_url($value);
+            if (empty($url['path']) || empty(trim($url['path'], '/'))) {
+                throw new \Exception('The supplied URL does not look like a SoundCloud URL');
+            }
 
             return trim($url['path'], '/');
         }

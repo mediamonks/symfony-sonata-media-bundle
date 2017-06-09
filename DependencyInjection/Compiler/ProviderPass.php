@@ -13,6 +13,10 @@ class ProviderPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
+        if (!$container->hasParameter('mediamonks.sonata_media.config')) {
+            return;
+        }
+
         $config = $container->getParameter('mediamonks.sonata_media.config');
 
         if (empty($config['image_constraints'])) {

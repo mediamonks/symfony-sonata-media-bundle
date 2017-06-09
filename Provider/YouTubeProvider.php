@@ -54,7 +54,10 @@ class YouTubeProvider extends AbstractOembedProvider implements ProviderInterfac
 
         if (strpos($value, 'youtu.be')) {
             $url = parse_url($value);
-            $id = substr($url['path'], 1);
+            if (empty($url['path']) || empty(trim($url['path'], '/'))) {
+                throw new \Exception('The supplied URL does not look like a Youtube URL');
+            }
+            $id = trim($url['path'], '/');
 
             return $id;
         }
