@@ -41,6 +41,7 @@ class ProviderPassTest extends AbstractCompilerPassTestCase
         $provider = m::mock(Definition::class);
         $provider->shouldReceive('isLazy')->andReturn(false);
         $provider->shouldReceive('isSynthetic')->andReturn(false);
+        $provider->shouldReceive('getClass')->andReturn(self::class);
         $provider->shouldReceive('hasTag')->withArgs(['sonata_media.provider'])->andReturn(true);
         $provider->shouldReceive('getTag')->withArgs(['sonata_media.provider'])->andReturn(true);
         $provider->shouldReceive('addMethodCall')->once()->withArgs(['setFilesystem', \Mockery::any()]);

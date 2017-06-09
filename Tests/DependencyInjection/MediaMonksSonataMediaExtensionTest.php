@@ -28,6 +28,12 @@ class MediaMonksSonataMediaExtensionTest extends AbstractExtensionTestCase
         $this->assertContainerBuilderHasParameter('mediamonks.sonata_media.entity.class', 'CustomAppBundle\Entity\Media');
     }
 
+    public function testMissingFilesystem()
+    {
+        $this->setExpectedException(\Exception::class);
+        $this->load();
+    }
+
     /**
      * @return array
      */
