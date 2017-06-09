@@ -2,6 +2,7 @@
 
 namespace MediaMonks\SonataMediaBundle\Tests\Provider;
 
+use MediaMonks\SonataMediaBundle\Exception\InvalidProviderUrlException;
 use MediaMonks\SonataMediaBundle\Provider\YouTubeProvider;
 
 class YoutubeProviderTest extends \PHPUnit_Framework_TestCase
@@ -18,21 +19,21 @@ class YoutubeProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testParseInvalidProviderReference()
     {
-        $this->setExpectedException(\Exception::class);
+        $this->setExpectedException(InvalidProviderUrlException::class);
         $youtube = new YouTubeProvider();
         $youtube->parseProviderReference('https://www.youtube.com/watch');
     }
 
     public function testParseInvalidProviderReference2()
     {
-        $this->setExpectedException(\Exception::class);
+        $this->setExpectedException(InvalidProviderUrlException::class);
         $youtube = new YouTubeProvider();
         $youtube->parseProviderReference('https://www.youtube.com');
     }
 
     public function testParseInvalidProviderReferenceShort()
     {
-        $this->setExpectedException(\Exception::class);
+        $this->setExpectedException(InvalidProviderUrlException::class);
         $youtube = new YouTubeProvider();
         $youtube->parseProviderReference('https://youtu.be');
     }

@@ -2,6 +2,7 @@
 
 namespace MediaMonks\SonataMediaBundle\Tests\Provider;
 
+use MediaMonks\SonataMediaBundle\Exception\InvalidProviderUrlException;
 use MediaMonks\SonataMediaBundle\Provider\SoundCloudProvider;
 
 class SouncloudProviderTest extends \PHPUnit_Framework_TestCase
@@ -15,7 +16,7 @@ class SouncloudProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testParseInvalidProviderReference()
     {
-        $this->setExpectedException(\Exception::class);
+        $this->setExpectedException(InvalidProviderUrlException::class);
         $youtube = new SoundCloudProvider();
         $youtube->parseProviderReference('https://soundcloud.com/');
     }

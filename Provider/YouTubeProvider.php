@@ -2,6 +2,8 @@
 
 namespace MediaMonks\SonataMediaBundle\Provider;
 
+use MediaMonks\SonataMediaBundle\Exception\InvalidProviderUrlException;
+
 class YouTubeProvider extends AbstractOembedProvider implements ProviderInterface
 {
     const URL_OEMBED = 'http://www.youtube.com/oembed?url=http://www.youtube.com/watch?v=%s&format=json';
@@ -42,11 +44,11 @@ class YouTubeProvider extends AbstractOembedProvider implements ProviderInterfac
         if (strpos($value, 'youtube.com')) {
             $url = parse_url($value);
             if (empty($url['query'])) {
-                throw new \Exception('The supplied URL does not look like a Youtube URL');
+                throw new InvalidProviderUrlException('Youtube');
             }
             parse_str($url['query'], $params);
             if (empty($params['v'])) {
-                throw new \Exception('The supplied URL does not look like a Youtube URL');
+                throw new InvalidProviderUrlException('Youtube');
             }
 
             return $params['v'];
@@ -55,7 +57,7 @@ class YouTubeProvider extends AbstractOembedProvider implements ProviderInterfac
         if (strpos($value, 'youtu.be')) {
             $url = parse_url($value);
             if (empty($url['path']) || empty(trim($url['path'], '/'))) {
-                throw new \Exception('The supplied URL does not look like a Youtube URL');
+                throw new InvalidProviderUrlException('Youtube');
             }
             $id = trim($url['path'], '/');
 

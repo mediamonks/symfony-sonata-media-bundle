@@ -2,6 +2,8 @@
 
 namespace MediaMonks\SonataMediaBundle\Provider;
 
+use MediaMonks\SonataMediaBundle\Exception\InvalidProviderUrlException;
+
 class VimeoProvider extends AbstractOembedProvider implements OembedProviderInterface
 {
     const URL_OEMBED = 'https://vimeo.com/api/oembed.json?url=http://vimeo.com/%s';
@@ -21,7 +23,7 @@ class VimeoProvider extends AbstractOembedProvider implements OembedProviderInte
                 }
             }
 
-            throw new \Exception('The supplied URL does not look like a Vimeo URL');
+            throw new InvalidProviderUrlException('Vimeo');
         }
 
         return $value;

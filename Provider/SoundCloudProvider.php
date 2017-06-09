@@ -2,6 +2,7 @@
 
 namespace MediaMonks\SonataMediaBundle\Provider;
 
+use MediaMonks\SonataMediaBundle\Exception\InvalidProviderUrlException;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\CoreBundle\Form\Type\ImmutableArrayType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -65,7 +66,7 @@ class SoundCloudProvider extends AbstractOembedProvider implements ProviderInter
         if (strpos($value, 'soundcloud.com')) {
             $url = parse_url($value);
             if (empty($url['path']) || empty(trim($url['path'], '/'))) {
-                throw new \Exception('The supplied URL does not look like a SoundCloud URL');
+                throw new InvalidProviderUrlException('SoundCloud');
             }
 
             return trim($url['path'], '/');
