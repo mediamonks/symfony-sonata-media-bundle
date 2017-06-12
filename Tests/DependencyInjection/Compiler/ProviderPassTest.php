@@ -43,6 +43,7 @@ class ProviderPassTest extends AbstractCompilerPassTestCase
         $provider->shouldReceive('isSynthetic')->andReturn(false);
         $provider->shouldReceive('getClass')->andReturn(self::class);
         $provider->shouldReceive('getInstanceofConditionals')->andReturn([]);
+        $provider->shouldReceive('isAutoconfigured')->andReturn(true);
         $provider->shouldReceive('hasTag')->withArgs(['sonata_media.provider'])->andReturn(true);
         $provider->shouldReceive('getTag')->withArgs(['sonata_media.provider'])->andReturn(true);
         $provider->shouldReceive('addMethodCall')->once()->withArgs(['setFilesystem', \Mockery::any()]);

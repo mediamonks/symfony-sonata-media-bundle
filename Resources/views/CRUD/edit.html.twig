@@ -42,7 +42,7 @@
                     {% if object|media_supports('embed') %}
                         <label>{{ 'embed'|trans }}</label>
                         <br style="clear: both;">
-                        {{ object|media_embed(360, 230) }}
+                        {{ object|media_embed(360, 230, [], 'admin_mediamonks_sonatamedia_media_image') }}
                         <br><br>
                     {% endif %}
                     {% if object|media_supports('image') %}

@@ -3,7 +3,7 @@
 <p>{{ 'form.image_focal_point.description'|trans }}</p>
 
 <div id="{{ id }}_focal_point" style="position: relative;">
-    {{ media|media_image(500, 0) }}
+    {{ media|media_image(500, 0, [], 'admin_mediamonks_sonatamedia_media_image') }}
     <i style="display:block; position:absolute;top:0;left:0;font-size:32px;color:#fff;text-shadow: 2px 2px 5px #333;" id="{{ id }}_focal_point_select" class="fa fa-crosshairs"></i>
 </div>
 
