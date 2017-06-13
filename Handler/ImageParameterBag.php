@@ -4,7 +4,7 @@ namespace MediaMonks\SonataMediaBundle\Handler;
 
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 
-class ParameterBag implements ParameterBagInterface
+class ImageParameterBag implements ParameterBagInterface
 {
     /**
      * @var int
@@ -104,7 +104,12 @@ class ParameterBag implements ParameterBagInterface
      */
     public function toArray(MediaInterface $media)
     {
-        return array_merge($this->getExtra(), [
+        $extra = $this->getExtra();
+        if (!isset($extra['fit']) && !empty($media->getFocalPoint())) {
+            //$extra['fit'] = sprintf('crop-%s', $media->getFocalPoint());
+        }
+
+        return array_merge($extra, [
             'id' => $media->getId(),
             'width' => $this->getWidth(),
             'height' => $this->getHeight(),

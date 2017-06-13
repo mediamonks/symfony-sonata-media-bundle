@@ -3,7 +3,7 @@
 namespace MediaMonks\SonataMediaBundle\Tests\Generator;
 
 use MediaMonks\SonataMediaBundle\Generator\UrlGenerator;
-use MediaMonks\SonataMediaBundle\Handler\ParameterBag;
+use MediaMonks\SonataMediaBundle\Handler\ImageParameterBag;
 use MediaMonks\SonataMediaBundle\Handler\ParameterHandlerInterface;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use MediaMonks\SonataMediaBundle\Tests\MockeryTrait;
@@ -39,7 +39,9 @@ class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
         $media = m::mock(MediaInterface::class);
         $media->shouldReceive('getFocalPoint')->andReturn('50-50');
 
-        $this->assertEquals('http://route/1/', $generator->generate($media, 400,300));
+        $parameterBag = new ImageParameterBag(400, 300);
+
+        $this->assertEquals('http://route/1/', $generator->generate($media, $parameterBag));
     }
 
     public function testGenerateWithRouteName()
@@ -55,9 +57,11 @@ class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
 
         $generator = new UrlGenerator($router, $parameterHandler, 'route_name');
 
+        $parameterBag = new ImageParameterBag(400, 300);
+
         $media = m::mock(MediaInterface::class);
         $media->shouldReceive('getFocalPoint')->andReturn('50-50');
 
-        $this->assertEquals('http://route-foo/1/', $generator->generate($media, 400,300, [], 'route_name_custom'));
+        $this->assertEquals('http://route-foo/1/', $generator->generate($media, $parameterBag, 'route_name_custom'));
     }
 }

@@ -2,7 +2,7 @@
 
 namespace MediaMonks\SonataMediaBundle\Generator;
 
-use MediaMonks\SonataMediaBundle\Handler\ParameterBag;
+use MediaMonks\SonataMediaBundle\Handler\ParameterBagInterface;
 use MediaMonks\SonataMediaBundle\Handler\ParameterHandlerInterface;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
@@ -39,18 +39,14 @@ class UrlGenerator
 
     /**
      * @param MediaInterface $media
-     * @param int $width
-     * @param int $height
-     * @param array $extra
+     * @param ParameterBagInterface $parameterBag
      * @param null $routeName
      * @param int $referenceType
      * @return string
      */
     public function generate(
         MediaInterface $media,
-        $width,
-        $height,
-        array $extra = [],
+        ParameterBagInterface $parameterBag,
         $routeName = null,
         $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH
     ) {
@@ -58,13 +54,9 @@ class UrlGenerator
             $routeName = $this->defaultRouteName;
         }
 
-        if (!isset($extra['fit']) && !empty($media->getFocalPoint())) {
-            $extra['fit'] = sprintf('crop-%s', $media->getFocalPoint());
-        }
-
         return $this->router->generate(
                 $routeName,
-                $this->parameterHandler->getRouteParameters($media, new ParameterBag($width, $height, $extra)),
+                $this->parameterHandler->getRouteParameters($media, $parameterBag),
                 $referenceType
             );
     }

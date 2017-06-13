@@ -8,7 +8,7 @@ use League\Glide\Filesystem\FilesystemException;
 use League\Glide\Server;
 use MediaMonks\SonataMediaBundle\Generator\FilenameGeneratorInterface;
 use MediaMonks\SonataMediaBundle\Generator\ImageGenerator;
-use MediaMonks\SonataMediaBundle\Handler\ParameterBag;
+use MediaMonks\SonataMediaBundle\Handler\ImageParameterBag;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Mockery as m;
 
@@ -35,7 +35,7 @@ class ImageGeneratorTest extends \PHPUnit_Framework_TestCase
         $media = m::mock(MediaInterface::class);
         $media->shouldReceive('getImage')->once()->andReturn('image.jpg');
 
-        $parameters = new ParameterBag(400, 300);
+        $parameters = new ImageParameterBag(400, 300);
         $imageGenerator = new ImageGenerator($server, $filenameGenerator);
         $filename = $imageGenerator->generate($media, $parameters);
 
@@ -85,7 +85,7 @@ class ImageGeneratorTest extends \PHPUnit_Framework_TestCase
         $media = m::mock(MediaInterface::class);
         $media->shouldReceive('getImage')->once()->andReturn('image.jpg');
 
-        $parameters = new ParameterBag(400, 300);
+        $parameters = new ImageParameterBag(400, 300);
 
         $imageGenerator = new ImageGenerator($server,$filenameGenerator, [], null, '/non-existing-path');
         $imageGenerator->generate($media, $parameters);

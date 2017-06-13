@@ -4,7 +4,7 @@ namespace MediaMonks\SonataMediaBundle\Generator;
 
 use League\Glide\Filesystem\FilesystemException;
 use League\Glide\Server;
-use MediaMonks\SonataMediaBundle\Handler\ParameterBag;
+use MediaMonks\SonataMediaBundle\Handler\ImageParameterBag;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 
 class ImageGenerator
@@ -65,10 +65,10 @@ class ImageGenerator
 
     /**
      * @param MediaInterface $media
-     * @param ParameterBag $parameterBag
+     * @param ImageParameterBag $parameterBag
      * @return mixed
      */
-    public function generate(MediaInterface $media, ParameterBag $parameterBag)
+    public function generate(MediaInterface $media, ImageParameterBag $parameterBag)
     {
         $parameterBag->setDefaults($this->defaultImageParameters);
 
@@ -83,12 +83,12 @@ class ImageGenerator
 
     /**
      * @param MediaInterface $media
-     * @param ParameterBag $parameterBag
+     * @param ImageParameterBag $parameterBag
      * @param $filename
      * @throws FilesystemException
      * @throws \Exception
      */
-    protected function generateImage(MediaInterface $media, ParameterBag $parameterBag, $filename)
+    protected function generateImage(MediaInterface $media, ImageParameterBag $parameterBag, $filename)
     {
         $tmp = $this->getTemporaryFile();
         $imageData = $this->getImageData($media);
@@ -131,10 +131,10 @@ class ImageGenerator
     /**
      * @param MediaInterface $media
      * @param string $tmp
-     * @param ParameterBag $parameterBag
+     * @param ImageParameterBag $parameterBag
      * @return string
      */
-    protected function doGenerateImage(MediaInterface $media, $tmp, ParameterBag $parameterBag)
+    protected function doGenerateImage(MediaInterface $media, $tmp, ImageParameterBag $parameterBag)
     {
         $parameters = $parameterBag->getExtra();
         $parameters['w'] = $parameterBag->getWidth();

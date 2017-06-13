@@ -3,6 +3,7 @@
 namespace MediaMonks\SonataMediaBundle\Utility;
 
 use MediaMonks\SonataMediaBundle\Generator\ImageGenerator;
+use MediaMonks\SonataMediaBundle\Handler\ParameterBagInterface;
 use MediaMonks\SonataMediaBundle\Handler\ParameterHandlerInterface;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -49,14 +50,12 @@ class ImageUtility
 
     /**
      * @param MediaInterface $media
-     * @param int $width
-     * @param int $height
-     * @param array $extra
+     * @param ParameterBagInterface $parameterBag
      * @return RedirectResponse
      */
-    public function getRedirectResponse(MediaInterface $media, $width, $height, array $extra = [])
+    public function getRedirectResponse(MediaInterface $media, ParameterBagInterface $parameterBag)
     {
-        $response = new RedirectResponse($this->mediaBaseUrl.$this->getFilename($media, $width, $height, $extra));
+        $response = new RedirectResponse($this->mediaBaseUrl.$this->getFilename($media, $parameterBag));
         $response->setSharedMaxAge($this->cacheTtl);
         $response->setMaxAge($this->cacheTtl);
 
@@ -65,14 +64,12 @@ class ImageUtility
 
     /**
      * @param MediaInterface $media
-     * @param int $width
-     * @param int $height
-     * @param array $parameters
-     * @return string
+     * @param ParameterBagInterface $parameterBag
+     * @return mixed
      */
-    public function getFilename(MediaInterface $media, $width, $height, array $parameters)
+    public function getFilename(MediaInterface $media, ParameterBagInterface $parameterBag)
     {
-        $parameterBag = $this->parameterHandler->getPayload($media, $width, $height, $parameters);
+        $parameterBag = $this->parameterHandler->getPayload($media, $parameterBag);
         $filename = $this->imageGenerator->generate($media, $parameterBag);
 
         return $filename;

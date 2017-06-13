@@ -2,15 +2,15 @@
 
 namespace MediaMonks\SonataMediaBundle\Tests\Handler;
 
-use MediaMonks\SonataMediaBundle\Handler\ParameterBag;
+use MediaMonks\SonataMediaBundle\Handler\ImageParameterBag;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Mockery as m;
 
-class ParameterBagTest extends \PHPUnit_Framework_TestCase
+class ImageParameterBagTest extends \PHPUnit_Framework_TestCase
 {
     public function testGettersSetters()
     {
-        $parameterBag = new ParameterBag(400, 300, ['foo' => 'bar']);
+        $parameterBag = new ImageParameterBag(400, 300, ['foo' => 'bar']);
         $this->assertEquals(400, $parameterBag->getWidth());
         $this->assertEquals(300, $parameterBag->getHeight());
         $this->assertEquals(['foo' => 'bar'], $parameterBag->getExtra());
@@ -25,6 +25,7 @@ class ParameterBagTest extends \PHPUnit_Framework_TestCase
 
         $media = m::mock(MediaInterface::class);
         $media->shouldReceive('getId')->once()->andReturn(1);
+        $media->shouldReceive('getFocalPoint')->once()->andReturn('50-50');
 
         $this->assertEquals([
             'id' => 1,

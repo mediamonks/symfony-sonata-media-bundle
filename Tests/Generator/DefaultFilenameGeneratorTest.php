@@ -3,7 +3,7 @@
 namespace MediaMonks\SonataMediaBundle\Tests\Generator;
 
 use MediaMonks\SonataMediaBundle\Generator\DefaultFilenameGenerator;
-use MediaMonks\SonataMediaBundle\Handler\ParameterBag;
+use MediaMonks\SonataMediaBundle\Handler\ImageParameterBag;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use MediaMonks\SonataMediaBundle\Tests\MockeryTrait;
 use Mockery as m;
@@ -19,8 +19,9 @@ class DefaultFilenameGeneratorTest extends \PHPUnit_Framework_TestCase
         $media = m::mock(MediaInterface::class);
         $media->shouldReceive('getId')->andReturn(1);
         $media->shouldReceive('getImage')->andReturn('test.jpg');
+        $media->shouldReceive('getFocalPoint')->andReturn('50-50');
 
-        $parameterBag = new ParameterBag(400, 300);
+        $parameterBag = new ImageParameterBag(400, 300);
 
         $this->assertEquals('test/id_1-width_400-height_300.jpg', $generator->generate($media, $parameterBag));
 

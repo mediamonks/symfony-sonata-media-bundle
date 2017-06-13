@@ -2,6 +2,7 @@
 
 namespace MediaMonks\SonataMediaBundle\Controller;
 
+use MediaMonks\SonataMediaBundle\Handler\ImageParameterBag;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -21,9 +22,7 @@ class MediaController extends Controller
     {
         return $this->get('mediamonks.sonata_media.utility.image')->getRedirectResponse(
             $this->getMediaById($id),
-            $width,
-            $height,
-            $request->query->all()
+            new ImageParameterBag($width, $height, $request->query->all())
         );
     }
 

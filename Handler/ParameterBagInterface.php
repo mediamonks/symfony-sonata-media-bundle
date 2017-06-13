@@ -2,11 +2,9 @@
 
 namespace MediaMonks\SonataMediaBundle\Handler;
 
+use MediaMonks\SonataMediaBundle\Model\MediaInterface;
+
 interface ParameterBagInterface
 {
-    public function getWidth();
-
-    public function getHeight();
-
-    public function getExtra();
+    public function toArray(MediaInterface $media);
 }

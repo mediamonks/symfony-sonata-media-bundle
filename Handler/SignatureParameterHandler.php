@@ -4,6 +4,7 @@ namespace MediaMonks\SonataMediaBundle\Handler;
 
 use MediaMonks\SonataMediaBundle\Exception\SignatureInvalidException;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
+use Mockery\Generator\Parameter;
 
 class SignatureParameterHandler implements ParameterHandlerInterface
 {
@@ -32,10 +33,10 @@ class SignatureParameterHandler implements ParameterHandlerInterface
 
     /**
      * @param MediaInterface $media
-     * @param ParameterBag $parameterBag
+     * @param ParameterBagInterface $parameterBag
      * @return array
      */
-    public function getRouteParameters(MediaInterface $media, ParameterBag $parameterBag)
+    public function getRouteParameters(MediaInterface $media, ParameterBagInterface $parameterBag)
     {
         $parameters = $parameterBag->toArray($media);
         $parameters[self::PARAMETER_SIGNATURE] = $this->calculateSignature($parameters);
@@ -45,38 +46,39 @@ class SignatureParameterHandler implements ParameterHandlerInterface
 
     /**
      * @param MediaInterface $media
-     * @param $width
-     * @param $height
-     * @param array $extra
-     * @return ParameterBag
+     * @param ParameterBagInterface $parameterBag
+     * @return ImageParameterBag|ParameterBagInterface
      * @throws SignatureInvalidException
      */
-    public function getPayload(MediaInterface $media, $width, $height, array $extra = [])
+    public function getPayload(MediaInterface $media, ParameterBagInterface $parameterBag)
     {
-        if (!isset($extra[self::PARAMETER_SIGNATURE])) {
+        $data = $parameterBag->toArray($media);
+
+        if (!isset($data[self::PARAMETER_SIGNATURE])) {
             throw new SignatureInvalidException();
         }
 
-        $signature = $extra[self::PARAMETER_SIGNATURE];
-        unset($extra[self::PARAMETER_SIGNATURE]);
+        $signature = $data[self::PARAMETER_SIGNATURE];
 
-        $parameters = new ParameterBag($width, $height, $extra);
-        if (!$this->isValid($media, $parameters, $signature)) {
+        if (!$this->isValid($media, $parameterBag, $signature)) {
             throw new SignatureInvalidException();
         }
 
-        return $parameters;
+        return $parameterBag;
     }
 
     /**
      * @param MediaInterface $media
-     * @param ParameterBag $parameters
+     * @param ParameterBagInterface $parameterBag
      * @param $expectedSignature
      * @return bool
      */
-    private function isValid(MediaInterface $media, ParameterBag $parameters, $expectedSignature)
+    private function isValid(MediaInterface $media, ParameterBagInterface $parameterBag, $expectedSignature)
     {
-        return hash_equals($this->calculateSignature($parameters->toArray($media)), $expectedSignature);
+        $data = $parameterBag->toArray($media);
+        unset($data[self::PARAMETER_SIGNATURE]);
+
+        return hash_equals($this->calculateSignature($data), $expectedSignature);
     }
 
     /**

@@ -4,7 +4,7 @@ namespace MediaMonks\SonataMediaBundle\Tests\Handler;
 
 use MediaMonks\SonataMediaBundle\Exception\InvalidQueryParameterException;
 use MediaMonks\SonataMediaBundle\Exception\SignatureInvalidException;
-use MediaMonks\SonataMediaBundle\Handler\ParameterBag;
+use MediaMonks\SonataMediaBundle\Handler\ImageParameterBag;
 use MediaMonks\SonataMediaBundle\Handler\SignatureParameterHandler;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use MediaMonks\SonataMediaBundle\Tests\MockeryTrait;
@@ -33,7 +33,8 @@ class SignatureParameterHandlerTest extends \PHPUnit_Framework_TestCase
     private function getMediaMock()
     {
         $media = m::mock(MediaInterface::class);
-        $media->shouldReceive('getId')->once()->andReturn(self::ID);
+        $media->shouldReceive('getId')->andReturn(self::ID);
+        $media->shouldReceive('getFocalPoint')->andReturn('50-50');
 
         return $media;
     }
@@ -47,45 +48,50 @@ class SignatureParameterHandlerTest extends \PHPUnit_Framework_TestCase
                 'height' => self::HEIGHT,
                 's'      => self::SIGNATURE,
             ],
-            $this->getHandler()->getRouteParameters($this->getMediaMock(), new ParameterBag(self::WIDTH, self::HEIGHT))
+            $this->getHandler()->getRouteParameters(
+                $this->getMediaMock(),
+                new ImageParameterBag(self::WIDTH, self::HEIGHT)
+            )
         );
     }
 
     public function testGetPayload()
     {
-        $this->assertEquals(
-            $this->getHandler()->getPayload($this->getMediaMock(), self::WIDTH,self::HEIGHT, [
-                SignatureParameterHandler::PARAMETER_SIGNATURE => self::SIGNATURE
-            ]),
-            new ParameterBag(self::WIDTH, self::HEIGHT)
-        );
+        $parameterBag = new ImageParameterBag(self::WIDTH, self::HEIGHT, [
+            SignatureParameterHandler::PARAMETER_SIGNATURE => self::SIGNATURE,
+            'id' => self::ID
+        ]);
+
+        $this->assertEquals($this->getHandler()->getPayload($this->getMediaMock(), $parameterBag), $parameterBag);
     }
 
     public function testGetPayloadWithExtra()
     {
-        $this->assertEquals(
-            $this->getHandler()->getPayload($this->getMediaMock(), self::WIDTH,self::HEIGHT, [
-                SignatureParameterHandler::PARAMETER_SIGNATURE => 'b11d65fb09d95ee462ea945943708d69b794eb71cf08090bff858cbe5fe9c6a3',
-                'foo' => 'bar'
-            ]),
-            new ParameterBag(self::WIDTH, self::HEIGHT, ['foo' => 'bar'])
-        );
+        $parameterBag = new ImageParameterBag(self::WIDTH, self::HEIGHT, [
+            'id' => self::ID,
+            SignatureParameterHandler::PARAMETER_SIGNATURE => 'b11d65fb09d95ee462ea945943708d69b794eb71cf08090bff858cbe5fe9c6a3',
+            'foo' => 'bar'
+        ]);
+
+        $this->assertEquals($this->getHandler()->getPayload($this->getMediaMock(), $parameterBag), $parameterBag);
     }
 
     public function testGetPayloadWithoutSignature()
     {
         $this->setExpectedException(SignatureInvalidException::class);
 
-        $media = m::mock(MediaInterface::class);
-        $this->getHandler()->getPayload($media, self::WIDTH, self::HEIGHT);
+        $media = $this->getMediaMock();
+        $parameterBag = new ImageParameterBag(self::WIDTH, self::HEIGHT);
+        $this->getHandler()->getPayload($media, $parameterBag);
     }
 
     public function testGetPayloadWithInvalidSignature()
     {
         $this->setExpectedException(SignatureInvalidException::class);
 
-        $this->getHandler()->getPayload($this->getMediaMock(), self::WIDTH, self::HEIGHT, [
-            SignatureParameterHandler::PARAMETER_SIGNATURE => 'foobar',
-        ]);
+        $parameterBag = new ImageParameterBag(self::WIDTH, self::HEIGHT);
+        $parameterBag->addExtra(SignatureParameterHandler::PARAMETER_SIGNATURE, 'foobar');
+
+        $this->getHandler()->getPayload($this->getMediaMock(), $parameterBag);
     }
 }

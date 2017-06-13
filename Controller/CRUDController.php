@@ -2,6 +2,7 @@
 
 namespace MediaMonks\SonataMediaBundle\Controller;
 
+use MediaMonks\SonataMediaBundle\Handler\ImageParameterBag;
 use Sonata\AdminBundle\Controller\CRUDController as BaseCRUDController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -56,9 +57,7 @@ class CRUDController extends BaseCRUDController
 
         return $this->get('mediamonks.sonata_media.utility.image')->getRedirectResponse(
             $object,
-            $width,
-            $height,
-            $request->query->all()
+            new ImageParameterBag($width, $height, $request->query->all())
         );
     }
 }
