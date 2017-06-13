@@ -53,6 +53,10 @@ the following lines to your app's routing.yml:
     _mediamonks_media:
         resource: "@MediaMonksSonataMediaBundle/Resources/config/routing.yml"
 
+Important: Admin routes are protected by Sonata automatically but the public routes are only protected by a signature by
+default. If you require additional verification you can either use a firewall or load your own routes or override
+the MediaController to add your own security layer on top.
+
 D) Create entity
 ----------------
 
