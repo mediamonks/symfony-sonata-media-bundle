@@ -14,5 +14,5 @@ _mediamonks_media_admin:
     resource: "@MediaMonksSonataMediaBundle/Resources/config/routing_admin.yml"
     prefix: /admin
 
-#_mediamonks_media:
-#    resource: "@MediaMonksSonataMediaBundle/Resources/config/routing.yml"
+_mediamonks_media:
+    resource: "@MediaMonksSonataMediaBundle/Resources/config/routing.yml"

@@ -8,5 +8,5 @@ interface ParameterHandlerInterface
 {
     public function getRouteParameters(MediaInterface $media, ParameterBagInterface $parameterBag);
 
-    public function getPayload(MediaInterface $media, ParameterBagInterface $parameterBag);
+    public function verifyParameterBag(MediaInterface $media, ParameterBagInterface $parameterBag);
 }

@@ -3,6 +3,7 @@
 namespace MediaMonks\SonataMediaBundle\Utility;
 
 use MediaMonks\SonataMediaBundle\Generator\ImageGenerator;
+use MediaMonks\SonataMediaBundle\Handler\ImageParameterBag;
 use MediaMonks\SonataMediaBundle\Handler\ParameterBagInterface;
 use MediaMonks\SonataMediaBundle\Handler\ParameterHandlerInterface;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
@@ -50,10 +51,10 @@ class ImageUtility
 
     /**
      * @param MediaInterface $media
-     * @param ParameterBagInterface $parameterBag
+     * @param ImageParameterBag $parameterBag
      * @return RedirectResponse
      */
-    public function getRedirectResponse(MediaInterface $media, ParameterBagInterface $parameterBag)
+    public function getRedirectResponse(MediaInterface $media, ImageParameterBag $parameterBag)
     {
         $response = new RedirectResponse($this->mediaBaseUrl.$this->getFilename($media, $parameterBag));
         $response->setSharedMaxAge($this->cacheTtl);
@@ -69,7 +70,7 @@ class ImageUtility
      */
     public function getFilename(MediaInterface $media, ParameterBagInterface $parameterBag)
     {
-        $parameterBag = $this->parameterHandler->getPayload($media, $parameterBag);
+        $parameterBag = $this->parameterHandler->verifyParameterBag($media, $parameterBag);
         $filename = $this->imageGenerator->generate($media, $parameterBag);
 
         return $filename;

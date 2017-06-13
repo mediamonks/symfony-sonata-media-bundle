@@ -2,6 +2,7 @@
 
 namespace MediaMonks\SonataMediaBundle\Controller;
 
+use MediaMonks\SonataMediaBundle\Handler\DownloadParameterBag;
 use MediaMonks\SonataMediaBundle\Handler\ImageParameterBag;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -27,12 +28,16 @@ class MediaController extends Controller
     }
 
     /**
+     * @param Request $request
      * @param $id
      * @return StreamedResponse
      */
-    public function downloadAction($id)
+    public function downloadAction(Request $request, $id)
     {
-        return $this->get('mediamonks.sonata_media.utility.download')->getStreamedResponse($this->getMediaById($id));
+        return $this->get('mediamonks.sonata_media.utility.download')->getStreamedResponse(
+            $this->getMediaById($id),
+            new DownloadParameterBag($request->query->all())
+        );
     }
 
     /**

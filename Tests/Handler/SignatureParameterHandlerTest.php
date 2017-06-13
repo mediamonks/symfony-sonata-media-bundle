@@ -62,7 +62,7 @@ class SignatureParameterHandlerTest extends \PHPUnit_Framework_TestCase
             'id' => self::ID
         ]);
 
-        $this->assertEquals($this->getHandler()->getPayload($this->getMediaMock(), $parameterBag), $parameterBag);
+        $this->assertEquals($this->getHandler()->verifyParameterBag($this->getMediaMock(), $parameterBag), $parameterBag);
     }
 
     public function testGetPayloadWithExtra()
@@ -73,7 +73,7 @@ class SignatureParameterHandlerTest extends \PHPUnit_Framework_TestCase
             'foo' => 'bar'
         ]);
 
-        $this->assertEquals($this->getHandler()->getPayload($this->getMediaMock(), $parameterBag), $parameterBag);
+        $this->assertEquals($this->getHandler()->verifyParameterBag($this->getMediaMock(), $parameterBag), $parameterBag);
     }
 
     public function testGetPayloadWithoutSignature()
@@ -82,7 +82,7 @@ class SignatureParameterHandlerTest extends \PHPUnit_Framework_TestCase
 
         $media = $this->getMediaMock();
         $parameterBag = new ImageParameterBag(self::WIDTH, self::HEIGHT);
-        $this->getHandler()->getPayload($media, $parameterBag);
+        $this->getHandler()->verifyParameterBag($media, $parameterBag);
     }
 
     public function testGetPayloadWithInvalidSignature()
@@ -92,6 +92,6 @@ class SignatureParameterHandlerTest extends \PHPUnit_Framework_TestCase
         $parameterBag = new ImageParameterBag(self::WIDTH, self::HEIGHT);
         $parameterBag->addExtra(SignatureParameterHandler::PARAMETER_SIGNATURE, 'foobar');
 
-        $this->getHandler()->getPayload($this->getMediaMock(), $parameterBag);
+        $this->getHandler()->verifyParameterBag($this->getMediaMock(), $parameterBag);
     }
 }

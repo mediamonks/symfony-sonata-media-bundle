@@ -4,7 +4,7 @@ namespace MediaMonks\SonataMediaBundle\Handler;
 
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 
-class ImageParameterBag implements ParameterBagInterface
+class ImageParameterBag extends AbstractMediaParameterBag
 {
     /**
      * @var int
@@ -17,11 +17,6 @@ class ImageParameterBag implements ParameterBagInterface
     protected $height;
 
     /**
-     * @var array
-     */
-    protected $extra = [];
-
-    /**
      * @param int $width
      * @param int $height
      * @param array $extra
@@ -30,7 +25,8 @@ class ImageParameterBag implements ParameterBagInterface
     {
         $this->width = $width;
         $this->height = $height;
-        $this->extra = $extra;
+
+        parent::__construct($extra);
     }
 
     /**
@@ -66,51 +62,12 @@ class ImageParameterBag implements ParameterBagInterface
     }
 
     /**
-     * @return array
-     */
-    public function getExtra()
-    {
-        return $this->extra;
-    }
-
-    /**
-     * @param array $extra
-     */
-    public function setExtra($extra)
-    {
-        $this->extra = $extra;
-    }
-
-    /**
-     * @param $key
-     * @param $value
-     */
-    public function addExtra($key, $value)
-    {
-        $this->extra[$key] = $value;
-    }
-
-    /**
-     * @param array $defaults
-     */
-    public function setDefaults(array $defaults)
-    {
-        $this->extra = array_merge($defaults, $this->extra);
-    }
-
-    /**
      * @param MediaInterface $media
      * @return array
      */
     public function toArray(MediaInterface $media)
     {
-        $extra = $this->getExtra();
-        if (!isset($extra['fit']) && !empty($media->getFocalPoint())) {
-            //$extra['fit'] = sprintf('crop-%s', $media->getFocalPoint());
-        }
-
-        return array_merge($extra, [
-            'id' => $media->getId(),
+        return array_merge(parent::toArray($media), [
             'width' => $this->getWidth(),
             'height' => $this->getHeight(),
         ]);

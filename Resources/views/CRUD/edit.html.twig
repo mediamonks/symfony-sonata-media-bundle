@@ -54,7 +54,7 @@
                     {% if object|media_supports('download') %}
                         <label>{{ 'download'|trans }}</label>
                         <br>
-                        <a href="{{ path('admin_mediamonks_sonatamedia_media_download', {id: object.id}) }}"
+                        <a href="{{ object|media_download_url('admin_mediamonks_sonatamedia_media_download') }}"
                            class="btn btn-default" role="button"><i class="fa fa-fw fa-download"></i> {{ 'download_original'|trans }}</a>
                     {% endif %}
                 </div>

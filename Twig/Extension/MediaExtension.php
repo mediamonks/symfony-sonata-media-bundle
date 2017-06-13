@@ -3,6 +3,7 @@
 namespace MediaMonks\SonataMediaBundle\Twig\Extension;
 
 use MediaMonks\SonataMediaBundle\Generator\UrlGenerator;
+use MediaMonks\SonataMediaBundle\Handler\DownloadParameterBag;
 use MediaMonks\SonataMediaBundle\Handler\ImageParameterBag;
 use MediaMonks\SonataMediaBundle\Handler\ParameterBagInterface;
 use MediaMonks\SonataMediaBundle\Provider\ProviderInterface;
@@ -69,6 +70,9 @@ class MediaExtension extends \Twig_Extension
                     'needs_environment' => true,
                     'is_safe'           => ['html'],
                 ]
+            ),
+            new \Twig_SimpleFilter(
+                'media_download_url', [$this, 'mediaDownloadUrl']
             ),
             new \Twig_SimpleFilter(
                 'media_supports', [$this, 'mediaSupports']
@@ -196,17 +200,29 @@ class MediaExtension extends \Twig_Extension
         return $environment->render(
             'MediaMonksSonataMediaBundle:Media:file.html.twig',
             [
-                'media'  => $media,
-                'src'    => $this->urlGenerator->generate(
+                'media'       => $media,
+                'downloadSrc' => $this->urlGenerator->generate($media, new DownloadParameterBag()),
+                'src'         => $this->urlGenerator->generate(
                     $media,
                     new ImageParameterBag($width, $height, $extra),
                     $routeName
                 ),
-                'width'  => $width,
-                'height' => $height,
-                'title'  => $media->getTitle(),
+                'width'       => $width,
+                'height'      => $height,
+                'title'       => $media->getTitle(),
             ]
         );
+    }
+
+    /**
+     * @param MediaInterface $media
+     * @param null $routeName
+     * @param array $extra
+     * @return string
+     */
+    public function mediaDownloadUrl(MediaInterface $media, $routeName = null, array $extra = [])
+    {
+        return $this->urlGenerator->generate($media, new DownloadParameterBag($extra), $routeName);
     }
 
     /**

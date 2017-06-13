@@ -34,6 +34,7 @@ class ImageGeneratorTest extends \PHPUnit_Framework_TestCase
 
         $media = m::mock(MediaInterface::class);
         $media->shouldReceive('getImage')->once()->andReturn('image.jpg');
+        $media->shouldReceive('getFocalPoint')->once()->andReturn('50-50');
 
         $parameters = new ImageParameterBag(400, 300);
         $imageGenerator = new ImageGenerator($server, $filenameGenerator);
@@ -84,6 +85,7 @@ class ImageGeneratorTest extends \PHPUnit_Framework_TestCase
 
         $media = m::mock(MediaInterface::class);
         $media->shouldReceive('getImage')->once()->andReturn('image.jpg');
+        $media->shouldReceive('getFocalPoint')->once()->andReturn('50-50');
 
         $parameters = new ImageParameterBag(400, 300);
 

@@ -2,18 +2,6 @@
 
 namespace MediaMonks\SonataMediaBundle\Handler;
 
-use MediaMonks\SonataMediaBundle\Model\MediaInterface;
-
-class DownloadParameterBag implements ParameterBagInterface
+class DownloadParameterBag extends AbstractMediaParameterBag
 {
-    /**
-     * @param MediaInterface $media
-     * @return array
-     */
-    public function toArray(MediaInterface $media)
-    {
-        return [
-            'id' => $media->getId()
-        ];
-    }
 }

@@ -50,7 +50,7 @@ class SignatureParameterHandler implements ParameterHandlerInterface
      * @return ImageParameterBag|ParameterBagInterface
      * @throws SignatureInvalidException
      */
-    public function getPayload(MediaInterface $media, ParameterBagInterface $parameterBag)
+    public function verifyParameterBag(MediaInterface $media, ParameterBagInterface $parameterBag)
     {
         $data = $parameterBag->toArray($media);
 

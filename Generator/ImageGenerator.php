@@ -71,6 +71,9 @@ class ImageGenerator
     public function generate(MediaInterface $media, ImageParameterBag $parameterBag)
     {
         $parameterBag->setDefaults($this->defaultImageParameters);
+        if (!$parameterBag->hasExtra('fit')) {
+            $parameterBag->addExtra('fit', 'crop-'.$media->getFocalPoint());
+        }
 
         $filename = $this->filenameGenerator->generate($media, $parameterBag);
 

@@ -118,6 +118,7 @@ services:
     mediamonks.sonata_media.utility.download:
         class: '%mediamonks.sonata_media.utility.download.class%'
         arguments:
+            - '@mediamonks.sonata_media.handler.signature_parameter_handler'
             - ~
 
     mediamonks.sonata_media.utility.event_listener.menu_builder:

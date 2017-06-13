@@ -2,6 +2,7 @@
 
 namespace MediaMonks\SonataMediaBundle\Controller;
 
+use MediaMonks\SonataMediaBundle\Handler\DownloadParameterBag;
 use MediaMonks\SonataMediaBundle\Handler\ImageParameterBag;
 use Sonata\AdminBundle\Controller\CRUDController as BaseCRUDController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -41,7 +42,10 @@ class CRUDController extends BaseCRUDController
 
         $this->admin->checkAccess('show', $object);
 
-        return $this->get('mediamonks.sonata_media.utility.download')->getStreamedResponse($object);
+        return $this->get('mediamonks.sonata_media.utility.download')->getStreamedResponse(
+            $object,
+            new DownloadParameterBag($request->query->all())
+        );
     }
 
     /**
