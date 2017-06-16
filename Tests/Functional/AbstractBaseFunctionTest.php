@@ -5,6 +5,7 @@ namespace MediaMonks\SonataMediaBundle\Tests\Functional;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Form;
 use Symfony\Bundle\FrameworkBundle\Client;
+use Symfony\Component\Finder\Finder;
 
 abstract class AbstractBaseFunctionTest extends WebTestCase
 {
@@ -57,8 +58,9 @@ abstract class AbstractBaseFunctionTest extends WebTestCase
      */
     protected function assertNumberOfFilesInPath($amount, $path)
     {
-        $fi = new \FilesystemIterator($path, \FilesystemIterator::SKIP_DOTS);
-        $this->assertEquals($amount, iterator_count($fi));
+        $finder = new Finder();
+        $finder->files()->in($path);
+        $this->assertEquals($amount, $finder->count());
     }
 
     /**

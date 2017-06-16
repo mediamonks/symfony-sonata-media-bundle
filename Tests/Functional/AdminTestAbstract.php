@@ -30,6 +30,8 @@ abstract class AdminTestAbstract extends AbstractBaseFunctionTest
 
     protected function verifyMediaImageIsGenerated()
     {
+        $this->emptyFolder($this->getMediaPathPublic());
+
         $media = m::mock(MediaInterface::class);
         $media->shouldReceive('getId')->andReturn(1);
         $media->shouldReceive('getFocalPoint')->andReturn('50-50');
@@ -52,6 +54,24 @@ abstract class AdminTestAbstract extends AbstractBaseFunctionTest
         );
 
         $this->assertNumberOfFilesInPath(1, $this->getMediaPathPublic());
+
+        $parameterBag = new ImageParameterBag(800, 600);
+        $signature = new SignatureParameterHandler(self::$kernel->getContainer()->getParameter('secret'));
+        $parameters = $signature->getRouteParameters($media, $parameterBag);
+
+        $this->client->followRedirects(false);
+        $this->client->request(
+            'GET',
+            sprintf(
+                '/media/image/%d/%d/%d?s=%s',
+                $media->getId(),
+                $parameterBag->getWidth(),
+                $parameterBag->getHeight(),
+                $parameters['s']
+            )
+        );
+
+        $this->assertNumberOfFilesInPath(2, $this->getMediaPathPublic());
     }
 
     protected function uploadImage()
