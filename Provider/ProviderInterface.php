@@ -30,8 +30,6 @@ interface ProviderInterface
 
     public function update(AbstractMedia $media, $providerReferenceUpdated);
 
-    public function toArray(MediaInterface $media, array $options);
-
     public function getName();
 
     public function getTitle();

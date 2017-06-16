@@ -2,7 +2,11 @@
 
 namespace MediaMonks\SonataMediaBundle\Tests\Functional;
 
+use MediaMonks\SonataMediaBundle\Handler\SignatureParameterHandler;
+use MediaMonks\SonataMediaBundle\Model\MediaInterface;
+use MediaMonks\SonataMediaBundle\ParameterBag\DownloadParameterBag;
 use Symfony\Component\DomCrawler\Crawler;
+use Mockery as m;
 
 class FileProviderTest extends AdminTestAbstract
 {
@@ -33,6 +37,27 @@ class FileProviderTest extends AdminTestAbstract
 
         $this->assertEquals('foobar', $fileContents);
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'response status is 2xx');
+
+        $media = m::mock(MediaInterface::class);
+        $media->shouldReceive('getId')->andReturn(1);
+
+        $parameterBag = new DownloadParameterBag();
+        $signature = new SignatureParameterHandler(self::$kernel->getContainer()->getParameter('secret'));
+        $parameters = $signature->getRouteParameters($media, $parameterBag);
+
+        ob_start();
+        $this->client->request(
+            'GET',
+            sprintf(
+                '/media/download/%d?s=%s',
+                $media->getId(),
+                $parameters['s']
+            )
+        );
+        $fileContents = $content = ob_get_contents();
+        ob_end_clean();
+
+        $this->assertEquals('foobar', $fileContents);
     }
 
     public function testInvalidFileUpload()

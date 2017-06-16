@@ -32,5 +32,22 @@ class ImageProviderTest extends AdminTestAbstract
         $this->assertNumberOfFilesInPath(1, $this->getMediaPathPrivate());
 
         $this->verifyMediaImageIsGenerated();
+
+        $crawler = $this->client->request('GET', '/twig');
+
+        $this->assertEquals(
+            4,
+            $crawler->filter('img')->count()
+        );
+
+        $this->assertEquals(
+            1,
+            $crawler->filter('a')->count()
+        );
+
+        $this->client->request('GET', '/api');
+        $data = json_decode($this->client->getResponse()->getContent(), true);
+
+        $this->assertArrayHasKey('url', $data);
     }
 }

@@ -1,0 +1,13 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block body %}
+{{ media|media(300, 300) }}
+    <br>
+    {{ media|media_image(100, 300) }}
+    <br>
+    {{ media|media_image(300, 100) }}
+    {% if media|media_supports('download') %}
+    <br>
+    {{ media|media_download(100, 100) }}
+    {% endif %}
+{% endblock %}

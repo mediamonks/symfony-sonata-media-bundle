@@ -137,23 +137,6 @@ abstract class AbstractProvider implements ProviderInterface
     }
 
     /**
-     * @param MediaInterface $media
-     * @param array $options
-     * @return array
-     */
-    public function toArray(MediaInterface $media, array $options = [])
-    {
-        return [
-            'type'        => $this->getName(),
-            'title'       => $media->getTitle(),
-            'description' => $media->getDescription(),
-            'authorName'  => $media->getAuthorName(),
-            'copyright'   => $media->getCopyright(),
-            'reference'   => $media->getProviderReference(),
-        ];
-    }
-
-    /**
      * @param FormMapper $formMapper
      */
     public function buildCreateForm(FormMapper $formMapper)
