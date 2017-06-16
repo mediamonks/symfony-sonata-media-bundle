@@ -41,6 +41,11 @@ class ImageProviderTest extends AdminTestAbstract
         );
 
         $this->assertEquals(
+            0,
+            $crawler->filter('iframe')->count()
+        );
+
+        $this->assertEquals(
             1,
             $crawler->filter('a')->count()
         );
