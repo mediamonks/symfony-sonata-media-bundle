@@ -4,7 +4,7 @@ namespace MediaMonks\SonataMediaBundle\Generator;
 
 use League\Glide\Filesystem\FilesystemException;
 use League\Glide\Server;
-use MediaMonks\SonataMediaBundle\Handler\ImageParameterBag;
+use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 
 class ImageGenerator

@@ -30,5 +30,7 @@ class ImageProviderTest extends AdminTestAbstract
         $this->assertContains('monk', $this->client->getResponse()->getContent());
 
         $this->assertNumberOfFilesInPath(1, $this->getMediaPathPrivate());
+
+        $this->verifyMediaImageIsGenerated();
     }
 }

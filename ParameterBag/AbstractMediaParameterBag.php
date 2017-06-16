@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaMonks\SonataMediaBundle\Handler;
+namespace MediaMonks\SonataMediaBundle\ParameterBag;
 
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 
@@ -51,6 +51,14 @@ abstract class AbstractMediaParameterBag implements ParameterBagInterface
     public function hasExtra($key)
     {
         return isset($this->extra[$key]);
+    }
+
+    /**
+     * @param $key
+     */
+    public function removeExtra($key)
+    {
+        unset($this->extra[$key]);
     }
 
     /**

@@ -4,7 +4,7 @@ namespace MediaMonks\SonataMediaBundle\Tests\Handler;
 
 use MediaMonks\SonataMediaBundle\Exception\InvalidQueryParameterException;
 use MediaMonks\SonataMediaBundle\Exception\SignatureInvalidException;
-use MediaMonks\SonataMediaBundle\Handler\ImageParameterBag;
+use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
 use MediaMonks\SonataMediaBundle\Handler\SignatureParameterHandler;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use MediaMonks\SonataMediaBundle\Tests\MockeryTrait;
@@ -62,7 +62,7 @@ class SignatureParameterHandlerTest extends \PHPUnit_Framework_TestCase
             'id' => self::ID
         ]);
 
-        $this->assertEquals($this->getHandler()->verifyParameterBag($this->getMediaMock(), $parameterBag), $parameterBag);
+        $this->assertEquals($this->getHandler()->validateParameterBag($this->getMediaMock(), $parameterBag), $parameterBag);
     }
 
     public function testGetPayloadWithExtra()
@@ -73,7 +73,7 @@ class SignatureParameterHandlerTest extends \PHPUnit_Framework_TestCase
             'foo' => 'bar'
         ]);
 
-        $this->assertEquals($this->getHandler()->verifyParameterBag($this->getMediaMock(), $parameterBag), $parameterBag);
+        $this->assertEquals($this->getHandler()->validateParameterBag($this->getMediaMock(), $parameterBag), $parameterBag);
     }
 
     public function testGetPayloadWithoutSignature()
@@ -82,7 +82,7 @@ class SignatureParameterHandlerTest extends \PHPUnit_Framework_TestCase
 
         $media = $this->getMediaMock();
         $parameterBag = new ImageParameterBag(self::WIDTH, self::HEIGHT);
-        $this->getHandler()->verifyParameterBag($media, $parameterBag);
+        $this->getHandler()->validateParameterBag($media, $parameterBag);
     }
 
     public function testGetPayloadWithInvalidSignature()
@@ -92,6 +92,6 @@ class SignatureParameterHandlerTest extends \PHPUnit_Framework_TestCase
         $parameterBag = new ImageParameterBag(self::WIDTH, self::HEIGHT);
         $parameterBag->addExtra(SignatureParameterHandler::PARAMETER_SIGNATURE, 'foobar');
 
-        $this->getHandler()->verifyParameterBag($this->getMediaMock(), $parameterBag);
+        $this->getHandler()->validateParameterBag($this->getMediaMock(), $parameterBag);
     }
 }

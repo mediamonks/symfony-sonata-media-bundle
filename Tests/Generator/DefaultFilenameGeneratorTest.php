@@ -3,7 +3,7 @@
 namespace MediaMonks\SonataMediaBundle\Tests\Generator;
 
 use MediaMonks\SonataMediaBundle\Generator\DefaultFilenameGenerator;
-use MediaMonks\SonataMediaBundle\Handler\ImageParameterBag;
+use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use MediaMonks\SonataMediaBundle\Tests\MockeryTrait;
 use Mockery as m;

@@ -8,7 +8,7 @@ use League\Glide\Filesystem\FilesystemException;
 use League\Glide\Server;
 use MediaMonks\SonataMediaBundle\Generator\FilenameGeneratorInterface;
 use MediaMonks\SonataMediaBundle\Generator\ImageGenerator;
-use MediaMonks\SonataMediaBundle\Handler\ImageParameterBag;
+use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Mockery as m;
 

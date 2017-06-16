@@ -3,7 +3,7 @@
 namespace MediaMonks\SonataMediaBundle\Utility;
 
 use League\Flysystem\Filesystem;
-use MediaMonks\SonataMediaBundle\Handler\DownloadParameterBag;
+use MediaMonks\SonataMediaBundle\ParameterBag\DownloadParameterBag;
 use MediaMonks\SonataMediaBundle\Handler\ParameterHandlerInterface;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -37,7 +37,7 @@ class DownloadUtility
      */
     public function getStreamedResponse(MediaInterface $media, DownloadParameterBag $parameterBag)
     {
-        $this->parameterHandler->verifyParameterBag($media, $parameterBag);
+        $this->parameterHandler->validateParameterBag($media, $parameterBag);
 
         $response = new StreamedResponse(function () use ($media) {
             $fileHandle = $this->filesystem->readStream($media->getProviderReference());

@@ -3,8 +3,8 @@
 namespace MediaMonks\SonataMediaBundle\Utility;
 
 use MediaMonks\SonataMediaBundle\Generator\ImageGenerator;
-use MediaMonks\SonataMediaBundle\Handler\ImageParameterBag;
-use MediaMonks\SonataMediaBundle\Handler\ParameterBagInterface;
+use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
+use MediaMonks\SonataMediaBundle\ParameterBag\ParameterBagInterface;
 use MediaMonks\SonataMediaBundle\Handler\ParameterHandlerInterface;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -70,7 +70,7 @@ class ImageUtility
      */
     public function getFilename(MediaInterface $media, ParameterBagInterface $parameterBag)
     {
-        $parameterBag = $this->parameterHandler->verifyParameterBag($media, $parameterBag);
+        $parameterBag = $this->parameterHandler->validateParameterBag($media, $parameterBag);
         $filename = $this->imageGenerator->generate($media, $parameterBag);
 
         return $filename;

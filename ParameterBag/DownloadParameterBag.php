@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaMonks\SonataMediaBundle\Handler;
+namespace MediaMonks\SonataMediaBundle\ParameterBag;
 
 class DownloadParameterBag extends AbstractMediaParameterBag
 {

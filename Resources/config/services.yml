@@ -22,6 +22,8 @@ parameters:
     mediamonks.sonata_media.controller.helper.class: 'MediaMonks\SonataMediaBundle\Controller\HelperController'
     mediamonks.sonata_media.controller.batch.class: 'MediaMonks\SonataMediaBundle\Controller\BatchController'
     mediamonks.sonata_media.http_client.class: 'MediaMonks\SonataMediaBundle\Client\CurlHttpClient'
+    mediamonks.sonata_media.default_route.image: 'mediamonks_media_image'
+    mediamonks.sonata_media.default_route.download: 'mediamonks_media_download'
 
 services:
     mediamonks.sonata_media.admin.media:
@@ -71,7 +73,8 @@ services:
         class: '%mediamonks.sonata_media.twig.extension.class%'
         arguments:
             - '@mediamonks.sonata_media.provider.pool'
-            - '@mediamonks.sonata_media.generator.url_generator'
+            - '@mediamonks.sonata_media.generator.url_generator.image'
+            - '@mediamonks.sonata_media.generator.url_generator.download'
         tags:
             - { name: twig.extension }
 
@@ -86,12 +89,19 @@ services:
         arguments:
             - '%secret%'
 
-    mediamonks.sonata_media.generator.url_generator:
+    mediamonks.sonata_media.generator.url_generator.image:
         class: '%mediamonks.sonata_media.generator.url_generator.class%'
         arguments:
             - '@router'
             - '@mediamonks.sonata_media.handler.signature_parameter_handler'
-            - 'mediamonks_media_image'
+            - '%mediamonks.sonata_media.default_route.image%'
+
+    mediamonks.sonata_media.generator.url_generator.download:
+        class: '%mediamonks.sonata_media.generator.url_generator.class%'
+        arguments:
+            - '@router'
+            - '@mediamonks.sonata_media.handler.signature_parameter_handler'
+            - '%mediamonks.sonata_media.default_route.download%'
 
     mediamonks.sonata_media.generator.filename_generator.default:
         class: '%mediamonks.sonata_media.generator.filename_generator.default.class%'

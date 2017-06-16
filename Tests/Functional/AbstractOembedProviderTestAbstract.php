@@ -54,6 +54,10 @@ abstract class AbstractOembedProviderTestAbstract extends AdminTestAbstract
         $this->assertContains($expectedValues['title'], $this->client->getResponse()->getContent());
 
         $this->assertNumberOfFilesInPath(1, $this->getMediaPathPrivate());
+
+        $this->verifyMediaImageIsGenerated();
+
+        $this->assertNumberOfFilesInPath(1, $this->getMediaPathPublic());
     }
 
     /**

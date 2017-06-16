@@ -3,9 +3,9 @@
 namespace MediaMonks\SonataMediaBundle\Twig\Extension;
 
 use MediaMonks\SonataMediaBundle\Generator\UrlGenerator;
-use MediaMonks\SonataMediaBundle\Handler\DownloadParameterBag;
-use MediaMonks\SonataMediaBundle\Handler\ImageParameterBag;
-use MediaMonks\SonataMediaBundle\Handler\ParameterBagInterface;
+use MediaMonks\SonataMediaBundle\ParameterBag\DownloadParameterBag;
+use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
+use MediaMonks\SonataMediaBundle\ParameterBag\ParameterBagInterface;
 use MediaMonks\SonataMediaBundle\Provider\ProviderInterface;
 use MediaMonks\SonataMediaBundle\Provider\ProviderPool;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
@@ -21,16 +21,26 @@ class MediaExtension extends \Twig_Extension
     /**
      * @var UrlGenerator
      */
-    private $urlGenerator;
+    private $imageUrlGenerator;
+
+    /**
+     * @var UrlGenerator
+     */
+    private $downloadUrlGenerator;
 
     /**
      * @param ProviderPool $providerPool
-     * @param UrlGenerator $urlGenerator
+     * @param UrlGenerator $imageUrlGenerator
+     * @param UrlGenerator $downloadUrlGenerator
      */
-    public function __construct(ProviderPool $providerPool, UrlGenerator $urlGenerator)
-    {
+    public function __construct(
+        ProviderPool $providerPool,
+        UrlGenerator $imageUrlGenerator,
+        UrlGenerator $downloadUrlGenerator
+    ) {
         $this->providerPool = $providerPool;
-        $this->urlGenerator = $urlGenerator;
+        $this->imageUrlGenerator = $imageUrlGenerator;
+        $this->downloadUrlGenerator = $downloadUrlGenerator;
     }
 
     /**
@@ -157,7 +167,7 @@ class MediaExtension extends \Twig_Extension
         MediaInterface $media,
         $width,
         $height,
-        array $extra,
+        array $extra = [],
         $routeName = null,
         $bustCache = false
     ) {
@@ -166,7 +176,7 @@ class MediaExtension extends \Twig_Extension
             $extra['bc'] = time();
         }
 
-        $src = $this->urlGenerator->generate($media, new ImageParameterBag($width, $height, $extra), $routeName);
+        $src = $this->imageUrlGenerator->generate($media, new ImageParameterBag($width, $height, $extra), $routeName);
 
         return $environment->render(
             'MediaMonksSonataMediaBundle:Media:image.html.twig',
@@ -186,7 +196,8 @@ class MediaExtension extends \Twig_Extension
      * @param $width
      * @param $height
      * @param array $extra
-     * @param null $routeName
+     * @param null $routeNameImage
+     * @param null $routeNameDownload
      * @return string
      */
     public function mediaDownload(
@@ -195,17 +206,22 @@ class MediaExtension extends \Twig_Extension
         $width,
         $height,
         array $extra = [],
-        $routeName = null
+        $routeNameImage = null,
+        $routeNameDownload = null
     ) {
         return $environment->render(
             'MediaMonksSonataMediaBundle:Media:file.html.twig',
             [
                 'media'       => $media,
-                'downloadSrc' => $this->urlGenerator->generate($media, new DownloadParameterBag()),
-                'src'         => $this->urlGenerator->generate(
+                'downloadSrc' => $this->downloadUrlGenerator->generate(
+                    $media,
+                    new DownloadParameterBag(),
+                    $routeNameDownload
+                ),
+                'src'         => $this->imageUrlGenerator->generate(
                     $media,
                     new ImageParameterBag($width, $height, $extra),
-                    $routeName
+                    $routeNameImage
                 ),
                 'width'       => $width,
                 'height'      => $height,
@@ -222,7 +238,7 @@ class MediaExtension extends \Twig_Extension
      */
     public function mediaDownloadUrl(MediaInterface $media, $routeName = null, array $extra = [])
     {
-        return $this->urlGenerator->generate($media, new DownloadParameterBag($extra), $routeName);
+        return $this->downloadUrlGenerator->generate($media, new DownloadParameterBag($extra), $routeName);
     }
 
     /**

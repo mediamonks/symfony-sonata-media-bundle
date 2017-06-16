@@ -4,6 +4,7 @@ namespace MediaMonks\SonataMediaBundle\Handler;
 
 use MediaMonks\SonataMediaBundle\Exception\SignatureInvalidException;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
+use MediaMonks\SonataMediaBundle\ParameterBag\ParameterBagInterface;
 use Mockery\Generator\Parameter;
 
 class SignatureParameterHandler implements ParameterHandlerInterface
@@ -22,7 +23,7 @@ class SignatureParameterHandler implements ParameterHandlerInterface
     private $hashAlgorithm;
 
     /**
-     * @param $key
+     * @param string $key
      * @param string $hashAlgorithm
      */
     public function __construct($key, $hashAlgorithm = 'sha256')
@@ -50,7 +51,7 @@ class SignatureParameterHandler implements ParameterHandlerInterface
      * @return ImageParameterBag|ParameterBagInterface
      * @throws SignatureInvalidException
      */
-    public function verifyParameterBag(MediaInterface $media, ParameterBagInterface $parameterBag)
+    public function validateParameterBag(MediaInterface $media, ParameterBagInterface $parameterBag)
     {
         $data = $parameterBag->toArray($media);
 
@@ -59,6 +60,7 @@ class SignatureParameterHandler implements ParameterHandlerInterface
         }
 
         $signature = $data[self::PARAMETER_SIGNATURE];
+        $parameterBag->removeExtra(self::PARAMETER_SIGNATURE);
 
         if (!$this->isValid($media, $parameterBag, $signature)) {
             throw new SignatureInvalidException();
@@ -75,10 +77,7 @@ class SignatureParameterHandler implements ParameterHandlerInterface
      */
     private function isValid(MediaInterface $media, ParameterBagInterface $parameterBag, $expectedSignature)
     {
-        $data = $parameterBag->toArray($media);
-        unset($data[self::PARAMETER_SIGNATURE]);
-
-        return hash_equals($this->calculateSignature($data), $expectedSignature);
+        return hash_equals($this->calculateSignature($parameterBag->toArray($media)), $expectedSignature);
     }
 
     /**
