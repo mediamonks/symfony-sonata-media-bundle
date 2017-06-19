@@ -21,7 +21,8 @@ class FileProviderTest extends \PHPUnit_Framework_TestCase
             'pdf.png' => ['pdf'],
             'powerpoint.png' => ['ppt', 'pot', 'pos', 'pps', 'pptx', 'pptm', 'potx', 'potm', 'ppam', 'ppsx', 'ppsm', 'sldx', 'sldm'],
             'text.png' => ['txt'],
-            'word.png' => ['doc', 'dot', 'wbk', 'docx', 'docm', 'dotx', 'dotm', 'docb']
+            'word.png' => ['doc', 'dot', 'wbk', 'docx', 'docm', 'dotx', 'dotm', 'docb'],
+            'default.png' => ['foo', 'bar']
         ];
 
         foreach ($data as $expected => $extensions) {

@@ -115,15 +115,7 @@ class MediaExtension extends \Twig_Extension
             return $this->mediaEmbed($environment, $media, $width, $height, $extra);
         }
 
-        return $this->mediaImage(
-            $environment,
-            $media,
-            $width,
-            $height,
-            $extra,
-            $routeName,
-            $bustCache
-        );
+        return $this->mediaImage($environment, $media, $width, $height, $extra, $routeName, $bustCache);
     }
 
     /**

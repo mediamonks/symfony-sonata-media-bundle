@@ -21,7 +21,7 @@ class YoutubeProviderTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException(InvalidProviderUrlException::class);
         $youtube = new YouTubeProvider();
-        $youtube->parseProviderReference('https://www.youtube.com/watch');
+        $youtube->parseProviderReference('https://www.youtube.com/watch?foo=bar');
     }
 
     public function testParseInvalidProviderReference2()

@@ -61,14 +61,6 @@ class ImageProvider extends AbstractProvider
     /**
      * @return string
      */
-    public function getTitle()
-    {
-        return 'Image';
-    }
-
-    /**
-     * @return string
-     */
     public function getName()
     {
         return 'image';

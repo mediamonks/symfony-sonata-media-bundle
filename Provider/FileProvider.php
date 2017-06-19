@@ -112,7 +112,7 @@ class FileProvider extends AbstractProvider
      */
     public function addFileField(FormMapper $formMapper, $name, $label, $options = [])
     {
-        $this->doAddFileField($formMapper, $name, $label,false, $this->getFileFieldConstraints($options));
+        $this->doAddFileField($formMapper, $name, $label, false, $this->getFileFieldConstraints($options));
     }
 
     /**
@@ -174,41 +174,118 @@ class FileProvider extends AbstractProvider
      */
     protected function getImageByExtension($extension)
     {
-        if (in_array($extension, ['zip', 'rar', 'tar', 'gz'])) {
+        if (in_array($extension, $this->getArchiveExtensions())) {
             return 'archive.png';
         }
-        if (in_array($extension, ['wav', 'mp3', 'flac', 'aac', 'aiff', 'm4a', 'ogg', 'oga', 'wma'])) {
+        if (in_array($extension, $this->getAudioExtensions())) {
             return 'audio.png';
         }
-        if (in_array($extension, ['php', 'html', 'css', 'js', 'vb', 'phar', 'py', 'jar', 'json', 'yml'])) {
+        if (in_array($extension, $this->getCodeExtensions())) {
             return 'code.png';
         }
-        if (in_array($extension, ['xls', 'xlt', 'xlm', 'xlsx', 'xlsm', 'xltx', 'xltm'])) {
+        if (in_array($extension, $this->getSpreadsheetExtensions())) {
             return 'excel.png';
         }
-        if (in_array($extension, ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'tiff', 'ai', 'psd'])) {
+        if (in_array($extension, $this->getImageExtensions())) {
             return 'image.png';
         }
-        if (in_array($extension, ['mp4', 'avi', 'mkv', 'mpg', 'mpeg'])) {
+        if (in_array($extension, $this->getMovieExtensions())) {
             return 'movie.png';
         }
-        if (in_array($extension, ['pdf'])) {
+        if (in_array($extension, $this->getPdfExtensions())) {
             return 'pdf.png';
         }
-        if (in_array(
-            $extension,
-            ['ppt', 'pot', 'pos', 'pps', 'pptx', 'pptm', 'potx', 'potm', 'ppam', 'ppsx', 'ppsm', 'sldx', 'sldm']
-        )) {
+        if (in_array($extension, $this->getPresentationExtensions())) {
             return 'powerpoint.png';
         }
-        if (in_array($extension, ['txt'])) {
+        if (in_array($extension, $this->getTextExtensions())) {
             return 'text.png';
         }
-        if (in_array($extension, ['doc', 'dot', 'wbk', 'docx', 'docm', 'dotx', 'dotm', 'docb'])) {
+        if (in_array($extension, $this->getWordExtensions())) {
             return 'word.png';
         }
 
         return 'default.png';
+    }
+
+    /**
+     * @return array
+     */
+    private function getArchiveExtensions()
+    {
+        return ['zip', 'rar', 'tar', 'gz'];
+    }
+
+    /**
+     * @return array
+     */
+    private function getAudioExtensions()
+    {
+        return ['wav', 'mp3', 'flac', 'aac', 'aiff', 'm4a', 'ogg', 'oga', 'wma'];
+    }
+
+    /**
+     * @return array
+     */
+    private function getCodeExtensions()
+    {
+        return ['php', 'html', 'css', 'js', 'vb', 'phar', 'py', 'jar', 'json', 'yml'];
+    }
+
+    /**
+     * @return array
+     */
+    private function getSpreadsheetExtensions()
+    {
+        return ['xls', 'xlt', 'xlm', 'xlsx', 'xlsm', 'xltx', 'xltm'];
+    }
+
+    /**
+     * @return array
+     */
+    private function getImageExtensions()
+    {
+        return ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'tiff', 'ai', 'psd'];
+    }
+
+    /**
+     * @return array
+     */
+    private function getMovieExtensions()
+    {
+        return ['mp4', 'avi', 'mkv', 'mpg', 'mpeg'];
+    }
+
+    /**
+     * @return array
+     */
+    private function getPdfExtensions()
+    {
+        return ['pdf'];
+    }
+
+    /**
+     * @return array
+     */
+    private function getPresentationExtensions()
+    {
+        return ['ppt', 'pot', 'pos', 'pps', 'pptx', 'pptm', 'potx', 'potm', 'ppam', 'ppsx', 'ppsm', 'sldx', 'sldm'];
+    }
+
+    /**
+     * @return array
+     */
+    private function getTextExtensions()
+    {
+        return ['txt', 'csv'];
+    }
+
+    /**
+     * @return array
+     */
+    private function getWordExtensions()
+    {
+        return ['doc', 'dot', 'wbk', 'docx', 'docm', 'dotx', 'dotm', 'docb'];
     }
 
     /**
