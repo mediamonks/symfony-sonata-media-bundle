@@ -11,9 +11,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Templating\EngineInterface;
 
-/**
- * @codeCoverageIgnore
- */
 class BatchController
 {
     /**

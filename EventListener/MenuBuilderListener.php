@@ -44,15 +44,6 @@ class MenuBuilderListener
         }
         $child->setLabel($this->translator->trans('menu.title'));
 
-        /*$this->addProviderMenuChild(
-            $child,
-            'batch',
-            'mediamonks_media_batch',
-            [],
-            'batch',
-            'fa fa-magic'
-        );*/
-
         foreach ($this->providerPool->getProviders() as $providerClass => $provider) {
             $this->addProviderMenuChild(
                 $child,
