@@ -6,7 +6,6 @@ use MediaMonks\SonataMediaBundle\Model\AbstractMedia;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\CoreBundle\Validator\ErrorElement;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\HttpFoundation\Response;
 
 abstract class AbstractOembedProvider extends AbstractProvider implements OembedProviderInterface
 {

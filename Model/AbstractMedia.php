@@ -2,8 +2,6 @@
 
 namespace MediaMonks\SonataMediaBundle\Model;
 
-use MediaMonks\SonataMediaBundle\Tests\Model\AbstractMediaTest;
-
 abstract class AbstractMedia implements MediaInterface
 {
     /**

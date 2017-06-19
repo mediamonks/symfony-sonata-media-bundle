@@ -164,7 +164,11 @@ class ImageGenerator
             $this->tmpPrefix = 'media';
         }
 
-        return @tempnam($this->tmpPath, $this->tmpPrefix);
+        $this->disableErrorHandler();
+        $tempFile = tempnam($this->tmpPath, $this->tmpPrefix);
+        $this->restoreErrorHandler();
+
+        return $tempFile;
     }
 
     /**

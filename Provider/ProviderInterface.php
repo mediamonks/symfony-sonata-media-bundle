@@ -5,7 +5,6 @@ namespace MediaMonks\SonataMediaBundle\Provider;
 use League\Flysystem\Filesystem;
 use MediaMonks\SonataMediaBundle\Client\HttpClientInterface;
 use MediaMonks\SonataMediaBundle\Model\AbstractMedia;
-use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\CoreBundle\Validator\ErrorElement;
 use Symfony\Component\HttpKernel\Config\FileLocator;

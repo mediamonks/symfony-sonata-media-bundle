@@ -5,11 +5,9 @@ namespace MediaMonks\SonataMediaBundle\Twig\Extension;
 use MediaMonks\SonataMediaBundle\Generator\UrlGenerator;
 use MediaMonks\SonataMediaBundle\ParameterBag\DownloadParameterBag;
 use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
-use MediaMonks\SonataMediaBundle\ParameterBag\ParameterBagInterface;
 use MediaMonks\SonataMediaBundle\Provider\ProviderInterface;
 use MediaMonks\SonataMediaBundle\Provider\ProviderPool;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
-use Mockery\Generator\Parameter;
 
 class MediaExtension extends \Twig_Extension
 {
