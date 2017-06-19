@@ -42,29 +42,49 @@ class YouTubeProvider extends AbstractOembedProvider implements ProviderInterfac
     public function parseProviderReference($value)
     {
         if (strpos($value, 'youtube.com')) {
-            $url = parse_url($value);
-            if (empty($url['query'])) {
-                throw new InvalidProviderUrlException('Youtube');
-            }
-            parse_str($url['query'], $params);
-            if (empty($params['v'])) {
-                throw new InvalidProviderUrlException('Youtube');
-            }
-
-            return $params['v'];
+            return $this->parseProviderReferenceFromUrl($value);
         }
 
         if (strpos($value, 'youtu.be')) {
-            $url = parse_url($value);
-            if (empty($url['path']) || empty(trim($url['path'], '/'))) {
-                throw new InvalidProviderUrlException('Youtube');
-            }
-            $id = trim($url['path'], '/');
-
-            return $id;
+            return $this->parseProviderReferenceFromShortUrl($value);
         }
 
         return $value;
+    }
+
+    /**
+     * @param string $url
+     * @return mixed
+     * @throws InvalidProviderUrlException
+     */
+    protected function parseProviderReferenceFromUrl($url)
+    {
+        $url = parse_url($url);
+        if (empty($url['query'])) {
+            throw new InvalidProviderUrlException('Youtube');
+        }
+        parse_str($url['query'], $params);
+        if (empty($params['v'])) {
+            throw new InvalidProviderUrlException('Youtube');
+        }
+
+        return $params['v'];
+    }
+
+    /**
+     * @param string $url
+     * @return string
+     * @throws InvalidProviderUrlException
+     */
+    protected function parseProviderReferenceFromShortUrl($url)
+    {
+        $url = parse_url($url);
+        if (empty($url['path']) || empty(trim($url['path'], '/'))) {
+            throw new InvalidProviderUrlException('Youtube');
+        }
+        $id = trim($url['path'], '/');
+
+        return $id;
     }
 
     /**

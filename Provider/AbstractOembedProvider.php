@@ -24,26 +24,34 @@ abstract class AbstractOembedProvider extends AbstractProvider implements Oembed
     {
         if ($providerReferenceUpdated) {
             $media->setProviderReference($this->parseProviderReference($media->getProviderReference()));
-
-            $data = $this->getOembedDataCache($media->getProviderReference());
-
-            $media->setProviderMetaData($data);
-
-            if (empty($media->getTitle()) && isset($data['title'])) {
-                $media->setTitle($data['title']);
-            }
-            if (empty($media->getDescription()) && isset($data['description'])) {
-                $media->setDescription($data['description']);
-            }
-            if (empty($media->getAuthorName()) && isset($data['author_name'])) {
-                $media->setAuthorName($data['author_name']);
-            }
-            if (empty($media->getImage())) {
-                $this->refreshImage($media);
-            }
+            $this->updateMediaObject($media);
         }
 
         parent::update($media, $providerReferenceUpdated);
+    }
+
+    /**
+     * @param AbstractMedia $media
+     */
+    protected function updateMediaObject(AbstractMedia $media)
+    {
+        $data = $this->getOembedDataCache($media->getProviderReference());
+
+        $media->setProviderMetaData($data);
+
+        if (empty($media->getTitle()) && isset($data['title'])) {
+            $media->setTitle($data['title']);
+        }
+        if (empty($media->getDescription()) && isset($data['description'])) {
+            $media->setDescription($data['description']);
+        }
+        if (empty($media->getAuthorName()) && isset($data['author_name'])) {
+            $media->setAuthorName($data['author_name']);
+        }
+
+        if (empty($media->getImage())) {
+            $this->refreshImage($media);
+        }
     }
 
     /**

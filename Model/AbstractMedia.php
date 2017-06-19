@@ -2,6 +2,8 @@
 
 namespace MediaMonks\SonataMediaBundle\Model;
 
+use MediaMonks\SonataMediaBundle\Tests\Model\AbstractMediaTest;
+
 abstract class AbstractMedia implements MediaInterface
 {
     /**
@@ -100,10 +102,13 @@ abstract class AbstractMedia implements MediaInterface
 
     /**
      * @param mixed $id
+     * @return AbstractMedia
      */
     public function setId($id)
     {
         $this->id = $id;
+
+        return $this;
     }
 
     /**
@@ -116,10 +121,13 @@ abstract class AbstractMedia implements MediaInterface
 
     /**
      * @param mixed $title
+     * @return AbstractMedia
      */
     public function setTitle($title)
     {
         $this->title = $title;
+
+        return $this;
     }
 
     /**
@@ -131,15 +139,18 @@ abstract class AbstractMedia implements MediaInterface
     }
 
     /**
-     * @param mixed $description
+     * @param string $description
+     * @return AbstractMedia
      */
     public function setDescription($description)
     {
         $this->description = $description;
+
+        return $this;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getProvider()
     {
@@ -147,8 +158,8 @@ abstract class AbstractMedia implements MediaInterface
     }
 
     /**
-     * @param mixed $provider
-     * @return Media
+     * @param string $provider
+     * @return AbstractMedia
      */
     public function setProvider($provider)
     {
@@ -279,10 +290,13 @@ abstract class AbstractMedia implements MediaInterface
 
     /**
      * @param mixed $copyright
+     * @return AbstractMedia
      */
     public function setCopyright($copyright)
     {
         $this->copyright = $copyright;
+
+        return $this;
     }
 
     /**
