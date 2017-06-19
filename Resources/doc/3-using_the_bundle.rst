@@ -98,27 +98,45 @@ With the url generator you can generate links to media with customized parameter
     # This example assumes you are inside a basic Symfony Framework controller,
     # it's advised to inject these services instead
 
+    use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
+    use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+
     // inside your controller action
     $media = $this->getDoctrine()->getManager()->find('MediaMonksSonataMediaBundle:Media', 1);
-    $urlGenerator = $this->get('mediamonks.sonata_media.generator.url_generator');
+    $urlGenerator = $this->get('mediamonks.sonata_media.generator.url_generator.image');
+    $imageParameters = new ImageParameterBag(400, 300);
 
     // generate path to a 400x300 image of this media
-    $url = $this->get('mediamonks.sonata_media.generator.url_generator')->generate(
-        $media,
-        ['w' => 400, 'h' => 300],
-    );
+    $url = $urlGenerator->generate($media, $imageParameters);
 
     // generate url to a 400x300 image of this media
-    $url = $this->get('mediamonks.sonata_media.generator.url_generator')->generate(
-        $media,
-        ['w' => 400, 'h' => 300],
-        null,
-        \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL
-    );
+    $url = $urlGenerator->generate($media, $imageParameters, null, UrlGeneratorInterface::ABSOLUTE_URL);
 
     // generate path to a 400x300 image of this media using a custom route name
-    $url = $this->get('mediamonks.sonata_media.generator.url_generator')->generate(
-        $media,
-        ['w' => 400, 'h' => 300],
-        'custom_route_name'
-    );
+    $url = $urlGenerator->generate($media, $imageParameters, 'custom_route_name');
+
+
+For linking to a download you can use the download url generator instead:
+
+.. code-block:: php
+
+    # This example assumes you are inside a basic Symfony Framework controller,
+    # it's advised to inject these services instead
+
+    use MediaMonks\SonataMediaBundle\ParameterBag\DownloadParameterBag;
+    use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+
+    // inside your controller action
+    $media = $this->getDoctrine()->getManager()->find('MediaMonksSonataMediaBundle:Media', 1);
+    $urlGenerator = $this->get('mediamonks.sonata_media.generator.url_generator.download');
+    $downloadParameters = new DownloadParameterBag();
+
+    // generate path to download this media
+    $url = $urlGenerator->generate($media, $downloadParameters);
+
+    // generate an absolute url to download this media
+    $url = $urlGenerator->generate($media, $downloadParameters, null, UrlGeneratorInterface::ABSOLUTE_URL);
+
+    // generate an absolute url to download this media by using a custom route name
+    $url = $urlGenerator->generate($media, $downloadParameters, 'custom_route_name');
+
