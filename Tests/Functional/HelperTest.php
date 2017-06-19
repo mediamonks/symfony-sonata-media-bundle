@@ -10,7 +10,7 @@ class HelperTest extends AdminTestAbstract
 
         $response = $this->getLastResponse();
         $this->assertEquals('KO', $response['status']);
-        $this->assertEquals('Too short search string', $response['message']);
+        $this->assertEquals('Search string too short', $response['message']);
 
         $this->client->request('GET', '/admin/media/autocomplete', [
             'q' => 'media'
