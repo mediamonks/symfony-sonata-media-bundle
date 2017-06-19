@@ -32,15 +32,11 @@ interface ProviderInterface
 
     public function getName();
 
-    public function getTitle();
-
     public function getType();
 
     public function getIcon();
 
     public function getEmbedTemplate();
-
-    public function getTranslationDomain();
 
     public function supports($renderType);
 

@@ -129,14 +129,6 @@ abstract class AbstractProvider implements ProviderInterface
     }
 
     /**
-     * @return string
-     */
-    public function getTranslationDomain()
-    {
-        return 'MediaMonksSonataMediaBundle';
-    }
-
-    /**
      * @param FormMapper $formMapper
      */
     public function buildCreateForm(FormMapper $formMapper)
@@ -269,18 +261,22 @@ abstract class AbstractProvider implements ProviderInterface
             'size'              => $file->getSize(),
         ];
 
-        if (strpos($file->getClientMimeType(), 'image') !== false) {
-            $this->disableErrorHandler();
-            $imageSize = getimagesize($file->getRealPath());
-            if (is_array($imageSize)) {
-                list($width, $height) = $imageSize;
-                if (is_int($width) && is_int($height)) {
-                    $fileData['height'] = $height;
-                    $fileData['width']  = $width;
-                }
+
+        $this->disableErrorHandler();
+        $imageSize = getimagesize($file->getRealPath());
+        if (is_array($imageSize)) {
+            if (is_int($imageSize[0]) && is_int($imageSize[1])) {
+                $fileData['height'] = $imageSize[0];
+                $fileData['width']  = $imageSize[1];
             }
-            $this->restoreErrorHandler();
+            if (isset($imageSize['bits'])) {
+                $fileData['bits'] = $imageSize['bits'];
+            }
+            if (isset($imageSize['channels'])) {
+                $fileData['channels'] = $imageSize['channels'];
+            }
         }
+        $this->restoreErrorHandler();
 
         return $fileData;
     }
@@ -480,13 +476,5 @@ abstract class AbstractProvider implements ProviderInterface
             'MediaMonksSonataMediaBundle:Provider:%s_embed.html.twig',
             $this->getName()
         );
-    }
-
-    /**
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->translator->trans($this->getName());
     }
 }

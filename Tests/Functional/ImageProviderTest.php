@@ -55,4 +55,25 @@ class ImageProviderTest extends AdminTestAbstract
 
         $this->assertArrayHasKey('url', $data);
     }
+
+    public function testEmptyFileUpload()
+    {
+        $provider = 'image';
+
+        $crawler = $this->client->request('GET', self::BASE_PATH.'create?provider='.$provider);
+
+        $form = $crawler->selectButton('Create')->form();
+
+        $this->assertSonataFormValues(
+            $form,
+            [
+                'provider' => $provider,
+            ]
+        );
+
+        $this->client->submit($form);
+
+        $this->assertContains('This value should not be blank', $this->client->getResponse()->getContent());
+        $this->assertContains('This value should not be blank', $this->client->getResponse()->getContent());
+    }
 }

@@ -42,10 +42,7 @@ class CRUDController extends BaseCRUDController
 
         $this->admin->checkAccess('show', $object);
 
-        return $this->get('mediamonks.sonata_media.utility.download')->getStreamedResponse(
-            $object,
-            new DownloadParameterBag($request->query->all())
-        );
+        return $this->get('mediamonks.sonata_media.utility.download')->getStreamedResponse($object, new DownloadParameterBag($request->query->all()));
     }
 
     /**
@@ -59,9 +56,6 @@ class CRUDController extends BaseCRUDController
 
         $this->admin->checkAccess('show', $object);
 
-        return $this->get('mediamonks.sonata_media.utility.image')->getRedirectResponse(
-            $object,
-            new ImageParameterBag($width, $height, $request->query->all())
-        );
+        return $this->get('mediamonks.sonata_media.utility.image')->getRedirectResponse($object, new ImageParameterBag($width, $height, $request->query->all()));
     }
 }

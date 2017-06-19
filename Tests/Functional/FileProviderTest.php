@@ -68,6 +68,27 @@ class FileProviderTest extends AdminTestAbstract
         $this->assertContains('not allowed to upload a file with extension', $this->client->getResponse()->getContent());
     }
 
+    public function testEmptyFileUpload()
+    {
+        $provider = 'file';
+
+        $crawler = $this->client->request('GET', self::BASE_PATH.'create?provider='.$provider);
+
+        $form = $crawler->selectButton('Create')->form();
+
+        $this->assertSonataFormValues(
+            $form,
+            [
+                'provider' => $provider,
+            ]
+        );
+
+        $this->client->submit($form);
+
+        $this->assertContains('This value should not be blank', $this->client->getResponse()->getContent());
+        $this->assertContains('This value should not be blank', $this->client->getResponse()->getContent());
+    }
+
     /**
      * @param string $fileName
      * @return Crawler
