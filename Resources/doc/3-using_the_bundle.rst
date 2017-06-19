@@ -34,7 +34,7 @@ For this you can use the regular sonata form types to load media entities but yo
 
 This form type will render a small preview image next to the title of the media object.
 
-The example code shows 3 common use cases:
+The example code shows some common use cases:
     - 'media' shows how you can choose a single media object (many to one)
     - 'gallery' shows you you can choose multiple media objects (many to many)
     - 'image' shows how you can choose a single media object of a specific type (many to one)
