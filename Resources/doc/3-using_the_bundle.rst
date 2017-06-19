@@ -22,15 +22,11 @@ For this you can use the regular sonata form types to load media entities but yo
                 'multiple' => true
             ])
             ->add('image', MediaAutocompleteType::class, [
-                'callback' => function ($admin, $property, $value) {
-                    $datagrid = $admin->getDatagrid();
-                    $queryBuilder = $datagrid->getQuery();
-                    $queryBuilder
-                        ->andWhere($queryBuilder->getRootAlias() . '.type = :type')
-                        ->setParameter('type', 'image')
-                    ;
-                    $datagrid->setValue($property, null, $value);
-                },
+                'type' => 'image',
+                'required' => false
+            ])
+            ->add('youtube', MediaAutocompleteType::class, [
+                'provider' => 'youtube',
                 'required' => false
             ])
         ;
@@ -42,6 +38,7 @@ The example code shows 3 common use cases:
     - 'media' shows how you can choose a single media object (many to one)
     - 'gallery' shows you you can choose multiple media objects (many to many)
     - 'image' shows how you can choose a single media object of a specific type (many to one)
+    - 'soundcloud' shows how you can choose a single media object of a specific provider (many to one)
 
 Displaying a media object with Twig
 -----------------------------------

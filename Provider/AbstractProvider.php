@@ -3,10 +3,10 @@
 namespace MediaMonks\SonataMediaBundle\Provider;
 
 use League\Flysystem\Filesystem;
+use League\Glide\Filesystem\FilesystemException;
 use MediaMonks\SonataMediaBundle\Client\HttpClientInterface;
 use MediaMonks\SonataMediaBundle\Model\AbstractMedia;
 use MediaMonks\SonataMediaBundle\Form\Type\MediaFocalPointType;
-use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\CoreBundle\Validator\ErrorElement;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -406,7 +406,7 @@ abstract class AbstractProvider implements ProviderInterface
     /**
      * @param UploadedFile $file
      * @param $filename
-     * @throws \Exception
+     * @throws FilesystemException
      */
     protected function writeToFilesystem(UploadedFile $file, $filename)
     {
@@ -417,7 +417,7 @@ abstract class AbstractProvider implements ProviderInterface
         $this->restoreErrorHandler();
 
         if (!$written) {
-            throw new \Exception('Could not write to file system');
+            throw new FilesystemException('Could not write to file system');
         }
     }
 

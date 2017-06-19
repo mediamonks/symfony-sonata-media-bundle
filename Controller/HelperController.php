@@ -50,6 +50,12 @@ class HelperController
         $datagrid->setValue('title', null, $searchText);
         $datagrid->setValue('_per_page', null, $request->query->get('_per_page', 10));
         $datagrid->setValue('_page', null, $request->query->get('_page', 1));
+        if ($request->query->has('type')) {
+            $datagrid->setValue('type', null, $request->query->get('type'));
+        }
+        if ($request->query->has('provider')) {
+            $datagrid->setValue('provider', null, $request->query->get('provider'));
+        }
         $datagrid->buildPager();
 
         $pager = $datagrid->getPager();

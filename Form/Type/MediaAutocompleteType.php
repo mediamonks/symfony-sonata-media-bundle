@@ -4,6 +4,7 @@ namespace MediaMonks\SonataMediaBundle\Form\Type;
 
 use MediaMonks\SonataMediaBundle\Admin\MediaAdmin;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType as BaseModelAutocompleteType;
+use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Templating\EngineInterface;
 
@@ -38,6 +39,8 @@ class MediaAutocompleteType extends BaseModelAutocompleteType
 
         $resolver->setDefaults(
             [
+                'type' => null,
+                'provider' => null,
                 'property' => 'title',
                 'to_string_callback' => function ($media, $property) {
                     return $this->templateEngine->render(
@@ -47,7 +50,16 @@ class MediaAutocompleteType extends BaseModelAutocompleteType
                         ]
                     );
                 },
-                'route' => ['name' => 'mediamonks_media_autocomplete', 'parameters' => []],
+                'route' => function(Options $options) {
+                    $parameters = [];
+                    if (isset($options['type'])) {
+                        $parameters['type'] = $options['type'];
+                    }
+                    if (isset($options['provider'])) {
+                        $parameters['provider'] = $options['provider'];
+                    }
+                    return ['name' => 'mediamonks_media_autocomplete', 'parameters' => $parameters];
+                },
                 'model_manager' => $this->mediaAdmin->getModelManager()
             ]
         );

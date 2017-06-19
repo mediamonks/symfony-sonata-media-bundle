@@ -2,14 +2,19 @@
 
 namespace MediaMonks\SonataMediaBundle\Tests\Provider;
 
+use League\Flysystem\Filesystem;
+use League\Glide\Filesystem\FilesystemException;
+use MediaMonks\SonataMediaBundle\Provider\AbstractProvider;
 use MediaMonks\SonataMediaBundle\Provider\FileProvider;
+use Mockery as m;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileProviderTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetImageByExtension()
     {
         $method = $this->getMethod('getImageByExtension');
-        $obj = new FileProvider();
+        $provider = new FileProvider();
 
         $data = [
             'archive.png' => ['zip', 'rar', 'tar', 'gz'],
@@ -27,12 +32,38 @@ class FileProviderTest extends \PHPUnit_Framework_TestCase
 
         foreach ($data as $expected => $extensions) {
             foreach ($extensions as $extension) {
-                $this->assertEquals($expected, $method->invokeArgs($obj, [$extension]));
+                $this->assertEquals($expected, $method->invokeArgs($provider, [$extension]));
             }
         }
     }
 
-    protected static function getMethod($name) {
+    public function testSupports()
+    {
+        $provider = new FileProvider();
+        $this->assertTrue($provider->supports(AbstractProvider::SUPPORT_DOWNLOAD));
+        $this->assertFalse($provider->supports(AbstractProvider::SUPPORT_EMBED));
+        $this->assertTrue($provider->supports(AbstractProvider::SUPPORT_IMAGE));
+        $this->assertFalse($provider->supports('foo'));
+    }
+
+    public function testWriteToFilesystem()
+    {
+        $this->setExpectedException(FilesystemException::class);
+
+        $filesystem = m::mock(Filesystem::class);
+        $filesystem->shouldReceive('writeStream')->andReturn(0);
+
+        $file = m::mock(UploadedFile::class);
+        $file->shouldReceive('getRealPath')->andReturn('/foo');
+
+        $provider = new FileProvider();
+        $provider->setFilesystem($filesystem);
+        $method = $this->getMethod('writeToFilesystem');
+        $method->invokeArgs($provider, [$file, 'foo']);
+    }
+
+    protected static function getMethod($name)
+    {
         $class = new \ReflectionClass(FileProvider::class);
         $method = $class->getMethod($name);
         $method->setAccessible(true);

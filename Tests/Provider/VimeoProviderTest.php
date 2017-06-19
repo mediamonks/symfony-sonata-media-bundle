@@ -3,6 +3,7 @@
 namespace MediaMonks\SonataMediaBundle\Tests\Provider;
 
 use MediaMonks\SonataMediaBundle\Exception\InvalidProviderUrlException;
+use MediaMonks\SonataMediaBundle\Provider\AbstractProvider;
 use MediaMonks\SonataMediaBundle\Provider\VimeoProvider;
 
 class VimeoProviderTest extends \PHPUnit_Framework_TestCase
@@ -26,5 +27,14 @@ class VimeoProviderTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException(InvalidProviderUrlException::class);
         $youtube = new VimeoProvider();
         $youtube->parseProviderReference('https://vimeo.com/foobar');
+    }
+
+    public function testSupports()
+    {
+        $provider = new VimeoProvider();
+        $this->assertFalse($provider->supports(AbstractProvider::SUPPORT_DOWNLOAD));
+        $this->assertTrue($provider->supports(AbstractProvider::SUPPORT_EMBED));
+        $this->assertTrue($provider->supports(AbstractProvider::SUPPORT_IMAGE));
+        $this->assertFalse($provider->supports('foo'));
     }
 }
