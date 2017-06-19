@@ -209,7 +209,7 @@ class FileProvider extends AbstractProvider
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     private function getArchiveExtensions()
     {
@@ -217,7 +217,7 @@ class FileProvider extends AbstractProvider
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     private function getAudioExtensions()
     {
@@ -225,7 +225,7 @@ class FileProvider extends AbstractProvider
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     private function getCodeExtensions()
     {
@@ -233,7 +233,7 @@ class FileProvider extends AbstractProvider
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     private function getSpreadsheetExtensions()
     {
@@ -241,7 +241,7 @@ class FileProvider extends AbstractProvider
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     private function getImageExtensions()
     {
@@ -249,7 +249,7 @@ class FileProvider extends AbstractProvider
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     private function getMovieExtensions()
     {
@@ -257,7 +257,7 @@ class FileProvider extends AbstractProvider
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     private function getPdfExtensions()
     {
@@ -265,7 +265,7 @@ class FileProvider extends AbstractProvider
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     private function getPresentationExtensions()
     {
@@ -273,7 +273,7 @@ class FileProvider extends AbstractProvider
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     private function getTextExtensions()
     {
@@ -281,7 +281,7 @@ class FileProvider extends AbstractProvider
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     private function getWordExtensions()
     {
@@ -290,11 +290,16 @@ class FileProvider extends AbstractProvider
 
     /**
      * @param $imageFilename
-     * @return array|string
+     * @return string
      */
     protected function getImageLocation($imageFilename)
     {
-        return $this->getFileLocator()->locate('@MediaMonksSonataMediaBundle/Resources/image/file/'.$imageFilename);
+        $file = $this->getFileLocator()->locate('@MediaMonksSonataMediaBundle/Resources/image/file/'.$imageFilename);
+        if (is_array($file)) {
+            $file = current($file);
+        }
+
+        return $file;
     }
 
     /**
