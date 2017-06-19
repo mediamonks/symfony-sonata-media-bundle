@@ -116,7 +116,7 @@ class MediaAdmin extends AbstractAdmin
     }
 
     /**
-     * @param $media
+     * @param AbstractMedia $media
      * @return bool
      */
     protected function isProviderReferenceUpdated(AbstractMedia $media)
@@ -141,7 +141,7 @@ class MediaAdmin extends AbstractAdmin
     }
 
     /**
-     * @return MediaInterface
+     * @return AbstractMedia
      */
     public function getNewInstance()
     {

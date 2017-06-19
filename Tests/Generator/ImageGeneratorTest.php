@@ -11,10 +11,11 @@ use MediaMonks\SonataMediaBundle\Generator\ImageGenerator;
 use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Mockery as m;
+use org\bovigo\vfs\vfsStream;
 
 class ImageGeneratorTest extends \PHPUnit_Framework_TestCase
 {
-    public function test_generate()
+    public function testGenerate()
     {
         $filesystem = m::mock(Filesystem::class);
         $filesystem->shouldReceive('has')->once()->andReturn(true);
@@ -65,6 +66,9 @@ class ImageGeneratorTest extends \PHPUnit_Framework_TestCase
 
     public function testUnableToWriteTemporaryFile()
     {
+        vfsStream::setup('/tmp');
+        vfsStream::setQuota(1);
+
         $this->setExpectedException(FilesystemException::class);
 
         $filesystem = m::mock(Filesystem::class);
@@ -88,8 +92,42 @@ class ImageGeneratorTest extends \PHPUnit_Framework_TestCase
         $media->shouldReceive('getFocalPoint')->once()->andReturn('50-50');
 
         $parameters = new ImageParameterBag(400, 300);
+        $imageGenerator = new ImageGenerator($server, $filenameGenerator, [], null, '/tmp');
+        $filename = $imageGenerator->generate($media, $parameters);
+    }
 
-        $imageGenerator = new ImageGenerator($server,$filenameGenerator, [], null, '/non-existing-path');
-        $imageGenerator->generate($media, $parameters);
+    public function testUnableToWriteGeneratedImage()
+    {
+        $this->setExpectedException(FilesystemException::class);
+
+        $source = m::mock(Filesystem::class);
+        $source->shouldReceive('has')->once()->andReturn(true);
+        $source->shouldReceive('read')->once()->andReturn('foo');
+        $source->shouldReceive('write')->withArgs(['image_handled.jpg', 'bar'])->once()->andReturn(false);
+
+        $cache = m::mock(Filesystem::class);
+        $cache->shouldReceive('has')->once()->andReturn(false);
+        $cache->shouldReceive('put')->once()->andReturn(false)->andThrow(\Exception::class, 'Unable to write');
+
+        $api = m::mock(ApiInterface::class);
+        $api->shouldReceive('run')->once()->andReturn('bar');
+
+        $server = m::mock(Server::class);
+        $server->shouldReceive('getSource')->twice()->andReturn($source);
+        $server->shouldReceive('getCache')->once()->andReturn($cache);
+        $server->shouldReceive('getApi')->once()->andReturn($api);
+
+        $filenameGenerator = m::mock(FilenameGeneratorInterface::class);
+        $filenameGenerator->shouldReceive('generate')->once()->andReturn('image_handled.jpg');
+
+        $media = m::mock(MediaInterface::class);
+        $media->shouldReceive('getImage')->once()->andReturn('image.jpg');
+        $media->shouldReceive('getFocalPoint')->once()->andReturn('50-50');
+
+        $parameters = new ImageParameterBag(400, 300);
+        $imageGenerator = new ImageGenerator($server, $filenameGenerator);
+        $filename = $imageGenerator->generate($media, $parameters);
+
+        $this->assertEquals('image_handled.jpg', $filename);
     }
 }

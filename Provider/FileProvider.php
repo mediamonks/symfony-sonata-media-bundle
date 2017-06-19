@@ -112,16 +112,7 @@ class FileProvider extends AbstractProvider
      */
     public function addFileField(FormMapper $formMapper, $name, $label, $options = [])
     {
-        $this->doAddFileField(
-            $formMapper,
-            $name,
-            $label,
-            false,
-            [
-                new Constraint\File($this->getFileConstraintOptions($options)),
-                new Constraint\Callback([$this, 'validateExtension']),
-            ]
-        );
+        $this->doAddFileField($formMapper, $name, $label,false, $this->getFileFieldConstraints($options));
     }
 
     /**
@@ -132,16 +123,19 @@ class FileProvider extends AbstractProvider
      */
     public function addRequiredFileField(FormMapper $formMapper, $name, $label, $options = [])
     {
-        $this->doAddFileField(
-            $formMapper,
-            $name,
-            $label,
-            true,
-            [
-                new Constraint\File($this->getFileConstraintOptions($options)),
-                new Constraint\Callback([$this, 'validateExtension']),
-            ]
-        );
+        $this->doAddFileField($formMapper, $name, $label, true, $this->getFileFieldConstraints($options));
+    }
+
+    /**
+     * @param array $options
+     * @return array
+     */
+    private function getFileFieldConstraints(array $options)
+    {
+        return [
+            new Constraint\File($this->getFileConstraintOptions($options)),
+            new Constraint\Callback([$this, 'validateExtension']),
+        ];
     }
 
     /**

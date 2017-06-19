@@ -77,7 +77,7 @@ class ImageGenerator
 
         $filename = $this->filenameGenerator->generate($media, $parameterBag);
 
-        if (!$this->server->getSource()->has($filename)) {
+        if (!$this->server->getCache()->has($filename)) {
             $this->generateImage($media, $parameterBag, $filename);
         }
 
@@ -103,7 +103,7 @@ class ImageGenerator
         try {
             $this->server->getCache()->put($filename, $this->doGenerateImage($media, $tmp, $parameterBag));
         } catch (\Exception $e) {
-            throw new \Exception('Could not generate image', 0, $e);
+            throw new FilesystemException('Could not generate image', 0, $e);
         } finally {
             if (file_exists($tmp)) {
                 if (!@unlink($tmp)) {

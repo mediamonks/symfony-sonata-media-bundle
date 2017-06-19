@@ -41,7 +41,8 @@
     "liip/functional-test-bundle": "^1.7",
     "doctrine/doctrine-fixtures-bundle": "^2.3",
     "symfony/symfony": "~2.8.0",
-    "php-vcr/php-vcr": "^1.3"
+    "php-vcr/php-vcr": "^1.3",
+    "mikey179/vfsStream": "^1.6"
   },
   "suggest": {
     "oneup/flysystem-bundle": "Makes the Flysystem configuration a lot easier"
