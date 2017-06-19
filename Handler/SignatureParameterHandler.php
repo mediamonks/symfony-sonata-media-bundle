@@ -5,7 +5,6 @@ namespace MediaMonks\SonataMediaBundle\Handler;
 use MediaMonks\SonataMediaBundle\Exception\SignatureInvalidException;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use MediaMonks\SonataMediaBundle\ParameterBag\ParameterBagInterface;
-use Mockery\Generator\Parameter;
 
 class SignatureParameterHandler implements ParameterHandlerInterface
 {

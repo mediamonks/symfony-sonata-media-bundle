@@ -8,6 +8,7 @@ use MediaMonks\SonataMediaBundle\Model\AbstractMedia;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\CoreBundle\Validator\ErrorElement;
+use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\Translation\TranslatorInterface;
 
 interface ProviderInterface
@@ -19,6 +20,8 @@ interface ProviderInterface
     public function setHttpClient(HttpClientInterface $httpClient);
 
     public function setTranslator(TranslatorInterface $translator);
+
+    public function setFileLocator(FileLocator $fileLocator);
 
     public function buildCreateForm(FormMapper $formMapper);
 

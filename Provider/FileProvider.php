@@ -98,7 +98,7 @@ class FileProvider extends AbstractProvider
         $imageFilename = $this->getImageByExtension($file->getClientOriginalExtension());
         $media->setImageContent(
             new UploadedFile(
-                $this->getImageLocation().$imageFilename,
+                $this->getImageLocation($imageFilename),
                 $imageFilename
             )
         );
@@ -289,11 +289,12 @@ class FileProvider extends AbstractProvider
     }
 
     /**
-     * @return string
+     * @param $imageFilename
+     * @return array|string
      */
-    protected function getImageLocation()
+    protected function getImageLocation($imageFilename)
     {
-        return __DIR__.'/../Resources/image/file/';
+        return $this->getFileLocator()->locate('@MediaMonksSonataMediaBundle/Resources/image/file/'.$imageFilename);
     }
 
     /**

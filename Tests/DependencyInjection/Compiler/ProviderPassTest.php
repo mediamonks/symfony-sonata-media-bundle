@@ -50,6 +50,7 @@ class ProviderPassTest extends AbstractCompilerPassTestCase
         $provider->shouldReceive('addMethodCall')->once()->withArgs(['setImageConstraintOptions', [$config['image_constraints']]]);
         $provider->shouldReceive('addMethodCall')->once()->withArgs(['setTranslator', \Mockery::any()]);
         $provider->shouldReceive('addMethodCall')->once()->withArgs(['setHttpClient', \Mockery::any()]);
+        $provider->shouldReceive('addMethodCall')->once()->withArgs(['setFileLocator', \Mockery::any()]);
         $this->setDefinition('provider', $provider);
 
         $this->compile();

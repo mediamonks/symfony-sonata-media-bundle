@@ -41,6 +41,10 @@ class ProviderPass implements CompilerPassInterface
                 'setHttpClient',
                 [new Reference('mediamonks.sonata_media.http_client')]
             );
+            $container->getDefinition($id)->addMethodCall(
+                'setFileLocator',
+                [new Reference('file_locator')]
+            );
         }
     }
 }

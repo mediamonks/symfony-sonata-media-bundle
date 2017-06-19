@@ -4,11 +4,14 @@ namespace MediaMonks\SonataMediaBundle\Generator;
 
 use League\Glide\Filesystem\FilesystemException;
 use League\Glide\Server;
+use MediaMonks\SonataMediaBundle\ErrorHandlerTrait;
 use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 
 class ImageGenerator
 {
+    use ErrorHandlerTrait;
+
     /**
      * @var Server
      */
@@ -96,9 +99,12 @@ class ImageGenerator
         $tmp = $this->getTemporaryFile();
         $imageData = $this->getImageData($media);
 
-        if (@file_put_contents($tmp, $imageData) === false) {
+        $this->disableErrorHandler();
+        if (file_put_contents($tmp, $imageData) === false) {
+            $this->restoreErrorHandler();
             throw new FilesystemException('Unable to write temporary file');
         }
+        $this->restoreErrorHandler();
 
         try {
             $this->server->getCache()->put($filename, $this->doGenerateImage($media, $tmp, $parameterBag));

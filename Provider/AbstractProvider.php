@@ -5,6 +5,7 @@ namespace MediaMonks\SonataMediaBundle\Provider;
 use League\Flysystem\Filesystem;
 use League\Glide\Filesystem\FilesystemException;
 use MediaMonks\SonataMediaBundle\Client\HttpClientInterface;
+use MediaMonks\SonataMediaBundle\ErrorHandlerTrait;
 use MediaMonks\SonataMediaBundle\Model\AbstractMedia;
 use MediaMonks\SonataMediaBundle\Form\Type\MediaFocalPointType;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -13,11 +14,14 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraints as Constraint;
 
 abstract class AbstractProvider implements ProviderInterface
 {
+    use ErrorHandlerTrait;
+
     const SUPPORT_EMBED = 'embed';
     const SUPPORT_IMAGE = 'image';
     const SUPPORT_DOWNLOAD = 'download';
@@ -46,6 +50,11 @@ abstract class AbstractProvider implements ProviderInterface
      * @var HttpClientInterface
      */
     private $httpClient;
+
+    /**
+     * @var FileLocator
+     */
+    private $fileLocator;
 
     /**
      * @var AbstractMedia
@@ -90,6 +99,22 @@ abstract class AbstractProvider implements ProviderInterface
     public function setHttpClient(HttpClientInterface $httpClient)
     {
         $this->httpClient = $httpClient;
+    }
+
+    /**
+     * @return FileLocator
+     */
+    public function getFileLocator()
+    {
+        return $this->fileLocator;
+    }
+
+    /**
+     * @param FileLocator $fileLocator
+     */
+    public function setFileLocator(FileLocator $fileLocator)
+    {
+        $this->fileLocator = $fileLocator;
     }
 
     /**
@@ -438,25 +463,6 @@ abstract class AbstractProvider implements ProviderInterface
         }
 
         return false;
-    }
-
-    /**
-     *
-     */
-    protected function disableErrorHandler()
-    {
-        set_error_handler(
-            function () {
-            }
-        );
-    }
-
-    /**
-     *
-     */
-    protected function restoreErrorHandler()
-    {
-        restore_error_handler();
     }
 
     /**
