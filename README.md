@@ -7,9 +7,6 @@
 [![SensioLabs Insight](https://img.shields.io/sensiolabs/i/3840ec2c-d443-4f15-a786-d9206614fe1d.svg)](https://insight.sensiolabs.com/projects/3840ec2c-d443-4f15-a786-d9206614fe1d)
 [![License](https://poser.pugx.org/mediamonks/sonata-media-bundle/license)](https://packagist.org/packages/mediamonks/sonata-media-bundle)
 
-
-### Under construction, this has not been tested in production and is under development.
-
 # MediaMonksSonataMediaBundle
 
 This bundle is an alternative to the existing Sonata Media Bundle.
@@ -21,8 +18,8 @@ your web servers.
 
 ## Features
 
-- Supports many [file systems](http://flysystem.thephpleague.com/adapter/local/) to store the media (S3, Azure, Google Cloud, (S)FTP, Rackspace)
-- Supports image uploads, file uploads, YouTube, Vimeo & SoundCloud 
+- Supports many [file systems](https://flysystem.thephpleague.com/) to store the media (S3, Azure, Google Cloud, (S)FTP, Rackspace)
+- Supports image uploads, file uploads, YouTube, Vimeo & SoundCloud
 - Supports a private and public storage
 - Generate thumbnails with [various options](http://glide.thephpleague.com/1.0/api/quick-reference/)
 - Caches redirects to your images in your CDN or reverse proxy by using cache control headers
@@ -30,7 +27,7 @@ your web servers.
 
 ## Documentation
 
-Please refer to the files in the [/Resources/doc](/Resources/doc) folder.
+Please refer to the files in the [/docs](/docs) folder.
 
 ## System Requirements
 
@@ -50,7 +47,7 @@ If you discover any security related issues, please email devmonk@mediamonks.com
 
 ## Credits
 
-- [Sonata Project](https://sonata-project.org/) for creating their [Media Bundle](https://github.com/sonata-project/SonataMediaBundle) which was obviously the main inspiration for this bundle.
+- [Sonata Project](https://sonata-project.org/) for creating their [Media Bundle](https://github.com/sonata-project/SonataMediaBundle) which was obviously the main inspiration for this alternative bundle
 - [Flysystem](https://flysystem.thephpleague.com/) for accessing different kinds of file systems
 - [Glide](http://glide.thephpleague.com/) for providing a great api to do image manipulation
 
