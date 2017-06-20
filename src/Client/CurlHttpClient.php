@@ -52,6 +52,6 @@ class CurlHttpClient implements HttpClientInterface
         $info = curl_getinfo($ch);
         curl_close($ch);
 
-        return $info === Response::HTTP_OK;
+        return $info['http_code'] === Response::HTTP_OK;
     }
 }

@@ -2,9 +2,11 @@
 
 namespace MediaMonks\SonataMediaBundle\Tests\Unit\Provider;
 
+use MediaMonks\SonataMediaBundle\Client\HttpClientInterface;
 use MediaMonks\SonataMediaBundle\Exception\InvalidProviderUrlException;
 use MediaMonks\SonataMediaBundle\Provider\AbstractProvider;
 use MediaMonks\SonataMediaBundle\Provider\YouTubeProvider;
+use Mockery as m;
 
 class YoutubeProviderTest extends \PHPUnit_Framework_TestCase
 {
@@ -46,5 +48,25 @@ class YoutubeProviderTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($provider->supports(AbstractProvider::SUPPORT_EMBED));
         $this->assertTrue($provider->supports(AbstractProvider::SUPPORT_IMAGE));
         $this->assertFalse($provider->supports('foo'));
+    }
+
+    public function testGetImageUrlMaxRes()
+    {
+        $httpClient = m::mock(HttpClientInterface::class);
+        $httpClient->shouldReceive('exists')->andReturn(true);
+
+        $provider = new YouTubeProvider();
+        $provider->setHttpClient($httpClient);
+        $this->assertEquals('https://i.ytimg.com/vi/id/maxresdefault.jpg', $provider->getImageUrl('id'));
+    }
+
+    public function testGetImageUrlLowRes()
+    {
+        $httpClient = m::mock(HttpClientInterface::class);
+        $httpClient->shouldReceive('exists')->andReturn(false);
+
+        $provider = new YouTubeProvider();
+        $provider->setHttpClient($httpClient);
+        $this->assertEquals('https://i.ytimg.com/vi/id/hqdefault.jpg', $provider->getImageUrl('id'));
     }
 }
