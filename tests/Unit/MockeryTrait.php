@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaMonks\SonataMediaBundle\Tests;
+namespace MediaMonks\SonataMediaBundle\Tests\Unit;
 
 use Mockery as m;
 

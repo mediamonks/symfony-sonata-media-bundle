@@ -1,13 +1,13 @@
 <?php
 
-namespace MediaMonks\SonataMediaBundle\Tests\Handler;
+namespace MediaMonks\SonataMediaBundle\Tests\Unit\Handler;
 
 use MediaMonks\SonataMediaBundle\Exception\InvalidQueryParameterException;
 use MediaMonks\SonataMediaBundle\Exception\SignatureInvalidException;
 use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
 use MediaMonks\SonataMediaBundle\Handler\SignatureParameterHandler;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
-use MediaMonks\SonataMediaBundle\Tests\MockeryTrait;
+use MediaMonks\SonataMediaBundle\Tests\Unit\MockeryTrait;
 use Mockery as m;
 
 class SignatureParameterHandlerTest extends \PHPUnit_Framework_TestCase

@@ -1,29 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <phpunit
-        bootstrap="./vendor/autoload.php"
+        bootstrap="./tests/bootstrap.php"
         colors="true"
         beStrictAboutTestsThatDoNotTestAnything="true"
         checkForUnintentionallyCoveredCode="true"
         beStrictAboutTestSize="true"
         beStrictAboutChangesToGlobalState="true">
     <testsuites>
-        <testsuite name="MediaMonksSonataMediaBundle">
-            <directory suffix="Test.php">./Tests</directory>
+        <testsuite name="unit">
+            <directory suffix="Test.php">./tests/Unit</directory>
+        </testsuite>
+        <testsuite name="functional">
+            <directory suffix="Test.php">./tests/Functional</directory>
         </testsuite>
     </testsuites>
 
     <php>
-        <server name="KERNEL_DIR" value="/Tests/Functional/app/"/>
+        <server name="KERNEL_DIR" value="./tests/Functional/app/"/>
     </php>
 
     <filter>
         <whitelist>
-            <directory>./</directory>
+            <directory>./src</directory>
             <exclude>
-                <directory>./Resources</directory>
-                <directory>./Tests</directory>
-                <directory>./vendor</directory>
+                <directory>./src/Resources</directory>
             </exclude>
         </whitelist>
     </filter>

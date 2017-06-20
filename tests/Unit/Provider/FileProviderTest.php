@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaMonks\SonataMediaBundle\Tests\Provider;
+namespace MediaMonks\SonataMediaBundle\Tests\Unit\Provider;
 
 use League\Flysystem\Filesystem;
 use League\Glide\Filesystem\FilesystemException;

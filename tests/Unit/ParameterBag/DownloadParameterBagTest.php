@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaMonks\SonataMediaBundle\Tests\ParameterBag;
+namespace MediaMonks\SonataMediaBundle\Tests\Unit\ParameterBag;
 
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use MediaMonks\SonataMediaBundle\ParameterBag\DownloadParameterBag;

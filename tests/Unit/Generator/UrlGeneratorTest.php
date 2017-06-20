@@ -1,12 +1,12 @@
 <?php
 
-namespace MediaMonks\SonataMediaBundle\Tests\Generator;
+namespace MediaMonks\SonataMediaBundle\Tests\Unit\Generator;
 
 use MediaMonks\SonataMediaBundle\Generator\UrlGenerator;
 use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
 use MediaMonks\SonataMediaBundle\Handler\ParameterHandlerInterface;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
-use MediaMonks\SonataMediaBundle\Tests\MockeryTrait;
+use MediaMonks\SonataMediaBundle\Tests\Unit\MockeryTrait;
 use Mockery as m;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;

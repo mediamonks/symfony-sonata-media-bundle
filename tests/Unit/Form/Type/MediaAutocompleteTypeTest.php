@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaMonks\SonataMediaBundle\Tests\Form\Type;
+namespace MediaMonks\SonataMediaBundle\Tests\Unit\Form\Type;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use MediaMonks\SonataMediaBundle\Admin\MediaAdmin;

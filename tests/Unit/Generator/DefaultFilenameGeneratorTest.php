@@ -1,11 +1,11 @@
 <?php
 
-namespace MediaMonks\SonataMediaBundle\Tests\Generator;
+namespace MediaMonks\SonataMediaBundle\Tests\Unit\Generator;
 
 use MediaMonks\SonataMediaBundle\Generator\DefaultFilenameGenerator;
 use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
-use MediaMonks\SonataMediaBundle\Tests\MockeryTrait;
+use MediaMonks\SonataMediaBundle\Tests\Unit\MockeryTrait;
 use Mockery as m;
 
 class DefaultFilenameGeneratorTest extends \PHPUnit_Framework_TestCase

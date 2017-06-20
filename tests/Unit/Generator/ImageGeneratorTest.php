@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaMonks\SonataMediaBundle\Tests\Generator;
+namespace MediaMonks\SonataMediaBundle\Tests\Unit\Generator;
 
 use League\Flysystem\Filesystem;
 use League\Glide\Api\ApiInterface;

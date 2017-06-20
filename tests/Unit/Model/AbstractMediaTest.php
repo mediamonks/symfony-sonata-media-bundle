@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaMonks\SonataMediaBundle\Tests\Model;
+namespace MediaMonks\SonataMediaBundle\Tests\Unit\Model;
 
 class AbstractMediaTest extends \PHPUnit_Framework_TestCase
 {

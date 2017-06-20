@@ -1,7 +1,7 @@
 {
   "name": "mediamonks/sonata-media-bundle",
   "type": "symfony-bundle",
-  "description": "MediaMonks Sonata Media Bundle",
+  "description": "A powerful alternative, flexible and easy to use alternative for the existing Sonata Media Bundle",
   "keywords": [
     "media",
     "image",
@@ -11,7 +11,9 @@
     "oembed",
     "youtube",
     "bundle",
-    "symfony"
+    "symfony",
+    "sonata",
+    "admin"
   ],
   "homepage": "https://www.mediamonks.com/",
   "license": "MIT",
@@ -49,12 +51,15 @@
   },
   "autoload": {
     "psr-4": {
-      "MediaMonks\\SonataMediaBundle\\": ""
+      "MediaMonks\\SonataMediaBundle\\": "src/"
     }
   },
   "autoload-dev": {
+    "psr-4": {
+      "MediaMonks\\SonataMediaBundle\\Tests\\": "tests/"
+    },
     "psr-0": {
-      "": "Tests/Functional/src/"
+      "": "tests/Functional/src/"
     }
   },
   "extra": {

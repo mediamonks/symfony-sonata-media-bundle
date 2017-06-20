@@ -1,10 +1,10 @@
 <?php
 
-namespace MediaMonks\SonataMediaBundle\Tests\DependencyInjection\Compiler;
+namespace MediaMonks\SonataMediaBundle\Tests\Unit\DependencyInjection\Compiler;
 
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
 use MediaMonks\SonataMediaBundle\DependencyInjection\Compiler\ProviderPass;
-use MediaMonks\SonataMediaBundle\Tests\MockeryTrait;
+use MediaMonks\SonataMediaBundle\Tests\Unit\MockeryTrait;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Mockery as m;

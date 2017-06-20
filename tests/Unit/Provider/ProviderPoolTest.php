@@ -1,11 +1,11 @@
 <?php
 
-namespace MediaMonks\SonataMediaBundle\Tests\Provider;
+namespace MediaMonks\SonataMediaBundle\Tests\Unit\Provider;
 
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use MediaMonks\SonataMediaBundle\Provider\ProviderInterface;
 use MediaMonks\SonataMediaBundle\Provider\ProviderPool;
-use MediaMonks\SonataMediaBundle\Tests\MockeryTrait;
+use MediaMonks\SonataMediaBundle\Tests\Unit\MockeryTrait;
 use Mockery as m;
 
 class ProviderPoolTest extends \PHPUnit_Framework_TestCase

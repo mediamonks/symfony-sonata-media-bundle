@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaMonks\SonataMediaBundle\Tests\DependencyInjection;
+namespace MediaMonks\SonataMediaBundle\Tests\Unit\DependencyInjection;
 
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use MediaMonks\SonataMediaBundle\DependencyInjection\MediaMonksSonataMediaExtension;
