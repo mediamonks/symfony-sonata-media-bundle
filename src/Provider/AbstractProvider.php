@@ -449,25 +449,6 @@ abstract class AbstractProvider implements ProviderInterface
     }
 
     /**
-     * @param $renderType
-     * @return boolean
-     */
-    public function supports($renderType)
-    {
-        if ($renderType === self::SUPPORT_EMBED) {
-            return $this->supportsEmbed();
-        }
-        if ($renderType === self::SUPPORT_IMAGE) {
-            return $this->supportsImage();
-        }
-        if ($renderType === self::SUPPORT_DOWNLOAD) {
-            return $this->supportsDownload();
-        }
-
-        return false;
-    }
-
-    /**
      * @param ErrorElement $errorElement
      * @param AbstractMedia $media
      */

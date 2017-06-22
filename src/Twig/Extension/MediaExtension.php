@@ -7,7 +7,6 @@ use MediaMonks\SonataMediaBundle\ParameterBag\DownloadParameterBag;
 use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
 use MediaMonks\SonataMediaBundle\Provider\DownloadableProviderInterface;
 use MediaMonks\SonataMediaBundle\Provider\EmbeddableProviderInterface;
-use MediaMonks\SonataMediaBundle\Provider\ImageableProviderInterface;
 use MediaMonks\SonataMediaBundle\Provider\ProviderInterface;
 use MediaMonks\SonataMediaBundle\Provider\ProviderPool;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
@@ -223,7 +222,8 @@ class MediaExtension extends \Twig_Extension
      * @param MediaInterface $media
      * @param $width
      * @param $height
-     * @param array $extra
+     * @param array $extraImage
+     * @param array $extraDownload
      * @param null $routeNameImage
      * @param null $routeNameDownload
      * @return string
@@ -233,7 +233,8 @@ class MediaExtension extends \Twig_Extension
         MediaInterface $media,
         $width,
         $height,
-        array $extra = [],
+        array $extraImage = [],
+        array $extraDownload = [],
         $routeNameImage = null,
         $routeNameDownload = null
     ) {
@@ -247,12 +248,12 @@ class MediaExtension extends \Twig_Extension
                 'media'       => $media,
                 'downloadSrc' => $this->downloadUrlGenerator->generate(
                     $media,
-                    new DownloadParameterBag(),
+                    new DownloadParameterBag($extraDownload),
                     $routeNameDownload
                 ),
                 'src'         => $this->imageUrlGenerator->generate(
                     $media,
-                    new ImageParameterBag($width, $height, $extra),
+                    new ImageParameterBag($width, $height, $extraImage),
                     $routeNameImage
                 ),
                 'width'       => $width,

@@ -8,4 +8,4 @@ checks:
 
 tools:
     external_code_coverage:
-        timeout: 900
+        timeout: 1800
