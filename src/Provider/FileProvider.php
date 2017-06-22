@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Constraint;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
-class FileProvider extends AbstractProvider
+class FileProvider extends AbstractProvider implements ProviderInterface, DownloadableProviderInterface
 {
     /**
      * @var array
@@ -300,29 +300,5 @@ class FileProvider extends AbstractProvider
         }
 
         return $file;
-    }
-
-    /**
-     * @return bool
-     */
-    public function supportsDownload()
-    {
-        return true;
-    }
-
-    /**
-     * @return bool
-     */
-    public function supportsEmbed()
-    {
-        return false;
-    }
-
-    /**
-     * @return bool
-     */
-    public function supportsImage()
-    {
-        return true;
     }
 }

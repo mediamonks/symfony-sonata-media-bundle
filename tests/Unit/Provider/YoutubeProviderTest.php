@@ -42,15 +42,6 @@ class YoutubeProviderTest extends \PHPUnit_Framework_TestCase
         $youtube->parseProviderReference('https://youtu.be');
     }
 
-    public function testSupports()
-    {
-        $provider = new YouTubeProvider();
-        $this->assertFalse($provider->supports(AbstractProvider::SUPPORT_DOWNLOAD));
-        $this->assertTrue($provider->supports(AbstractProvider::SUPPORT_EMBED));
-        $this->assertTrue($provider->supports(AbstractProvider::SUPPORT_IMAGE));
-        $this->assertFalse($provider->supports('foo'));
-    }
-
     public function testGetImageUrlMaxRes()
     {
         $httpClient = m::mock(HttpClientInterface::class);

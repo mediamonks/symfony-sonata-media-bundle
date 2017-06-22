@@ -8,8 +8,11 @@
     {{ media|media_image(100, 300) }}
     <br>
     {{ media|media_image(300, 100) }}
-    {% if media|media_supports('download') %}
+    {% if media is media_downloadable %}
     <br>
     {{ media|media_download(100, 100) }}
     {% endif %}
+
+    {{ media|media_download_url }}
+    {{ media|media_image_url(300, 300) }}
 {% endblock %}

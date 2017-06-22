@@ -2,7 +2,7 @@
 
 namespace MediaMonks\SonataMediaBundle\Provider;
 
-interface EmbeddableProviderInterface extends ProviderInterface
+interface EmbeddableProviderInterface
 {
     public function getEmbedTemplate();
 }

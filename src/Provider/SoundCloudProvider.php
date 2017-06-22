@@ -8,7 +8,7 @@ use Sonata\CoreBundle\Form\Type\ImmutableArrayType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class SoundCloudProvider extends AbstractOembedProvider implements EmbeddableProviderInterface
+class SoundCloudProvider extends AbstractOembedProvider
 {
     const URL_OEMBED = 'https://soundcloud.com/oembed?format=json&url=https://soundcloud.com/%s';
     const URL = 'https://soundcloud.com/%s';

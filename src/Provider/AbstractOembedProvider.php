@@ -7,7 +7,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\CoreBundle\Validator\ErrorElement;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-abstract class AbstractOembedProvider extends AbstractProvider implements OembedProviderInterface
+abstract class AbstractOembedProvider extends AbstractProvider implements OembedProviderInterface, EmbeddableProviderInterface
 {
     /**
      * @var array
@@ -145,29 +145,5 @@ abstract class AbstractOembedProvider extends AbstractProvider implements Oembed
     public function getReferenceLabel()
     {
         return sprintf('form.%s.reference', $this->getName());
-    }
-
-    /**
-     * @return bool
-     */
-    public function supportsDownload()
-    {
-        return false;
-    }
-
-    /**
-     * @return bool
-     */
-    public function supportsEmbed()
-    {
-        return true;
-    }
-
-    /**
-     * @return bool
-     */
-    public function supportsImage()
-    {
-        return true;
     }
 }

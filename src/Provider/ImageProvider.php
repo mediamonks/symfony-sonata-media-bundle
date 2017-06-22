@@ -5,7 +5,7 @@ namespace MediaMonks\SonataMediaBundle\Provider;
 use MediaMonks\SonataMediaBundle\Model\AbstractMedia;
 use Sonata\AdminBundle\Form\FormMapper;
 
-class ImageProvider extends AbstractProvider
+class ImageProvider extends AbstractProvider implements ProviderInterface, DownloadableProviderInterface
 {
     /**
      * @param FormMapper $formMapper
@@ -72,29 +72,5 @@ class ImageProvider extends AbstractProvider
     public function getType()
     {
         return AbstractProvider::TYPE_IMAGE;
-    }
-
-    /**
-     * @return bool
-     */
-    public function supportsDownload()
-    {
-        return true;
-    }
-
-    /**
-     * @return bool
-     */
-    public function supportsEmbed()
-    {
-        return false;
-    }
-
-    /**
-     * @return bool
-     */
-    public function supportsImage()
-    {
-        return true;
     }
 }

@@ -40,13 +40,5 @@ interface ProviderInterface
 
     public function getIcon();
 
-    public function supports($renderType);
-
-    public function supportsEmbed();
-
-    public function supportsImage();
-
-    public function supportsDownload();
-
     public function validate(ErrorElement $errorElement, AbstractMedia $media);
 }

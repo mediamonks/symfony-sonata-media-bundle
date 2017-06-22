@@ -4,7 +4,7 @@ namespace MediaMonks\SonataMediaBundle\Provider;
 
 use MediaMonks\SonataMediaBundle\Exception\InvalidProviderUrlException;
 
-class VimeoProvider extends AbstractOembedProvider implements EmbeddableProviderInterface
+class VimeoProvider extends AbstractOembedProvider implements ProviderInterface, EmbeddableProviderInterface
 {
     const URL_OEMBED = 'https://vimeo.com/api/oembed.json?url=http://vimeo.com/%s';
 

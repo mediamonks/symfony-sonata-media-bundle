@@ -28,13 +28,4 @@ class VimeoProviderTest extends \PHPUnit_Framework_TestCase
         $youtube = new VimeoProvider();
         $youtube->parseProviderReference('https://vimeo.com/foobar');
     }
-
-    public function testSupports()
-    {
-        $provider = new VimeoProvider();
-        $this->assertFalse($provider->supports(AbstractProvider::SUPPORT_DOWNLOAD));
-        $this->assertTrue($provider->supports(AbstractProvider::SUPPORT_EMBED));
-        $this->assertTrue($provider->supports(AbstractProvider::SUPPORT_IMAGE));
-        $this->assertFalse($provider->supports('foo'));
-    }
 }

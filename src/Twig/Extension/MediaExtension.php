@@ -5,7 +5,9 @@ namespace MediaMonks\SonataMediaBundle\Twig\Extension;
 use MediaMonks\SonataMediaBundle\Generator\UrlGenerator;
 use MediaMonks\SonataMediaBundle\ParameterBag\DownloadParameterBag;
 use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
-use MediaMonks\SonataMediaBundle\Provider\AbstractProvider;
+use MediaMonks\SonataMediaBundle\Provider\DownloadableProviderInterface;
+use MediaMonks\SonataMediaBundle\Provider\EmbeddableProviderInterface;
+use MediaMonks\SonataMediaBundle\Provider\ImageableProviderInterface;
 use MediaMonks\SonataMediaBundle\Provider\ProviderInterface;
 use MediaMonks\SonataMediaBundle\Provider\ProviderPool;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
@@ -81,12 +83,41 @@ class MediaExtension extends \Twig_Extension
                 ]
             ),
             new \Twig_SimpleFilter(
-                'media_download_url', [$this, 'mediaDownloadUrl']
+                'media_image_url', [$this, 'mediaImageUrl']
             ),
             new \Twig_SimpleFilter(
-                'media_supports', [$this, 'mediaSupports']
-            ),
+                'media_download_url', [$this, 'mediaDownloadUrl']
+            )
         ];
+    }
+
+    /**
+     * @return array
+     */
+    public function getTests()
+    {
+        return [
+            new \Twig_SimpleTest('media_downloadable', [$this, 'isDownloadable']),
+            new \Twig_SimpleTest('media_embeddable', [$this, 'isEmbeddable'])
+        ];
+    }
+
+    /**
+     * @param MediaInterface $media
+     * @return bool
+     */
+    public function isDownloadable(MediaInterface $media)
+    {
+        return $this->getProviderByMedia($media) instanceof DownloadableProviderInterface;
+    }
+
+    /**
+     * @param MediaInterface $media
+     * @return bool
+     */
+    public function isEmbeddable(MediaInterface $media)
+    {
+        return $this->getProviderByMedia($media) instanceof EmbeddableProviderInterface;
     }
 
     /**
@@ -108,7 +139,7 @@ class MediaExtension extends \Twig_Extension
         $routeName = null,
         $bustCache = false
     ) {
-        if ($this->mediaSupports($media, AbstractProvider::SUPPORT_EMBED)) {
+        if ($this->isEmbeddable($media)) {
             return $this->mediaEmbed($environment, $media, $width, $height, $extra);
         }
 
@@ -134,7 +165,7 @@ class MediaExtension extends \Twig_Extension
         $routeName = null,
         $bustCache = false
     ) {
-        if (!$this->mediaSupports($media, AbstractProvider::SUPPORT_EMBED)) {
+        if (!$this->isEmbeddable($media)) {
             return $this->mediaImage($environment, $media, $width, $height, $extra, $routeName, $bustCache);
         }
 
@@ -206,6 +237,10 @@ class MediaExtension extends \Twig_Extension
         $routeNameImage = null,
         $routeNameDownload = null
     ) {
+        if (!$this->isDownloadable($media)) {
+            return '';
+        }
+
         return $environment->render(
             'MediaMonksSonataMediaBundle:Media:file.html.twig',
             [
@@ -229,23 +264,30 @@ class MediaExtension extends \Twig_Extension
 
     /**
      * @param MediaInterface $media
-     * @param null $routeName
+     * @param int $width
+     * @param int $height
      * @param array $extra
+     * @param null $routeName
      * @return string
      */
-    public function mediaDownloadUrl(MediaInterface $media, $routeName = null, array $extra = [])
+    public function mediaImageUrl(MediaInterface $media, $width, $height, array $extra = [], $routeName = null)
     {
-        return $this->downloadUrlGenerator->generate($media, new DownloadParameterBag($extra), $routeName);
+        return $this->imageUrlGenerator->generate(
+            $media,
+            new ImageParameterBag($width, $height, $extra),
+            $routeName
+        );
     }
 
     /**
      * @param MediaInterface $media
-     * @param $type
-     * @return mixed
+     * @param array $extra
+     * @param null $routeName
+     * @return string
      */
-    public function mediaSupports(MediaInterface $media, $type)
+    public function mediaDownloadUrl(MediaInterface $media, array $extra = [], $routeName = null)
     {
-        return $this->getProviderByMedia($media)->supports($type);
+        return $this->downloadUrlGenerator->generate($media, new DownloadParameterBag($extra), $routeName);
     }
 
     /**

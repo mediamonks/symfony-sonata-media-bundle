@@ -37,15 +37,6 @@ class FileProviderTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testSupports()
-    {
-        $provider = new FileProvider();
-        $this->assertTrue($provider->supports(AbstractProvider::SUPPORT_DOWNLOAD));
-        $this->assertFalse($provider->supports(AbstractProvider::SUPPORT_EMBED));
-        $this->assertTrue($provider->supports(AbstractProvider::SUPPORT_IMAGE));
-        $this->assertFalse($provider->supports('foo'));
-    }
-
     public function testWriteToFilesystem()
     {
         $this->setExpectedException(FilesystemException::class);

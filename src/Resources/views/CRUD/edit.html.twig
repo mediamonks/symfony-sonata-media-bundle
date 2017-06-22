@@ -39,22 +39,20 @@
             <div class="box box-primary">
                 <div class="box-header"><h4 class="box-title">{{ 'preview'|trans }}</h4></div>
                 <div class="box-body">
-                    {% if object|media_supports('embed') %}
+                    {% if object is media_embeddable %}
                         <label>{{ 'embed'|trans }}</label>
                         <br style="clear: both;">
                         {{ object|media_embed(360, 230, [], 'admin_mediamonks_sonatamedia_media_image') }}
                         <br><br>
                     {% endif %}
-                    {% if object|media_supports('image') %}
                         <label>{{ 'image'|trans }}</label>
                         <br>
                         {{ object|media_image(360, 0, [], 'admin_mediamonks_sonatamedia_media_image', true) }}
                         <br><br>
-                    {% endif %}
-                    {% if object|media_supports('download') %}
+                    {% if object is media_downloadable %}
                         <label>{{ 'download'|trans }}</label>
                         <br>
-                        <a href="{{ object|media_download_url('admin_mediamonks_sonatamedia_media_download') }}"
+                        <a href="{{ object|media_download_url([], 'admin_mediamonks_sonatamedia_media_download') }}"
                            class="btn btn-default" role="button"><i class="fa fa-fw fa-download"></i> {{ 'download_original'|trans }}</a>
                     {% endif %}
                 </div>
