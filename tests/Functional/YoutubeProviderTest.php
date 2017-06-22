@@ -27,7 +27,7 @@ class YoutubeProviderTest extends AbstractOembedProviderTestAbstract
         );
 
         $this->assertEquals(
-            1,
+            2,
             $crawler->filter('iframe')->count()
         );
 

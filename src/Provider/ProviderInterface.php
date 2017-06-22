@@ -30,6 +30,8 @@ interface ProviderInterface
 
     public function buildProviderEditFormBefore(FormMapper $formMapper);
 
+    public function buildProviderEditFormAfter(FormMapper $formMapper);
+
     public function update(AbstractMedia $media, $providerReferenceUpdated);
 
     public function getName();
@@ -37,8 +39,6 @@ interface ProviderInterface
     public function getType();
 
     public function getIcon();
-
-    public function getEmbedTemplate();
 
     public function supports($renderType);
 

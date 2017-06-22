@@ -5,6 +5,7 @@ namespace MediaMonks\SonataMediaBundle\Twig\Extension;
 use MediaMonks\SonataMediaBundle\Generator\UrlGenerator;
 use MediaMonks\SonataMediaBundle\ParameterBag\DownloadParameterBag;
 use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
+use MediaMonks\SonataMediaBundle\Provider\AbstractProvider;
 use MediaMonks\SonataMediaBundle\Provider\ProviderInterface;
 use MediaMonks\SonataMediaBundle\Provider\ProviderPool;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
@@ -107,9 +108,7 @@ class MediaExtension extends \Twig_Extension
         $routeName = null,
         $bustCache = false
     ) {
-        $provider = $this->getProviderByMedia($media);
-
-        if ($provider->supportsEmbed()) {
+        if ($this->mediaSupports($media, AbstractProvider::SUPPORT_EMBED)) {
             return $this->mediaEmbed($environment, $media, $width, $height, $extra);
         }
 
@@ -121,7 +120,9 @@ class MediaExtension extends \Twig_Extension
      * @param MediaInterface $media
      * @param $width
      * @param $height
-     * @param array $parameters
+     * @param array $extra
+     * @param null $routeName
+     * @param bool $bustCache
      * @return string
      */
     public function mediaEmbed(
@@ -129,15 +130,21 @@ class MediaExtension extends \Twig_Extension
         MediaInterface $media,
         $width,
         $height,
-        array $parameters = []
+        array $extra = [],
+        $routeName = null,
+        $bustCache = false
     ) {
+        if (!$this->mediaSupports($media, AbstractProvider::SUPPORT_EMBED)) {
+            return $this->mediaImage($environment, $media, $width, $height, $extra, $routeName, $bustCache);
+        }
+
         return $environment->render(
             $this->getProviderByMedia($media)->getEmbedTemplate(),
             [
                 'media'      => $media,
                 'width'      => $width,
                 'height'     => $height,
-                'parameters' => $parameters,
+                'parameters' => $extra,
             ]
         );
     }

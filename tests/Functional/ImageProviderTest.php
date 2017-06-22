@@ -36,7 +36,7 @@ class ImageProviderTest extends AdminTestAbstract
         $crawler = $this->client->request('GET', '/twig');
 
         $this->assertEquals(
-            4,
+            5,
             $crawler->filter('img')->count()
         );
 

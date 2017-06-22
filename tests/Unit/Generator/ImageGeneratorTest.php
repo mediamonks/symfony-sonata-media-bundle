@@ -66,22 +66,26 @@ class ImageGeneratorTest extends \PHPUnit_Framework_TestCase
 
     public function testUnableToWriteTemporaryFile()
     {
-        vfsStream::setup('/tmp');
-        vfsStream::setQuota(1);
+        vfsStream::setup(__DIR__);
+        vfsStream::setQuota(0);
 
         $this->setExpectedException(FilesystemException::class);
 
-        $filesystem = m::mock(Filesystem::class);
-        $filesystem->shouldReceive('has')->once()->andReturn(false);
-        $filesystem->shouldReceive('read')->once()->andReturn('foo');
-        $filesystem->shouldReceive('write')->withArgs(['image_handled.jpg', 'bar'])->once()->andReturn(true);
+        $source = m::mock(Filesystem::class);
+        $source->shouldReceive('has')->once()->andReturn(true);
+        $source->shouldReceive('read')->once()->andReturn('foo');
+        $source->shouldReceive('write')->withArgs(['image_handled.jpg', 'bar'])->once()->andReturn(false);
+
+        $cache = m::mock(Filesystem::class);
+        $cache->shouldReceive('has')->once()->andReturn(false);
+        $cache->shouldReceive('put')->once()->andReturn(false)->andThrow(\Exception::class, 'Unable to write');
 
         $api = m::mock(ApiInterface::class);
         $api->shouldReceive('run')->once()->andReturn('bar');
 
         $server = m::mock(Server::class);
-        $server->shouldReceive('getSource')->twice()->andReturn($filesystem);
-        $server->shouldReceive('getCache')->once()->andReturn($filesystem);
+        $server->shouldReceive('getSource')->twice()->andReturn($source);
+        $server->shouldReceive('getCache')->once()->andReturn($cache);
         $server->shouldReceive('getApi')->once()->andReturn($api);
 
         $filenameGenerator = m::mock(FilenameGeneratorInterface::class);
@@ -92,7 +96,7 @@ class ImageGeneratorTest extends \PHPUnit_Framework_TestCase
         $media->shouldReceive('getFocalPoint')->once()->andReturn('50-50');
 
         $parameters = new ImageParameterBag(400, 300);
-        $imageGenerator = new ImageGenerator($server, $filenameGenerator, [], null, '/tmp');
+        $imageGenerator = new ImageGenerator($server, $filenameGenerator, [], null, __DIR__);
         $filename = $imageGenerator->generate($media, $parameters);
     }
 

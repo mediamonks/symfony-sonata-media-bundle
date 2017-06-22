@@ -83,3 +83,17 @@ sure you update the namespace accordingly).
 
 Important: If your entity has a different FQCN than the default ``AppBundle\Entity\Media`` you must use the option
  ``model_class`` in the bundle configuration to set the correct FQCN.
+
+E) Update database schema
+-------------------------
+
+After creating the entity it's time to update the database schema, as it's assumed you are using Doctrine ORM you can
+run the following command from the command line to run the update:
+
+Symfony ~2.8
+
+``php bin/console doctrine:schema:update --force``
+
+Symfony 3.0+
+
+``php app/console doctrine:schema:update --force``

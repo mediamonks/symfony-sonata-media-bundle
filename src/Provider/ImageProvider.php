@@ -75,14 +75,6 @@ class ImageProvider extends AbstractProvider
     }
 
     /**
-     * @return string
-     */
-    public function getEmbedTemplate()
-    {
-        return 'MediaMonksSonataMediaBundle:Provider:image_embed.html.twig';
-    }
-
-    /**
      * @return bool
      */
     public function supportsDownload()

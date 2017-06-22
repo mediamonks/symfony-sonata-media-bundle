@@ -4,7 +4,7 @@ namespace MediaMonks\SonataMediaBundle\Provider;
 
 use MediaMonks\SonataMediaBundle\Exception\InvalidProviderUrlException;
 
-class YouTubeProvider extends AbstractOembedProvider implements ProviderInterface
+class YouTubeProvider extends AbstractOembedProvider implements EmbeddableProviderInterface
 {
     const URL_OEMBED = 'http://www.youtube.com/oembed?url=http://www.youtube.com/watch?v=%s&format=json';
     const URL_IMAGE_MAX_RES = 'https://i.ytimg.com/vi/%s/maxresdefault.jpg';
@@ -109,13 +109,5 @@ class YouTubeProvider extends AbstractOembedProvider implements ProviderInterfac
     public function getType()
     {
         return AbstractProvider::TYPE_VIDEO;
-    }
-
-    /**
-     * @return string
-     */
-    public function getEmbedTemplate()
-    {
-        return 'MediaMonksSonataMediaBundle:Provider:youtube_embed.html.twig';
     }
 }

@@ -217,6 +217,7 @@ abstract class AbstractProvider implements ProviderInterface
 
     /**
      * @param FormMapper $formMapper
+     * @codeCoverageIgnore
      */
     public function buildProviderEditFormBefore(FormMapper $formMapper)
     {
@@ -224,6 +225,7 @@ abstract class AbstractProvider implements ProviderInterface
 
     /**
      * @param FormMapper $formMapper
+     * @codeCoverageIgnore
      */
     public function buildProviderEditFormAfter(FormMapper $formMapper)
     {

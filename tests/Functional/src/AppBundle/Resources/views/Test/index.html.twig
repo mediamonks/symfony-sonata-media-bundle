@@ -1,7 +1,9 @@
 {% extends 'AppBundle::base.html.twig' %}
 
 {% block body %}
-{{ media|media(300, 300) }}
+    {{ media|media(300, 300) }}
+    <br>
+    {{ media|media_embed(300, 300) }}
     <br>
     {{ media|media_image(100, 300) }}
     <br>

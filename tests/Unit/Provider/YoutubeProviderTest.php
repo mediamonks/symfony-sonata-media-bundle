@@ -7,6 +7,7 @@ use MediaMonks\SonataMediaBundle\Exception\InvalidProviderUrlException;
 use MediaMonks\SonataMediaBundle\Provider\AbstractProvider;
 use MediaMonks\SonataMediaBundle\Provider\YouTubeProvider;
 use Mockery as m;
+use Sonata\AdminBundle\Form\FormMapper;
 
 class YoutubeProviderTest extends \PHPUnit_Framework_TestCase
 {
