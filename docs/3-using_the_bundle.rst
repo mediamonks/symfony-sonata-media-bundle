@@ -104,16 +104,15 @@ With the url generator you can generate links to media with customized parameter
     // inside your controller action
     $media = $this->getDoctrine()->getManager()->find('MediaMonksSonataMediaBundle:Media', 1);
     $urlGenerator = $this->get('mediamonks.sonata_media.generator.url_generator.image');
-    $imageParameters = new ImageParameterBag(400, 300);
 
     // generate path to a 400x300 image of this media
-    $url = $urlGenerator->generate($media, $imageParameters);
+    $url = $urlGenerator->generateImageUrl($media, 400, 300, [], $imageParameters);
 
     // generate url to a 400x300 image of this media
-    $url = $urlGenerator->generate($media, $imageParameters, null, UrlGeneratorInterface::ABSOLUTE_URL);
+    $url = $urlGenerator->generateImageUrl($media, 400, 300, [], , null, UrlGeneratorInterface::ABSOLUTE_URL);
 
     // generate path to a 400x300 image of this media using a custom route name
-    $url = $urlGenerator->generate($media, $imageParameters, 'custom_route_name');
+    $url = $urlGenerator->generateImageUrl($media, 400, 300, [], , 'custom_route_name');
 
 
 For linking to a download you can use the download url generator instead:
@@ -129,14 +128,13 @@ For linking to a download you can use the download url generator instead:
     // inside your controller action
     $media = $this->getDoctrine()->getManager()->find('MediaMonksSonataMediaBundle:Media', 1);
     $urlGenerator = $this->get('mediamonks.sonata_media.generator.url_generator.download');
-    $downloadParameters = new DownloadParameterBag();
 
     // generate path to download this media
-    $url = $urlGenerator->generate($media, $downloadParameters);
+    $url = $urlGenerator->generateDownloadUrl($media);
 
     // generate an absolute url to download this media
-    $url = $urlGenerator->generate($media, $downloadParameters, null, UrlGeneratorInterface::ABSOLUTE_URL);
+
+    $url = $urlGenerator->generateDownloadUrl($media, null, UrlGeneratorInterface::ABSOLUTE_URL);
 
     // generate an absolute url to download this media by using a custom route name
-    $url = $urlGenerator->generate($media, $downloadParameters, 'custom_route_name');
-
+    $url = $urlGenerator->generateDownloadUrl($media, 'custom_route_name');
