@@ -2,6 +2,8 @@
 
 namespace MediaMonks\SonataMediaBundle\Twig\Extension;
 
+use MediaMonks\SonataMediaBundle\Generator\DownloadUrlGenerator;
+use MediaMonks\SonataMediaBundle\Generator\ImageUrlGenerator;
 use MediaMonks\SonataMediaBundle\Generator\UrlGeneratorInterface;
 use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
 use MediaMonks\SonataMediaBundle\Provider\DownloadableProviderInterface;
@@ -18,24 +20,24 @@ class MediaExtension extends \Twig_Extension
     private $providerPool;
 
     /**
-     * @var UrlGeneratorInterface
+     * @var ImageUrlGenerator
      */
     private $imageUrlGenerator;
 
     /**
-     * @var UrlGeneratorInterface
+     * @var DownloadUrlGenerator
      */
     private $downloadUrlGenerator;
 
     /**
      * @param ProviderPool $providerPool
-     * @param UrlGeneratorInterface $imageUrlGenerator
-     * @param UrlGeneratorInterface $downloadUrlGenerator
+     * @param ImageUrlGenerator $imageUrlGenerator
+     * @param DownloadUrlGenerator $downloadUrlGenerator
      */
     public function __construct(
         ProviderPool $providerPool,
-        UrlGeneratorInterface $imageUrlGenerator,
-        UrlGeneratorInterface $downloadUrlGenerator
+        ImageUrlGenerator $imageUrlGenerator,
+        DownloadUrlGenerator $downloadUrlGenerator
     ) {
         $this->providerPool = $providerPool;
         $this->imageUrlGenerator = $imageUrlGenerator;
