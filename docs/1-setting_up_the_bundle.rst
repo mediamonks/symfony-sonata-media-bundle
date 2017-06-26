@@ -92,8 +92,8 @@ run the following command from the command line to run the update:
 
 Symfony ~2.8
 
-``php bin/console doctrine:schema:update --force``
+``php app/console doctrine:schema:update --force``
 
 Symfony 3.0+
 
-``php app/console doctrine:schema:update --force``
+``php bin/console doctrine:schema:update --force``
