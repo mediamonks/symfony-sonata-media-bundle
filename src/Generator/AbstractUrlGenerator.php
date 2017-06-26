@@ -6,9 +6,9 @@ use MediaMonks\SonataMediaBundle\ParameterBag\ParameterBagInterface;
 use MediaMonks\SonataMediaBundle\Handler\ParameterHandlerInterface;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface as SymfonyUrlGeneratorInterface;
 
-class UrlGenerator
+abstract class AbstractUrlGenerator implements UrlGeneratorInterface
 {
     /**
      * @var Router
@@ -48,16 +48,16 @@ class UrlGenerator
         MediaInterface $media,
         ParameterBagInterface $parameterBag,
         $routeName = null,
-        $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH
+        $referenceType = SymfonyUrlGeneratorInterface::ABSOLUTE_PATH
     ) {
         if (empty($routeName)) {
             $routeName = $this->defaultRouteName;
         }
 
         return $this->router->generate(
-                $routeName,
-                $this->parameterHandler->getRouteParameters($media, $parameterBag),
-                $referenceType
-            );
+            $routeName,
+            $this->parameterHandler->getRouteParameters($media, $parameterBag),
+            $referenceType
+        );
     }
 }

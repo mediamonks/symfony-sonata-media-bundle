@@ -12,7 +12,8 @@ parameters:
     mediamonks.sonata_media.glide.server.class: 'League\Glide\Server'
     mediamonks.sonata_media.glide.server.factory.class: 'League\Glide\ServerFactory'
     mediamonks.sonata_media.handler.signature_parameter_handler.class: 'MediaMonks\SonataMediaBundle\Handler\SignatureParameterHandler'
-    mediamonks.sonata_media.generator.url_generator.class: 'MediaMonks\SonataMediaBundle\Generator\UrlGenerator'
+    mediamonks.sonata_media.generator.image_url_generator.class: 'MediaMonks\SonataMediaBundle\Generator\ImageUrlGenerator'
+    mediamonks.sonata_media.generator.download_url_generator.class: 'MediaMonks\SonataMediaBundle\Generator\DownloadUrlGenerator'
     mediamonks.sonata_media.generator.filename_generator.default.class: 'MediaMonks\SonataMediaBundle\Generator\DefaultFilenameGenerator'
     mediamonks.sonata_media.generator.image.class: 'MediaMonks\SonataMediaBundle\Generator\ImageGenerator'
     mediamonks.sonata_media.utility.image.class: 'MediaMonks\SonataMediaBundle\Utility\ImageUtility'
@@ -20,7 +21,6 @@ parameters:
     mediamonks.sonata_media.utility.event_listener.menu_builder.class: 'MediaMonks\SonataMediaBundle\EventListener\MenuBuilderListener'
     mediamonks.sonata_media.form.type.media_autocomplete.class: 'MediaMonks\SonataMediaBundle\Form\Type\MediaAutocompleteType'
     mediamonks.sonata_media.controller.helper.class: 'MediaMonks\SonataMediaBundle\Controller\HelperController'
-    mediamonks.sonata_media.controller.batch.class: 'MediaMonks\SonataMediaBundle\Controller\BatchController'
     mediamonks.sonata_media.http_client.class: 'MediaMonks\SonataMediaBundle\Client\CurlHttpClient'
     mediamonks.sonata_media.default_route.image: 'mediamonks_media_image'
     mediamonks.sonata_media.default_route.download: 'mediamonks_media_download'
@@ -90,14 +90,14 @@ services:
             - '%secret%'
 
     mediamonks.sonata_media.generator.url_generator.image:
-        class: '%mediamonks.sonata_media.generator.url_generator.class%'
+        class: '%mediamonks.sonata_media.generator.image_url_generator.class%'
         arguments:
             - '@router'
             - '@mediamonks.sonata_media.handler.signature_parameter_handler'
             - '%mediamonks.sonata_media.default_route.image%'
 
     mediamonks.sonata_media.generator.url_generator.download:
-        class: '%mediamonks.sonata_media.generator.url_generator.class%'
+        class: '%mediamonks.sonata_media.generator.download_url_generator.class%'
         arguments:
             - '@router'
             - '@mediamonks.sonata_media.handler.signature_parameter_handler'
@@ -152,13 +152,6 @@ services:
         arguments:
             - '@mediamonks.sonata_media.admin.media'
             - '@templating'
-
-    mediamonks.sonata_media.controller.batch:
-        class: '%mediamonks.sonata_media.controller.batch.class%'
-        arguments:
-            - '@mediamonks.sonata_media.admin.media'
-            - '@templating'
-            - '@router'
 
     mediamonks.sonata_media.http_client:
         class: '%mediamonks.sonata_media.http_client.class%'

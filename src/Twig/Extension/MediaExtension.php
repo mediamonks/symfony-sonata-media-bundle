@@ -2,8 +2,7 @@
 
 namespace MediaMonks\SonataMediaBundle\Twig\Extension;
 
-use MediaMonks\SonataMediaBundle\Generator\UrlGenerator;
-use MediaMonks\SonataMediaBundle\ParameterBag\DownloadParameterBag;
+use MediaMonks\SonataMediaBundle\Generator\UrlGeneratorInterface;
 use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
 use MediaMonks\SonataMediaBundle\Provider\DownloadableProviderInterface;
 use MediaMonks\SonataMediaBundle\Provider\EmbeddableProviderInterface;
@@ -19,24 +18,24 @@ class MediaExtension extends \Twig_Extension
     private $providerPool;
 
     /**
-     * @var UrlGenerator
+     * @var UrlGeneratorInterface
      */
     private $imageUrlGenerator;
 
     /**
-     * @var UrlGenerator
+     * @var UrlGeneratorInterface
      */
     private $downloadUrlGenerator;
 
     /**
      * @param ProviderPool $providerPool
-     * @param UrlGenerator $imageUrlGenerator
-     * @param UrlGenerator $downloadUrlGenerator
+     * @param UrlGeneratorInterface $imageUrlGenerator
+     * @param UrlGeneratorInterface $downloadUrlGenerator
      */
     public function __construct(
         ProviderPool $providerPool,
-        UrlGenerator $imageUrlGenerator,
-        UrlGenerator $downloadUrlGenerator
+        UrlGeneratorInterface $imageUrlGenerator,
+        UrlGeneratorInterface $downloadUrlGenerator
     ) {
         $this->providerPool = $providerPool;
         $this->imageUrlGenerator = $imageUrlGenerator;
@@ -246,14 +245,14 @@ class MediaExtension extends \Twig_Extension
             'MediaMonksSonataMediaBundle:Media:file.html.twig',
             [
                 'media'       => $media,
-                'downloadSrc' => $this->downloadUrlGenerator->generate(
+                'downloadSrc' => $this->downloadUrlGenerator->generateDownloadUrl(
                     $media,
-                    new DownloadParameterBag($extraDownload),
+                    $extraDownload,
                     $routeNameDownload
                 ),
-                'src'         => $this->imageUrlGenerator->generate(
+                'src'         => $this->imageUrlGenerator->generateImageUrl(
                     $media,
-                    new ImageParameterBag($width, $height, $extraImage),
+                    $width, $height, $extraImage,
                     $routeNameImage
                 ),
                 'width'       => $width,
@@ -273,11 +272,7 @@ class MediaExtension extends \Twig_Extension
      */
     public function mediaImageUrl(MediaInterface $media, $width, $height, array $extra = [], $routeName = null)
     {
-        return $this->imageUrlGenerator->generate(
-            $media,
-            new ImageParameterBag($width, $height, $extra),
-            $routeName
-        );
+        return $this->imageUrlGenerator->generateImageUrl($media, $width, $height, $extra, $routeName);
     }
 
     /**
@@ -288,7 +283,7 @@ class MediaExtension extends \Twig_Extension
      */
     public function mediaDownloadUrl(MediaInterface $media, array $extra = [], $routeName = null)
     {
-        return $this->downloadUrlGenerator->generate($media, new DownloadParameterBag($extra), $routeName);
+        return $this->downloadUrlGenerator->generateDownloadUrl($media, $extra, $routeName);
     }
 
     /**
