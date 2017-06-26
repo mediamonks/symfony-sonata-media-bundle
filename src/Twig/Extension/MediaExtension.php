@@ -4,7 +4,6 @@ namespace MediaMonks\SonataMediaBundle\Twig\Extension;
 
 use MediaMonks\SonataMediaBundle\Generator\DownloadUrlGenerator;
 use MediaMonks\SonataMediaBundle\Generator\ImageUrlGenerator;
-use MediaMonks\SonataMediaBundle\Generator\UrlGeneratorInterface;
 use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
 use MediaMonks\SonataMediaBundle\Provider\DownloadableProviderInterface;
 use MediaMonks\SonataMediaBundle\Provider\EmbeddableProviderInterface;
