@@ -53,6 +53,13 @@ The ``media_image`` filter will render an image and should be supported at all t
 
 Every media should always support to render an image.
 
+You can optionally pass some extra filters which will be applied to the rendered image:
+
+.. code-block:: html+twig
+
+    {{ media_object|media_image(800, 600, {blur: 5}) }}
+
+
 The ``media_embed`` filter will render the full embed of the media,
 so for YouTube this will render a video player but for SoundCloud this will render an audio player.
 
@@ -76,7 +83,7 @@ these filter methods with ``media_supports``:
 
 .. code-block:: html+twig
 
-    {% if media_object|media_supports('download') %}
+    {% if media_object is media_downloadable %}
         {{ media_object|media_image(800, 600) }}
     {% endif %}
 
@@ -86,6 +93,14 @@ image if embedding is not available:
 .. code-block:: html+twig
 
     {{ media_object|media(800, 600) }}
+
+Or if you want to be absolutely sure the media is only rendered as embed you can test if this is supported
+
+.. code-block:: html_twig
+
+    {% if media_object is media_embeddable %}
+        {{ media_object|media_embed(800, 600) }}
+    {% endif %}
 
 
 Generaring a custom url
@@ -98,7 +113,6 @@ With the url generator you can generate links to media with customized parameter
     # This example assumes you are inside a basic Symfony Framework controller,
     # it's advised to inject these services instead
 
-    use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
     use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
     // inside your controller action
@@ -106,14 +120,16 @@ With the url generator you can generate links to media with customized parameter
     $urlGenerator = $this->get('mediamonks.sonata_media.generator.url_generator.image');
 
     // generate path to a 400x300 image of this media
-    $url = $urlGenerator->generateImageUrl($media, 400, 300, [], $imageParameters);
+    $url = $urlGenerator->generateImageUrl($media, 400, 300);
+
+    // generate path to a blurred 400x300 image of this media
+    $url = $urlGenerator->generateImageUrl($media, 400, 300, ['blur' => 5]);
 
     // generate url to a 400x300 image of this media
-    $url = $urlGenerator->generateImageUrl($media, 400, 300, [], , null, UrlGeneratorInterface::ABSOLUTE_URL);
+    $url = $urlGenerator->generateImageUrl($media, 400, 300, [], null, UrlGeneratorInterface::ABSOLUTE_URL);
 
     // generate path to a 400x300 image of this media using a custom route name
-    $url = $urlGenerator->generateImageUrl($media, 400, 300, [], , 'custom_route_name');
-
+    $url = $urlGenerator->generateImageUrl($media, 400, 300, [], 'custom_route_name');
 
 For linking to a download you can use the download url generator instead:
 
@@ -122,7 +138,6 @@ For linking to a download you can use the download url generator instead:
     # This example assumes you are inside a basic Symfony Framework controller,
     # it's advised to inject these services instead
 
-    use MediaMonks\SonataMediaBundle\ParameterBag\DownloadParameterBag;
     use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
     // inside your controller action
@@ -133,7 +148,6 @@ For linking to a download you can use the download url generator instead:
     $url = $urlGenerator->generateDownloadUrl($media);
 
     // generate an absolute url to download this media
-
     $url = $urlGenerator->generateDownloadUrl($media, null, UrlGeneratorInterface::ABSOLUTE_URL);
 
     // generate an absolute url to download this media by using a custom route name
