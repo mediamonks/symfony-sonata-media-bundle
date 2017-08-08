@@ -29,8 +29,7 @@
     "symfony/dependency-injection": "^2.8|^3.0",
     "symfony/http-kernel": "^2.8|^3.0",
     "league/flysystem": "^1.0",
-    "league/glide": "^1.2",
-    "phpunit/phpunit": "~4.8"
+    "league/glide": "^1.2"
   },
   "require-dev": {
     "sensio/framework-extra-bundle": "^3.0",
@@ -44,7 +43,8 @@
     "doctrine/doctrine-fixtures-bundle": "^2.3",
     "symfony/symfony": "~2.8.0",
     "mikey179/vfsStream": "^1.6",
-    "php-vcr/php-vcr": "dev-master@dev"
+    "php-vcr/php-vcr": "dev-master@dev",
+    "phpunit/phpunit": "~4.8"
   },
   "suggest": {
     "oneup/flysystem-bundle": "Makes the Flysystem configuration a lot easier"
