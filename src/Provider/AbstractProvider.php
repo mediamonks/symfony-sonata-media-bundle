@@ -2,7 +2,7 @@
 
 namespace MediaMonks\SonataMediaBundle\Provider;
 
-use League\Flysystem\Filesystem;
+use League\Flysystem\FilesystemInterface;
 use League\Glide\Filesystem\FilesystemException;
 use MediaMonks\SonataMediaBundle\Client\HttpClientInterface;
 use MediaMonks\SonataMediaBundle\ErrorHandlerTrait;
@@ -32,7 +32,7 @@ abstract class AbstractProvider implements ProviderInterface
     const TYPE_VIDEO = 'video';
 
     /**
-     * @var Filesystem
+     * @var FilesystemInterface
      */
     protected $filesystem;
 
@@ -62,9 +62,9 @@ abstract class AbstractProvider implements ProviderInterface
     private $media;
 
     /**
-     * @param Filesystem $filesystem
+     * @param FilesystemInterface $filesystem
      */
-    public function setFilesystem(Filesystem $filesystem)
+    public function setFilesystem(FilesystemInterface $filesystem)
     {
         $this->filesystem = $filesystem;
     }
@@ -126,7 +126,7 @@ abstract class AbstractProvider implements ProviderInterface
     }
 
     /**
-     * @return Filesystem
+     * @return FilesystemInterface
      */
     public function getFilesystem()
     {

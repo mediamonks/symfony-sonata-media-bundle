@@ -35,8 +35,9 @@ expires. By default the ttl is set to 90 days.
 .. code-block:: yaml
 
     # app/config/config.yml
-    redirect_url: "<https://path.to.public.file.system/>"
-    redirect_cache_ttl: 7776000
+    mediamonks_sonata_media:
+        redirect_url: "<https://path.to.public.file.system/>"
+        redirect_cache_ttl: 7776000
 
 
 Image Parameters
@@ -48,8 +49,9 @@ default settings for the Glide Api:
 .. code-block:: yaml
 
     # app/config/config.yml
-    default_image_parameters:
-        fit: "crop"
+    mediamonks_sonata_media:
+        default_image_parameters:
+            fit: "crop"
 
 
 Image Constraints
@@ -79,7 +81,7 @@ file uploads of any file type. Below are the default settings:
     # app/config/config.yml
     mediamonks_sonata_media:
         file_constraints:
-            maxSize: '5M',
+            maxSize: '5M'
             extensions: ['pdf', 'csv', 'txt', 'docx']
 
 Model Class

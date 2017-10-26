@@ -2,7 +2,7 @@
 
 namespace MediaMonks\SonataMediaBundle\Utility;
 
-use League\Flysystem\Filesystem;
+use League\Flysystem\FilesystemInterface;
 use MediaMonks\SonataMediaBundle\ParameterBag\DownloadParameterBag;
 use MediaMonks\SonataMediaBundle\Handler\ParameterHandlerInterface;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
@@ -17,15 +17,15 @@ class DownloadUtility
     private $parameterHandler;
 
     /**
-     * @var Filesystem
+     * @var FilesystemInterface
      */
     private $filesystem;
 
     /**
      * @param ParameterHandlerInterface $parameterHandler
-     * @param Filesystem $filesystem
+     * @param FilesystemInterface $filesystem
      */
-    public function __construct(ParameterHandlerInterface $parameterHandler, Filesystem $filesystem)
+    public function __construct(ParameterHandlerInterface $parameterHandler, FilesystemInterface $filesystem)
     {
         $this->parameterHandler = $parameterHandler;
         $this->filesystem = $filesystem;

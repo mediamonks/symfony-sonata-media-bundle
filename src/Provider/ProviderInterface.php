@@ -2,7 +2,7 @@
 
 namespace MediaMonks\SonataMediaBundle\Provider;
 
-use League\Flysystem\Filesystem;
+use League\Flysystem\FilesystemInterface;
 use MediaMonks\SonataMediaBundle\Client\HttpClientInterface;
 use MediaMonks\SonataMediaBundle\Model\AbstractMedia;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -12,7 +12,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 interface ProviderInterface
 {
-    public function setFilesystem(Filesystem $filesystem);
+    public function setFilesystem(FilesystemInterface $filesystem);
 
     public function setImageConstraintOptions(array $options);
 
