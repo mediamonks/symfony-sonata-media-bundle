@@ -66,15 +66,5 @@
     "branch-alias": {
       "dev-master": "1.0-dev"
     }
-  },
-  "repositories":
-  [
-    {
-      "type": "vcs",
-      "url": "https://github.com/slootjes/php-vcr"
-    }
-  ],
-  "config": {
-    "github-protocols": ["https"]
   }
 }
