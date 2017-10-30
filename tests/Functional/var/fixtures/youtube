@@ -1,0 +1,58 @@
+[{
+    "request": {
+        "method": "GET",
+        "url": "http:\/\/www.youtube.com\/oembed?url=http:\/\/www.youtube.com\/watch?v=uN2nqdRLhQ8&format=json",
+        "headers": {
+            "Host": "www.youtube.com"
+        }
+    },
+    "response": {
+        "status": {
+            "http_version": "1.1",
+            "code": "200",
+            "message": "OK"
+        },
+        "headers": {
+            "Expires": "Tue, 27 Apr 1971 19:44:06 EST",
+            "P3P": "CP=\"This is not a P3P policy! See http:\/\/support.google.com\/accounts\/answer\/151657?hl=en for more info.\"",
+            "X-XSS-Protection": "1; mode=block; report=https:\/\/www.google.com\/appserve\/security-bugs\/log\/youtube",
+            "Cache-Control": "no-cache",
+            "Content-Type": "application\/json",
+            "X-Content-Type-Options": "nosniff",
+            "Date": "Mon, 30 Oct 2017 09:16:57 GMT",
+            "Server": "YouTube Frontend Proxy",
+            "Accept-Ranges": "none",
+            "Vary": "Accept-Encoding",
+            "Transfer-Encoding": "chunked"
+        },
+        "body": "{\"width\":480,\"version\":\"1.0\",\"author_name\":\"MediaMonks\",\"thumbnail_width\":480,\"html\":\"\\u003ciframe width=\\\"480\\\" height=\\\"270\\\" src=\\\"https:\\\/\\\/www.youtube.com\\\/embed\\\/uN2nqdRLhQ8?feature=oembed\\\" frameborder=\\\"0\\\" gesture=\\\"media\\\" allowfullscreen\\u003e\\u003c\\\/iframe\\u003e\",\"title\":\"MediaMonks Mixtape Vol  II\",\"thumbnail_height\":360,\"provider_name\":\"YouTube\",\"author_url\":\"https:\\\/\\\/www.youtube.com\\\/user\\\/MediaMonksGlobal\",\"height\":270,\"thumbnail_url\":\"https:\\\/\\\/i.ytimg.com\\\/vi\\\/uN2nqdRLhQ8\\\/hqdefault.jpg\",\"provider_url\":\"https:\\\/\\\/www.youtube.com\\\/\",\"type\":\"video\"}"
+    }
+},{
+    "request": {
+        "method": "HEAD",
+        "url": "https:\/\/i.ytimg.com\/vi\/uN2nqdRLhQ8\/maxresdefault.jpg",
+        "headers": {
+            "Host": "i.ytimg.com"
+        }
+    },
+    "response": {
+        "status": {
+            "http_version": "1.1",
+            "code": "200",
+            "message": "OK"
+        },
+        "headers": {
+            "Accept-Ranges": "bytes",
+            "Content-Type": "image\/jpeg",
+            "Content-Length": "259222",
+            "Date": "Mon, 30 Oct 2017 09:16:58 GMT",
+            "Expires": "Mon, 30 Oct 2017 11:16:58 GMT",
+            "Cache-Control": "public, max-age=7200",
+            "ETag": "\"1483374884\"",
+            "X-Content-Type-Options": "nosniff",
+            "Server": "sffe",
+            "X-XSS-Protection": "1; mode=block",
+            "Alt-Svc": "quic=\":443\"; ma=2592000; v=\"41,39,38,37,35\""
+        }
+    }
+},,,,]
