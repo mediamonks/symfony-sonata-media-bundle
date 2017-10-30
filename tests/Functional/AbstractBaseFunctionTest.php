@@ -11,8 +11,8 @@ abstract class AbstractBaseFunctionTest extends WebTestCase
 {
     protected function setUp()
     {
-        if (version_compare(PHP_VERSION, '5.6.0', '<')) {
-            $this->markTestSkipped('Functional tests only run on PHP 5.6+');
+        if (version_compare(PHP_VERSION, '7.0.0', '<')) {
+            $this->markTestSkipped('Functional tests only run on PHP 7.0');
         }
 
         parent::setUp();

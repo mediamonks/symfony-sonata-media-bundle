@@ -99,10 +99,6 @@ class FileProviderTest extends AdminTestAbstract
 
         $crawler = $this->client->request('GET', self::BASE_PATH.'create?provider='.$provider);
 
-        echo '---debug-start'.PHP_EOL;
-        echo $this->client->getResponse()->getContent().PHP_EOL;
-        echo '---debug-end'.PHP_EOL;
-
         $form = $crawler->selectButton('Create')->form();
 
         $this->assertSonataFormValues(
