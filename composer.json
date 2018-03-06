@@ -26,8 +26,8 @@
   ],
   "require": {
     "php": "^5.5|^7.0",
-    "symfony/dependency-injection": "^2.8|^3.0",
-    "symfony/http-kernel": "^2.8|^3.0",
+    "symfony/dependency-injection": "^2.8|^3.0|^4.0",
+    "symfony/http-kernel": "^2.8|^3.0|^4.0",
     "league/flysystem": "^1.0",
     "league/glide": "^1.2"
   },
