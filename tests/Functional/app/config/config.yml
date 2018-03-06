@@ -65,3 +65,4 @@ mediamonks_sonata_media:
     filesystem_private: 'oneup_flysystem.media_private_filesystem'
     filesystem_public: 'oneup_flysystem.media_public_filesystem'
     redirect_url: '/media/'
+    model_class: 'MediaMonks\SonataMediaBundle\Tests\AppBundle\Entity\Media'

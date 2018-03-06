@@ -17,8 +17,7 @@
     </testsuites>
 
     <php>
-        <server name="KERNEL_DIR" value="./tests/Functional/app/"/>
-        <server name="KERNEL_CLASS" value="AppKernel"/>
+        <server name="KERNEL_CLASS" value="MediaMonks\SonataMediaBundle\Tests\App\AppKernel"/>
     </php>
 
     <filter>

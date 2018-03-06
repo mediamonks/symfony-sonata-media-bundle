@@ -27,3 +27,4 @@ All available configuration options are listed below with their default values.
         fallback_image: <path to an image file>
         tmp_path: <path to local file system with read and write permission>
         tmp_prefix: <custom prefix for temporary files>
+        model_class: <custom namespace of Media entity>

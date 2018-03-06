@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle;
+namespace MediaMonks\SonataMediaBundle\Tests\AppBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

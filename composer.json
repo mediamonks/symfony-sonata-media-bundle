@@ -56,10 +56,9 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "MediaMonks\\SonataMediaBundle\\Tests\\": "tests/"
-    },
-    "psr-0": {
-      "": "tests/Functional/src/"
+      "MediaMonks\\SonataMediaBundle\\Tests\\": "tests/",
+      "MediaMonks\\SonataMediaBundle\\Tests\\App\\": "tests/Functional/app/",
+      "MediaMonks\\SonataMediaBundle\\Tests\\AppBundle\\": "tests/Functional/src/AppBundle/"
     }
   },
   "extra": {

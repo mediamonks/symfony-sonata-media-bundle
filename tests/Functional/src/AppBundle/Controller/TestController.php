@@ -1,8 +1,9 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace MediaMonks\SonataMediaBundle\Tests\AppBundle\Controller;
 
 use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
+use MediaMonks\SonataMediaBundle\Tests\AppBundle\Entity\Media;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -27,7 +28,7 @@ class TestController extends Controller
         return $this->render(
             'AppBundle:Test:index.html.twig',
             [
-                'media' => $this->getDoctrine()->getManager()->find('AppBundle:Media', 1),
+                'media' => $this->getDoctrine()->getManager()->find(Media::class, 1),
             ]
         );
     }
@@ -38,7 +39,7 @@ class TestController extends Controller
      */
     public function apiAction()
     {
-        $media = $this->getDoctrine()->getManager()->find('AppBundle:Media', 1);
+        $media = $this->getDoctrine()->getManager()->find(Media::class, 1);
 
         $url = $this->get('mediamonks.sonata_media.generator.url_generator.image')->generate(
             $media,

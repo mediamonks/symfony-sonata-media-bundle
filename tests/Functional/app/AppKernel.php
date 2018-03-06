@@ -1,5 +1,7 @@
 <?php
 
+namespace MediaMonks\SonataMediaBundle\Tests\App;
+
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
@@ -26,12 +28,12 @@ class AppKernel extends Kernel
             new \Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle(),
             new \Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new \MediaMonks\SonataMediaBundle\MediaMonksSonataMediaBundle(),
-            new \AppBundle\AppBundle(),
+            new \MediaMonks\SonataMediaBundle\Tests\AppBundle\AppBundle()
         ];
 
         if (in_array($this->getEnvironment(), ['test'], true)) {
-            $bundles[] = new Liip\FunctionalTestBundle\LiipFunctionalTestBundle();
-            $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
+            $bundles[] = new \Liip\FunctionalTestBundle\LiipFunctionalTestBundle();
+            $bundles[] = new \Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
         }
 
         return $bundles;
