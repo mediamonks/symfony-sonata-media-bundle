@@ -35,7 +35,7 @@
     "sensio/framework-extra-bundle": "^3.0|^4.0|^5.0",
     "matthiasnoback/symfony-dependency-injection-test": "^1.0|^2.0",
     "mockery/mockery": "^0.9.4",
-    "oneup/flysystem-bundle": "^1.13",
+    "oneup/flysystem-bundle": "^1.13|^2.0|^3.0",
     "doctrine/doctrine-bundle": "^1.6",
     "sonata-project/admin-bundle": "^3.28",
     "sonata-project/doctrine-orm-admin-bundle": "^3.4",
