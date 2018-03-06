@@ -6,8 +6,9 @@ use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use MediaMonks\SonataMediaBundle\ParameterBag\DownloadParameterBag;
 use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
-class ImageParameterBagTest extends \PHPUnit_Framework_TestCase
+class ImageParameterBagTest extends TestCase
 {
     public function testGettersSetters()
     {

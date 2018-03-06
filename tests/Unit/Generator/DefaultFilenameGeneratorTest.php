@@ -7,8 +7,9 @@ use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use MediaMonks\SonataMediaBundle\Tests\Unit\MockeryTrait;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
-class DefaultFilenameGeneratorTest extends \PHPUnit_Framework_TestCase
+class DefaultFilenameGeneratorTest extends TestCase
 {
     use MockeryTrait;
 

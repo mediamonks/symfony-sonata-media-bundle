@@ -8,10 +8,11 @@ use MediaMonks\SonataMediaBundle\Handler\ParameterHandlerInterface;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use MediaMonks\SonataMediaBundle\Tests\Unit\MockeryTrait;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class ImageUrlGeneratorTest extends \PHPUnit_Framework_TestCase
+class ImageUrlGeneratorTest extends TestCase
 {
     use MockeryTrait;
 

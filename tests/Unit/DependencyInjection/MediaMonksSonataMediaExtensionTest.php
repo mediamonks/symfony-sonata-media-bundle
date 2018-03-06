@@ -30,7 +30,7 @@ class MediaMonksSonataMediaExtensionTest extends AbstractExtensionTestCase
 
     public function testMissingFilesystem()
     {
-        $this->setExpectedException(\Exception::class);
+        $this->expectException(\Exception::class);
         $this->load();
     }
 

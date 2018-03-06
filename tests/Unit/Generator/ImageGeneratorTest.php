@@ -12,8 +12,9 @@ use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Mockery as m;
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\TestCase;
 
-class ImageGeneratorTest extends \PHPUnit_Framework_TestCase
+class ImageGeneratorTest extends TestCase
 {
     public function testGenerate()
     {
@@ -69,7 +70,7 @@ class ImageGeneratorTest extends \PHPUnit_Framework_TestCase
         vfsStream::setup(__DIR__);
         vfsStream::setQuota(0);
 
-        $this->setExpectedException(FilesystemException::class);
+        $this->expectException(FilesystemException::class);
 
         $source = m::mock(Filesystem::class);
         $source->shouldReceive('has')->once()->andReturn(true);
@@ -102,7 +103,7 @@ class ImageGeneratorTest extends \PHPUnit_Framework_TestCase
 
     public function testUnableToWriteGeneratedImage()
     {
-        $this->setExpectedException(FilesystemException::class);
+        $this->expectException(FilesystemException::class);
 
         $source = m::mock(Filesystem::class);
         $source->shouldReceive('has')->once()->andReturn(true);

@@ -7,8 +7,9 @@ use MediaMonks\SonataMediaBundle\Provider\ProviderInterface;
 use MediaMonks\SonataMediaBundle\Provider\ProviderPool;
 use MediaMonks\SonataMediaBundle\Tests\Unit\MockeryTrait;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
-class ProviderPoolTest extends \PHPUnit_Framework_TestCase
+class ProviderPoolTest extends TestCase
 {
     use MockeryTrait;
 
@@ -76,7 +77,7 @@ class ProviderPoolTest extends \PHPUnit_Framework_TestCase
 
     public function testGetUnknownProvider()
     {
-        $this->setExpectedException(\InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
 
         $providerPool = new ProviderPool();
         $providerPool->getProvider('Test');

@@ -4,12 +4,12 @@ namespace MediaMonks\SonataMediaBundle\Tests\Unit\Provider;
 
 use League\Flysystem\Filesystem;
 use League\Glide\Filesystem\FilesystemException;
-use MediaMonks\SonataMediaBundle\Provider\AbstractProvider;
 use MediaMonks\SonataMediaBundle\Provider\FileProvider;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class FileProviderTest extends \PHPUnit_Framework_TestCase
+class FileProviderTest extends TestCase
 {
     public function testGetImageByExtension()
     {
@@ -39,7 +39,7 @@ class FileProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testWriteToFilesystem()
     {
-        $this->setExpectedException(FilesystemException::class);
+        $this->expectException(FilesystemException::class);
 
         $filesystem = m::mock(Filesystem::class);
         $filesystem->shouldReceive('writeStream')->andReturn(0);

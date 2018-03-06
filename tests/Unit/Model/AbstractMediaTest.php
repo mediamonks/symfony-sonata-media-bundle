@@ -2,7 +2,9 @@
 
 namespace MediaMonks\SonataMediaBundle\Tests\Unit\Model;
 
-class AbstractMediaTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class AbstractMediaTest extends TestCase
 {
     public function testGettersSetters()
     {

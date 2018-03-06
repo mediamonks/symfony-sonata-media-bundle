@@ -4,14 +4,13 @@ namespace MediaMonks\SonataMediaBundle\Tests\Unit\DependencyInjection\Compiler;
 
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
 use MediaMonks\SonataMediaBundle\DependencyInjection\Compiler\ProviderPass;
-use MediaMonks\SonataMediaBundle\Tests\Unit\MockeryTrait;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Mockery as m;
 
 class ProviderPassTest extends AbstractCompilerPassTestCase
 {
-    use MockeryTrait;
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
     protected function registerCompilerPass(ContainerBuilder $container)
     {
@@ -41,6 +40,8 @@ class ProviderPassTest extends AbstractCompilerPassTestCase
         $provider = m::mock(Definition::class);
         $provider->shouldReceive('isLazy')->andReturn(false);
         $provider->shouldReceive('isSynthetic')->andReturn(false);
+        $provider->shouldReceive('isPrivate')->andReturn(false);
+        $provider->shouldReceive('isPublic')->andReturn(true);
         $provider->shouldReceive('getClass')->andReturn(self::class);
         $provider->shouldReceive('getInstanceofConditionals')->andReturn([]);
         $provider->shouldReceive('isAutoconfigured')->andReturn(true);
@@ -51,6 +52,9 @@ class ProviderPassTest extends AbstractCompilerPassTestCase
         $provider->shouldReceive('addMethodCall')->once()->withArgs(['setTranslator', \Mockery::any()]);
         $provider->shouldReceive('addMethodCall')->once()->withArgs(['setHttpClient', \Mockery::any()]);
         $provider->shouldReceive('addMethodCall')->once()->withArgs(['setFileLocator', \Mockery::any()]);
+
+        $provider->shouldReceive('hasTag')->withArgs(['container.env_var_processor'])->andReturn(false);
+
         $this->setDefinition('provider', $provider);
 
         $this->compile();

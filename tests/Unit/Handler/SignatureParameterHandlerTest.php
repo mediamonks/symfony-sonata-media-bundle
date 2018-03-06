@@ -9,8 +9,9 @@ use MediaMonks\SonataMediaBundle\Handler\SignatureParameterHandler;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use MediaMonks\SonataMediaBundle\Tests\Unit\MockeryTrait;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
-class SignatureParameterHandlerTest extends \PHPUnit_Framework_TestCase
+class SignatureParameterHandlerTest extends TestCase
 {
     use MockeryTrait;
 
@@ -78,7 +79,7 @@ class SignatureParameterHandlerTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPayloadWithoutSignature()
     {
-        $this->setExpectedException(SignatureInvalidException::class);
+        $this->expectException(SignatureInvalidException::class);
 
         $media = $this->getMediaMock();
         $parameterBag = new ImageParameterBag(self::WIDTH, self::HEIGHT);
@@ -87,7 +88,7 @@ class SignatureParameterHandlerTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPayloadWithInvalidSignature()
     {
-        $this->setExpectedException(SignatureInvalidException::class);
+        $this->expectException(SignatureInvalidException::class);
 
         $parameterBag = new ImageParameterBag(self::WIDTH, self::HEIGHT);
         $parameterBag->addExtra(SignatureParameterHandler::PARAMETER_SIGNATURE, 'foobar');
