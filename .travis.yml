@@ -42,15 +42,13 @@ matrix:
       env: SYMFONY_VERSION=4.0.*
 
 before_install:
-  - if [ "$TRAVIS_PHP_VERSION" == "5.5" ]; then composer remove "liip/functional-test-bundle" --dev; fi;
   - if [ "$SYMFONY_VERSION" != "" ]; then composer require "symfony/symfony:${SYMFONY_VERSION}" --no-update; fi;
   - if [ "$SYMFONY_VERSION" == "3.0.*" ]; then composer require "twig/twig:^1.31" --no-update; fi;
   - if [ "$TRAVIS_PHP_VERSION" == "7.0" ]; then composer require "codeclimate/php-test-reporter:dev-master@dev" --no-update; fi;
   - if [ "$TRAVIS_PHP_VERSION" == "5.6" ]; then composer require "twig/twig:^1.31" --no-update; fi;
 
 install:
-  - composer update $COMPOSER_FLAGS
-  - if [ "$TRAVIS_PHP_VERSION" == "5.5" ]; then composer require "liip/functional-test-bundle" --dev --ignore-platform-reqs; fi;
+  - composer install $COMPOSER_FLAGS
 
 script:
   - if [ "$TRAVIS_PHP_VERSION" == "7.0" ]; then vendor/bin/phpunit --coverage-clover=coverage.clover; else vendor/bin/phpunit; fi;
