@@ -3,12 +3,19 @@
 namespace MediaMonks\SonataMediaBundle\Tests\Functional;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
+use MediaMonks\SonataMediaBundle\Tests\App\AppKernel;
 use Symfony\Component\DomCrawler\Form;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Component\Finder\Finder;
 
 abstract class AbstractBaseFunctionTest extends WebTestCase
 {
+    
+    protected static function getKernelClass()
+    {
+        return AppKernel::class;
+    }
+
     protected function setUp()
     {
         if (version_compare(PHP_VERSION, '7.0.0', '<')) {

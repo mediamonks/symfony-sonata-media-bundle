@@ -3,31 +3,31 @@ imports:
     - { resource: security.yml }
 
 framework:
-    secret:          "%secret%"
+    secret: '%secret%'
     router:
-        resource: "%kernel.root_dir%/config/routing.yml"
+        resource: '%kernel.root_dir%/config/routing.yml'
         strict_requirements: ~
     form:            ~
     translator:      ~
     csrf_protection: ~
     templating:
         engines: ['twig']
-    default_locale:  "en"
+    default_locale:  'en'
     session:
         handler_id:  ~
     fragments:       ~
     http_method_override: true
 
 twig:
-    debug:            "%kernel.debug%"
-    strict_variables: "%kernel.debug%"
+    debug:            '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
 
 doctrine:
     dbal:
         driver:   pdo_sqlite
-        path:     "%database_path%"
+        path:     '%database_path%'
     orm:
-        auto_generate_proxy_classes: "%kernel.debug%"
+        auto_generate_proxy_classes: '%kernel.debug%'
         metadata_cache_driver: array
         result_cache_driver: array
         query_cache_driver: array
@@ -35,7 +35,7 @@ doctrine:
         auto_mapping: true
 
 sonata_admin:
-    title: "MediaMonks"
+    title: 'MediaMonks'
     security:
         handler: sonata.admin.security.handler.noop
 
@@ -51,10 +51,10 @@ oneup_flysystem:
     adapters:
         media_private:
             local:
-                directory: %kernel.root_dir%/../var/media/
+                directory: '%kernel.root_dir%/../var/media/'
         media_public:
             local:
-                directory: %kernel.root_dir%/../web/media/
+                directory: '%kernel.root_dir%/../web/media/'
     filesystems:
         media_private:
             adapter: media_private
