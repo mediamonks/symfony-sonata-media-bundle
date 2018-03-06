@@ -40,6 +40,7 @@ services:
             - [ setTemplate, ['edit', 'MediaMonksSonataMediaBundle:CRUD:edit.html.twig']]
 
     mediamonks.sonata_media.provider.pool:
+        public: true
         class: '%mediamonks.sonata_media.provider.pool.class%'
 
     mediamonks.sonata_media.provider.image:
@@ -90,6 +91,7 @@ services:
             - '%secret%'
 
     mediamonks.sonata_media.generator.url_generator.image:
+        public: true
         class: '%mediamonks.sonata_media.generator.image_url_generator.class%'
         arguments:
             - '@router'
@@ -107,6 +109,7 @@ services:
         class: '%mediamonks.sonata_media.generator.filename_generator.default.class%'
 
     mediamonks.sonata_media.generator.image:
+        public: true
         class: '%mediamonks.sonata_media.generator.image.class%'
         arguments:
             - '@mediamonks.sonata_media.glide.server'
@@ -117,6 +120,7 @@ services:
             - ~
 
     mediamonks.sonata_media.utility.image:
+        public: true
         class: '%mediamonks.sonata_media.utility.image.class%'
         arguments:
             - '@mediamonks.sonata_media.handler.signature_parameter_handler'
@@ -126,6 +130,7 @@ services:
             - []
 
     mediamonks.sonata_media.utility.download:
+        public: true
         class: '%mediamonks.sonata_media.utility.download.class%'
         arguments:
             - '@mediamonks.sonata_media.handler.signature_parameter_handler'
@@ -148,6 +153,7 @@ services:
             - { name: form.type }
 
     mediamonks.sonata_media.controller.helper:
+        public: true
         class: '%mediamonks.sonata_media.controller.helper.class%'
         arguments:
             - '@mediamonks.sonata_media.admin.media'
