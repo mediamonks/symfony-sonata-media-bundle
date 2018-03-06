@@ -33,8 +33,8 @@ Please refer to the files in the [/docs](/docs) folder.
 
 You need:
 
-- **PHP >= 5.5.0**
-- **Symfony Framework >= 2.8**
+- **PHP >= 5.6.0**
+- **Symfony Framework >= 3.2**
 - **Sonata Admin >= 3.0**
 - **Flysystem >= 1.0**
 - **Glide >= 1.2**
