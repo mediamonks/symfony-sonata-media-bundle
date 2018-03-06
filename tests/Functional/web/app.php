@@ -1,5 +1,7 @@
 <?php
+
 use Symfony\Component\HttpFoundation\Request;
+use MediaMonks\SonataMediaBundle\Tests\App\AppKernel;
 
 /** @var \Composer\Autoload\ClassLoader $loader */
 $loader = require __DIR__.'/../../../vendor/autoload.php';

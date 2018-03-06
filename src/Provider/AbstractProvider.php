@@ -159,7 +159,7 @@ abstract class AbstractProvider implements ProviderInterface
     public function buildCreateForm(FormMapper $formMapper)
     {
         $formMapper
-            ->add('provider', 'hidden');
+            ->add('provider', HiddenType::class);
 
         $this->buildProviderCreateForm($formMapper);
     }
@@ -177,7 +177,7 @@ abstract class AbstractProvider implements ProviderInterface
 
         $formMapper->add(
             'imageContent',
-            'file',
+            FileType::class,
             [
                 'required'    => false,
                 'constraints' => [

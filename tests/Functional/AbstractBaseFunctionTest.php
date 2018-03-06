@@ -10,7 +10,7 @@ use Symfony\Component\Finder\Finder;
 
 abstract class AbstractBaseFunctionTest extends WebTestCase
 {
-    
+
     protected static function getKernelClass()
     {
         return AppKernel::class;

@@ -12,6 +12,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\CoreBundle\Validator\ErrorElement;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 class MediaAdmin extends AbstractAdmin
 {
@@ -59,8 +60,7 @@ class MediaAdmin extends AbstractAdmin
                 'type'
             )
             ->add(
-                'updatedAt',
-                'datetime'
+                'updatedAt'
             )
             ->add(
                 '_action',
