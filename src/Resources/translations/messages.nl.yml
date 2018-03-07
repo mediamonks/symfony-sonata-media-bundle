@@ -23,7 +23,7 @@ form.soundcloud.reference: SoundCloud URL
 form.vimeo.reference: Vimeo ID of URL
 form.youtube.reference: YouTube ID of URL
 menu.title: Media
-menu.provider: %provider% toevoegen
+menu.provider: '%provider% toevoegen'
 youtube: YouTube
 soundcloud: SoundCloud
 vimeo: Vimeo

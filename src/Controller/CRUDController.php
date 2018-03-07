@@ -17,7 +17,7 @@ class CRUDController extends BaseCRUDController
     public function createAction()
     {
         if (!$this->getRequest()->get('provider') && $this->getRequest()->isMethod('get')) {
-            return $this->render(
+            return $this->renderWithExtraParams(
                 '@MediaMonksSonataMedia/CRUD/select_provider.html.twig',
                 [
                     'providers' => $this->get('mediamonks.sonata_media.provider.pool')->getProviders(),

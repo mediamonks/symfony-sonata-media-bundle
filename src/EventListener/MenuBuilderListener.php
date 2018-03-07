@@ -9,8 +9,6 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 class MenuBuilderListener
 {
-    const ROUTE = 'admin_mediamonks_sonatamedia_media_create';
-
     /**
      * @var ProviderPool
      */
@@ -22,13 +20,24 @@ class MenuBuilderListener
     private $translator;
 
     /**
+     * @var string
+     */
+    private $route;
+
+    /**
      * @param ProviderPool $providerPool
      * @param TranslatorInterface $translator
+     * @param string $route
      */
-    public function __construct(ProviderPool $providerPool, TranslatorInterface $translator)
+    public function __construct(
+        ProviderPool $providerPool,
+        TranslatorInterface $translator,
+        $route = 'admin_mediamonks_sonatamedia_media_create'
+    )
     {
         $this->providerPool = $providerPool;
         $this->translator = $translator;
+        $this->route = $route;
     }
 
     /**
@@ -48,7 +57,7 @@ class MenuBuilderListener
             $this->addProviderMenuChild(
                 $child,
                 $providerClass,
-                self::ROUTE,
+                $this->route,
                 ['provider' => $providerClass],
                 $provider->getName(),
                 $provider->getIcon()
