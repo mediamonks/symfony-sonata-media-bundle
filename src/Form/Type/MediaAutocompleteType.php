@@ -37,6 +37,11 @@ class MediaAutocompleteType extends BaseModelAutocompleteType
     {
         parent::configureOptions($resolver);
 
+        // Tell sonata we are passing a previously escaped string
+        if ($resolver->hasDefault('safe_label')) {
+            $resolver->setDefault('safe_label', true);
+        }
+
         $resolver->setDefaults(
             [
                 'type' => null,
