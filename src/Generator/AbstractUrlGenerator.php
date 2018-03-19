@@ -5,13 +5,13 @@ namespace MediaMonks\SonataMediaBundle\Generator;
 use MediaMonks\SonataMediaBundle\ParameterBag\ParameterBagInterface;
 use MediaMonks\SonataMediaBundle\Handler\ParameterHandlerInterface;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface as SymfonyUrlGeneratorInterface;
+use Symfony\Component\Routing\RouterInterface;
 
 abstract class AbstractUrlGenerator implements UrlGeneratorInterface
 {
     /**
-     * @var Router
+     * @var RouterInterface
      */
     private $router;
 
@@ -26,11 +26,11 @@ abstract class AbstractUrlGenerator implements UrlGeneratorInterface
     private $defaultRouteName;
 
     /**
-     * @param Router $router
+     * @param RouterInterface $router
      * @param ParameterHandlerInterface $parameterHandler
      * @param $defaultRouteName
      */
-    public function __construct(Router $router, ParameterHandlerInterface $parameterHandler, $defaultRouteName)
+    public function __construct(RouterInterface $router, ParameterHandlerInterface $parameterHandler, $defaultRouteName)
     {
         $this->router = $router;
         $this->parameterHandler = $parameterHandler;

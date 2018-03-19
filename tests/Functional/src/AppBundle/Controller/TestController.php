@@ -2,6 +2,7 @@
 
 namespace MediaMonks\SonataMediaBundle\Tests\AppBundle\Controller;
 
+use MediaMonks\SonataMediaBundle\Generator\ImageGenerator;
 use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
 use MediaMonks\SonataMediaBundle\Tests\AppBundle\Entity\Media;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -41,7 +42,7 @@ class TestController extends Controller
     {
         $media = $this->getDoctrine()->getManager()->find(Media::class, 1);
 
-        $url = $this->get('mediamonks.sonata_media.generator.url_generator.image')->generate(
+        $url = $this->get(ImageGenerator::class)->generate(
             $media,
             new ImageParameterBag(400, 300)
         );

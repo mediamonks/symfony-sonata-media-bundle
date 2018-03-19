@@ -1,14 +1,14 @@
 mediamonks_media_autocomplete:
     path: /media/autocomplete
-    defaults: {_controller: mediamonks.sonata_media.controller.helper:getAutocompleteItemsAction}
+    defaults: {_controller: MediaMonks\SonataMediaBundle\Controller\HelperController:getAutocompleteItemsAction}
     methods:  [GET]
 
 mediamonks_media_batch:
     path: /media/batch/list
-    defaults: {_controller: mediamonks.sonata_media.controller.batch:listAction}
+    defaults: {_controller: MediaMonks\SonataMediaBundle\Controller\HelperController:listAction}
     methods:  [GET]
 
 mediamonks_media_batch_upload:
     path: /media/batch/upload
-    defaults: {_controller: mediamonks.sonata_media.controller.batch:uploadAction}
+    defaults: {_controller: MediaMonks\SonataMediaBundle\Controller\HelperController:uploadAction}
     methods:  [POST]

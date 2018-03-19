@@ -4,6 +4,9 @@ namespace MediaMonks\SonataMediaBundle\Controller;
 
 use MediaMonks\SonataMediaBundle\ParameterBag\DownloadParameterBag;
 use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
+use MediaMonks\SonataMediaBundle\Provider\ProviderPool;
+use MediaMonks\SonataMediaBundle\Utility\DownloadUtility;
+use MediaMonks\SonataMediaBundle\Utility\ImageUtility;
 use Sonata\AdminBundle\Controller\CRUDController as BaseCRUDController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,7 +23,7 @@ class CRUDController extends BaseCRUDController
             return $this->renderWithExtraParams(
                 '@MediaMonksSonataMedia/CRUD/select_provider.html.twig',
                 [
-                    'providers' => $this->get('mediamonks.sonata_media.provider.pool')->getProviders(),
+                    'providers' => $this->get(ProviderPool::class)->getProviders(),
                     'base_template' => $this->getBaseTemplate(),
                     'admin' => $this->admin,
                     'action' => 'create',
@@ -42,7 +45,7 @@ class CRUDController extends BaseCRUDController
 
         $this->admin->checkAccess('show', $object);
 
-        return $this->get('mediamonks.sonata_media.utility.download')->getStreamedResponse($object, new DownloadParameterBag($request->query->all()));
+        return $this->get(DownloadUtility::class)->getStreamedResponse($object, new DownloadParameterBag($request->query->all()));
     }
 
     /**
@@ -56,6 +59,6 @@ class CRUDController extends BaseCRUDController
 
         $this->admin->checkAccess('show', $object);
 
-        return $this->get('mediamonks.sonata_media.utility.image')->getRedirectResponse($object, new ImageParameterBag($width, $height, $request->query->all()));
+        return $this->get(ImageUtility::class)->getRedirectResponse($object, new ImageParameterBag($width, $height, $request->query->all()));
     }
 }

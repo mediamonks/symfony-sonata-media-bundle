@@ -14,34 +14,9 @@ class MediaMonksSonataMediaExtensionTest extends AbstractExtensionTestCase
         ];
     }
 
-    public function testDefaultMediaEntity()
-    {
-        $this->load($this->getDefaultContainerParameters());
-        $this->assertContainerBuilderHasParameter('mediamonks.sonata_media.entity.class', 'AppBundle\Entity\Media');
-    }
-
-    public function testCustomMediaEntity()
-    {
-        $this->load(array_merge([
-            'model_class' => 'CustomAppBundle\Entity\Media'
-        ], $this->getDefaultContainerParameters()));
-        $this->assertContainerBuilderHasParameter('mediamonks.sonata_media.entity.class', 'CustomAppBundle\Entity\Media');
-    }
-
     public function testMissingFilesystem()
     {
         $this->expectException(\Exception::class);
         $this->load();
-    }
-
-    /**
-     * @return array
-     */
-    private function getDefaultContainerParameters()
-    {
-        return [
-            'filesystem_private' => 'foo',
-            'filesystem_public' => 'foo',
-        ];
     }
 }

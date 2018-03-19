@@ -3,6 +3,11 @@
 namespace MediaMonks\SonataMediaBundle\DependencyInjection;
 
 use MediaMonks\SonataMediaBundle\MediaMonksSonataMediaBundle;
+use MediaMonks\SonataMediaBundle\Provider\FileProvider;
+use MediaMonks\SonataMediaBundle\Provider\ImageProvider;
+use MediaMonks\SonataMediaBundle\Provider\SoundCloudProvider;
+use MediaMonks\SonataMediaBundle\Provider\VimeoProvider;
+use MediaMonks\SonataMediaBundle\Provider\YouTubeProvider;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -31,6 +36,8 @@ final class Configuration implements ConfigurationInterface
         $this->addFallbackImage($rootNode);
         $this->addTmp($rootNode);
         $this->addTemplates($rootNode);
+        $this->addRoutes($rootNode);
+        $this->addController($rootNode);
 
         return $treeBuilder;
     }
@@ -91,11 +98,11 @@ final class Configuration implements ConfigurationInterface
             ->arrayNode('providers')
             ->defaultValue(
                 [
-                    'mediamonks.sonata_media.provider.file',
-                    'mediamonks.sonata_media.provider.image',
-                    'mediamonks.sonata_media.provider.youtube',
-                    'mediamonks.sonata_media.provider.vimeo',
-                    'mediamonks.sonata_media.provider.soundcloud'
+                    FileProvider::class,
+                    ImageProvider::class,
+                    YouTubeProvider::class,
+                    VimeoProvider::class,
+                    SoundCloudProvider::class
                 ]
             )
             ->prototype('scalar')->end()
@@ -181,6 +188,9 @@ final class Configuration implements ConfigurationInterface
             ->end();
     }
 
+    /**
+     * @param ArrayNodeDefinition $node
+     */
     private function addTemplates(ArrayNodeDefinition $node)
     {
         $node->children()
@@ -188,6 +198,33 @@ final class Configuration implements ConfigurationInterface
             ->defaultValue([
                 'form' => 'MediaMonksSonataMediaBundle:Form:form.html.twig'
             ])
+            ->end();
+    }
+
+    /**
+     * @param ArrayNodeDefinition $node
+     */
+    private function addRoutes(ArrayNodeDefinition $node)
+    {
+        $node->children()
+            ->scalarNode('route_image')
+            ->defaultValue('mediamonks_media_image')
+            ->end();
+
+        $node->children()
+            ->scalarNode('route_download')
+            ->defaultValue('mediamonks_media_download')
+            ->end();
+    }
+
+    /**
+     * @param ArrayNodeDefinition $node
+     */
+    private function addController(ArrayNodeDefinition $node)
+    {
+        $node->children()
+            ->scalarNode('controller')
+            ->defaultValue('MediaMonksSonataMediaBundle:CRUD')
             ->end();
     }
 }

@@ -1,163 +1,61 @@
-parameters:
-    mediamonks.sonata_media.controller.crud: 'MediaMonksSonataMediaBundle:CRUD'
-    mediamonks.sonata_media.entity.class: 'AppBundle\Entity\Media'
-    mediamonks.sonata_media.admin.media.class: 'MediaMonks\SonataMediaBundle\Admin\MediaAdmin'
-    mediamonks.sonata_media.provider.image.class: 'MediaMonks\SonataMediaBundle\Provider\ImageProvider'
-    mediamonks.sonata_media.provider.youtube.class: 'MediaMonks\SonataMediaBundle\Provider\YouTubeProvider'
-    mediamonks.sonata_media.provider.vimeo.class: 'MediaMonks\SonataMediaBundle\Provider\VimeoProvider'
-    mediamonks.sonata_media.provider.file.class: 'MediaMonks\SonataMediaBundle\Provider\FileProvider'
-    mediamonks.sonata_media.provider.soundcloud.class: 'MediaMonks\SonataMediaBundle\Provider\SoundCloudProvider'
-    mediamonks.sonata_media.provider.pool.class: 'MediaMonks\SonataMediaBundle\Provider\ProviderPool'
-    mediamonks.sonata_media.twig.extension.class: 'MediaMonks\SonataMediaBundle\Twig\Extension\MediaExtension'
-    mediamonks.sonata_media.glide.server.class: 'League\Glide\Server'
-    mediamonks.sonata_media.glide.server.factory.class: 'League\Glide\ServerFactory'
-    mediamonks.sonata_media.handler.signature_parameter_handler.class: 'MediaMonks\SonataMediaBundle\Handler\SignatureParameterHandler'
-    mediamonks.sonata_media.generator.image_url_generator.class: 'MediaMonks\SonataMediaBundle\Generator\ImageUrlGenerator'
-    mediamonks.sonata_media.generator.download_url_generator.class: 'MediaMonks\SonataMediaBundle\Generator\DownloadUrlGenerator'
-    mediamonks.sonata_media.generator.filename_generator.default.class: 'MediaMonks\SonataMediaBundle\Generator\DefaultFilenameGenerator'
-    mediamonks.sonata_media.generator.image.class: 'MediaMonks\SonataMediaBundle\Generator\ImageGenerator'
-    mediamonks.sonata_media.utility.image.class: 'MediaMonks\SonataMediaBundle\Utility\ImageUtility'
-    mediamonks.sonata_media.utility.download.class: 'MediaMonks\SonataMediaBundle\Utility\DownloadUtility'
-    mediamonks.sonata_media.utility.event_listener.menu_builder.class: 'MediaMonks\SonataMediaBundle\EventListener\MenuBuilderListener'
-    mediamonks.sonata_media.form.type.media_autocomplete.class: 'MediaMonks\SonataMediaBundle\Form\Type\MediaAutocompleteType'
-    mediamonks.sonata_media.controller.helper.class: 'MediaMonks\SonataMediaBundle\Controller\HelperController'
-    mediamonks.sonata_media.http_client.class: 'MediaMonks\SonataMediaBundle\Client\CurlHttpClient'
-    mediamonks.sonata_media.default_route.image: 'mediamonks_media_image'
-    mediamonks.sonata_media.default_route.download: 'mediamonks_media_download'
-
 services:
-    mediamonks.sonata_media.admin.media:
-        class: '%mediamonks.sonata_media.admin.media.class%'
-        arguments:
-            - ~
-            - '%mediamonks.sonata_media.entity.class%'
-            - '%mediamonks.sonata_media.controller.crud%'
-            - '@mediamonks.sonata_media.provider.pool'
+    _defaults:
+        public: false
+        autowire: true
+        autoconfigure: true
+
+    League\Glide\Server:
+        factory: ['League\Glide\ServerFactory', 'create']
+
+    MediaMonks\SonataMediaBundle\:
+        resource: '../../*'
+        exclude: '../../{Entity,Admin}'
+
+    MediaMonks\SonataMediaBundle\Admin\MediaAdmin:
         tags:
-            - { name: sonata.admin, manager_type: orm, label: Media, group: "Media" }
+            - { name: sonata.admin, manager_type: orm, label: Media, group: 'Media' }
         calls:
             - [ setTemplate, ['outer_list_rows_mosaic', 'MediaMonksSonataMediaBundle:CRUD:outer_list_rows_mosaic.html.twig']]
             - [ setTemplate, ['edit', 'MediaMonksSonataMediaBundle:CRUD:edit.html.twig']]
 
-    mediamonks.sonata_media.provider.pool:
+    _instanceof:
+        MediaMonks\SonataMediaBundle\Provider\ProviderInterface:
+          tags: [sonata_media.provider]
+
+    MediaMonks\SonataMediaBundle\Provider\ProviderPool:
         public: true
-        class: '%mediamonks.sonata_media.provider.pool.class%'
 
-    mediamonks.sonata_media.provider.image:
-        class: '%mediamonks.sonata_media.provider.image.class%'
-        tags:
-            - { name: sonata_media.provider }
-
-    mediamonks.sonata_media.provider.youtube:
-        class: '%mediamonks.sonata_media.provider.youtube.class%'
-        tags:
-            - { name: sonata_media.provider }
-
-    mediamonks.sonata_media.provider.vimeo:
-        class: '%mediamonks.sonata_media.provider.vimeo.class%'
-        tags:
-            - { name: sonata_media.provider }
-
-    mediamonks.sonata_media.provider.file:
-        class: '%mediamonks.sonata_media.provider.file.class%'
+    MediaMonks\SonataMediaBundle\Handler\SignatureParameterHandler:
         arguments:
-            - []
-        tags:
-            - { name: sonata_media.provider }
+            $key: '%secret%'
 
-    mediamonks.sonata_media.provider.soundcloud:
-        class: '%mediamonks.sonata_media.provider.soundcloud.class%'
-        tags:
-            - { name: sonata_media.provider }
-
-    mediamonks.sonata_media.twig.extension:
-        class: '%mediamonks.sonata_media.twig.extension.class%'
-        arguments:
-            - '@mediamonks.sonata_media.provider.pool'
-            - '@mediamonks.sonata_media.generator.url_generator.image'
-            - '@mediamonks.sonata_media.generator.url_generator.download'
-        tags:
-            - { name: twig.extension }
-
-    mediamonks.sonata_media.glide.server:
-        class: '%mediamonks.sonata_media.glide.server.class%'
-        factory: ['%mediamonks.sonata_media.glide.server.factory.class%', 'create']
-        arguments:
-            - ~
-
-    mediamonks.sonata_media.handler.signature_parameter_handler:
-        class: '%mediamonks.sonata_media.handler.signature_parameter_handler.class%'
-        arguments:
-            - '%secret%'
-
-    mediamonks.sonata_media.generator.url_generator.image:
+    MediaMonks\SonataMediaBundle\Generator\ImageUrlGenerator:
         public: true
-        class: '%mediamonks.sonata_media.generator.image_url_generator.class%'
         arguments:
-            - '@router'
-            - '@mediamonks.sonata_media.handler.signature_parameter_handler'
-            - '%mediamonks.sonata_media.default_route.image%'
+            $defaultRouteName: '%mediamonks.sonata_media.default_route.image%'
 
-    mediamonks.sonata_media.generator.url_generator.download:
-        class: '%mediamonks.sonata_media.generator.download_url_generator.class%'
-        arguments:
-            - '@router'
-            - '@mediamonks.sonata_media.handler.signature_parameter_handler'
-            - '%mediamonks.sonata_media.default_route.download%'
-
-    mediamonks.sonata_media.generator.filename_generator.default:
-        class: '%mediamonks.sonata_media.generator.filename_generator.default.class%'
-
-    mediamonks.sonata_media.generator.image:
+    MediaMonks\SonataMediaBundle\Generator\DownloadUrlGenerator:
         public: true
-        class: '%mediamonks.sonata_media.generator.image.class%'
         arguments:
-            - '@mediamonks.sonata_media.glide.server'
-            - '@mediamonks.sonata_media.generator.filename_generator.default'
-            - ~
-            - ~
-            - ~
-            - ~
+            $defaultRouteName: '%mediamonks.sonata_media.default_route.download%'
 
-    mediamonks.sonata_media.utility.image:
+    MediaMonks\SonataMediaBundle\Generator\ImageGenerator:
         public: true
-        class: '%mediamonks.sonata_media.utility.image.class%'
-        arguments:
-            - '@mediamonks.sonata_media.handler.signature_parameter_handler'
-            - '@mediamonks.sonata_media.generator.image'
-            - ~
-            - ~
-            - []
 
-    mediamonks.sonata_media.utility.download:
+    MediaMonks\SonataMediaBundle\Utility\ImageUtility:
         public: true
-        class: '%mediamonks.sonata_media.utility.download.class%'
-        arguments:
-            - '@mediamonks.sonata_media.handler.signature_parameter_handler'
-            - ~
 
-    mediamonks.sonata_media.utility.event_listener.menu_builder:
-        class: '%mediamonks.sonata_media.utility.event_listener.menu_builder.class%'
-        arguments:
-            - '@mediamonks.sonata_media.provider.pool'
-            - '@translator'
+    MediaMonks\SonataMediaBundle\Utility\DownloadUtility:
+        public: true
+
+    MediaMonks\SonataMediaBundle\Controller\HelperController:
+        public: true
+
+    MediaMonks\SonataMediaBundle\EventListener\MenuBuilderListener:
         tags:
             - { name: kernel.event_listener, event: sonata.admin.event.configure.menu.sidebar, method: addMenuItems }
 
-    mediamonks.sonata_media.form.type.media_autocomplete:
-        class: '%mediamonks.sonata_media.form.type.media_autocomplete.class%'
-        arguments:
-            - '@mediamonks.sonata_media.admin.media'
-            - '@templating'
-        tags:
-            - { name: form.type }
-
-    mediamonks.sonata_media.controller.helper:
-        public: true
-        class: '%mediamonks.sonata_media.controller.helper.class%'
-        arguments:
-            - '@mediamonks.sonata_media.admin.media'
-            - '@templating'
-
-    mediamonks.sonata_media.http_client:
-        class: '%mediamonks.sonata_media.http_client.class%'
+    # interface aliases
+    MediaMonks\SonataMediaBundle\Client\HttpClientInterface: '@MediaMonks\SonataMediaBundle\Client\CurlHttpClient'
+    MediaMonks\SonataMediaBundle\Handler\ParameterHandlerInterface: '@MediaMonks\SonataMediaBundle\Handler\SignatureParameterHandler'
+    MediaMonks\SonataMediaBundle\Generator\FilenameGeneratorInterface: '@MediaMonks\SonataMediaBundle\Generator\DefaultFilenameGenerator'

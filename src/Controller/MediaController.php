@@ -5,6 +5,8 @@ namespace MediaMonks\SonataMediaBundle\Controller;
 use MediaMonks\SonataMediaBundle\ParameterBag\DownloadParameterBag;
 use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
+use MediaMonks\SonataMediaBundle\Utility\DownloadUtility;
+use MediaMonks\SonataMediaBundle\Utility\ImageUtility;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +23,7 @@ class MediaController extends Controller
      */
     public function imageRedirectAction(Request $request, $id, $width, $height)
     {
-        return $this->get('mediamonks.sonata_media.utility.image')->getRedirectResponse(
+        return $this->get(ImageUtility::class)->getRedirectResponse(
             $this->getMediaById($id),
             new ImageParameterBag($width, $height, $request->query->all())
         );
@@ -34,7 +36,7 @@ class MediaController extends Controller
      */
     public function downloadAction(Request $request, $id)
     {
-        return $this->get('mediamonks.sonata_media.utility.download')->getStreamedResponse(
+        return $this->get(DownloadUtility::class)->getStreamedResponse(
             $this->getMediaById($id),
             new DownloadParameterBag($request->query->all())
         );

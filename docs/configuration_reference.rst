@@ -28,3 +28,6 @@ All available configuration options are listed below with their default values.
         tmp_path: <path to local file system with read and write permission>
         tmp_prefix: <custom prefix for temporary files>
         model_class: <custom namespace of Media entity>
+        route_image: <default image route>
+        route_download: <default download route>
+        controller: <controller to extend from>

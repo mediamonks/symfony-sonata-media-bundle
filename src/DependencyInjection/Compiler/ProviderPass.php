@@ -2,6 +2,7 @@
 
 namespace MediaMonks\SonataMediaBundle\DependencyInjection\Compiler;
 
+use MediaMonks\SonataMediaBundle\Client\HttpClientInterface;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
@@ -39,7 +40,7 @@ class ProviderPass implements CompilerPassInterface
             );
             $container->getDefinition($id)->addMethodCall(
                 'setHttpClient',
-                [new Reference('mediamonks.sonata_media.http_client')]
+                [new Reference(HttpClientInterface::class)]
             );
             $container->getDefinition($id)->addMethodCall(
                 'setFileLocator',
