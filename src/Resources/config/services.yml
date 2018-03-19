@@ -51,6 +51,12 @@ services:
     MediaMonks\SonataMediaBundle\Controller\HelperController:
         public: true
 
+    MediaMonks\SonataMediaBundle\Controller\CRUDController:
+        public: true
+
+    MediaMonks\SonataMediaBundle\Controller\MediaController:
+        public: true
+
     MediaMonks\SonataMediaBundle\EventListener\MenuBuilderListener:
         tags:
             - { name: kernel.event_listener, event: sonata.admin.event.configure.menu.sidebar, method: addMenuItems }
