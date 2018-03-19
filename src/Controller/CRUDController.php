@@ -10,20 +10,30 @@ use MediaMonks\SonataMediaBundle\Utility\ImageUtility;
 use Sonata\AdminBundle\Controller\CRUDController as BaseCRUDController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class CRUDController extends BaseCRUDController
 {
     /**
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function createAction()
     {
+        $request = $this->getRequest();
         if (!$this->getRequest()->get('provider') && $this->getRequest()->isMethod('get')) {
+            $types = $request->query->get('types');
+            if (is_array($types)) {
+                $providers = $this->get(ProviderPool::class)->getProvidersByTypes($types);
+            }
+            else {
+                $providers = $this->get(ProviderPool::class)->getProviders();
+            }
+
             return $this->renderWithExtraParams(
                 '@MediaMonksSonataMedia/CRUD/select_provider.html.twig',
                 [
-                    'providers' => $this->get(ProviderPool::class)->getProviders(),
+                    'providers' => $providers,
                     'base_template' => $this->getBaseTemplate(),
                     'admin' => $this->admin,
                     'action' => 'create',

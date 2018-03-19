@@ -83,14 +83,34 @@ class ProviderPoolTest extends TestCase
         $providerPool->getProvider('Test');
     }
 
+    public function testGetProvidersByTypes()
+    {
+        $providerPool = new ProviderPool();
+        $providerPool->addProviders(
+            [
+                $this->getProviderMock('Image 1'),
+                $this->getProviderMock('Image 2'),
+                $this->getProviderMock('Video 1', 'video'),
+                $this->getProviderMock('Video 2', 'video')
+            ]
+        );
+
+        $this->assertCount(2, $providerPool->getProvidersByTypes(['image']));
+        $this->assertCount(4, $providerPool->getProvidersByTypes(['image', 'video']));
+        $this->assertCount(2, $providerPool->getProvidersByTypes(['foo', 'video']));
+        $this->assertCount(0, $providerPool->getProvidersByTypes(['foo']));
+    }
+
     /**
      * @param string $name
+     * @param string $type
      * @return ProviderInterface
      */
-    private function getProviderMock($name = 'Test')
+    private function getProviderMock($name = 'Test', $type = 'image')
     {
         $provider = m::mock(ProviderInterface::class);
         $provider->shouldReceive('getName')->andReturn($name);
+        $provider->shouldReceive('getType')->andReturn($type);
 
         return $provider;
     }

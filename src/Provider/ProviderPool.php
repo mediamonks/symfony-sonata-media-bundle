@@ -62,6 +62,22 @@ class ProviderPool
     }
 
     /**
+     * @param array $types
+     * @return ProviderInterface[]
+     */
+    public function getProvidersByTypes(array $types)
+    {
+        $providers = [];
+        foreach ($this->getProviders() as $provider) {
+            if (in_array($provider->getType(), $types)) {
+                $providers[] = $provider;
+            }
+        }
+
+        return $providers;
+    }
+
+    /**
      * @param MediaInterface $media
      * @return AbstractProvider
      */
