@@ -2,6 +2,9 @@
 
 namespace MediaMonks\SonataMediaBundle\DependencyInjection;
 
+use MediaMonks\SonataMediaBundle\Admin\MediaAdmin;
+use MediaMonks\SonataMediaBundle\Controller\CRUDController;
+use MediaMonks\SonataMediaBundle\Entity\Media;
 use MediaMonks\SonataMediaBundle\MediaMonksSonataMediaBundle;
 use MediaMonks\SonataMediaBundle\Provider\FileProvider;
 use MediaMonks\SonataMediaBundle\Provider\ImageProvider;
@@ -24,7 +27,6 @@ final class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root(MediaMonksSonataMediaBundle::BUNDLE_CONFIG_NAME);
 
-        $this->addModelClass($rootNode);
         $this->addFilesystem($rootNode);
         $this->addRedirectUrl($rootNode);
         $this->addRedirectCacheTtl($rootNode);
@@ -37,19 +39,9 @@ final class Configuration implements ConfigurationInterface
         $this->addTmp($rootNode);
         $this->addTemplates($rootNode);
         $this->addRoutes($rootNode);
-        $this->addController($rootNode);
+        $this->addClasses($rootNode);
 
         return $treeBuilder;
-    }
-
-    /**
-     * @param ArrayNodeDefinition $node
-     */
-    private function addModelClass(ArrayNodeDefinition $node)
-    {
-        $node->children()
-            ->scalarNode('model_class')
-            ->end();
     }
 
     /**
@@ -220,11 +212,21 @@ final class Configuration implements ConfigurationInterface
     /**
      * @param ArrayNodeDefinition $node
      */
-    private function addController(ArrayNodeDefinition $node)
+    private function addClasses(ArrayNodeDefinition $node)
     {
         $node->children()
-            ->scalarNode('controller')
-            ->defaultValue('MediaMonksSonataMediaBundle:CRUD')
+            ->scalarNode('model_class')
+            ->defaultValue(Media::class)
+            ->end();
+
+        $node->children()
+            ->scalarNode('admin_class')
+            ->defaultValue(MediaAdmin::class)
+            ->end();
+
+        $node->children()
+            ->scalarNode('controller_class')
+            ->defaultValue(CRUDController::class)
             ->end();
     }
 }

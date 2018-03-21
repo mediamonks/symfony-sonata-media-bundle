@@ -38,14 +38,14 @@ class MediaMonksSonataMediaExtension extends Extension
         $container->setAlias('mediamonks.sonata_media.filesystem.private', $config['filesystem_private']);
         $container->setAlias('mediamonks.sonata_media.filesystem.public', $config['filesystem_public']);
 
-        if (!empty($config['model_class'])) {
-            $container->getDefinition(MediaAdmin::class)
-                ->setArgument(0, null)
-                ->setArgument(1, $config['model_class'])
-                ->setArgument(2, $config['controller'])
-            ;
-            $container->setParameter('mediamonks.sonata_media.entity.class', $config['model_class']);
-        }
+        $container->getDefinition(MediaAdmin::class)
+            ->setClass($config['admin_class'])
+            ->setArgument(0, null)
+            ->setArgument(1, $config['model_class'])
+            ->setArgument(2, $config['controller_class'])
+        ;
+
+        $container->setParameter('mediamonks.sonata_media.entity.class', $config['model_class']);
 
         $container->getDefinition(Server::class)
             ->setArgument(
