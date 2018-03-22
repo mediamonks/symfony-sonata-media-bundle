@@ -24,10 +24,9 @@ When your provider is finished you can tag it with "sonata_media.provider" and i
 
 .. code-block:: yaml
 
-    # app/config/services.yml
+    # config/services.yaml
     services:
-        acme_provider:
-            class: Acme\Provider\SomeProvider
+        App\Provider\SomeProvider:
             tags:
                 - { name: sonata_media.provider }
 

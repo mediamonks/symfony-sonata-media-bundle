@@ -1,7 +1,7 @@
 {
   "name": "mediamonks/sonata-media-bundle",
   "type": "symfony-bundle",
-  "description": "A powerful alternative, flexible and easy to use alternative for the existing Sonata Media Bundle",
+  "description": "A powerful, flexible and easy to use alternative for the existing Sonata Media Bundle",
   "keywords": [
     "media",
     "image",
@@ -13,7 +13,11 @@
     "bundle",
     "symfony",
     "sonata",
-    "admin"
+    "admin",
+    "thumbnail",
+    "resize",
+    "focalpoint",
+    "focal point"
   ],
   "homepage": "https://www.mediamonks.com/",
   "license": "MIT",
@@ -26,6 +30,8 @@
   ],
   "require": {
     "php": "^7.0",
+    "sonata-project/admin-bundle": "^3.28",
+    "sonata-project/doctrine-orm-admin-bundle": "^3.4",
     "symfony/dependency-injection": "^3.3|^4.0",
     "symfony/http-kernel": "^3.3|^4.0",
     "league/flysystem": "^1.0",
@@ -37,8 +43,6 @@
     "mockery/mockery": "^0.9.4",
     "oneup/flysystem-bundle": "^1.13|^2.0|^3.0",
     "doctrine/doctrine-bundle": "^1.6",
-    "sonata-project/admin-bundle": "^3.28",
-    "sonata-project/doctrine-orm-admin-bundle": "^3.4",
     "liip/functional-test-bundle": "^1.7",
     "doctrine/doctrine-fixtures-bundle": "^2.3|^3.0",
     "symfony/symfony": "^3.3|^4.0",

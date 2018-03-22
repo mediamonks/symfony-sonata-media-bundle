@@ -95,7 +95,7 @@ class ImageGenerator
      * @throws FilesystemException
      * @throws \Exception
      */
-    protected function generateImage(MediaInterface $media, ImageParameterBag $parameterBag, string $filename): void
+    protected function generateImage(MediaInterface $media, ImageParameterBag $parameterBag, string $filename)
     {
         $tmp = $this->getTemporaryFile();
         $imageData = $this->getImageData($media);
