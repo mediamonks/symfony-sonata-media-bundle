@@ -61,7 +61,7 @@ class FileProvider extends AbstractProvider implements ProviderInterface, Downlo
     /**
      * @return string
      */
-    public function getIcon()
+    public function getIcon(): string
     {
         return 'fa fa-file';
     }
@@ -69,7 +69,7 @@ class FileProvider extends AbstractProvider implements ProviderInterface, Downlo
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return 'file';
     }
@@ -77,7 +77,7 @@ class FileProvider extends AbstractProvider implements ProviderInterface, Downlo
     /**
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return AbstractProvider::TYPE_FILE;
     }
@@ -130,7 +130,7 @@ class FileProvider extends AbstractProvider implements ProviderInterface, Downlo
      * @param array $options
      * @return array
      */
-    private function getFileFieldConstraints(array $options)
+    private function getFileFieldConstraints(array $options): array
     {
         return [
             new Constraint\File($this->getFileConstraintOptions($options)),
@@ -142,7 +142,7 @@ class FileProvider extends AbstractProvider implements ProviderInterface, Downlo
      * @param array $options
      * @return array
      */
-    protected function getFileConstraintOptions(array $options = [])
+    protected function getFileConstraintOptions(array $options = []): array
     {
         $merged = array_merge($this->fileConstraintOptions, $options);
         unset($merged['extensions']);
@@ -172,7 +172,7 @@ class FileProvider extends AbstractProvider implements ProviderInterface, Downlo
      * @param $extension
      * @return string
      */
-    protected function getImageByExtension($extension)
+    protected function getImageByExtension($extension): string
     {
         if (in_array($extension, $this->getArchiveExtensions())) {
             return 'archive.png';
@@ -211,7 +211,7 @@ class FileProvider extends AbstractProvider implements ProviderInterface, Downlo
     /**
      * @return string[]
      */
-    private function getArchiveExtensions()
+    protected function getArchiveExtensions(): array
     {
         return ['zip', 'rar', 'tar', 'gz'];
     }
@@ -219,7 +219,7 @@ class FileProvider extends AbstractProvider implements ProviderInterface, Downlo
     /**
      * @return string[]
      */
-    private function getAudioExtensions()
+    protected function getAudioExtensions(): array
     {
         return ['wav', 'mp3', 'flac', 'aac', 'aiff', 'm4a', 'ogg', 'oga', 'wma'];
     }
@@ -227,7 +227,7 @@ class FileProvider extends AbstractProvider implements ProviderInterface, Downlo
     /**
      * @return string[]
      */
-    private function getCodeExtensions()
+    protected function getCodeExtensions(): array
     {
         return ['php', 'html', 'css', 'js', 'vb', 'phar', 'py', 'jar', 'json', 'yml'];
     }
@@ -235,7 +235,7 @@ class FileProvider extends AbstractProvider implements ProviderInterface, Downlo
     /**
      * @return string[]
      */
-    private function getSpreadsheetExtensions()
+    protected function getSpreadsheetExtensions(): array
     {
         return ['xls', 'xlt', 'xlm', 'xlsx', 'xlsm', 'xltx', 'xltm'];
     }
@@ -243,7 +243,7 @@ class FileProvider extends AbstractProvider implements ProviderInterface, Downlo
     /**
      * @return string[]
      */
-    private function getImageExtensions()
+    protected function getImageExtensions(): array
     {
         return ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'tiff', 'ai', 'psd'];
     }
@@ -251,7 +251,7 @@ class FileProvider extends AbstractProvider implements ProviderInterface, Downlo
     /**
      * @return string[]
      */
-    private function getMovieExtensions()
+    protected function getMovieExtensions(): array
     {
         return ['mp4', 'avi', 'mkv', 'mpg', 'mpeg'];
     }
@@ -259,7 +259,7 @@ class FileProvider extends AbstractProvider implements ProviderInterface, Downlo
     /**
      * @return string[]
      */
-    private function getPdfExtensions()
+    protected function getPdfExtensions(): array
     {
         return ['pdf'];
     }
@@ -267,7 +267,7 @@ class FileProvider extends AbstractProvider implements ProviderInterface, Downlo
     /**
      * @return string[]
      */
-    private function getPresentationExtensions()
+    protected function getPresentationExtensions(): array
     {
         return ['ppt', 'pot', 'pos', 'pps', 'pptx', 'pptm', 'potx', 'potm', 'ppam', 'ppsx', 'ppsm', 'sldx', 'sldm'];
     }
@@ -275,7 +275,7 @@ class FileProvider extends AbstractProvider implements ProviderInterface, Downlo
     /**
      * @return string[]
      */
-    private function getTextExtensions()
+    protected function getTextExtensions(): array
     {
         return ['txt', 'csv'];
     }
@@ -283,7 +283,7 @@ class FileProvider extends AbstractProvider implements ProviderInterface, Downlo
     /**
      * @return string[]
      */
-    private function getWordExtensions()
+    protected function getWordExtensions(): array
     {
         return ['doc', 'dot', 'wbk', 'docx', 'docm', 'dotx', 'dotm', 'docb'];
     }
@@ -292,7 +292,7 @@ class FileProvider extends AbstractProvider implements ProviderInterface, Downlo
      * @param $imageFilename
      * @return string
      */
-    protected function getImageLocation($imageFilename)
+    protected function getImageLocation($imageFilename): string
     {
         $file = $this->getFileLocator()->locate('@MediaMonksSonataMediaBundle/Resources/image/file/'.$imageFilename);
         if (is_array($file)) {

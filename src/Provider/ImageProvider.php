@@ -53,7 +53,7 @@ class ImageProvider extends AbstractProvider implements ProviderInterface, Downl
     /**
      * @return string
      */
-    public function getIcon()
+    public function getIcon(): string
     {
         return 'fa fa-photo';
     }
@@ -61,7 +61,7 @@ class ImageProvider extends AbstractProvider implements ProviderInterface, Downl
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return 'image';
     }
@@ -69,7 +69,7 @@ class ImageProvider extends AbstractProvider implements ProviderInterface, Downl
     /**
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return AbstractProvider::TYPE_IMAGE;
     }

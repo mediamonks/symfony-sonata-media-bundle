@@ -14,15 +14,21 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class MediaController extends Controller
 {
+
     /**
      * @param Request $request
      * @param int $id
      * @param int $width
      * @param int $height
+     *
      * @return RedirectResponse
      */
-    public function imageRedirectAction(Request $request, $id, $width, $height)
-    {
+    public function imageRedirectAction(
+        Request $request,
+        int $id,
+        int $width,
+        int $height
+    ): RedirectResponse {
         return $this->get(ImageUtility::class)->getRedirectResponse(
             $this->getMediaById($id),
             new ImageParameterBag($width, $height, $request->query->all())
@@ -31,10 +37,11 @@ class MediaController extends Controller
 
     /**
      * @param Request $request
-     * @param $id
+     * @param int $id
+     *
      * @return StreamedResponse
      */
-    public function downloadAction(Request $request, $id)
+    public function downloadAction(Request $request, int $id): StreamedResponse
     {
         return $this->get(DownloadUtility::class)->getStreamedResponse(
             $this->getMediaById($id),
@@ -43,10 +50,11 @@ class MediaController extends Controller
     }
 
     /**
-     * @param $id
+     * @param int $id
+     *
      * @return MediaInterface
      */
-    protected function getMediaById($id)
+    protected function getMediaById(int $id): MediaInterface
     {
         return $this->getDoctrine()->getManager()->find(
             $this->getParameter('mediamonks.sonata_media.entity.class'),

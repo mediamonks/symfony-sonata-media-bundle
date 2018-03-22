@@ -40,8 +40,8 @@ class ImageUtility
     public function __construct(
         ParameterHandlerInterface $parameterHandler,
         ImageGenerator $imageGenerator,
-        $mediaBaseUrl,
-        $cacheTtl
+        string $mediaBaseUrl,
+        int $cacheTtl
     ) {
         $this->parameterHandler = $parameterHandler;
         $this->imageGenerator = $imageGenerator;
@@ -54,7 +54,7 @@ class ImageUtility
      * @param ImageParameterBag $parameterBag
      * @return RedirectResponse
      */
-    public function getRedirectResponse(MediaInterface $media, ImageParameterBag $parameterBag)
+    public function getRedirectResponse(MediaInterface $media, ImageParameterBag $parameterBag): RedirectResponse
     {
         $response = new RedirectResponse($this->mediaBaseUrl.$this->getFilename($media, $parameterBag));
         $response->setSharedMaxAge($this->cacheTtl);
@@ -65,10 +65,10 @@ class ImageUtility
 
     /**
      * @param MediaInterface $media
-     * @param ParameterBagInterface $parameterBag
-     * @return mixed
+     * @param ImageParameterBag $parameterBag
+     * @return string
      */
-    public function getFilename(MediaInterface $media, ParameterBagInterface $parameterBag)
+    public function getFilename(MediaInterface $media, ImageParameterBag $parameterBag): string
     {
         $parameterBag = $this->parameterHandler->validateParameterBag($media, $parameterBag);
         $filename = $this->imageGenerator->generate($media, $parameterBag);

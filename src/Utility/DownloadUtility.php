@@ -33,9 +33,11 @@ class DownloadUtility
 
     /**
      * @param MediaInterface $media
+     * @param DownloadParameterBag $parameterBag
+     *
      * @return StreamedResponse
      */
-    public function getStreamedResponse(MediaInterface $media, DownloadParameterBag $parameterBag)
+    public function getStreamedResponse(MediaInterface $media, DownloadParameterBag $parameterBag): StreamedResponse
     {
         $this->parameterHandler->validateParameterBag($media, $parameterBag);
 

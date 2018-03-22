@@ -69,9 +69,9 @@ class ImageGenerator
     /**
      * @param MediaInterface $media
      * @param ImageParameterBag $parameterBag
-     * @return mixed
+     * @return string
      */
-    public function generate(MediaInterface $media, ImageParameterBag $parameterBag)
+    public function generate(MediaInterface $media, ImageParameterBag $parameterBag): string
     {
         $parameterBag->setDefaults($this->defaultImageParameters);
         if (!$parameterBag->hasExtra('fit')) {
@@ -91,10 +91,11 @@ class ImageGenerator
      * @param MediaInterface $media
      * @param ImageParameterBag $parameterBag
      * @param $filename
+     *
      * @throws FilesystemException
      * @throws \Exception
      */
-    protected function generateImage(MediaInterface $media, ImageParameterBag $parameterBag, $filename)
+    protected function generateImage(MediaInterface $media, ImageParameterBag $parameterBag, string $filename): void
     {
         $tmp = $this->getTemporaryFile();
         $imageData = $this->getImageData($media);
@@ -124,7 +125,7 @@ class ImageGenerator
      * @return string
      * @throws FilesystemException
      */
-    protected function getImageData(MediaInterface $media)
+    protected function getImageData(MediaInterface $media): string
     {
         if ($this->server->getSource()->has($media->getImage())) {
             return $this->server->getSource()->read($media->getImage());
@@ -143,7 +144,7 @@ class ImageGenerator
      * @param ImageParameterBag $parameterBag
      * @return string
      */
-    protected function doGenerateImage(MediaInterface $media, $tmp, ImageParameterBag $parameterBag)
+    protected function doGenerateImage(MediaInterface $media, $tmp, ImageParameterBag $parameterBag): string
     {
         $parameters = $parameterBag->getExtra();
         $parameters['w'] = $parameterBag->getWidth();
@@ -155,7 +156,7 @@ class ImageGenerator
     /**
      * @return string
      */
-    protected function getTemporaryFile()
+    protected function getTemporaryFile(): string
     {
         if (empty($this->tmpPath)) {
             $this->tmpPath = sys_get_temp_dir();
@@ -174,7 +175,7 @@ class ImageGenerator
     /**
      * @return Server
      */
-    public function getServer()
+    public function getServer(): Server
     {
         return $this->server;
     }
@@ -182,7 +183,7 @@ class ImageGenerator
     /**
      * @return FilenameGeneratorInterface
      */
-    public function getFilenameGenerator()
+    public function getFilenameGenerator(): FilenameGeneratorInterface
     {
         return $this->filenameGenerator;
     }
@@ -190,7 +191,7 @@ class ImageGenerator
     /**
      * @return array
      */
-    public function getDefaultImageParameters()
+    public function getDefaultImageParameters(): array
     {
         return $this->defaultImageParameters;
     }
@@ -198,7 +199,7 @@ class ImageGenerator
     /**
      * @return string
      */
-    public function getTmpPath()
+    public function getTmpPath(): string
     {
         return $this->tmpPath;
     }
@@ -206,7 +207,7 @@ class ImageGenerator
     /**
      * @return string
      */
-    public function getTmpPrefix()
+    public function getTmpPrefix(): string
     {
         return $this->tmpPrefix;
     }
@@ -214,7 +215,7 @@ class ImageGenerator
     /**
      * @return string
      */
-    public function getFallbackImage()
+    public function getFallbackImage(): string
     {
         return $this->fallbackImage;
     }

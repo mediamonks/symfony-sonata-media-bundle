@@ -7,5 +7,9 @@ use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 
 interface FilenameGeneratorInterface
 {
-    public function generate(MediaInterface $media, ImageParameterBag $parameterBag);
+
+    public function generate(
+        MediaInterface $media,
+        ImageParameterBag $parameterBag
+    ): string;
 }

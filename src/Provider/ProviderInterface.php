@@ -34,11 +34,11 @@ interface ProviderInterface
 
     public function update(AbstractMedia $media, $providerReferenceUpdated);
 
-    public function getName();
+    public function getName(): string;
 
-    public function getType();
+    public function getType(): string;
 
-    public function getIcon();
+    public function getIcon(): string;
 
     public function validate(ErrorElement $errorElement, AbstractMedia $media);
 }

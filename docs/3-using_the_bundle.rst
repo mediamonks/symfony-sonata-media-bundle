@@ -113,11 +113,13 @@ With the url generator you can generate links to media with customized parameter
     # This example assumes you are inside a basic Symfony Framework controller,
     # it's advised to inject these services instead
 
+    use App\Entity\Media;
+    use MediaMonks\SonataMediaBundle\Generator\ImageUrlGenerator;
     use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
     // inside your controller action
-    $media = $this->getDoctrine()->getManager()->find('MediaMonksSonataMediaBundle:Media', 1);
-    $urlGenerator = $this->get('mediamonks.sonata_media.generator.url_generator.image');
+    $media = $this->getDoctrine()->getManager()->find(Media::class, 1);
+    $urlGenerator = $this->get(ImageUrlGenerator::class);
 
     // generate path to a 400x300 image of this media
     $url = $urlGenerator->generateImageUrl($media, 400, 300);
@@ -138,11 +140,13 @@ For linking to a download you can use the download url generator instead:
     # This example assumes you are inside a basic Symfony Framework controller,
     # it's advised to inject these services instead
 
+    use App\Entity\Media;
+    use MediaMonks\SonataMediaBundle\Generator\DownloadUrlGenerator;
     use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
     // inside your controller action
-    $media = $this->getDoctrine()->getManager()->find('MediaMonksSonataMediaBundle:Media', 1);
-    $urlGenerator = $this->get('mediamonks.sonata_media.generator.url_generator.download');
+    $media = $this->getDoctrine()->getManager()->find(Media::class, 1);
+    $urlGenerator = $this->get(DownloadUrlGenerator::class);
 
     // generate path to download this media
     $url = $urlGenerator->generateDownloadUrl($media);

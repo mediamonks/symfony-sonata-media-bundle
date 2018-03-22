@@ -78,9 +78,9 @@ abstract class AbstractProvider implements ProviderInterface
     }
 
     /**
-     * @return \Symfony\Component\Translation\TranslatorInterface
+     * @return TranslatorInterface
      */
-    public function getTranslator()
+    public function getTranslator(): TranslatorInterface
     {
         return $this->translator;
     }
@@ -104,7 +104,7 @@ abstract class AbstractProvider implements ProviderInterface
     /**
      * @return FileLocator
      */
-    public function getFileLocator()
+    public function getFileLocator(): FileLocator
     {
         return $this->fileLocator;
     }
@@ -120,7 +120,7 @@ abstract class AbstractProvider implements ProviderInterface
     /**
      * @return HttpClientInterface
      */
-    public function getHttpClient()
+    public function getHttpClient(): HttpClientInterface
     {
         return $this->httpClient;
     }
@@ -128,7 +128,7 @@ abstract class AbstractProvider implements ProviderInterface
     /**
      * @return FilesystemInterface
      */
-    public function getFilesystem()
+    public function getFilesystem(): FilesystemInterface
     {
         return $this->filesystem;
     }
@@ -234,7 +234,7 @@ abstract class AbstractProvider implements ProviderInterface
     /**
      * @param AbstractMedia $media
      * @param bool $useAsImage
-     * @return string|void
+     * @return void|string
      */
     protected function handleFileUpload(AbstractMedia $media, $useAsImage = false)
     {
@@ -279,7 +279,7 @@ abstract class AbstractProvider implements ProviderInterface
      * @param UploadedFile $file
      * @return array
      */
-    protected function getFileMetaData(UploadedFile $file)
+    protected function getFileMetaData(UploadedFile $file): array
     {
         $fileData = [
             'originalName'      => $file->getClientOriginalName(),
@@ -287,7 +287,6 @@ abstract class AbstractProvider implements ProviderInterface
             'mimeType'          => $file->getClientMimeType(),
             'size'              => $file->getSize(),
         ];
-
 
         $this->disableErrorHandler();
         $imageSize = getimagesize($file->getRealPath());
@@ -420,7 +419,7 @@ abstract class AbstractProvider implements ProviderInterface
      * @param UploadedFile $file
      * @return string
      */
-    protected function getFilenameByFile(UploadedFile $file)
+    protected function getFilenameByFile(UploadedFile $file): string
     {
         return sprintf(
             '%s_%d.%s',
@@ -435,7 +434,7 @@ abstract class AbstractProvider implements ProviderInterface
      * @param $filename
      * @throws FilesystemException
      */
-    protected function writeToFilesystem(UploadedFile $file, $filename)
+    protected function writeToFilesystem(UploadedFile $file, string $filename)
     {
         $this->disableErrorHandler();
         $stream = fopen($file->getRealPath(), 'r+');
@@ -459,7 +458,7 @@ abstract class AbstractProvider implements ProviderInterface
     /**
      * @return string
      */
-    public function getEmbedTemplate()
+    public function getEmbedTemplate(): string
     {
         return sprintf(
             'MediaMonksSonataMediaBundle:Provider:%s_embed.html.twig',

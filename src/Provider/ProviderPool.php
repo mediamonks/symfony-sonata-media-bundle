@@ -13,9 +13,9 @@ class ProviderPool
 
     /**
      * @param $name
-     * @return AbstractProvider
+     * @return ProviderInterface
      */
-    public function getProvider($name)
+    public function getProvider($name): ProviderInterface
     {
         if (!isset($this->providers[$name])) {
             throw new \InvalidArgumentException(
@@ -56,7 +56,7 @@ class ProviderPool
     /**
      * @return ProviderInterface[]
      */
-    public function getProviders()
+    public function getProviders(): array
     {
         return $this->providers;
     }
@@ -65,7 +65,7 @@ class ProviderPool
      * @param array $types
      * @return ProviderInterface[]
      */
-    public function getProvidersByTypes(array $types)
+    public function getProvidersByTypes(array $types): array
     {
         $providers = [];
         foreach ($this->getProviders() as $provider) {
@@ -79,9 +79,9 @@ class ProviderPool
 
     /**
      * @param MediaInterface $media
-     * @return AbstractProvider
+     * @return ProviderInterface
      */
-    public function getByMedia(MediaInterface $media)
+    public function getByMedia(MediaInterface $media): ProviderInterface
     {
         return $this->getProvider($media->getProvider());
     }

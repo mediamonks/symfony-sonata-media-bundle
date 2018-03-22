@@ -13,7 +13,7 @@ class VimeoProvider extends AbstractOembedProvider implements ProviderInterface,
      * @return string
      * @throws \Exception
      */
-    public function parseProviderReference($value)
+    public function parseProviderReference($value): string
     {
         if (strpos($value, 'vimeo.com')) {
             $urlParts = explode('/', parse_url($value, PHP_URL_PATH));
@@ -33,7 +33,7 @@ class VimeoProvider extends AbstractOembedProvider implements ProviderInterface,
      * @param string $id
      * @return string
      */
-    public function getOembedUrl($id)
+    public function getOembedUrl($id): string
     {
         return sprintf(self::URL_OEMBED, $id);
     }
@@ -41,7 +41,7 @@ class VimeoProvider extends AbstractOembedProvider implements ProviderInterface,
     /**
      * @return string
      */
-    public function getIcon()
+    public function getIcon(): string
     {
         return 'fa fa-vimeo';
     }
@@ -49,7 +49,7 @@ class VimeoProvider extends AbstractOembedProvider implements ProviderInterface,
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return 'vimeo';
     }
@@ -57,7 +57,7 @@ class VimeoProvider extends AbstractOembedProvider implements ProviderInterface,
     /**
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return AbstractProvider::TYPE_VIDEO;
     }

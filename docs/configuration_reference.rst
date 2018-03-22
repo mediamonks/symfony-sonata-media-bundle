@@ -46,7 +46,7 @@ All available configuration options are listed below with their default values.
         # route name for downloads
         route_download: mediamonks_media_download
         # fqcn of the model
-        model_class: MediaMonks\SonataMediaBundle\Entity\Media
+        model_class: App\Entity\Media
         # fqcn of the admin
         admin_class: MediaMonks\SonataMediaBundle\Admin\MediaAdmin
         # fqcn of the controller

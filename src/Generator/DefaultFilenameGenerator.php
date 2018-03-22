@@ -7,15 +7,19 @@ use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 
 class DefaultFilenameGenerator implements FilenameGeneratorInterface
 {
+
     const FORMAT_JPG = 'jpg';
 
     /**
      * @param MediaInterface $media
      * @param ImageParameterBag $parameterBag
+     *
      * @return string
      */
-    public function generate(MediaInterface $media, ImageParameterBag $parameterBag)
-    {
+    public function generate(
+        MediaInterface $media,
+        ImageParameterBag $parameterBag
+    ): string {
         $parametersFlat = [];
         foreach ($parameterBag->toArray($media) as $k => $v) {
             $parametersFlat[] = $k.'_'.$v;
@@ -28,9 +32,10 @@ class DefaultFilenameGenerator implements FilenameGeneratorInterface
 
     /**
      * @param array $parameters
+     *
      * @return string
      */
-    private function getFormat(array $parameters)
+    private function getFormat(array $parameters): string
     {
         if (isset($parameters['fm'])) {
             return $parameters['fm'];

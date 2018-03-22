@@ -24,7 +24,7 @@ class ImageUrlGenerator extends AbstractUrlGenerator
         array $extra = [],
         $routeName = null,
         $referenceType = SymfonyUrlGeneratorInterface::ABSOLUTE_PATH
-    ) {
+    ):string {
         return $this->generate($media, new ImageParameterBag($width, $height, $extra), $routeName, $referenceType);
     }
 }

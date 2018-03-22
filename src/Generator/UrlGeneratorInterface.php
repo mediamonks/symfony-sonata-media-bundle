@@ -7,12 +7,19 @@ use MediaMonks\SonataMediaBundle\ParameterBag\ParameterBagInterface;
 
 interface UrlGeneratorInterface
 {
+
     /**
      * @param MediaInterface $media
      * @param ParameterBagInterface $parameterBag
      * @param $routeName
      * @param $referenceType
+     *
      * @return string
      */
-    public function generate(MediaInterface $media, ParameterBagInterface $parameterBag, $routeName, $referenceType);
+    public function generate(
+        MediaInterface $media,
+        ParameterBagInterface $parameterBag,
+        $routeName,
+        $referenceType
+    ): string;
 }

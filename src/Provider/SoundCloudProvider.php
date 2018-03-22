@@ -51,7 +51,7 @@ class SoundCloudProvider extends AbstractOembedProvider
      * @param string $id
      * @return string
      */
-    public function getOembedUrl($id)
+    public function getOembedUrl($id): string
     {
         return sprintf(self::URL_OEMBED, $id);
     }
@@ -61,7 +61,7 @@ class SoundCloudProvider extends AbstractOembedProvider
      * @return string
      * @throws \Exception
      */
-    public function parseProviderReference($value)
+    public function parseProviderReference($value): string
     {
         if (strpos($value, 'soundcloud.com')) {
             $url = parse_url($value);
@@ -79,7 +79,7 @@ class SoundCloudProvider extends AbstractOembedProvider
      * @param $id
      * @return array
      */
-    protected function getOembedDataCache($id)
+    protected function getOembedDataCache($id): array
     {
         $data = parent::getOembedDataCache($id);
         $data['embedUrl'] = $this->extractEmbedUrl($data);
@@ -89,8 +89,9 @@ class SoundCloudProvider extends AbstractOembedProvider
 
     /**
      * @param array $data
+     * @return string
      */
-    protected function extractEmbedUrl(array $data)
+    protected function extractEmbedUrl(array $data): string
     {
         preg_match('/src="(.*)"/', $data['html'], $matches);
         $url = $matches[1];
@@ -104,7 +105,7 @@ class SoundCloudProvider extends AbstractOembedProvider
     /**
      * @return string
      */
-    public function getIcon()
+    public function getIcon(): string
     {
         return 'fa fa-soundcloud';
     }
@@ -112,7 +113,7 @@ class SoundCloudProvider extends AbstractOembedProvider
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return 'soundcloud';
     }
@@ -120,7 +121,7 @@ class SoundCloudProvider extends AbstractOembedProvider
     /**
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return AbstractProvider::TYPE_AUDIO;
     }

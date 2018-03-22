@@ -36,7 +36,7 @@ class SignatureParameterHandler implements ParameterHandlerInterface
      * @param ParameterBagInterface $parameterBag
      * @return array
      */
-    public function getRouteParameters(MediaInterface $media, ParameterBagInterface $parameterBag)
+    public function getRouteParameters(MediaInterface $media, ParameterBagInterface $parameterBag): array
     {
         $parameters = $parameterBag->toArray($media);
         $parameters[self::PARAMETER_SIGNATURE] = $this->calculateSignature($parameters);
@@ -47,10 +47,10 @@ class SignatureParameterHandler implements ParameterHandlerInterface
     /**
      * @param MediaInterface $media
      * @param ParameterBagInterface $parameterBag
-     * @return ImageParameterBag|ParameterBagInterface
+     * @return ParameterBagInterface
      * @throws SignatureInvalidException
      */
-    public function validateParameterBag(MediaInterface $media, ParameterBagInterface $parameterBag)
+    public function validateParameterBag(MediaInterface $media, ParameterBagInterface $parameterBag): ParameterBagInterface
     {
         $data = $parameterBag->toArray($media);
 
@@ -74,7 +74,7 @@ class SignatureParameterHandler implements ParameterHandlerInterface
      * @param $expectedSignature
      * @return bool
      */
-    private function isValid(MediaInterface $media, ParameterBagInterface $parameterBag, $expectedSignature)
+    private function isValid(MediaInterface $media, ParameterBagInterface $parameterBag, $expectedSignature): bool
     {
         return hash_equals($this->calculateSignature($parameterBag->toArray($media)), $expectedSignature);
     }
@@ -83,7 +83,7 @@ class SignatureParameterHandler implements ParameterHandlerInterface
      * @param array $parameters
      * @return string
      */
-    private function calculateSignature(array $parameters)
+    private function calculateSignature(array $parameters): string
     {
         return hash_hmac($this->hashAlgorithm, $this->key, json_encode($this->normalize($parameters)));
     }
@@ -92,7 +92,7 @@ class SignatureParameterHandler implements ParameterHandlerInterface
      * @param array $parameters
      * @return array
      */
-    private function normalize(array $parameters)
+    private function normalize(array $parameters): array
     {
         if (isset($parameters[self::PARAMETER_BUST_CACHE])) {
             unset($parameters[self::PARAMETER_BUST_CACHE]);

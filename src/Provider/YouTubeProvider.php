@@ -14,7 +14,7 @@ class YouTubeProvider extends AbstractOembedProvider implements ProviderInterfac
      * @param string $id
      * @return string
      */
-    public function getOembedUrl($id)
+    public function getOembedUrl($id): string
     {
         return sprintf(self::URL_OEMBED, $id);
     }
@@ -23,7 +23,7 @@ class YouTubeProvider extends AbstractOembedProvider implements ProviderInterfac
      * @param string $id
      * @return string
      */
-    public function getImageUrl($id)
+    public function getImageUrl($id): string
     {
         // try to get max res image (only available for 720P videos)
         $urlMaxRes = sprintf(self::URL_IMAGE_MAX_RES, $id);
@@ -39,7 +39,7 @@ class YouTubeProvider extends AbstractOembedProvider implements ProviderInterfac
      * @return string
      * @throws \Exception
      */
-    public function parseProviderReference($value)
+    public function parseProviderReference($value): string
     {
         if (strpos($value, 'youtube.com')) {
             return $this->parseProviderReferenceFromUrl($value);
@@ -57,7 +57,7 @@ class YouTubeProvider extends AbstractOembedProvider implements ProviderInterfac
      * @return mixed
      * @throws InvalidProviderUrlException
      */
-    protected function parseProviderReferenceFromUrl($url)
+    protected function parseProviderReferenceFromUrl($url): string
     {
         $url = parse_url($url);
         if (empty($url['query'])) {
@@ -76,7 +76,7 @@ class YouTubeProvider extends AbstractOembedProvider implements ProviderInterfac
      * @return string
      * @throws InvalidProviderUrlException
      */
-    protected function parseProviderReferenceFromShortUrl($url)
+    protected function parseProviderReferenceFromShortUrl($url): string
     {
         $url = parse_url($url);
         if (empty($url['path']) || empty(trim($url['path'], '/'))) {
@@ -90,7 +90,7 @@ class YouTubeProvider extends AbstractOembedProvider implements ProviderInterfac
     /**
      * @return string
      */
-    public function getIcon()
+    public function getIcon(): string
     {
         return 'fa fa-youtube-play';
     }
@@ -98,7 +98,7 @@ class YouTubeProvider extends AbstractOembedProvider implements ProviderInterfac
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return 'youtube';
     }
@@ -106,7 +106,7 @@ class YouTubeProvider extends AbstractOembedProvider implements ProviderInterfac
     /**
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return AbstractProvider::TYPE_VIDEO;
     }

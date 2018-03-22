@@ -1,5 +1,5 @@
-Step 1: Setting up the bundle
-=============================
+Step 1: Setting up the bundle manually
+======================================
 
 A) Download the Bundle
 ----------------------
@@ -14,10 +14,12 @@ following command to download the latest stable version of this bundle:
 This command requires you to have Composer installed globally, as explained
 in the `installation chapter`_ of the Composer documentation.
 
+.. _`installation chapter`: https://getcomposer.org/doc/00-intro.md
+
 B) Enable the Bundle
 --------------------
 
-Then, enable the bundle by adding the following line in the ``app/AppKernel.php``
+Then, enable the bundle by adding the following line in the ``config/bundles.php``
 file of your project:
 
 .. code-block:: php
@@ -36,7 +38,6 @@ file of your project:
         }
     }
 
-.. _`installation chapter`: https://getcomposer.org/doc/00-intro.md
 
 C) Load routes
 --------------
@@ -60,12 +61,12 @@ the MediaController to add your own security layer on top.
 D) Create entity
 ----------------
 
-Currently this bundle only works with Doctrine ORM. Create a file ``Media.php`` in ``src/AppBundle/Entity``
+Currently this bundle only works with Doctrine ORM. Create a file ``Media.php`` in ``src/Entity``
 and add these lines to it:
 
 .. code-block:: php
 
-    namespace AppBundle\Entity;
+    namespace App\Entity;
 
     use Doctrine\ORM\Mapping as ORM;
     use MediaMonks\SonataMediaBundle\Entity\Media as BaseMedia;
@@ -81,7 +82,7 @@ and add these lines to it:
 Feel free to add your own custom properties or extensions to it or to put this entity in a different bundle (just make
 sure you update the namespace accordingly).
 
-Important: If your entity has a different FQCN than the default ``AppBundle\Entity\Media`` you must use the option
+Important: If your entity has a different FQCN than the default ``App\Entity\Media`` you must use the option
  ``model_class`` in the bundle configuration to set the correct FQCN.
 
 E) Update database schema
@@ -90,10 +91,6 @@ E) Update database schema
 After creating the entity it's time to update the database schema, as it's assumed you are using Doctrine ORM you can
 run the following command from the command line to run the update:
 
-Symfony ~2.8
-
-``php app/console doctrine:schema:update --force``
-
-Symfony 3.0+
-
 ``php bin/console doctrine:schema:update --force``
+
+Alternatively you could use Doctrine Migrations if that is a part of your workflow.

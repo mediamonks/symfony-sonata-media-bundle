@@ -108,7 +108,7 @@ abstract class AbstractOembedProvider extends AbstractProvider implements Oembed
      * @param string $id
      * @return string
      */
-    public function getImageUrl($id)
+    public function getImageUrl($id): string
     {
         return $this->getOembedDataCache($id)['thumbnail_url'];
     }
@@ -142,7 +142,7 @@ abstract class AbstractOembedProvider extends AbstractProvider implements Oembed
     /**
      * @return string
      */
-    public function getReferenceLabel()
+    public function getReferenceLabel(): string
     {
         return sprintf('form.%s.reference', $this->getName());
     }

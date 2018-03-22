@@ -37,7 +37,7 @@ class HelperController
      * @param Request $request
      * @return JsonResponse
      */
-    public function getAutocompleteItemsAction(Request $request)
+    public function getAutocompleteItemsAction(Request $request): JsonResponse
     {
         $this->mediaAdmin->checkAccess('list');
 
@@ -54,9 +54,9 @@ class HelperController
 
     /**
      * @param Request $request
-     * @return mixed
+     * @return array
      */
-    protected function getPagerResults(Request $request)
+    protected function getPagerResults(Request $request): array
     {
         $this->mediaAdmin->setPersistFilters(false);
 
@@ -81,7 +81,7 @@ class HelperController
      * @param MediaInterface[] $results
      * @return array
      */
-    protected function transformResults(array $results)
+    protected function transformResults(array $results): array
     {
         $items = [];
         foreach($results as $media) {

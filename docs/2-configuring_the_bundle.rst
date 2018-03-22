@@ -87,7 +87,7 @@ file uploads of any file type. Below are the default settings:
 Model Class
 -----------
 
-The bundle assumes that your entity is using FQCN ``AppBundle\Entity\Media``, if your entity is using a different
+The bundle assumes that your entity is using FQCN ``App\Entity\Media``, if your entity is using a different
 FQCN you can use the option ``model_class`` to set it.
 
 .. code-block:: yaml
@@ -95,6 +95,29 @@ FQCN you can use the option ``model_class`` to set it.
     # app/config/config.yml
     mediamonks_sonata_media:
         model_class: Acme\AppBundle\Entity\Media
+
+Model Class
+-----------
+
+Override or extend the admin class with your own to modify behavior.
+
+.. code-block:: yaml
+
+    # app/config/config.yml
+    mediamonks_sonata_media:
+        admin_class: App\Admin\MediaAdmin
+
+
+Controller Class
+----------------
+
+Override or extend the controller class with your own to modify behavior.
+
+.. code-block:: yaml
+
+    # app/config/config.yml
+    mediamonks_sonata_media:
+        admin_class: App\Controller\Admin\MediaCRUDController
 
 
 .. _Flysystem Bundle: https://github.com/1up-lab/OneupFlysystemBundle

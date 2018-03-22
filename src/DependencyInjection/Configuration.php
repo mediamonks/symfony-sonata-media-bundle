@@ -216,7 +216,7 @@ final class Configuration implements ConfigurationInterface
     {
         $node->children()
             ->scalarNode('model_class')
-            ->defaultValue(Media::class)
+            ->defaultValue('App\Entity\Media')
             ->end();
 
         $node->children()

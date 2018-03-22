@@ -10,6 +10,7 @@ use Symfony\Component\Routing\RouterInterface;
 
 abstract class AbstractUrlGenerator implements UrlGeneratorInterface
 {
+
     /**
      * @var RouterInterface
      */
@@ -30,8 +31,11 @@ abstract class AbstractUrlGenerator implements UrlGeneratorInterface
      * @param ParameterHandlerInterface $parameterHandler
      * @param $defaultRouteName
      */
-    public function __construct(RouterInterface $router, ParameterHandlerInterface $parameterHandler, $defaultRouteName)
-    {
+    public function __construct(
+        RouterInterface $router,
+        ParameterHandlerInterface $parameterHandler,
+        $defaultRouteName
+    ) {
         $this->router = $router;
         $this->parameterHandler = $parameterHandler;
         $this->defaultRouteName = $defaultRouteName;
@@ -42,6 +46,7 @@ abstract class AbstractUrlGenerator implements UrlGeneratorInterface
      * @param ParameterBagInterface $parameterBag
      * @param null $routeName
      * @param int $referenceType
+     *
      * @return string
      */
     public function generate(
@@ -49,7 +54,7 @@ abstract class AbstractUrlGenerator implements UrlGeneratorInterface
         ParameterBagInterface $parameterBag,
         $routeName = null,
         $referenceType = SymfonyUrlGeneratorInterface::ABSOLUTE_PATH
-    ) {
+    ): string {
         if (empty($routeName)) {
             $routeName = $this->defaultRouteName;
         }
