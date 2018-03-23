@@ -7,7 +7,7 @@ use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Templating\EngineInterface;
+use Twig\Environment;
 
 class HelperController
 {
@@ -19,18 +19,18 @@ class HelperController
     private $mediaAdmin;
 
     /**
-     * @var EngineInterface
+     * @var Environment
      */
-    private $templating;
+    private $twig;
 
     /**
      * @param MediaAdmin $mediaAdmin
-     * @param EngineInterface $templating
+     * @param Environment $twig
      */
-    public function __construct(MediaAdmin $mediaAdmin, EngineInterface $templating)
+    public function __construct(MediaAdmin $mediaAdmin, Environment $twig)
     {
         $this->mediaAdmin = $mediaAdmin;
-        $this->templating = $templating;
+        $this->twig = $twig;
     }
 
     /**
@@ -87,7 +87,7 @@ class HelperController
         foreach($results as $media) {
             $items[] = [
                 'id' => $media->getId(),
-                'label' => $this->templating->render('@MediaMonksSonataMedia/CRUD/autocomplete.html.twig', [
+                'label' => $this->twig->render('@MediaMonksSonataMedia/CRUD/autocomplete.html.twig', [
                     'media' => $media
                 ])
             ];
