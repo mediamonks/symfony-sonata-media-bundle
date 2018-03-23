@@ -27,7 +27,7 @@ services:
 
     MediaMonks\SonataMediaBundle\Handler\SignatureParameterHandler:
         arguments:
-            $key: '%secret%'
+            $key: '%kernel.secret%'
 
     MediaMonks\SonataMediaBundle\Generator\ImageUrlGenerator:
         public: true
