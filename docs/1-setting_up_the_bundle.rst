@@ -1,5 +1,5 @@
-Step 1: Setting up the bundle manually
-======================================
+Step 1: Install the bundle
+==========================
 
 A) Download the Bundle
 ----------------------
@@ -9,12 +9,17 @@ following command to download the latest stable version of this bundle:
 
 .. code-block:: bash
 
-    $ composer require mediamonks/sonata-media-bundle ~1.0
+    $ composer require mediamonks/sonata-media-bundle ^2.0
 
 This command requires you to have Composer installed globally, as explained
 in the `installation chapter`_ of the Composer documentation.
 
 .. _`installation chapter`: https://getcomposer.org/doc/00-intro.md
+
+If you are using `Symfony Flex`_ a recipe will take care of the next steps automatically
+and continue with the configuration in step 2.
+
+.. _`Symfony Flex`: https://github.com/symfony/flex
 
 B) Enable the Bundle
 --------------------
