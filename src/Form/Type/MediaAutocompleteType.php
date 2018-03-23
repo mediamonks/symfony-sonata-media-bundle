@@ -6,7 +6,7 @@ use MediaMonks\SonataMediaBundle\Admin\MediaAdmin;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType as BaseModelAutocompleteType;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Templating\EngineInterface;
+use Twig\Environment;
 
 class MediaAutocompleteType extends BaseModelAutocompleteType
 {
@@ -16,18 +16,18 @@ class MediaAutocompleteType extends BaseModelAutocompleteType
     private $mediaAdmin;
 
     /**
-     * @var EngineInterface
+     * @var Environment
      */
-    private $templateEngine;
+    private $twig;
 
     /**
      * @param MediaAdmin $mediaAdmin
-     * @param EngineInterface $templateEngine
+     * @param Environment $twig
      */
-    public function __construct(MediaAdmin $mediaAdmin, EngineInterface $templateEngine)
+    public function __construct(MediaAdmin $mediaAdmin, Environment $twig)
     {
         $this->mediaAdmin = $mediaAdmin;
-        $this->templateEngine = $templateEngine;
+        $this->twig = $twig;
     }
 
     /**
@@ -48,7 +48,7 @@ class MediaAutocompleteType extends BaseModelAutocompleteType
                 'provider' => null,
                 'property' => 'title',
                 'to_string_callback' => function ($media, $property) {
-                    return $this->templateEngine->render(
+                    return $this->twig->render(
                         'MediaMonksSonataMediaBundle:CRUD:autocomplete.html.twig',
                         [
                             'media' => $media,

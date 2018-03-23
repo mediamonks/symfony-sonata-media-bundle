@@ -9,7 +9,7 @@ use Sonata\DoctrineORMAdminBundle\Model\ModelManager;
 use Symfony\Component\Form\PreloadedExtension;
 use Symfony\Component\Form\Test\TypeTestCase;
 use Mockery as m;
-use Symfony\Component\Templating\EngineInterface;
+use Twig\Environment;
 
 class MediaAutocompleteTypeTest extends TypeTestCase
 {
@@ -21,9 +21,9 @@ class MediaAutocompleteTypeTest extends TypeTestCase
         $admin = m::mock(MediaAdmin::class);
         $admin->shouldReceive('getModelManager')->andReturn($modelManager);
 
-        $templateEngine = m::mock(EngineInterface::class);
+        $twig = m::mock(Environment::class);
 
-        $type = new MediaAutocompleteType($admin, $templateEngine);
+        $type = new MediaAutocompleteType($admin, $twig);
 
         return [
             new PreloadedExtension([$type], []),
