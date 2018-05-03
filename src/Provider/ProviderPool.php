@@ -70,7 +70,7 @@ class ProviderPool
         $providers = [];
         foreach ($this->getProviders() as $provider) {
             if (in_array($provider->getType(), $types)) {
-                $providers[] = $provider;
+                $providers[$provider->getName()] = $provider;
             }
         }
 

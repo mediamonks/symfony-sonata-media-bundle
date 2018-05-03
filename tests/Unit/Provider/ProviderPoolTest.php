@@ -95,7 +95,11 @@ class ProviderPoolTest extends TestCase
             ]
         );
 
-        $this->assertCount(2, $providerPool->getProvidersByTypes(['image']));
+        $imageProviders = $providerPool->getProvidersByTypes(['image']);
+        $this->assertCount(2, $imageProviders);
+        $this->assertArrayHasKey('Image 1', $imageProviders);
+        $this->assertArrayHasKey('Image 2', $imageProviders);
+
         $this->assertCount(4, $providerPool->getProvidersByTypes(['image', 'video']));
         $this->assertCount(2, $providerPool->getProvidersByTypes(['foo', 'video']));
         $this->assertCount(0, $providerPool->getProvidersByTypes(['foo']));
