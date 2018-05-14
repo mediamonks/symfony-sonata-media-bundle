@@ -52,6 +52,9 @@ class DownloadUtility
             ResponseHeaderBag::DISPOSITION_ATTACHMENT,
             $media->getProviderMetaData()['originalName']
         ));
+        if (!empty($media->getProviderMetaData()['mimeType'])) {
+            $response->headers->set('Content-Type', $media->getProviderMetaData()['mimeType']);
+        }
 
         return $response;
     }
