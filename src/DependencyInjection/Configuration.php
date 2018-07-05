@@ -188,7 +188,7 @@ final class Configuration implements ConfigurationInterface
         $node->children()
             ->variableNode('templates')
             ->defaultValue([
-                'form' => 'MediaMonksSonataMediaBundle:Form:form.html.twig'
+                'form' => '@MediaMonksSonataMedia/Form/form.html.twig'
             ])
             ->end();
     }
