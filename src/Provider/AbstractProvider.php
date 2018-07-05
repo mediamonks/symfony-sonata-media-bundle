@@ -461,7 +461,7 @@ abstract class AbstractProvider implements ProviderInterface
     public function getEmbedTemplate(): string
     {
         return sprintf(
-            'MediaMonksSonataMediaBundle:Provider:%s_embed.html.twig',
+            '@MediaMonksSonataMedia/Provider/%s_embed.html.twig',
             $this->getName()
         );
     }
