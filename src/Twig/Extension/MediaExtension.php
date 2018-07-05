@@ -206,7 +206,7 @@ class MediaExtension extends \Twig_Extension
         $src = $this->imageUrlGenerator->generate($media, new ImageParameterBag($width, $height, $extra), $routeName);
 
         return $environment->render(
-            'MediaMonksSonataMediaBundle:Media:image.html.twig',
+            '@MediaMonksSonataMedia/Media/image.html.twig',
             [
                 'media'  => $media,
                 'src'    => $src,
@@ -243,7 +243,7 @@ class MediaExtension extends \Twig_Extension
         }
 
         return $environment->render(
-            'MediaMonksSonataMediaBundle:Media:file.html.twig',
+            '@MediaMonksSonataMedia/Media/file.html.twig',
             [
                 'media'       => $media,
                 'downloadSrc' => $this->downloadUrlGenerator->generateDownloadUrl(

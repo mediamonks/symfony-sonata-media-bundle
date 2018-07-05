@@ -117,7 +117,7 @@ Override or extend the controller class with your own to modify behavior.
 
     # app/config/config.yml
     mediamonks_sonata_media:
-        admin_class: App\Controller\Admin\MediaCRUDController
+        controller_class: App\Controller\Admin\MediaCRUDController
 
 
 .. _Flysystem Bundle: https://github.com/1up-lab/OneupFlysystemBundle

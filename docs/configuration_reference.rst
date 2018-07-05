@@ -50,4 +50,4 @@ All available configuration options are listed below with their default values.
         # fqcn of the admin
         admin_class: MediaMonks\SonataMediaBundle\Admin\MediaAdmin
         # fqcn of the controller
-        controller_class: MediaMonksSonataMediaBundle:CRUD
+        controller_class: MediaMonks\SonataMediaBundle\Controller\CRUDController
