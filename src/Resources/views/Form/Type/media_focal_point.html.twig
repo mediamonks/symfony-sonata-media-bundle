@@ -38,6 +38,11 @@
         var positionX = e.pageX - parentOffset.left;
         var positionY = e.pageY - parentOffset.top;
 
+        if (positionX < 0) positionX = 0;
+        if (positionY < 0) positionY = 0;
+        if (positionX > imageWidth) positionX = imageWidth;
+        if (positionY > imageHeight) positionY = imageHeight;
+
         var percentageX = Math.round((positionX / imageWidth) * 100);
         var percentageY = Math.round((positionY / imageHeight) * 100);
 
