@@ -292,8 +292,8 @@ abstract class AbstractProvider implements ProviderInterface
         $imageSize = getimagesize($file->getRealPath());
         if (is_array($imageSize)) {
             if (is_int($imageSize[0]) && is_int($imageSize[1])) {
-                $fileData['height'] = $imageSize[0];
-                $fileData['width']  = $imageSize[1];
+                $fileData['width']  = $imageSize[0];
+                $fileData['height'] = $imageSize[1];
             }
             if (isset($imageSize['bits'])) {
                 $fileData['bits'] = $imageSize['bits'];
