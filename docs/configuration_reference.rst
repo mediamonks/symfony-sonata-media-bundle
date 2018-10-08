@@ -27,13 +27,13 @@ All available configuration options are listed below with their default values.
         default_image_parameters: []
         # any parameter supported by symfony image constraint
         image_constraints:
-            - minWidth: 100
-            - minHeight: 100
-            - maxWidth: 3000
-            - maxHeight: 3000
+            minWidth: 100
+            minHeight: 100
+            maxWidth: 3000
+            maxHeight: 3000
         # any parameter supported by symfony file constraint
         file_constraints:
-            - maxSize: '5M'
+            maxSize: '5M'
             extensions: ['pdf', 'csv', 'txt', 'docx']
         # path to an image file
         fallback_image: ~

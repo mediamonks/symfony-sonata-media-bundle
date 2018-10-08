@@ -37,6 +37,7 @@ class ImageGeneratorTest extends TestCase
         $media = m::mock(MediaInterface::class);
         $media->shouldReceive('getImage')->once()->andReturn('image.jpg');
         $media->shouldReceive('getFocalPoint')->once()->andReturn('50-50');
+        $media->shouldReceive('getProviderMetaData')->once()->andReturn(['originalExtension' => 'jpg']);
 
         $parameters = new ImageParameterBag(400, 300);
         $imageGenerator = new ImageGenerator($server, $filenameGenerator);
@@ -95,6 +96,7 @@ class ImageGeneratorTest extends TestCase
         $media = m::mock(MediaInterface::class);
         $media->shouldReceive('getImage')->once()->andReturn('image.jpg');
         $media->shouldReceive('getFocalPoint')->once()->andReturn('50-50');
+        $media->shouldReceive('getProviderMetaData')->once()->andReturn(['originalExtension' => 'jpg']);
 
         $parameters = new ImageParameterBag(400, 300);
         $imageGenerator = new ImageGenerator($server, $filenameGenerator, [], null, __DIR__);
@@ -128,6 +130,7 @@ class ImageGeneratorTest extends TestCase
         $media = m::mock(MediaInterface::class);
         $media->shouldReceive('getImage')->once()->andReturn('image.jpg');
         $media->shouldReceive('getFocalPoint')->once()->andReturn('50-50');
+        $media->shouldReceive('getProviderMetaData')->once()->andReturn(['originalExtension' => 'jpg']);
 
         $parameters = new ImageParameterBag(400, 300);
         $imageGenerator = new ImageGenerator($server, $filenameGenerator);
