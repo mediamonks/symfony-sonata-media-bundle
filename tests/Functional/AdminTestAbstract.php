@@ -53,6 +53,8 @@ abstract class AdminTestAbstract extends AbstractBaseFunctionTest
             )
         );
 
+//        var_dump($this->client->getResponse()->getContent());die;
+
         $this->assertNumberOfFilesInPath(1, $this->getMediaPathPublic());
 
         $parameterBag = new ImageParameterBag(800, 600);
