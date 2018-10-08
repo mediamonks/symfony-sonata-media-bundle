@@ -70,12 +70,16 @@ class ImageGenerator
      * @param MediaInterface $media
      * @param ImageParameterBag $parameterBag
      * @return string
+     * @throws FilesystemException
      */
     public function generate(MediaInterface $media, ImageParameterBag $parameterBag): string
     {
         $parameterBag->setDefaults($this->defaultImageParameters);
         if (!$parameterBag->hasExtra('fit')) {
             $parameterBag->addExtra('fit', 'crop-'.$media->getFocalPoint());
+        }
+        if (!$parameterBag->hasExtra('fm')) {
+            $parameterBag->addExtra('fm', $media->getProviderMetaData()['originalExtension']);
         }
 
         $filename = $this->filenameGenerator->generate($media, $parameterBag);
