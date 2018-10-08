@@ -34,7 +34,7 @@ All available configuration options are listed below with their default values.
         # any parameter supported by symfony file constraint
         file_constraints:
             - maxSize: '5M'
-            extensions: ['pdf', 'csv', 'txt', 'docx']
+            - extensions: ['pdf', 'csv', 'txt', 'docx']
         # path to an image file
         fallback_image: ~
         # path to local file system with read and write permission, defaults to sys_get_temp_dir() function
