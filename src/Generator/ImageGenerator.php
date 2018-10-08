@@ -78,7 +78,7 @@ class ImageGenerator
         if (!$parameterBag->hasExtra('fit')) {
             $parameterBag->addExtra('fit', 'crop-'.$media->getFocalPoint());
         }
-        if (!$parameterBag->hasExtra('fm')) {
+        if (!$parameterBag->hasExtra('fm') && isset($media->getProviderMetaData()['originalExtension'])) {
             $parameterBag->addExtra('fm', $media->getProviderMetaData()['originalExtension']);
         }
 
