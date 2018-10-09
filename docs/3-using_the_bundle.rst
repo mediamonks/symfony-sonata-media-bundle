@@ -103,7 +103,7 @@ Or if you want to be absolutely sure the media is only rendered as embed you can
     {% endif %}
 
 
-Generaring a custom url
+Generating a custom url
 -----------------------
 
 With the url generator you can generate links to media with customized parameters:
