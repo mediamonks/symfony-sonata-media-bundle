@@ -6,7 +6,7 @@ use League\Flysystem\FilesystemInterface;
 use MediaMonks\SonataMediaBundle\Client\HttpClientInterface;
 use MediaMonks\SonataMediaBundle\Model\AbstractMedia;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\CoreBundle\Validator\ErrorElement;
+use Sonata\Form\Validator\ErrorElement;
 use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\Translation\TranslatorInterface;
 

@@ -4,7 +4,7 @@ namespace MediaMonks\SonataMediaBundle\Provider;
 
 use MediaMonks\SonataMediaBundle\Model\AbstractMedia;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\CoreBundle\Validator\ErrorElement;
+use Sonata\Form\Validator\ErrorElement;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 abstract class AbstractOembedProvider extends AbstractProvider implements OembedProviderInterface, EmbeddableProviderInterface

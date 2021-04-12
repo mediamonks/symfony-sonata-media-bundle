@@ -44,8 +44,8 @@
     "liip/functional-test-bundle": "^1.7",
     "doctrine/doctrine-fixtures-bundle": "^2.3|^3.0",
     "symfony/symfony": "^3.3|^4.0",
-    "mikey179/vfsStream": "^1.6",
-    "php-vcr/php-vcr": "dev-master@dev",
+    "mikey179/vfsstream": "^1.6",
+    "php-vcr/php-vcr": "^1.0",
     "phpunit/phpunit": "^6.0"
   },
   "autoload": {
