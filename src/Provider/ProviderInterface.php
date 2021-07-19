@@ -2,17 +2,17 @@
 
 namespace MediaMonks\SonataMediaBundle\Provider;
 
-use League\Flysystem\FilesystemInterface;
+use League\Flysystem\FilesystemOperator;
 use MediaMonks\SonataMediaBundle\Client\HttpClientInterface;
 use MediaMonks\SonataMediaBundle\Model\AbstractMedia;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\CoreBundle\Validator\ErrorElement;
+use Sonata\Form\Validator\ErrorElement;
 use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\Translation\TranslatorInterface;
 
 interface ProviderInterface
 {
-    public function setFilesystem(FilesystemInterface $filesystem);
+    public function setFilesystem(FilesystemOperator $filesystem);
 
     public function setImageConstraintOptions(array $options);
 

@@ -29,24 +29,29 @@
     }
   ],
   "require": {
-    "php": "^7.0",
-    "doctrine/doctrine-bundle": "^1.6",
-    "sonata-project/doctrine-orm-admin-bundle": "^3.4",
-    "symfony/dependency-injection": "^3.3|^4.0",
-    "symfony/http-kernel": "^3.3|^4.0",
-    "oneup/flysystem-bundle": "^2.0|^3.0",
-    "league/glide": "^1.2"
+    "php": "^7.1",
+    "doctrine/doctrine-bundle": "^1.0|^2.0",
+    "sonata-project/doctrine-orm-admin-bundle": "^2.0|^3.0",
+    "symfony/dependency-injection": "^3.3|^4.0|^5.0",
+    "symfony/http-kernel": "^3.3|^4.0|^5.0",
+    "oneup/flysystem-bundle": "^2.0|^3.0|^4.0",
+    "league/glide": "^1.2|^2.0",
+    "ext-json": "*",
+    "symfony/monolog-bundle": "^3.7",
+    "sonata-project/form-extensions": "^0.1|^1.0",
+    "sonata-project/core-bundle": "^3.2"
   },
   "require-dev": {
-    "sensio/framework-extra-bundle": "^3.0|^4.0|^5.0",
-    "matthiasnoback/symfony-dependency-injection-test": "^1.0|^2.0",
-    "mockery/mockery": "^0.9.4",
-    "liip/functional-test-bundle": "^1.7",
-    "doctrine/doctrine-fixtures-bundle": "^2.3|^3.0",
-    "symfony/symfony": "^3.3|^4.0",
-    "mikey179/vfsStream": "^1.6",
+    "sensio/framework-extra-bundle": "*",
+    "matthiasnoback/symfony-dependency-injection-test": "*",
+    "mockery/mockery": "^0.9.4|^1.0",
+    "liip/functional-test-bundle": "*",
+    "doctrine/doctrine-fixtures-bundle": "*",
+    "symfony/symfony": "^3.3|^4.0|^5.0",
+    "mikey179/vfsstream": "^1.6|^2.0",
     "php-vcr/php-vcr": "dev-master@dev",
-    "phpunit/phpunit": "^6.0"
+    "phpunit/phpunit": "^6.0|^7.0|^8.0|^9.0",
+    "liip/test-fixtures-bundle": "*"
   },
   "autoload": {
     "psr-4": {

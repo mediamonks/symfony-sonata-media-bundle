@@ -2,12 +2,11 @@
 
 namespace MediaMonks\SonataMediaBundle\Tests\Functional;
 
-use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
 use MediaMonks\SonataMediaBundle\Handler\SignatureParameterHandler;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
-use Symfony\Bundle\FrameworkBundle\Client;
+use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
 use Mockery as m;
-use Symfony\Component\DomCrawler\Form;
+use Symfony\Bundle\FrameworkBundle\Client;
 
 abstract class AdminTestAbstract extends AbstractBaseFunctionTest
 {
@@ -18,14 +17,14 @@ abstract class AdminTestAbstract extends AbstractBaseFunctionTest
      */
     protected $client;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->client = $this->getAuthenticatedClient();
         $this->client->followRedirects();
 
-        $this->loadFixtures([]);
+        $this->loadFixtures();
     }
 
     protected function verifyMediaImageIsGenerated()
@@ -77,7 +76,7 @@ abstract class AdminTestAbstract extends AbstractBaseFunctionTest
     protected function uploadImage()
     {
         $provider = 'image';
-        $crawler = $this->client->request('GET', self::BASE_PATH.'create?provider='.$provider);
+        $crawler = $this->client->request('GET', self::BASE_PATH . 'create?provider=' . $provider);
         $form = $crawler->selectButton('Create')->form();
         $this->assertSonataFormValues(
             $form,
@@ -85,7 +84,8 @@ abstract class AdminTestAbstract extends AbstractBaseFunctionTest
                 'provider' => $provider,
             ]
         );
-        $this->setFormBinaryContent($form, $this->getFixturesPath().'monk.jpg');
+        $this->setFormBinaryContent($form, $this->getFixturesPath() . 'monk.jpg');
+
         return $this->client->submit($form);
     }
 }

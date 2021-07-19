@@ -5,7 +5,7 @@ imports:
 framework:
     secret: '%secret%'
     router:
-        resource: '%kernel.root_dir%/config/routing.yml'
+        resource: '%kernel.project_dir%/app/config/routing.yml'
         strict_requirements: ~
     form:            ~
     translator:      ~
@@ -28,11 +28,8 @@ doctrine:
         path:     '%database_path%'
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
-        metadata_cache_driver: array
-        result_cache_driver: array
-        query_cache_driver: array
         naming_strategy: doctrine.orm.naming_strategy.underscore
-        auto_mapping: true
+        auto_mapping:    true
 
 sonata_admin:
     title: 'MediaMonks'
@@ -51,10 +48,10 @@ oneup_flysystem:
     adapters:
         media_private:
             local:
-                directory: '%kernel.root_dir%/../var/media/'
+                location: '%kernel.project_dir%/var/media/'
         media_public:
             local:
-                directory: '%kernel.root_dir%/../web/media/'
+                location: '%kernel.project_dir%/web/media/'
     filesystems:
         media_private:
             adapter: media_private

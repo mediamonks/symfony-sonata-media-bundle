@@ -4,14 +4,14 @@ namespace MediaMonks\SonataMediaBundle\Admin;
 
 use MediaMonks\SonataMediaBundle\Model\AbstractMedia;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
-use MediaMonks\SonataMediaBundle\Provider\ProviderPool;
 use MediaMonks\SonataMediaBundle\Provider\ProviderInterface;
+use MediaMonks\SonataMediaBundle\Provider\ProviderPool;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
-use Sonata\CoreBundle\Validator\ErrorElement;
+use Sonata\Form\Validator\ErrorElement;
 
 class MediaAdmin extends AbstractAdmin
 {
@@ -66,7 +66,7 @@ class MediaAdmin extends AbstractAdmin
                 'actions',
                 [
                     'actions' => [
-                        'edit'   => [],
+                        'edit' => [],
                         'delete' => [],
                     ],
                 ]
@@ -116,6 +116,7 @@ class MediaAdmin extends AbstractAdmin
 
     /**
      * @param AbstractMedia $media
+     *
      * @return bool
      */
     protected function isProviderReferenceUpdated(AbstractMedia $media)
@@ -125,6 +126,7 @@ class MediaAdmin extends AbstractAdmin
 
     /**
      * @param AbstractMedia $media
+     *
      * @return ProviderInterface
      */
     protected function getProvider(AbstractMedia $media)
@@ -140,10 +142,11 @@ class MediaAdmin extends AbstractAdmin
     }
 
     /**
-     * @return AbstractMedia
+     * @return MediaInterface
      */
     public function getNewInstance()
     {
+        /** @var MediaInterface $media */
         $media = parent::getNewInstance();
         $providerName = null;
         if ($this->hasRequest()) {
@@ -163,6 +166,7 @@ class MediaAdmin extends AbstractAdmin
 
     /**
      * @param mixed $object
+     *
      * @return string
      */
     public function toString($object)
@@ -175,8 +179,8 @@ class MediaAdmin extends AbstractAdmin
      */
     public function configureRoutes(RouteCollection $collection)
     {
-        $collection->add('image', $this->getRouterIdParameter().'/image/{width}/{height}');
-        $collection->add('download', $this->getRouterIdParameter().'/download');
+        $collection->add('image', $this->getRouterIdParameter() . '/image/{width}/{height}');
+        $collection->add('download', $this->getRouterIdParameter() . '/download');
     }
 
     /**
@@ -187,12 +191,12 @@ class MediaAdmin extends AbstractAdmin
         $datagridMapper
             ->add('title')
             ->add('type')
-            ->add('provider')
-        ;
+            ->add('provider');
     }
 
     /**
-     * {@inheritdoc}
+     * @param ErrorElement $errorElement
+     * @param object|AbstractMedia $object
      */
     public function validate(ErrorElement $errorElement, $object)
     {

@@ -3,9 +3,9 @@
 namespace MediaMonks\SonataMediaBundle\Tests\Unit\Generator;
 
 use MediaMonks\SonataMediaBundle\Generator\ImageUrlGenerator;
-use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
 use MediaMonks\SonataMediaBundle\Handler\ParameterHandlerInterface;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
+use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
 use MediaMonks\SonataMediaBundle\Tests\Unit\MockeryTrait;
 use Mockery as m;
 use PHPUnit\Framework\TestCase;
@@ -16,7 +16,7 @@ class ImageUrlGeneratorTest extends TestCase
 {
     use MockeryTrait;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -66,6 +66,6 @@ class ImageUrlGeneratorTest extends TestCase
 
         $this->assertEquals('http://route-foo/1/', $generator->generate($media, $parameterBag, 'route_name_custom'));
 
-        $this->assertEquals('http://route-foo/1/', $generator->generateImageUrl($media, 400, 300, [],'route_name_custom'));
+        $this->assertEquals('http://route-foo/1/', $generator->generateImageUrl($media, 400, 300, [], 'route_name_custom'));
     }
 }

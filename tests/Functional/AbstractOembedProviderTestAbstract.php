@@ -47,11 +47,11 @@ abstract class AbstractOembedProviderTestAbstract extends AdminTestAbstract
 
         $form = $crawler->selectButton('Update')->form();
 
-        $this->assertContains('has been successfully created', $this->client->getResponse()->getContent());
+        $this->assertStringContainsString('has been successfully created', $this->client->getResponse()->getContent());
         $this->assertSonataFormValues($form, $expectedValues);
 
         $this->client->request('GET', self::BASE_PATH.'list');
-        $this->assertContains($expectedValues['title'], $this->client->getResponse()->getContent());
+        $this->assertStringContainsString($expectedValues['title'], $this->client->getResponse()->getContent());
 
         $this->assertNumberOfFilesInPath(1, $this->getMediaPathPrivate());
 
@@ -77,7 +77,7 @@ abstract class AbstractOembedProviderTestAbstract extends AdminTestAbstract
     {
         $crawler = $this->client->request('GET', self::BASE_PATH.'1/edit');
 
-        $this->assertContains($expectedValues['title'], $this->client->getResponse()->getContent());
+        $this->assertStringContainsString($expectedValues['title'], $this->client->getResponse()->getContent());
 
         $update = [
             'title'       => 'Updated Title',
@@ -103,6 +103,6 @@ abstract class AbstractOembedProviderTestAbstract extends AdminTestAbstract
         );
 
         $this->client->request('GET', self::BASE_PATH.'list');
-        $this->assertContains($update['title'], $this->client->getResponse()->getContent());
+        $this->assertStringContainsString($update['title'], $this->client->getResponse()->getContent());
     }
 }

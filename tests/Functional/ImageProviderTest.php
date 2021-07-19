@@ -27,7 +27,7 @@ class ImageProviderTest extends AdminTestAbstract
         $this->assertSonataFormValues($form, ['title' => 'monk']);
 
         $this->client->request('GET', self::BASE_PATH.'list');
-        $this->assertContains('monk', $this->client->getResponse()->getContent());
+        $this->assertStringContainsString('monk', $this->client->getResponse()->getContent());
 
         $this->assertNumberOfFilesInPath(1, $this->getMediaPathPrivate());
 
@@ -73,7 +73,7 @@ class ImageProviderTest extends AdminTestAbstract
 
         $this->client->submit($form);
 
-        $this->assertContains('This value should not be blank', $this->client->getResponse()->getContent());
-        $this->assertContains('This value should not be blank', $this->client->getResponse()->getContent());
+        $this->assertStringContainsString('This value should not be blank', $this->client->getResponse()->getContent());
+        $this->assertStringContainsString('This value should not be blank', $this->client->getResponse()->getContent());
     }
 }

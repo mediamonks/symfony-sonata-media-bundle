@@ -42,7 +42,7 @@ class FileProviderTest extends TestCase
         $this->expectException(FilesystemException::class);
 
         $filesystem = m::mock(Filesystem::class);
-        $filesystem->shouldReceive('writeStream')->andReturn(0);
+        $filesystem->shouldReceive('writeStream')->andThrow(new FilesystemException);
 
         $file = m::mock(UploadedFile::class);
         $file->shouldReceive('getRealPath')->andReturn('/foo');

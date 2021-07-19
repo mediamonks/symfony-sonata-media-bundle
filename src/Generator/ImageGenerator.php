@@ -5,8 +5,8 @@ namespace MediaMonks\SonataMediaBundle\Generator;
 use League\Glide\Filesystem\FilesystemException;
 use League\Glide\Server;
 use MediaMonks\SonataMediaBundle\ErrorHandlerTrait;
-use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
+use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
 
 class ImageGenerator
 {
@@ -57,7 +57,8 @@ class ImageGenerator
         $fallbackImage = null,
         $tmpPath = null,
         $tmpPrefix = null
-    ) {
+    )
+    {
         $this->server = $server;
         $this->filenameGenerator = $filenameGenerator;
         $this->defaultImageParameters = $defaultImageParameters;
@@ -69,14 +70,16 @@ class ImageGenerator
     /**
      * @param MediaInterface $media
      * @param ImageParameterBag $parameterBag
+     *
      * @return string
      * @throws FilesystemException
+     * @throws \League\Flysystem\FilesystemException
      */
     public function generate(MediaInterface $media, ImageParameterBag $parameterBag): string
     {
         $parameterBag->setDefaults($this->defaultImageParameters);
         if (!$parameterBag->hasExtra('fit')) {
-            $parameterBag->addExtra('fit', 'crop-'.$media->getFocalPoint());
+            $parameterBag->addExtra('fit', 'crop-' . $media->getFocalPoint());
         }
         if (!$parameterBag->hasExtra('fm') && isset($media->getProviderMetaData()['originalExtension'])) {
             $parameterBag->addExtra('fm', $media->getProviderMetaData()['originalExtension']);
@@ -84,7 +87,7 @@ class ImageGenerator
 
         $filename = $this->filenameGenerator->generate($media, $parameterBag);
 
-        if (!$this->server->getCache()->has($filename)) {
+        if (!$this->server->getCache()->fileExists($filename)) {
             $this->generateImage($media, $parameterBag, $filename);
         }
 
@@ -94,10 +97,10 @@ class ImageGenerator
     /**
      * @param MediaInterface $media
      * @param ImageParameterBag $parameterBag
-     * @param $filename
+     * @param string $filename
      *
      * @throws FilesystemException
-     * @throws \Exception
+     * @throws \League\Flysystem\FilesystemException
      */
     protected function generateImage(MediaInterface $media, ImageParameterBag $parameterBag, string $filename)
     {
@@ -112,7 +115,7 @@ class ImageGenerator
         $this->restoreErrorHandler();
 
         try {
-            $this->server->getCache()->put($filename, $this->doGenerateImage($media, $tmp, $parameterBag));
+            $this->server->getCache()->write($filename, $this->doGenerateImage($media, $tmp, $parameterBag));
         } catch (\Exception $e) {
             throw new FilesystemException('Could not generate image', 0, $e);
         } finally {
@@ -126,12 +129,14 @@ class ImageGenerator
 
     /**
      * @param MediaInterface $media
+     *
      * @return string
      * @throws FilesystemException
+     * @throws \League\Flysystem\FilesystemException
      */
     protected function getImageData(MediaInterface $media): string
     {
-        if ($this->server->getSource()->has($media->getImage())) {
+        if ($this->server->getSource()->fileExists($media->getImage())) {
             return $this->server->getSource()->read($media->getImage());
         }
 
@@ -146,6 +151,7 @@ class ImageGenerator
      * @param MediaInterface $media
      * @param string $tmp
      * @param ImageParameterBag $parameterBag
+     *
      * @return string
      */
     protected function doGenerateImage(MediaInterface $media, $tmp, ImageParameterBag $parameterBag): string

@@ -1,32 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<phpunit
-        bootstrap="./tests/bootstrap.php"
-        colors="true"
-        beStrictAboutTestsThatDoNotTestAnything="true"
-        checkForUnintentionallyCoveredCode="true"
-        beStrictAboutTestSize="true"
-        beStrictAboutChangesToGlobalState="true">
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="./tests/bootstrap.php"
+         colors="true"
+         beStrictAboutChangesToGlobalState="true">
+    <coverage>
+        <include>
+            <directory>./src</directory>
+        </include>
+        <exclude>
+            <directory>./src/Resources</directory>
+        </exclude>
+    </coverage>
     <testsuites>
         <testsuite name="unit">
-            <directory suffix="Test.php">./tests/Unit</directory>
+            <directory>tests/Unit</directory>
         </testsuite>
         <testsuite name="functional">
-            <directory suffix="Test.php">./tests/Functional</directory>
+            <directory>tests/Functional</directory>
         </testsuite>
     </testsuites>
-
     <php>
-        <server name="KERNEL_DIR" value="./tests/Functional/app/"/>
+        <server name="KERNEL_DIR" value="tests/Functional"/>
         <server name="KERNEL_CLASS" value="MediaMonks\SonataMediaBundle\Tests\App\AppKernel"/>
+        <env name="APP_ENV" value="test"/>
+<!--        <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>-->
     </php>
-
-    <filter>
-        <whitelist>
-            <directory>./src</directory>
-            <exclude>
-                <directory>./src/Resources</directory>
-            </exclude>
-        </whitelist>
-    </filter>
 </phpunit>

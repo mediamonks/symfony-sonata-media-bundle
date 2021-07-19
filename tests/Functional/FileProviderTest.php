@@ -2,11 +2,12 @@
 
 namespace MediaMonks\SonataMediaBundle\Tests\Functional;
 
+use Exception;
 use MediaMonks\SonataMediaBundle\Handler\SignatureParameterHandler;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use MediaMonks\SonataMediaBundle\ParameterBag\DownloadParameterBag;
-use Symfony\Component\DomCrawler\Crawler;
 use Mockery as m;
+use Symfony\Component\DomCrawler\Crawler;
 
 class FileProviderTest extends AdminTestAbstract
 {
@@ -18,8 +19,8 @@ class FileProviderTest extends AdminTestAbstract
 
         $this->assertSonataFormValues($form, ['title' => 'text']);
 
-        $this->client->request('GET', self::BASE_PATH.'list');
-        $this->assertContains('text', $this->client->getResponse()->getContent());
+        $this->client->request('GET', self::BASE_PATH . 'list');
+        $this->assertStringContainsString('text', $this->client->getResponse()->getContent());
 
         $this->assertNumberOfFilesInPath(2, $this->getMediaPathPrivate());
     }
@@ -64,15 +65,15 @@ class FileProviderTest extends AdminTestAbstract
     {
         $this->uploadFile('text.exe');
 
-        $this->assertContains('An error has occurred during the creation of item', $this->client->getResponse()->getContent());
-        $this->assertContains('not allowed to upload a file with extension', $this->client->getResponse()->getContent());
+        $this->assertStringContainsString('An error has occurred during the creation of item', $this->client->getResponse()->getContent());
+        $this->assertStringContainsString('not allowed to upload a file with extension', $this->client->getResponse()->getContent());
     }
 
     public function testEmptyFileUpload()
     {
         $provider = 'file';
 
-        $crawler = $this->client->request('GET', self::BASE_PATH.'create?provider='.$provider);
+        $crawler = $this->client->request('GET', self::BASE_PATH . 'create?provider=' . $provider);
 
         $form = $crawler->selectButton('Create')->form();
 
@@ -85,19 +86,21 @@ class FileProviderTest extends AdminTestAbstract
 
         $this->client->submit($form);
 
-        $this->assertContains('This value should not be blank', $this->client->getResponse()->getContent());
-        $this->assertContains('This value should not be blank', $this->client->getResponse()->getContent());
+        $this->assertStringContainsString('This value should not be blank', $this->client->getResponse()->getContent());
+        $this->assertStringContainsString('This value should not be blank', $this->client->getResponse()->getContent());
     }
 
     /**
      * @param string $fileName
+     *
      * @return Crawler
+     * @throws Exception
      */
     private function uploadFile($fileName = 'text.txt')
     {
         $provider = 'file';
 
-        $crawler = $this->client->request('GET', self::BASE_PATH.'create?provider='.$provider);
+        $crawler = $this->client->request('GET', self::BASE_PATH . 'create?provider=' . $provider);
 
         $form = $crawler->selectButton('Create')->form();
 
@@ -108,7 +111,7 @@ class FileProviderTest extends AdminTestAbstract
             ]
         );
 
-        $this->setFormBinaryContent($form, $this->getFixturesPath().$fileName);
+        $this->setFormBinaryContent($form, $this->getFixturesPath() . $fileName);
 
         $crawler = $this->client->submit($form);
 

@@ -16,6 +16,6 @@ class InvalidProviderTest extends AdminTestAbstract
     {
         $this->client->request('GET', self::BASE_PATH.'create');
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
-        $this->assertContains('Select provider', $this->client->getResponse()->getContent());
+        $this->assertStringContainsString('Select provider', $this->client->getResponse()->getContent());
     }
 }

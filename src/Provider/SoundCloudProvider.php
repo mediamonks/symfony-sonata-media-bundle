@@ -4,7 +4,7 @@ namespace MediaMonks\SonataMediaBundle\Provider;
 
 use MediaMonks\SonataMediaBundle\Exception\InvalidProviderUrlException;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\CoreBundle\Form\Type\ImmutableArrayType;
+use Sonata\Form\Type\ImmutableArrayType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 

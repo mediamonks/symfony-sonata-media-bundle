@@ -63,7 +63,7 @@ class YoutubeProviderTest extends AbstractOembedProviderTestAbstract
 
         $this->client->submit($form);
 
-        $this->assertContains('does not exist', $this->client->getResponse()->getContent());
+        $this->assertStringContainsString('does not exist', $this->client->getResponse()->getContent());
 
         \VCR\VCR::eject();
     }

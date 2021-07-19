@@ -2,14 +2,14 @@
 
 namespace MediaMonks\SonataMediaBundle\Provider;
 
-use League\Flysystem\FilesystemInterface;
+use League\Flysystem\FilesystemOperator;
 use League\Glide\Filesystem\FilesystemException;
 use MediaMonks\SonataMediaBundle\Client\HttpClientInterface;
 use MediaMonks\SonataMediaBundle\ErrorHandlerTrait;
-use MediaMonks\SonataMediaBundle\Model\AbstractMedia;
 use MediaMonks\SonataMediaBundle\Form\Type\MediaFocalPointType;
+use MediaMonks\SonataMediaBundle\Model\AbstractMedia;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\CoreBundle\Validator\ErrorElement;
+use Sonata\Form\Validator\ErrorElement;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraints as Constraint;
+use Throwable;
 
 abstract class AbstractProvider implements ProviderInterface
 {
@@ -32,7 +33,7 @@ abstract class AbstractProvider implements ProviderInterface
     const TYPE_VIDEO = 'video';
 
     /**
-     * @var FilesystemInterface
+     * @var FilesystemOperator
      */
     protected $filesystem;
 
@@ -62,9 +63,9 @@ abstract class AbstractProvider implements ProviderInterface
     private $media;
 
     /**
-     * @param FilesystemInterface $filesystem
+     * @param FilesystemOperator $filesystem
      */
-    public function setFilesystem(FilesystemInterface $filesystem)
+    public function setFilesystem(FilesystemOperator $filesystem)
     {
         $this->filesystem = $filesystem;
     }
@@ -126,15 +127,16 @@ abstract class AbstractProvider implements ProviderInterface
     }
 
     /**
-     * @return FilesystemInterface
+     * @return FilesystemOperator
      */
-    public function getFilesystem(): FilesystemInterface
+    public function getFilesystem(): FilesystemOperator
     {
         return $this->filesystem;
     }
 
     /**
      * @param AbstractMedia $media
+     *
      * @return AbstractProvider
      */
     public function setMedia($media)
@@ -179,44 +181,44 @@ abstract class AbstractProvider implements ProviderInterface
             'imageContent',
             FileType::class,
             [
-                'required'    => false,
+                'required' => false,
                 'constraints' => [
                     new Constraint\File(),
                 ],
-                'label'       => 'form.replacement_image',
+                'label' => 'form.replacement_image',
             ]
         )
-            ->add('title', TextType::class, ['label' => 'form.title'])
-            ->add(
-                'description',
-                TextType::class,
-                ['label' => 'form.description', 'required' => false]
-            )
-            ->add(
-                'authorName',
-                TextType::class,
-                ['label' => 'form.authorName', 'required' => false]
-            )
-            ->add(
-                'copyright',
-                TextType::class,
-                ['label' => 'form.copyright', 'required' => false]
-            )
-            ->end()
-            ->end()
-            ->tab('image')
-            ->add('focalPoint', MediaFocalPointType::class, [
-                'media' => $this->media
-            ])
-            ->end()
-            ->end()
-        ;
+                   ->add('title', TextType::class, ['label' => 'form.title'])
+                   ->add(
+                       'description',
+                       TextType::class,
+                       ['label' => 'form.description', 'required' => false]
+                   )
+                   ->add(
+                       'authorName',
+                       TextType::class,
+                       ['label' => 'form.authorName', 'required' => false]
+                   )
+                   ->add(
+                       'copyright',
+                       TextType::class,
+                       ['label' => 'form.copyright', 'required' => false]
+                   )
+                   ->end()
+                   ->end()
+                   ->tab('image')
+                   ->add('focalPoint', MediaFocalPointType::class, [
+                       'media' => $this->media
+                   ])
+                   ->end()
+                   ->end();
 
         $this->buildProviderEditFormAfter($formMapper);
     }
 
     /**
      * @param FormMapper $formMapper
+     *
      * @codeCoverageIgnore
      */
     public function buildProviderEditFormBefore(FormMapper $formMapper)
@@ -225,6 +227,7 @@ abstract class AbstractProvider implements ProviderInterface
 
     /**
      * @param FormMapper $formMapper
+     *
      * @codeCoverageIgnore
      */
     public function buildProviderEditFormAfter(FormMapper $formMapper)
@@ -234,6 +237,7 @@ abstract class AbstractProvider implements ProviderInterface
     /**
      * @param AbstractMedia $media
      * @param bool $useAsImage
+     *
      * @return void|string
      */
     protected function handleFileUpload(AbstractMedia $media, $useAsImage = false)
@@ -277,22 +281,23 @@ abstract class AbstractProvider implements ProviderInterface
 
     /**
      * @param UploadedFile $file
+     *
      * @return array
      */
     protected function getFileMetaData(UploadedFile $file): array
     {
         $fileData = [
-            'originalName'      => $file->getClientOriginalName(),
+            'originalName' => $file->getClientOriginalName(),
             'originalExtension' => $file->getClientOriginalExtension(),
-            'mimeType'          => $file->getClientMimeType(),
-            'size'              => $file->getSize(),
+            'mimeType' => $file->getClientMimeType(),
+            'size' => $file->getSize(),
         ];
 
         $this->disableErrorHandler();
         $imageSize = getimagesize($file->getRealPath());
         if (is_array($imageSize)) {
             if (is_int($imageSize[0]) && is_int($imageSize[1])) {
-                $fileData['width']  = $imageSize[0];
+                $fileData['width'] = $imageSize[0];
                 $fileData['height'] = $imageSize[1];
             }
             if (isset($imageSize['bits'])) {
@@ -328,7 +333,7 @@ abstract class AbstractProvider implements ProviderInterface
     }
 
     /**
-     * @param \Sonata\AdminBundle\Form\FormMapper $formMapper
+     * @param FormMapper $formMapper
      * @param $name
      * @param $label
      * @param $required
@@ -340,7 +345,8 @@ abstract class AbstractProvider implements ProviderInterface
         $label,
         $required,
         $constraints = []
-    ) {
+    )
+    {
         if ($required) {
             $constraints = array_merge(
                 [
@@ -356,11 +362,11 @@ abstract class AbstractProvider implements ProviderInterface
                 $name,
                 FileType::class,
                 [
-                    'multiple'    => false,
-                    'data_class'  => null,
+                    'multiple' => false,
+                    'data_class' => null,
                     'constraints' => $constraints,
-                    'label'       => $label,
-                    'required'    => $required,
+                    'label' => $label,
+                    'required' => $required,
                 ]
             );
     }
@@ -376,7 +382,8 @@ abstract class AbstractProvider implements ProviderInterface
         $name,
         $label,
         $options = []
-    ) {
+    )
+    {
         $this->doAddFileField(
             $formMapper,
             $name,
@@ -401,7 +408,8 @@ abstract class AbstractProvider implements ProviderInterface
         $name,
         $label,
         $options = []
-    ) {
+    )
+    {
         $this->doAddFileField(
             $formMapper,
             $name,
@@ -417,6 +425,7 @@ abstract class AbstractProvider implements ProviderInterface
 
     /**
      * @param UploadedFile $file
+     *
      * @return string
      */
     protected function getFilenameByFile(UploadedFile $file): string
@@ -432,18 +441,20 @@ abstract class AbstractProvider implements ProviderInterface
     /**
      * @param UploadedFile $file
      * @param $filename
+     *
      * @throws FilesystemException
      */
     protected function writeToFilesystem(UploadedFile $file, string $filename)
     {
         $this->disableErrorHandler();
         $stream = fopen($file->getRealPath(), 'r+');
-        $written = $this->getFilesystem()->writeStream($filename, $stream);
-        fclose($stream); // this sometime messes up
-        $this->restoreErrorHandler();
-
-        if (!$written) {
-            throw new FilesystemException('Could not write to file system');
+        try {
+            $this->getFilesystem()->writeStream($filename, $stream);
+        } catch (Throwable $e) {
+            throw new FilesystemException('Could not write to file system', 0, $e);
+        } finally {
+            fclose($stream); // this sometime messes up
+            $this->restoreErrorHandler();
         }
     }
 

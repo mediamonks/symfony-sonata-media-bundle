@@ -2,9 +2,11 @@
 
 namespace MediaMonks\SonataMediaBundle\Provider;
 
+use Exception;
+use League\Flysystem\FilesystemException;
 use MediaMonks\SonataMediaBundle\Model\AbstractMedia;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\CoreBundle\Validator\ErrorElement;
+use Sonata\Form\Validator\ErrorElement;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 abstract class AbstractOembedProvider extends AbstractProvider implements OembedProviderInterface, EmbeddableProviderInterface
@@ -17,7 +19,8 @@ abstract class AbstractOembedProvider extends AbstractProvider implements Oembed
     /**
      * @param AbstractMedia $media
      * @param bool $providerReferenceUpdated
-     * @throws \Exception
+     *
+     * @throws Exception
      */
     public function update(AbstractMedia $media, $providerReferenceUpdated)
     {
@@ -31,6 +34,8 @@ abstract class AbstractOembedProvider extends AbstractProvider implements Oembed
 
     /**
      * @param AbstractMedia $media
+     *
+     * @throws FilesystemException
      */
     protected function updateMediaObject(AbstractMedia $media)
     {
@@ -85,14 +90,15 @@ abstract class AbstractOembedProvider extends AbstractProvider implements Oembed
     {
         try {
             $this->getOembedDataCache($this->parseProviderReference($media->getProviderReference()));
-        }
-        catch (\Exception $e) {
+        } catch (Exception $e) {
             $errorElement->with('providerReference')->addViolation($e->getMessage());
         }
     }
 
     /**
-     * @param \MediaMonks\SonataMediaBundle\Model\AbstractMedia $media
+     * @param AbstractMedia $media
+     *
+     * @throws FilesystemException
      */
     public function refreshImage(AbstractMedia $media)
     {
@@ -106,7 +112,9 @@ abstract class AbstractOembedProvider extends AbstractProvider implements Oembed
 
     /**
      * @param string $id
+     *
      * @return string
+     * @throws Exception
      */
     public function getImageUrl($id): string
     {
@@ -115,8 +123,9 @@ abstract class AbstractOembedProvider extends AbstractProvider implements Oembed
 
     /**
      * @param $id
+     *
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
     protected function getOembedDataCache($id)
     {
@@ -127,7 +136,7 @@ abstract class AbstractOembedProvider extends AbstractProvider implements Oembed
             $this->restoreErrorHandler();
 
             if (empty($data['title'])) {
-                throw new \Exception($this->getTranslator()->trans('error.provider_reference', [
+                throw new Exception($this->getTranslator()->trans('error.provider_reference', [
                     '%provider%' => $this->getName(),
                     '%reference%' => $id
                 ]));
