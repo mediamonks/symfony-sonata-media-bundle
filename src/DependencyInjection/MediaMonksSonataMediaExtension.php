@@ -47,18 +47,6 @@ class MediaMonksSonataMediaExtension extends Extension
 
         $container->setParameter('mediamonks.sonata_media.entity.class', $config['model_class']);
 
-        $container->getDefinition(Server::class)
-            ->setArgument(
-                0,
-                array_merge(
-                    $config['glide'],
-                    [
-                        'source' => new Reference($config['filesystem_private']),
-                        'cache' => new Reference($config['filesystem_public']),
-                    ]
-                )
-            );
-
         $container->getDefinition(FileProvider::class)
             ->setArgument(0, $config['file_constraints']);
 
@@ -70,9 +58,6 @@ class MediaMonksSonataMediaExtension extends Extension
         $container->getDefinition(ImageUtility::class)
             ->setArgument(2, $config['redirect_url'])
             ->setArgument(3, $config['redirect_cache_ttl']);
-
-        $container->getDefinition(DownloadUtility::class)
-            ->setArgument(1, new Reference($config['filesystem_private']));
 
         $container->getDefinition(ImageGenerator::class)
             ->setArgument(2, $config['default_image_parameters'])

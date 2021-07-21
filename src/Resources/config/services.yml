@@ -4,8 +4,15 @@ services:
         autowire: true
         autoconfigure: true
 
+    League\Glide\ServerFactory:
+        arguments:
+            - {
+                source: '@mediamonks.sonata_media.filesystem.private',
+                cache: '@mediamonks.sonata_media.filesystem.public'
+            }
+
     League\Glide\Server:
-        factory: ['League\Glide\ServerFactory', 'create']
+        factory: [ '@League\Glide\ServerFactory', 'getServer' ]
 
     MediaMonks\SonataMediaBundle\:
         resource: '../../*'
@@ -15,12 +22,12 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, label: Media, group: 'Media' }
         calls:
-            - [ setTemplate, ['outer_list_rows_mosaic', '@@MediaMonksSonataMedia/CRUD/outer_list_rows_mosaic.html.twig']]
-            - [ setTemplate, ['edit', '@@MediaMonksSonataMedia/CRUD/edit.html.twig']]
+            - [ setTemplate, [ 'outer_list_rows_mosaic', '@@MediaMonksSonataMedia/CRUD/outer_list_rows_mosaic.html.twig' ] ]
+            - [ setTemplate, [ 'edit', '@@MediaMonksSonataMedia/CRUD/edit.html.twig' ] ]
 
     _instanceof:
         MediaMonks\SonataMediaBundle\Provider\ProviderInterface:
-          tags: [sonata_media.provider]
+            tags: [ sonata_media.provider ]
 
     MediaMonks\SonataMediaBundle\Provider\ProviderPool:
         public: true
@@ -47,6 +54,8 @@ services:
 
     MediaMonks\SonataMediaBundle\Utility\DownloadUtility:
         public: true
+        arguments:
+            $filesystem: '@mediamonks.sonata_media.filesystem.private'
 
     MediaMonks\SonataMediaBundle\Controller\HelperController:
         public: true
