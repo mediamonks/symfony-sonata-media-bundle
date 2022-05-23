@@ -5,6 +5,7 @@ namespace MediaMonks\SonataMediaBundle;
 use MediaMonks\SonataMediaBundle\DependencyInjection\Compiler\ProviderPass;
 use MediaMonks\SonataMediaBundle\DependencyInjection\MediaMonksSonataMediaExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
@@ -17,7 +18,7 @@ class MediaMonksSonataMediaBundle extends Bundle
     /**
      * @param ContainerBuilder $container
      */
-    public function build(ContainerBuilder $container)
+    public function build(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new ProviderPass());
     }
@@ -25,7 +26,7 @@ class MediaMonksSonataMediaBundle extends Bundle
     /**
      * @inheritdoc
      */
-    public function getContainerExtension()
+    public function getContainerExtension(): ExtensionInterface
     {
         if (null === $this->extension) {
             $this->extension = new MediaMonksSonataMediaExtension();

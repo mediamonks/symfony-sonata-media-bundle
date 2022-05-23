@@ -1,4 +1,9 @@
 /composer.lock
 /vendor
+/docker
 .idea
 .phpunit.result.cache
+.cache
+.config
+.local
+.bash_history

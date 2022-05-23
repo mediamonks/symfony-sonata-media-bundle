@@ -2,6 +2,9 @@
 
 namespace MediaMonks\SonataMediaBundle\Tests\Unit\Model;
 
+use DateTimeImmutable;
+use DateTimeInterface;
+use MediaMonks\SonataMediaBundle\Provider\AbstractProvider;
 use PHPUnit\Framework\TestCase;
 
 class AbstractMediaTest extends TestCase
@@ -10,12 +13,12 @@ class AbstractMediaTest extends TestCase
     {
         $media = new Media();
 
-        $this->assertInstanceOf(\DateTime::class, $media->getCreatedAt());
-        $this->assertInstanceOf(\DateTime::class, $media->getUpdatedAt());
+        $this->assertInstanceOf(DateTimeInterface::class, $media->getCreatedAt());
+        $this->assertInstanceOf(DateTimeInterface::class, $media->getUpdatedAt());
 
         $media->setId(1);
         $this->assertEquals(1, $media->getId());
-        $this->assertEquals(1, $media->getSlug());
+        $this->assertEquals('1', $media->getSlug());
 
         $media->setTitle('Title');
         $this->assertEquals('Title', $media->getTitle());
@@ -26,11 +29,11 @@ class AbstractMediaTest extends TestCase
         $media->setProvider('provider');
         $this->assertEquals('provider', $media->getProvider());
 
-        $media->setType('type');
-        $this->assertEquals('type', $media->getType());
+        $media->setType(AbstractProvider::TYPE_FILE);
+        $this->assertEquals(AbstractProvider::TYPE_FILE, $media->getType());
 
-        $media->setProviderReference('referece');
-        $this->assertEquals('referece', $media->getProviderReference());
+        $media->setProviderReference('reference');
+        $this->assertEquals('reference', $media->getProviderReference());
 
         $media->setProviderMetaData(['metadata']);
         $this->assertEquals(['metadata'], $media->getProviderMetaData());
@@ -54,14 +57,14 @@ class AbstractMediaTest extends TestCase
         $media->setBinaryContent('content');
         $this->assertEquals('content', $media->getBinaryContent());
 
-        $createdAt = new \DateTime;
+        $createdAt = new DateTimeImmutable();
         $media->setCreatedAt($createdAt);
         $this->assertEquals($createdAt, $media->getCreatedAt());
 
-        $updatedAt = new \DateTime;
+        $updatedAt = new DateTimeImmutable();
         $media->setUpdatedAt($updatedAt);
         $this->assertEquals($updatedAt, $media->getUpdatedAt());
 
-        $this->assertEquals('Title (type)', (string)$media);
+        $this->assertEquals(sprintf('Title (%s)', AbstractProvider::TYPE_FILE), (string)$media);
     }
 }

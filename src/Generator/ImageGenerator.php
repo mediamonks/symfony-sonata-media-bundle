@@ -12,51 +12,28 @@ class ImageGenerator
 {
     use ErrorHandlerTrait;
 
-    /**
-     * @var Server
-     */
-    private $server;
-
-    /**
-     * @var FilenameGeneratorInterface
-     */
-    private $filenameGenerator;
-
-    /**
-     * @var array
-     */
-    private $defaultImageParameters;
-
-    /**
-     * @var string
-     */
-    private $tmpPath;
-
-    /**
-     * @var string
-     */
-    private $tmpPrefix;
-
-    /**
-     * @var string
-     */
-    private $fallbackImage;
+    private Server $server;
+    private FilenameGeneratorInterface $filenameGenerator;
+    private array $defaultImageParameters;
+    private ?string $tmpPath;
+    private ?string $tmpPrefix;
+    private ?string $fallbackImage;
 
     /**
      * @param Server $server
      * @param FilenameGeneratorInterface $filenameGenerator
      * @param array $defaultImageParameters
-     * @param null $fallbackImage
-     * @param null $tmpPath
-     * @param null $tmpPrefix
+     * @param string|null $fallbackImage
+     * @param string|null $tmpPath
+     * @param string|null $tmpPrefix
      */
     public function __construct(
         Server $server,
         FilenameGeneratorInterface $filenameGenerator,
-        $defaultImageParameters = [],
-        $fallbackImage = null,
-        $tmpPath = null,
-        $tmpPrefix = null
+        array $defaultImageParameters = [],
+        ?string $fallbackImage = null,
+        ?string $tmpPath = null,
+        ?string $tmpPrefix = null
     )
     {
         $this->server = $server;
@@ -102,7 +79,7 @@ class ImageGenerator
      * @throws FilesystemException
      * @throws \League\Flysystem\FilesystemException
      */
-    protected function generateImage(MediaInterface $media, ImageParameterBag $parameterBag, string $filename)
+    protected function generateImage(MediaInterface $media, ImageParameterBag $parameterBag, string $filename): void
     {
         $tmp = $this->getTemporaryFile();
         $imageData = $this->getImageData($media);
@@ -148,8 +125,10 @@ class ImageGenerator
     }
 
     /**
+     * Returns the generated asset encoded.
+     *
      * @param MediaInterface $media
-     * @param string $tmp
+     * @param mixed $tmp This property may be of have many formats. Check Intervention\Image\AbstractDecoder::init
      * @param ImageParameterBag $parameterBag
      *
      * @return string
@@ -207,25 +186,25 @@ class ImageGenerator
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getTmpPath(): string
+    public function getTmpPath(): ?string
     {
         return $this->tmpPath;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getTmpPrefix(): string
+    public function getTmpPrefix(): ?string
     {
         return $this->tmpPrefix;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getFallbackImage(): string
+    public function getFallbackImage(): ?string
     {
         return $this->fallbackImage;
     }

@@ -7,6 +7,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\Form\Type\ImmutableArrayType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Throwable;
 
 class SoundCloudProvider extends AbstractOembedProvider
 {
@@ -16,7 +17,7 @@ class SoundCloudProvider extends AbstractOembedProvider
     /**
      * @param FormMapper $formMapper
      */
-    public function buildProviderEditFormBefore(FormMapper $formMapper)
+    public function buildProviderEditFormBefore(FormMapper $formMapper): void
     {
         $formMapper->add('providerReference', TextType::class, ['label' => $this->getReferenceLabel()]);
     }
@@ -24,7 +25,7 @@ class SoundCloudProvider extends AbstractOembedProvider
     /**
      * @param FormMapper $formMapper
      */
-    public function buildProviderEditFormAfter(FormMapper $formMapper)
+    public function buildProviderEditFormAfter(FormMapper $formMapper): void
     {
         $formMapper
             ->tab('form.embed_options')
@@ -43,25 +44,26 @@ class SoundCloudProvider extends AbstractOembedProvider
                     'label' => 'form.embed_options',
                     'required' => false
                 ]
-            )->end()
-        ;
+            )->end();
     }
 
     /**
      * @param string $id
+     *
      * @return string
      */
-    public function getOembedUrl($id): string
+    public function getOembedUrl(string $id): string
     {
         return sprintf(self::URL_OEMBED, $id);
     }
 
     /**
-     * @param $value
+     * @param string $value
+     *
      * @return string
-     * @throws \Exception
+     * @throws InvalidProviderUrlException
      */
-    public function parseProviderReference($value): string
+    public function parseProviderReference(string $value): string
     {
         if (strpos($value, 'soundcloud.com')) {
             $url = parse_url($value);
@@ -76,10 +78,12 @@ class SoundCloudProvider extends AbstractOembedProvider
     }
 
     /**
-     * @param $id
+     * @param string $id
+     *
      * @return array
+     * @throws Throwable
      */
-    protected function getOembedDataCache($id): array
+    protected function getOembedDataCache(string $id): array
     {
         $data = parent::getOembedDataCache($id);
         $data['embedUrl'] = $this->extractEmbedUrl($data);
@@ -89,6 +93,7 @@ class SoundCloudProvider extends AbstractOembedProvider
 
     /**
      * @param array $data
+     *
      * @return string
      */
     protected function extractEmbedUrl(array $data): string

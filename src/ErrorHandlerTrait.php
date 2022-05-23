@@ -4,12 +4,12 @@ namespace MediaMonks\SonataMediaBundle;
 
 trait ErrorHandlerTrait
 {
-    protected function disableErrorHandler()
+    protected function disableErrorHandler(): void
     {
-        set_error_handler(function () {});
+        set_error_handler(function () { });
     }
 
-    protected function restoreErrorHandler()
+    protected function restoreErrorHandler(): void
     {
         restore_error_handler();
     }

@@ -2,6 +2,7 @@
 
 namespace MediaMonks\SonataMediaBundle\Admin;
 
+use InvalidArgumentException;
 use MediaMonks\SonataMediaBundle\Model\AbstractMedia;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use MediaMonks\SonataMediaBundle\Provider\ProviderInterface;
@@ -15,24 +16,11 @@ use Sonata\Form\Validator\ErrorElement;
 
 class MediaAdmin extends AbstractAdmin
 {
-    /**
-     * @var ProviderPool
-     */
-    private $providerPool;
-
-    /**
-     * @var string
-     */
-    private $originalProviderReference;
-
-    /**
-     * @var string
-     */
+    private ProviderPool $providerPool;
+    private ?string $originalProviderReference;
+    /** @inheritdoc */
     protected $baseRouteName = 'admin_mediamonks_sonatamedia_media';
-
-    /**
-     * @var string
-     */
+    /** @inheritdoc */
     protected $baseRoutePattern = 'mediamonks/sonatamedia/media';
 
     /**
@@ -49,11 +37,13 @@ class MediaAdmin extends AbstractAdmin
     }
 
     /**
-     * @param ListMapper $listMapper
+     * @param ListMapper $list
+     *
+     * @return void
      */
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $list): void
     {
-        $listMapper
+        $list
             ->addIdentifier('title')
             ->add(
                 'type'
@@ -75,8 +65,10 @@ class MediaAdmin extends AbstractAdmin
 
     /**
      * @param FormMapper $formMapper
+     *
+     * @return void
      */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         /**
          * @var AbstractMedia $media
@@ -101,7 +93,7 @@ class MediaAdmin extends AbstractAdmin
     /**
      * @param AbstractMedia $media
      */
-    public function prePersist($media)
+    public function prePersist($media): void
     {
         $this->getProvider($media)->update($media, true);
     }
@@ -109,7 +101,7 @@ class MediaAdmin extends AbstractAdmin
     /**
      * @param AbstractMedia $media
      */
-    public function preUpdate($media)
+    public function preUpdate($media): void
     {
         $this->getProvider($media)->update($media, $this->isProviderReferenceUpdated($media));
     }
@@ -119,7 +111,7 @@ class MediaAdmin extends AbstractAdmin
      *
      * @return bool
      */
-    protected function isProviderReferenceUpdated(AbstractMedia $media)
+    protected function isProviderReferenceUpdated(AbstractMedia $media): bool
     {
         return $this->originalProviderReference !== $media->getProviderReference();
     }
@@ -129,10 +121,10 @@ class MediaAdmin extends AbstractAdmin
      *
      * @return ProviderInterface
      */
-    protected function getProvider(AbstractMedia $media)
+    protected function getProvider(AbstractMedia $media): ProviderInterface
     {
         if (empty($media->getProvider())) {
-            throw new \InvalidArgumentException('No provider was set');
+            throw new InvalidArgumentException('No provider was set');
         }
 
         $provider = $this->providerPool->getProvider($media->getProvider());
@@ -144,7 +136,7 @@ class MediaAdmin extends AbstractAdmin
     /**
      * @return MediaInterface
      */
-    public function getNewInstance()
+    public function getNewInstance(): MediaInterface
     {
         /** @var MediaInterface $media */
         $media = parent::getNewInstance();
@@ -165,13 +157,13 @@ class MediaAdmin extends AbstractAdmin
     }
 
     /**
-     * @param mixed $object
+     * @param MediaInterface $object
      *
      * @return string
      */
-    public function toString($object)
+    public function toString($object): string
     {
-        return $object instanceof MediaInterface ? $object->getTitle() : 'Media';
+        return $object instanceof MediaInterface && $object->getTitle() !== null ? $object->getTitle() : 'Media';
     }
 
     /**
@@ -184,11 +176,11 @@ class MediaAdmin extends AbstractAdmin
     }
 
     /**
-     * @param DatagridMapper $datagridMapper
+     * @param DatagridMapper $filter
      */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $filter)
     {
-        $datagridMapper
+        $filter
             ->add('title')
             ->add('type')
             ->add('provider');

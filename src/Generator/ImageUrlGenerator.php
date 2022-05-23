@@ -13,18 +13,20 @@ class ImageUrlGenerator extends AbstractUrlGenerator
      * @param int $width
      * @param int $height
      * @param array $extra
-     * @param null $routeName
+     * @param string|null $routeName
      * @param int $referenceType
+     *
      * @return string
      */
     public function generateImageUrl(
         MediaInterface $media,
-        $width,
-        $height,
+        int $width,
+        int $height,
         array $extra = [],
-        $routeName = null,
-        $referenceType = SymfonyUrlGeneratorInterface::ABSOLUTE_PATH
-    ):string {
+        ?string $routeName = null,
+        int $referenceType = SymfonyUrlGeneratorInterface::ABSOLUTE_PATH
+    ): string
+    {
         return $this->generate($media, new ImageParameterBag($width, $height, $extra), $routeName, $referenceType);
     }
 }

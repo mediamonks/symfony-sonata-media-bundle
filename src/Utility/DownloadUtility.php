@@ -11,15 +11,8 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class DownloadUtility
 {
-    /**
-     * @var ParameterHandlerInterface
-     */
-    private $parameterHandler;
-
-    /**
-     * @var FilesystemOperator
-     */
-    private $filesystem;
+    private ParameterHandlerInterface $parameterHandler;
+    private FilesystemOperator $filesystem;
 
     /**
      * @param ParameterHandlerInterface $parameterHandler

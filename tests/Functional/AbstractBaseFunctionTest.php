@@ -2,49 +2,50 @@
 
 namespace MediaMonks\SonataMediaBundle\Tests\Functional;
 
+use Doctrine\Common\DataFixtures\ReferenceRepository;
 use Exception;
 use FilesystemIterator;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
-use Liip\TestFixturesBundle\Test\FixturesTrait;
+use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
+use Liip\TestFixturesBundle\Services\DatabaseTools\AbstractDatabaseTool;
 use MediaMonks\SonataMediaBundle\Tests\App\AppKernel;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Symfony\Bundle\FrameworkBundle\Client;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\DomCrawler\Form;
 use Symfony\Component\Finder\Finder;
 use VCR\VCR;
 
 abstract class AbstractBaseFunctionTest extends WebTestCase
 {
-    use FixturesTrait;
+    protected AbstractDatabaseTool $databaseTool;
+    protected ReferenceRepository $referenceRepository;
 
-    protected static function getKernelClass()
+    protected static function getKernelClass(): string
     {
         return AppKernel::class;
     }
 
     protected function setUp(): void
     {
-        if (version_compare(PHP_VERSION, '7.1.0', '<')) {
-            $this->markTestSkipped('Functional tests only run on PHP >= 7.1');
-        }
-
         parent::setUp();
 
         $this->emptyFolder($this->getMediaPathPublic());
         $this->emptyFolder($this->getMediaPathPrivate());
 
-        VCR::configure()
-           ->setCassettePath($this->getFixturesPath())
-           ->enableLibraryHooks(['curl'])
-           ->setStorage('json');
-        VCR::turnOn();
+        $this->databaseTool = static::getContainer()->get(DatabaseToolCollection::class)->get();
+    }
+
+    protected function loadFixtures(): void
+    {
+        $this->referenceRepository = $this->databaseTool->loadFixtures()->getReferenceRepository();
     }
 
     /**
      * @return string
      */
-    protected function getMediaPathPublic()
+    protected function getMediaPathPublic(): string
     {
         return __DIR__ . '/web/media/';
     }
@@ -52,7 +53,7 @@ abstract class AbstractBaseFunctionTest extends WebTestCase
     /**
      * @return string
      */
-    protected function getMediaPathPrivate()
+    protected function getMediaPathPrivate(): string
     {
         return __DIR__ . '/var/media/';
     }
@@ -60,7 +61,7 @@ abstract class AbstractBaseFunctionTest extends WebTestCase
     /**
      * @return string
      */
-    protected function getFixturesPath()
+    protected function getFixturesPath(): string
     {
         return __DIR__ . '/var/fixtures/';
     }
@@ -69,7 +70,7 @@ abstract class AbstractBaseFunctionTest extends WebTestCase
      * @param int $amount
      * @param string $path
      */
-    protected function assertNumberOfFilesInPath($amount, $path)
+    protected function assertNumberOfFilesInPath($amount, $path): void
     {
         $finder = new Finder();
         $finder->files()->in($path);
@@ -81,7 +82,7 @@ abstract class AbstractBaseFunctionTest extends WebTestCase
      *
      * @return bool
      */
-    protected function emptyFolder($path)
+    protected function emptyFolder($path): bool
     {
         if (file_exists($path)) {
             $di = new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS);
@@ -97,9 +98,9 @@ abstract class AbstractBaseFunctionTest extends WebTestCase
     }
 
     /**
-     * @return Client
+     * @return KernelBrowser
      */
-    protected function getAuthenticatedClient()
+    protected function getAuthenticatedClient(): Client
     {
         return $this->createClientWithParams([], 'admin', 'admin');
     }

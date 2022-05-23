@@ -8,21 +8,22 @@ use MediaMonks\SonataMediaBundle\Model\AbstractMedia;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\Form\Validator\ErrorElement;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Throwable;
 
 abstract class AbstractOembedProvider extends AbstractProvider implements OembedProviderInterface, EmbeddableProviderInterface
 {
-    /**
-     * @var array
-     */
-    protected $oembedDataCache;
+    protected array $oembedDataCache = [];
 
     /**
      * @param AbstractMedia $media
-     * @param bool $providerReferenceUpdated
+     * @param string|null $providerReferenceUpdated
      *
-     * @throws Exception
+     * @return void
+     * @throws FilesystemException
+     * @throws Throwable
+     * @throws \League\Glide\Filesystem\FilesystemException
      */
-    public function update(AbstractMedia $media, $providerReferenceUpdated)
+    public function update(AbstractMedia $media, ?string $providerReferenceUpdated = null): void
     {
         if ($providerReferenceUpdated) {
             $media->setProviderReference($this->parseProviderReference($media->getProviderReference()));
@@ -35,9 +36,9 @@ abstract class AbstractOembedProvider extends AbstractProvider implements Oembed
     /**
      * @param AbstractMedia $media
      *
-     * @throws FilesystemException
+     * @throws FilesystemException|Throwable
      */
-    protected function updateMediaObject(AbstractMedia $media)
+    protected function updateMediaObject(AbstractMedia $media): void
     {
         $data = $this->getOembedDataCache($media->getProviderReference());
 
@@ -61,32 +62,28 @@ abstract class AbstractOembedProvider extends AbstractProvider implements Oembed
     /**
      * @param FormMapper $formMapper
      */
-    public function buildProviderCreateForm(FormMapper $formMapper)
+    public function buildProviderCreateForm(FormMapper $formMapper): void
     {
-        $formMapper->add(
-            'providerReference',
-            TextType::class,
-            ['label' => $this->getReferenceLabel()]
-        );
+        $formMapper->add('providerReference', TextType::class, [
+            'label' => $this->getReferenceLabel()
+        ]);
     }
 
     /**
      * @param FormMapper $formMapper
      */
-    public function buildProviderEditFormBefore(FormMapper $formMapper)
+    public function buildProviderEditFormBefore(FormMapper $formMapper): void
     {
-        $formMapper->add(
-            'providerReference',
-            TextType::class,
-            ['label' => $this->getReferenceLabel()]
-        );
+        $formMapper->add('providerReference', TextType::class, [
+            'label' => $this->getReferenceLabel()
+        ]);
     }
 
     /**
      * @param ErrorElement $errorElement
      * @param AbstractMedia $media
      */
-    public function validate(ErrorElement $errorElement, AbstractMedia $media)
+    public function validate(ErrorElement $errorElement, AbstractMedia $media): void
     {
         try {
             $this->getOembedDataCache($this->parseProviderReference($media->getProviderReference()));
@@ -98,14 +95,19 @@ abstract class AbstractOembedProvider extends AbstractProvider implements Oembed
     /**
      * @param AbstractMedia $media
      *
-     * @throws FilesystemException
+     * @throws FilesystemException|Throwable
      */
-    public function refreshImage(AbstractMedia $media)
+    public function refreshImage(AbstractMedia $media): void
     {
-        $filename = sprintf('%s_%d.%s', sha1($media->getProviderReference()), time(), 'jpg');
+        $filename = sprintf(
+            '%s_%d.%s',
+            sha1($media->getProviderReference()),
+            time(),
+            'jpg'
+        );
         $thumbnailUrl = $this->getImageUrl($media->getProviderReference());
 
-        $this->getFilesystem()->write($filename, $this->getHttpClient()->getData($thumbnailUrl));
+        $this->getFilesystem()->write($filename, $this->getHttpClient()->get($thumbnailUrl));
 
         $media->setImage($filename);
     }
@@ -116,23 +118,22 @@ abstract class AbstractOembedProvider extends AbstractProvider implements Oembed
      * @return string
      * @throws Exception
      */
-    public function getImageUrl($id): string
+    public function getImageUrl(string $id): string
     {
         return $this->getOembedDataCache($id)['thumbnail_url'];
     }
 
     /**
-     * @param $id
+     * @param string $id
      *
      * @return mixed
      * @throws Exception
      */
-    protected function getOembedDataCache($id)
+    protected function getOembedDataCache(string $id)
     {
         if (empty($this->oembedDataCache[$id])) {
-
             $this->disableErrorHandler();
-            $data = json_decode($this->getHttpClient()->getData($this->getOembedUrl($id)), true);
+            $data = json_decode($this->getHttpClient()->get($this->getOembedUrl($id)), true);
             $this->restoreErrorHandler();
 
             if (empty($data['title'])) {

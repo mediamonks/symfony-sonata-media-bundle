@@ -96,7 +96,7 @@ class FileProviderTest extends AdminTestAbstract
      * @return Crawler
      * @throws Exception
      */
-    private function uploadFile($fileName = 'text.txt')
+    private function uploadFile(string $fileName = 'text.txt'): Crawler
     {
         $provider = 'file';
 
@@ -113,8 +113,6 @@ class FileProviderTest extends AdminTestAbstract
 
         $this->setFormBinaryContent($form, $this->getFixturesPath() . $fileName);
 
-        $crawler = $this->client->submit($form);
-
-        return $crawler;
+        return $this->client->submit($form);
     }
 }

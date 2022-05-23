@@ -2,34 +2,20 @@
 
 namespace MediaMonks\SonataMediaBundle\Utility;
 
+use League\Glide\Filesystem\FilesystemException;
 use MediaMonks\SonataMediaBundle\Generator\ImageGenerator;
-use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
-use MediaMonks\SonataMediaBundle\ParameterBag\ParameterBagInterface;
 use MediaMonks\SonataMediaBundle\Handler\ParameterHandlerInterface;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
+use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpKernel\EventListener\AbstractSessionListener;
 
 class ImageUtility
 {
-    /**
-     * @var ParameterHandlerInterface
-     */
-    private $parameterHandler;
-
-    /**
-     * @var ImageGenerator
-     */
-    private $imageGenerator;
-
-    /**
-     * @var string
-     */
-    private $mediaBaseUrl;
-
-    /**
-     * @var int
-     */
-    private $cacheTtl;
+    private ParameterHandlerInterface $parameterHandler;
+    private ImageGenerator $imageGenerator;
+    private string $mediaBaseUrl;
+    private int $cacheTtl;
 
     /**
      * @param ParameterHandlerInterface $parameterHandler
@@ -42,7 +28,8 @@ class ImageUtility
         ImageGenerator $imageGenerator,
         string $mediaBaseUrl,
         int $cacheTtl
-    ) {
+    )
+    {
         $this->parameterHandler = $parameterHandler;
         $this->imageGenerator = $imageGenerator;
         $this->mediaBaseUrl = $mediaBaseUrl;
@@ -52,13 +39,17 @@ class ImageUtility
     /**
      * @param MediaInterface $media
      * @param ImageParameterBag $parameterBag
+     *
      * @return RedirectResponse
+     * @throws FilesystemException
+     * @throws \League\Flysystem\FilesystemException
      */
     public function getRedirectResponse(MediaInterface $media, ImageParameterBag $parameterBag): RedirectResponse
     {
-        $response = new RedirectResponse($this->mediaBaseUrl.$this->getFilename($media, $parameterBag));
+        $response = new RedirectResponse($this->mediaBaseUrl . $this->getFilename($media, $parameterBag));
         $response->setSharedMaxAge($this->cacheTtl);
         $response->setMaxAge($this->cacheTtl);
+        $response->headers->set(AbstractSessionListener::NO_AUTO_CACHE_CONTROL_HEADER, true);
 
         return $response;
     }
@@ -66,13 +57,15 @@ class ImageUtility
     /**
      * @param MediaInterface $media
      * @param ImageParameterBag $parameterBag
+     *
      * @return string
+     * @throws \League\Flysystem\FilesystemException
+     * @throws FilesystemException
      */
     public function getFilename(MediaInterface $media, ImageParameterBag $parameterBag): string
     {
-        $parameterBag = $this->parameterHandler->validateParameterBag($media, $parameterBag);
-        $filename = $this->imageGenerator->generate($media, $parameterBag);
+        $this->parameterHandler->validateParameterBag($media, $parameterBag);
 
-        return $filename;
+        return $this->imageGenerator->generate($media, $parameterBag);
     }
 }

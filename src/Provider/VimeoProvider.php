@@ -3,17 +3,19 @@
 namespace MediaMonks\SonataMediaBundle\Provider;
 
 use MediaMonks\SonataMediaBundle\Exception\InvalidProviderUrlException;
+use Throwable;
 
 class VimeoProvider extends AbstractOembedProvider implements ProviderInterface, EmbeddableProviderInterface
 {
     const URL_OEMBED = 'https://vimeo.com/api/oembed.json?url=http://vimeo.com/%s';
 
     /**
-     * @param $value
+     * @param string $value
+     *
      * @return string
-     * @throws \Exception
+     * @throws Throwable
      */
-    public function parseProviderReference($value): string
+    public function parseProviderReference(string $value): string
     {
         if (strpos($value, 'vimeo.com')) {
             $urlParts = explode('/', parse_url($value, PHP_URL_PATH));
@@ -31,9 +33,10 @@ class VimeoProvider extends AbstractOembedProvider implements ProviderInterface,
 
     /**
      * @param string $id
+     *
      * @return string
      */
-    public function getOembedUrl($id): string
+    public function getOembedUrl(string $id): string
     {
         return sprintf(self::URL_OEMBED, $id);
     }

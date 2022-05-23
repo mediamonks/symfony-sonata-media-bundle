@@ -2,82 +2,95 @@
 
 namespace MediaMonks\SonataMediaBundle\Entity;
 
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use MediaMonks\SonataMediaBundle\Model\AbstractMedia;
 
 class Media extends AbstractMedia
 {
     /**
+     * @var ?int
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    protected ?int $id = null;
 
     /**
+     * @var ?string
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $title;
+    protected ?string $title = null;
 
     /**
+     * @var ?string
      * @ORM\Column(type="text", nullable=true)
      */
-    protected $description;
+    protected ?string $description = null;
 
     /**
+     * @var ?string
      * @ORM\Column(type="string")
      */
-    protected $provider;
+    protected ?string $provider = null;
 
     /**
+     * @var ?string
      * @ORM\Column(type="string")
      */
-    protected $type;
+    protected ?string $type = null;
 
     /**
+     * @var ?string
      * @ORM\Column(type="string")
      */
-    protected $providerReference;
+    protected ?string $providerReference = null;
 
     /**
-     * @ORM\Column(type="json_array")
+     * @var array
+     * @ORM\Column(type="json")
      */
-    protected $providerMetaData = [];
+    protected array $providerMetaData = [];
 
     /**
+     * @var ?string
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $image;
+    protected ?string $image = null;
 
     /**
-     * @ORM\Column(type="json_array")
+     * @var array
+     * @ORM\Column(type="json")
      */
-    protected $imageMetaData = [];
+    protected array $imageMetaData = [];
 
     /**
+     * @var ?string
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $focalPoint;
+    protected ?string $focalPoint = null;
 
     /**
+     * @var ?string
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $copyright;
+    protected ?string $copyright = null;
 
     /**
+     * @var ?string
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $authorName;
+    protected ?string $authorName = null;
 
     /**
-     * @var \DateTime
+     * @var DateTimeInterface
      * @ORM\Column(type="datetime")
      */
-    protected $createdAt;
+    protected DateTimeInterface $createdAt;
 
     /**
-     * @var \DateTime
+     * @var DateTimeInterface
      * @ORM\Column(type="datetime")
      */
-    protected $updatedAt;
+    protected DateTimeInterface $updatedAt;
 }

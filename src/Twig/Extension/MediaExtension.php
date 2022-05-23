@@ -11,26 +11,18 @@ use MediaMonks\SonataMediaBundle\Provider\EmbeddableProviderInterface;
 use MediaMonks\SonataMediaBundle\Provider\ProviderInterface;
 use MediaMonks\SonataMediaBundle\Provider\ProviderPool;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigTest;
 
 class MediaExtension extends AbstractExtension
 {
-    /**
-     * @var ProviderPool
-     */
-    private $providerPool;
-
-    /**
-     * @var ImageUrlGenerator
-     */
-    private $imageUrlGenerator;
-
-    /**
-     * @var DownloadUrlGenerator
-     */
-    private $downloadUrlGenerator;
+    private ProviderPool $providerPool;
+    private ImageUrlGenerator $imageUrlGenerator;
+    private DownloadUrlGenerator $downloadUrlGenerator;
 
     /**
      * @param ProviderPool $providerPool
@@ -51,7 +43,7 @@ class MediaExtension extends AbstractExtension
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return 'media';
     }
@@ -59,46 +51,34 @@ class MediaExtension extends AbstractExtension
     /**
      * @return array
      */
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
-            new TwigFilter(
-                'media', [$this, 'media'], [
-                    'needs_environment' => true,
-                    'is_safe' => ['html'],
-                ]
-            ),
-            new TwigFilter(
-                'media_embed', [$this, 'mediaEmbed'], [
-                    'needs_environment' => true,
-                    'is_safe' => ['html'],
-                ]
-            ),
-            new TwigFilter(
-                'media_image', [$this, 'mediaImage'], [
-                    'needs_environment' => true,
-                    'is_safe' => ['html'],
-                ]
-            ),
-            new TwigFilter(
-                'media_download', [$this, 'mediaDownload'], [
-                    'needs_environment' => true,
-                    'is_safe' => ['html'],
-                ]
-            ),
-            new TwigFilter(
-                'media_image_url', [$this, 'mediaImageUrl']
-            ),
-            new TwigFilter(
-                'media_download_url', [$this, 'mediaDownloadUrl']
-            )
+            new TwigFilter('media', [$this, 'media'], [
+                'needs_environment' => true,
+                'is_safe' => ['html'],
+            ]),
+            new TwigFilter('media_embed', [$this, 'mediaEmbed'], [
+                'needs_environment' => true,
+                'is_safe' => ['html'],
+            ]),
+            new TwigFilter('media_image', [$this, 'mediaImage'], [
+                'needs_environment' => true,
+                'is_safe' => ['html'],
+            ]),
+            new TwigFilter('media_download', [$this, 'mediaDownload'], [
+                'needs_environment' => true,
+                'is_safe' => ['html'],
+            ]),
+            new TwigFilter('media_image_url', [$this, 'mediaImageUrl']),
+            new TwigFilter('media_download_url', [$this, 'mediaDownloadUrl'])
         ];
     }
 
     /**
      * @return array
      */
-    public function getTests()
+    public function getTests(): array
     {
         return [
             new TwigTest('media_downloadable', [$this, 'isDownloadable']),
@@ -111,7 +91,7 @@ class MediaExtension extends AbstractExtension
      *
      * @return bool
      */
-    public function isDownloadable(MediaInterface $media)
+    public function isDownloadable(MediaInterface $media): bool
     {
         return $this->getProviderByMedia($media) instanceof DownloadableProviderInterface;
     }
@@ -121,7 +101,7 @@ class MediaExtension extends AbstractExtension
      *
      * @return bool
      */
-    public function isEmbeddable(MediaInterface $media)
+    public function isEmbeddable(MediaInterface $media): bool
     {
         return $this->getProviderByMedia($media) instanceof EmbeddableProviderInterface;
     }
@@ -129,22 +109,25 @@ class MediaExtension extends AbstractExtension
     /**
      * @param Environment $environment
      * @param MediaInterface $media
-     * @param $width
-     * @param $height
+     * @param int|null $width
+     * @param int|null $height
      * @param array $extra
-     * @param null $routeName
+     * @param string|null $routeName
      * @param bool $bustCache
      *
      * @return string
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function media(
         Environment $environment,
         MediaInterface $media,
-        $width,
-        $height,
+        ?int $width,
+        ?int $height,
         array $extra = [],
-        $routeName = null,
-        $bustCache = false
+        ?string $routeName = null,
+        bool $bustCache = false
     )
     {
         if ($this->isEmbeddable($media)) {
@@ -157,22 +140,25 @@ class MediaExtension extends AbstractExtension
     /**
      * @param Environment $environment
      * @param MediaInterface $media
-     * @param $width
-     * @param $height
+     * @param int|null $width
+     * @param int|null $height
      * @param array $extra
-     * @param null $routeName
+     * @param string|null $routeName
      * @param bool $bustCache
      *
      * @return string
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function mediaEmbed(
         Environment $environment,
         MediaInterface $media,
-        $width,
-        $height,
+        ?int $width,
+        ?int $height,
         array $extra = [],
-        $routeName = null,
-        $bustCache = false
+        ?string $routeName = null,
+        bool $bustCache = false
     )
     {
         if (!$this->isEmbeddable($media)) {
@@ -193,22 +179,25 @@ class MediaExtension extends AbstractExtension
     /**
      * @param Environment $environment
      * @param MediaInterface $media
-     * @param $width
-     * @param $height
+     * @param int|null $width
+     * @param int|null $height
      * @param array $extra
-     * @param null $routeName
+     * @param string|null $routeName
      * @param bool $bustCache
      *
      * @return string
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function mediaImage(
         Environment $environment,
         MediaInterface $media,
-        $width,
-        $height,
+        ?int $width,
+        ?int $height,
         array $extra = [],
-        $routeName = null,
-        $bustCache = false
+        ?string $routeName = null,
+        bool $bustCache = false
     )
     {
 
@@ -233,24 +222,27 @@ class MediaExtension extends AbstractExtension
     /**
      * @param Environment $environment
      * @param MediaInterface $media
-     * @param $width
-     * @param $height
+     * @param int|null $width
+     * @param int|null $height
      * @param array $extraImage
      * @param array $extraDownload
-     * @param null $routeNameImage
-     * @param null $routeNameDownload
+     * @param string|null $routeNameImage
+     * @param string|null $routeNameDownload
      *
      * @return string
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function mediaDownload(
         Environment $environment,
         MediaInterface $media,
-        $width,
-        $height,
+        ?int $width,
+        ?int $height,
         array $extraImage = [],
         array $extraDownload = [],
-        $routeNameImage = null,
-        $routeNameDownload = null
+        ?string $routeNameImage = null,
+        ?string $routeNameDownload = null
     )
     {
         if (!$this->isDownloadable($media)) {
@@ -287,7 +279,7 @@ class MediaExtension extends AbstractExtension
      *
      * @return string
      */
-    public function mediaImageUrl(MediaInterface $media, $width, $height, array $extra = [], $routeName = null)
+    public function mediaImageUrl(MediaInterface $media, $width, $height, array $extra = [], $routeName = null): string
     {
         return $this->imageUrlGenerator->generateImageUrl($media, $width, $height, $extra, $routeName);
     }
@@ -299,7 +291,7 @@ class MediaExtension extends AbstractExtension
      *
      * @return string
      */
-    public function mediaDownloadUrl(MediaInterface $media, array $extra = [], $routeName = null)
+    public function mediaDownloadUrl(MediaInterface $media, array $extra = [], $routeName = null): string
     {
         return $this->downloadUrlGenerator->generateDownloadUrl($media, $extra, $routeName);
     }
@@ -309,7 +301,7 @@ class MediaExtension extends AbstractExtension
      *
      * @return ProviderInterface
      */
-    private function getProviderByMedia(MediaInterface $media)
+    private function getProviderByMedia(MediaInterface $media): ProviderInterface
     {
         return $this->providerPool->getProvider($media->getProvider());
     }

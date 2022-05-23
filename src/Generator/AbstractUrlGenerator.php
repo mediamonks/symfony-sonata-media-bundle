@@ -2,40 +2,29 @@
 
 namespace MediaMonks\SonataMediaBundle\Generator;
 
-use MediaMonks\SonataMediaBundle\ParameterBag\ParameterBagInterface;
 use MediaMonks\SonataMediaBundle\Handler\ParameterHandlerInterface;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
+use MediaMonks\SonataMediaBundle\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface as SymfonyUrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 abstract class AbstractUrlGenerator implements UrlGeneratorInterface
 {
-
-    /**
-     * @var RouterInterface
-     */
-    private $router;
-
-    /**
-     * @var ParameterHandlerInterface
-     */
-    private $parameterHandler;
-
-    /**
-     * @var string
-     */
-    private $defaultRouteName;
+    private RouterInterface $router;
+    private ParameterHandlerInterface $parameterHandler;
+    private string $defaultRouteName;
 
     /**
      * @param RouterInterface $router
      * @param ParameterHandlerInterface $parameterHandler
-     * @param $defaultRouteName
+     * @param string $defaultRouteName
      */
     public function __construct(
         RouterInterface $router,
         ParameterHandlerInterface $parameterHandler,
-        $defaultRouteName
-    ) {
+        string $defaultRouteName
+    )
+    {
         $this->router = $router;
         $this->parameterHandler = $parameterHandler;
         $this->defaultRouteName = $defaultRouteName;
@@ -54,13 +43,10 @@ abstract class AbstractUrlGenerator implements UrlGeneratorInterface
         ParameterBagInterface $parameterBag,
         $routeName = null,
         $referenceType = SymfonyUrlGeneratorInterface::ABSOLUTE_PATH
-    ): string {
-        if (empty($routeName)) {
-            $routeName = $this->defaultRouteName;
-        }
-
+    ): string
+    {
         return $this->router->generate(
-            $routeName,
+            $routeName ?? $this->defaultRouteName,
             $this->parameterHandler->getRouteParameters($media, $parameterBag),
             $referenceType
         );

@@ -11,16 +11,18 @@ class DownloadUrlGenerator extends AbstractUrlGenerator
     /**
      * @param MediaInterface $media
      * @param array $extra
-     * @param null $routeName
+     * @param string|null $routeName
      * @param int $referenceType
+     *
      * @return string
      */
     public function generateDownloadUrl(
         MediaInterface $media,
         array $extra = [],
-        $routeName = null,
-        $referenceType = SymfonyUrlGeneratorInterface::ABSOLUTE_PATH
-    ): string {
+        ?string $routeName = null,
+        int $referenceType = SymfonyUrlGeneratorInterface::ABSOLUTE_PATH
+    ): string
+    {
         return $this->generate($media, new DownloadParameterBag($extra), $routeName, $referenceType);
     }
 }

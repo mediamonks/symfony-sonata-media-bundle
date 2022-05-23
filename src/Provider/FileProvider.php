@@ -2,6 +2,7 @@
 
 namespace MediaMonks\SonataMediaBundle\Provider;
 
+use League\Glide\Filesystem\FilesystemException;
 use MediaMonks\SonataMediaBundle\Model\AbstractMedia;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -10,10 +11,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class FileProvider extends AbstractProvider implements ProviderInterface, DownloadableProviderInterface
 {
-    /**
-     * @var array
-     */
-    private $fileConstraintOptions = [];
+    private array $fileConstraintOptions = [];
 
     /**
      * @param array $fileConstraintOptions
@@ -26,7 +24,7 @@ class FileProvider extends AbstractProvider implements ProviderInterface, Downlo
     /**
      * @param FormMapper $formMapper
      */
-    public function buildProviderCreateForm(FormMapper $formMapper)
+    public function buildProviderCreateForm(FormMapper $formMapper): void
     {
         $this->addRequiredFileField($formMapper, 'binaryContent', 'file');
     }
@@ -34,16 +32,19 @@ class FileProvider extends AbstractProvider implements ProviderInterface, Downlo
     /**
      * @param FormMapper $formMapper
      */
-    public function buildProviderEditFormBefore(FormMapper $formMapper)
+    public function buildProviderEditFormBefore(FormMapper $formMapper): void
     {
         $this->addFileField($formMapper, 'binaryContent', 'file');
     }
 
     /**
      * @param AbstractMedia $media
-     * @param bool $providerReferenceUpdated
+     * @param string|null $providerReferenceUpdated
+     *
+     * @return void
+     * @throws FilesystemException
      */
-    public function update(AbstractMedia $media, $providerReferenceUpdated)
+    public function update(AbstractMedia $media, ?string $providerReferenceUpdated = null): void
     {
         if (!is_null($media->getBinaryContent())) {
             if (empty($media->getImage())) {
@@ -107,10 +108,10 @@ class FileProvider extends AbstractProvider implements ProviderInterface, Downlo
     /**
      * @param FormMapper $formMapper
      * @param string $name
-     * @param string $label
+     * @param string|null $label
      * @param array $options
      */
-    public function addFileField(FormMapper $formMapper, $name, $label, $options = [])
+    public function addFileField(FormMapper $formMapper, string $name, ?string $label = null, array $options = [])
     {
         $this->doAddFileField($formMapper, $name, $label, false, $this->getFileFieldConstraints($options));
     }
@@ -118,16 +119,17 @@ class FileProvider extends AbstractProvider implements ProviderInterface, Downlo
     /**
      * @param FormMapper $formMapper
      * @param string $name
-     * @param string $label
+     * @param string|null $label
      * @param array $options
      */
-    public function addRequiredFileField(FormMapper $formMapper, $name, $label, $options = [])
+    public function addRequiredFileField(FormMapper $formMapper, string $name, ?string $label = null, array $options = [])
     {
         $this->doAddFileField($formMapper, $name, $label, true, $this->getFileFieldConstraints($options));
     }
 
     /**
      * @param array $options
+     *
      * @return array
      */
     private function getFileFieldConstraints(array $options): array
@@ -140,6 +142,7 @@ class FileProvider extends AbstractProvider implements ProviderInterface, Downlo
 
     /**
      * @param array $options
+     *
      * @return array
      */
     protected function getFileConstraintOptions(array $options = []): array
@@ -154,7 +157,7 @@ class FileProvider extends AbstractProvider implements ProviderInterface, Downlo
      * @param $object
      * @param ExecutionContextInterface $context
      */
-    public function validateExtension($object, ExecutionContextInterface $context)
+    public function validateExtension($object, ExecutionContextInterface $context): void
     {
         if ($object instanceof UploadedFile && isset($this->fileConstraintOptions['extensions'])) {
             if (!in_array($object->getClientOriginalExtension(), $this->fileConstraintOptions['extensions'])) {
@@ -170,6 +173,7 @@ class FileProvider extends AbstractProvider implements ProviderInterface, Downlo
 
     /**
      * @param $extension
+     *
      * @return string
      */
     protected function getImageByExtension($extension): string
@@ -290,11 +294,12 @@ class FileProvider extends AbstractProvider implements ProviderInterface, Downlo
 
     /**
      * @param $imageFilename
+     *
      * @return string
      */
     protected function getImageLocation($imageFilename): string
     {
-        $file = $this->getFileLocator()->locate('@MediaMonksSonataMediaBundle/Resources/image/file/'.$imageFilename);
+        $file = $this->getFileLocator()->locate('@MediaMonksSonataMediaBundle/Resources/image/file/' . $imageFilename);
         if (is_array($file)) {
             $file = current($file);
         }

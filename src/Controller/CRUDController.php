@@ -15,18 +15,15 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class CRUDController extends BaseCRUDController
 {
-    /**
-     * @return Response
-     */
-    public function createAction()
+    /** @inheritDoc */
+    public function createAction(): Response
     {
         $request = $this->getRequest();
         if (!$this->getRequest()->get('provider') && $this->getRequest()->isMethod('get')) {
             $types = $request->query->get('types');
             if (is_array($types)) {
                 $providers = $this->get(ProviderPool::class)->getProvidersByTypes($types);
-            }
-            else {
+            } else {
                 $providers = $this->get(ProviderPool::class)->getProviders();
             }
 
@@ -46,10 +43,11 @@ class CRUDController extends BaseCRUDController
 
     /**
      * @param Request $request
-     * @param $id
+     * @param string|int $id
+     *
      * @return StreamedResponse
      */
-    public function downloadAction(Request $request, $id)
+    public function downloadAction(Request $request, $id): StreamedResponse
     {
         $object = $this->admin->getObject($id);
 
@@ -60,10 +58,13 @@ class CRUDController extends BaseCRUDController
 
     /**
      * @param Request $request
-     * @param int $id
+     * @param string|int $id
+     * @param int $width
+     * @param int $height
+     *
      * @return RedirectResponse
      */
-    public function imageAction(Request $request, $id, $width, $height)
+    public function imageAction(Request $request, $id, int $width, int $height): RedirectResponse
     {
         $object = $this->admin->getObject($id);
 

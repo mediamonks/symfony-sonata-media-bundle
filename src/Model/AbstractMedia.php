@@ -2,263 +2,44 @@
 
 namespace MediaMonks\SonataMediaBundle\Model;
 
+use DateTimeImmutable;
+use DateTimeInterface;
+use InvalidArgumentException;
+use MediaMonks\SonataMediaBundle\Provider\AbstractProvider;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 abstract class AbstractMedia implements MediaInterface
 {
-    /**
-     * @var int
-     */
-    protected $id;
+    protected ?int $id = null;
+    protected ?string $title = null;
+    protected ?string $description = null;
+    protected ?string $provider = null;
+    protected ?string $type = null;
+    protected ?string $providerReference = null;
+    protected array $providerMetaData = [];
+    protected ?string $image = null;
+    protected array $imageMetaData = [];
+    protected ?string $focalPoint = null;
+    protected ?string $copyright = null;
+    protected ?string $authorName = null;
+    protected DateTimeInterface $createdAt;
+    protected DateTimeInterface $updatedAt;
 
-    /**
-     * @var string
-     */
-    protected $title;
-
-    /**
-     * @var string
-     */
-    protected $description;
-
-    /**
-     * @var string
-     */
-    protected $provider;
-
-    /**
-     * @var string
-     */
-    protected $type;
-
-    /**
-     * @var string
-     */
-    protected $providerReference;
-
-    /**
-     * @var array
-     */
-    protected $providerMetaData = [];
-
-    /**
-     * @var string
-     */
-    protected $image;
-
-    /**
-     * @var array
-     */
-    protected $imageMetaData = [];
-
-    /**
-     * @var string
-     */
-    protected $focalPoint;
-
-    /**
-     * @var string
-     */
-    protected $copyright;
-
-    /**
-     * @var string
-     */
-    protected $authorName;
-
-    /**
-     * @var \DateTime
-     */
-    protected $createdAt;
-
-    /**
-     * @var \DateTime
-     */
-    protected $updatedAt;
-
-    /**
-     * @var string
-     */
+    /** @var UploadedFile|string|null */
     protected $binaryContent;
-
-    /**
-     * @var string
-     */
+    /** @var UploadedFile|string|null */
     protected $imageContent;
 
     public function __construct()
     {
-        $this->createdAt = new \DateTime;
-        $this->updatedAt = new \DateTime;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param mixed $id
-     * @return AbstractMedia
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * @param mixed $title
-     * @return AbstractMedia
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * @param string $description
-     * @return AbstractMedia
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
+        $this->createdAt = new DateTimeImmutable();
+        $this->updatedAt = new DateTimeImmutable();
     }
 
     /**
      * @return string
      */
-    public function getProvider()
-    {
-        return $this->provider;
-    }
-
-    /**
-     * @param string $provider
-     * @return AbstractMedia
-     */
-    public function setProvider($provider)
-    {
-        $this->provider = $provider;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * @param mixed $type
-     * @return MediaInterface
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getProviderReference()
-    {
-        return $this->providerReference;
-    }
-
-    /**
-     * @param mixed $providerReference
-     */
-    public function setProviderReference($providerReference)
-    {
-        $this->providerReference = $providerReference;
-    }
-
-    /**
-     * @return array
-     */
-    public function getProviderMetaData()
-    {
-        return $this->providerMetaData;
-    }
-
-    /**
-     * @param array $providerMetaData
-     */
-    public function setProviderMetaData(array $providerMetaData)
-    {
-        $this->providerMetaData = $providerMetaData;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getImage()
-    {
-        return $this->image;
-    }
-
-    /**
-     * @param mixed $image
-     * @return MediaInterface
-     */
-    public function setImage($image)
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getImageMetaData()
-    {
-        return $this->imageMetaData;
-    }
-
-    /**
-     * @param array $imageMetaData
-     * @return MediaInterface
-     */
-    public function setImageMetaData(array $imageMetaData)
-    {
-        $this->imageMetaData = $imageMetaData;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getFocalPoint()
+    public function getFocalPoint(): string
     {
         if (empty($this->focalPoint)) {
             return '50-50';
@@ -268,10 +49,11 @@ abstract class AbstractMedia implements MediaInterface
     }
 
     /**
-     * @param mixed $focalPoint
-     * @return MediaInterface
+     * @param string|null $focalPoint
+     *
+     * @return AbstractMedia
      */
-    public function setFocalPoint($focalPoint)
+    public function setFocalPoint(?string $focalPoint): AbstractMedia
     {
         $this->focalPoint = $focalPoint;
 
@@ -279,18 +61,214 @@ abstract class AbstractMedia implements MediaInterface
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getCopyright()
+    public function getSlug(): string
+    {
+        return (string)$this->getId();
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return AbstractMedia
+     */
+    public function setId(int $id): AbstractMedia
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string|null $title
+     *
+     * @return AbstractMedia
+     */
+    public function setTitle(?string $title): AbstractMedia
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string|null $description
+     *
+     * @return AbstractMedia
+     */
+    public function setDescription(?string $description): AbstractMedia
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getProvider(): ?string
+    {
+        return $this->provider;
+    }
+
+    /**
+     * @param string $provider
+     *
+     * @return AbstractMedia
+     */
+    public function setProvider(string $provider): AbstractMedia
+    {
+        $this->provider = $provider;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string $type
+     *
+     * @return AbstractMedia
+     */
+    public function setType(string $type): AbstractMedia
+    {
+        if (!in_array($type, static::getValidTypes())) {
+            throw new InvalidArgumentException(sprintf(
+                'Media type "%s" is invalid. Please provide one of the following types: [%s]',
+                $type,
+                implode(', ', static::getValidTypes())
+            ));
+        }
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getProviderReference(): ?string
+    {
+        return $this->providerReference;
+    }
+
+    /**
+     * @param string $providerReference
+     *
+     * @return AbstractMedia
+     */
+    public function setProviderReference(string $providerReference): AbstractMedia
+    {
+        $this->providerReference = $providerReference;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getProviderMetaData(): array
+    {
+        return $this->providerMetaData;
+    }
+
+    /**
+     * @param array $providerMetaData
+     *
+     * @return AbstractMedia
+     */
+    public function setProviderMetaData(array $providerMetaData): AbstractMedia
+    {
+        $this->providerMetaData = $providerMetaData;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param string|null $image
+     *
+     * @return AbstractMedia
+     */
+    public function setImage(?string $image): AbstractMedia
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getImageMetaData(): array
+    {
+        return $this->imageMetaData;
+    }
+
+    /**
+     * @param array $imageMetaData
+     *
+     * @return AbstractMedia
+     */
+    public function setImageMetaData(array $imageMetaData): AbstractMedia
+    {
+        $this->imageMetaData = $imageMetaData;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCopyright(): ?string
     {
         return $this->copyright;
     }
 
     /**
-     * @param mixed $copyright
+     * @param string|null $copyright
+     *
      * @return AbstractMedia
      */
-    public function setCopyright($copyright)
+    public function setCopyright(?string $copyright): AbstractMedia
     {
         $this->copyright = $copyright;
 
@@ -298,18 +276,19 @@ abstract class AbstractMedia implements MediaInterface
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getAuthorName()
+    public function getAuthorName(): ?string
     {
         return $this->authorName;
     }
 
     /**
-     * @param mixed $authorName
-     * @return MediaInterface
+     * @param string|null $authorName
+     *
+     * @return AbstractMedia
      */
-    public function setAuthorName($authorName)
+    public function setAuthorName(?string $authorName): AbstractMedia
     {
         $this->authorName = $authorName;
 
@@ -317,45 +296,19 @@ abstract class AbstractMedia implements MediaInterface
     }
 
     /**
-     * @return string
+     * @return DateTimeInterface
      */
-    public function getBinaryContent()
-    {
-        return $this->binaryContent;
-    }
-
-    /**
-     * @param string $binaryContent
-     * @return MediaInterface
-     */
-    public function setBinaryContent($binaryContent)
-    {
-        $this->binaryContent = $binaryContent;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSlug()
-    {
-        return $this->getId();
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCreatedAt()
+    public function getCreatedAt(): DateTimeInterface
     {
         return $this->createdAt;
     }
 
     /**
-     * @param mixed $createdAt
-     * @return MediaInterface
+     * @param DateTimeInterface $createdAt
+     *
+     * @return $this
      */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt(DateTimeInterface $createdAt): AbstractMedia
     {
         $this->createdAt = $createdAt;
 
@@ -363,18 +316,19 @@ abstract class AbstractMedia implements MediaInterface
     }
 
     /**
-     * @return \DateTime
+     * @return DateTimeInterface
      */
-    public function getUpdatedAt()
+    public function getUpdatedAt(): DateTimeInterface
     {
         return $this->updatedAt;
     }
 
     /**
-     * @param \DateTime $updatedAt
-     * @return MediaInterface
+     * @param DateTimeInterface $updatedAt
+     *
+     * @return $this
      */
-    public function setUpdatedAt($updatedAt)
+    public function setUpdatedAt(DateTimeInterface $updatedAt): AbstractMedia
     {
         $this->updatedAt = $updatedAt;
 
@@ -382,7 +336,27 @@ abstract class AbstractMedia implements MediaInterface
     }
 
     /**
-     * @return string
+     * @return UploadedFile|string|null
+     */
+    public function getBinaryContent()
+    {
+        return $this->binaryContent;
+    }
+
+    /**
+     * @param UploadedFile|string $binaryContent
+     *
+     * @return AbstractMedia
+     */
+    public function setBinaryContent($binaryContent): AbstractMedia
+    {
+        $this->binaryContent = $binaryContent;
+
+        return $this;
+    }
+
+    /**
+     * @return UploadedFile|string|null
      */
     public function getImageContent()
     {
@@ -390,10 +364,11 @@ abstract class AbstractMedia implements MediaInterface
     }
 
     /**
-     * @param string $imageContent
-     * @return MediaInterface
+     * @param UploadedFile|string $imageContent
+     *
+     * @return AbstractMedia
      */
-    public function setImageContent($imageContent)
+    public function setImageContent($imageContent): AbstractMedia
     {
         $this->imageContent = $imageContent;
 
@@ -401,10 +376,27 @@ abstract class AbstractMedia implements MediaInterface
     }
 
     /**
-     * @return mixed
+     * Returns the list of supported media types.
+     *
+     * @return array
      */
-    public function __toString()
+    public static function getValidTypes(): array
     {
+        return [
+            AbstractProvider::TYPE_AUDIO,
+            AbstractProvider::TYPE_IMAGE,
+            AbstractProvider::TYPE_FILE,
+            AbstractProvider::TYPE_VIDEO,
+        ];
+    }
+
+    public function __toString(): string
+    {
+        $title = $this->getTitle();
+        if (empty($title)) {
+            return sprintf('%s (%s)', $this->getId(), $this->getType());
+        }
+
         return sprintf('%s (%s)', $this->getTitle(), $this->getType());
     }
 }

@@ -15,8 +15,8 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpKernel\Config\FileLocator;
-use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraints as Constraint;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Throwable;
 
 abstract class AbstractProvider implements ProviderInterface
@@ -32,40 +32,17 @@ abstract class AbstractProvider implements ProviderInterface
     const TYPE_FILE = 'file';
     const TYPE_VIDEO = 'video';
 
-    /**
-     * @var FilesystemOperator
-     */
-    protected $filesystem;
-
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
-
-    /**
-     * @var array
-     */
-    private $imageConstraintOptions = [];
-
-    /**
-     * @var HttpClientInterface
-     */
-    private $httpClient;
-
-    /**
-     * @var FileLocator
-     */
-    private $fileLocator;
-
-    /**
-     * @var AbstractMedia
-     */
-    private $media;
+    protected ?FilesystemOperator $filesystem = null;
+    private ?TranslatorInterface $translator = null;
+    private array $imageConstraintOptions = [];
+    private ?HttpClientInterface $httpClient = null;
+    private ?FileLocator $fileLocator = null;
+    private ?AbstractMedia $media = null;
 
     /**
      * @param FilesystemOperator $filesystem
      */
-    public function setFilesystem(FilesystemOperator $filesystem)
+    public function setFilesystem(FilesystemOperator $filesystem): void
     {
         $this->filesystem = $filesystem;
     }
@@ -73,23 +50,15 @@ abstract class AbstractProvider implements ProviderInterface
     /**
      * @param TranslatorInterface $translator
      */
-    public function setTranslator(TranslatorInterface $translator)
+    public function setTranslator(TranslatorInterface $translator): void
     {
         $this->translator = $translator;
     }
 
     /**
-     * @return TranslatorInterface
-     */
-    public function getTranslator(): TranslatorInterface
-    {
-        return $this->translator;
-    }
-
-    /**
      * @param array $options
      */
-    public function setImageConstraintOptions(array $options)
+    public function setImageConstraintOptions(array $options): void
     {
         $this->imageConstraintOptions = $options;
     }
@@ -97,41 +66,49 @@ abstract class AbstractProvider implements ProviderInterface
     /**
      * @param HttpClientInterface $httpClient
      */
-    public function setHttpClient(HttpClientInterface $httpClient)
+    public function setHttpClient(HttpClientInterface $httpClient): void
     {
         $this->httpClient = $httpClient;
     }
 
     /**
-     * @return FileLocator
-     */
-    public function getFileLocator(): FileLocator
-    {
-        return $this->fileLocator;
-    }
-
-    /**
      * @param FileLocator $fileLocator
      */
-    public function setFileLocator(FileLocator $fileLocator)
+    public function setFileLocator(FileLocator $fileLocator): void
     {
         $this->fileLocator = $fileLocator;
     }
 
     /**
-     * @return HttpClientInterface
+     * @return FilesystemOperator|null
      */
-    public function getHttpClient(): HttpClientInterface
+    public function getFilesystem(): ?FilesystemOperator
+    {
+        return $this->filesystem;
+    }
+
+    /**
+     * @return TranslatorInterface|null
+     */
+    public function getTranslator(): ?TranslatorInterface
+    {
+        return $this->translator;
+    }
+
+    /**
+     * @return HttpClientInterface|null
+     */
+    public function getHttpClient(): ?HttpClientInterface
     {
         return $this->httpClient;
     }
 
     /**
-     * @return FilesystemOperator
+     * @return FileLocator|null
      */
-    public function getFilesystem(): FilesystemOperator
+    public function getFileLocator(): ?FileLocator
     {
-        return $this->filesystem;
+        return $this->fileLocator;
     }
 
     /**
@@ -139,7 +116,7 @@ abstract class AbstractProvider implements ProviderInterface
      *
      * @return AbstractProvider
      */
-    public function setMedia($media)
+    public function setMedia(AbstractMedia $media): AbstractProvider
     {
         $this->media = $media;
 
@@ -148,9 +125,12 @@ abstract class AbstractProvider implements ProviderInterface
 
     /**
      * @param AbstractMedia $media
-     * @param $providerReferenceUpdated
+     * @param string|null $providerReferenceUpdated
+     *
+     * @return void
+     * @throws FilesystemException
      */
-    public function update(AbstractMedia $media, $providerReferenceUpdated)
+    public function update(AbstractMedia $media, ?string $providerReferenceUpdated = null): void
     {
         $this->updateImage($media);
     }
@@ -158,7 +138,7 @@ abstract class AbstractProvider implements ProviderInterface
     /**
      * @param FormMapper $formMapper
      */
-    public function buildCreateForm(FormMapper $formMapper)
+    public function buildCreateForm(FormMapper $formMapper): void
     {
         $formMapper
             ->add('provider', HiddenType::class);
@@ -169,7 +149,7 @@ abstract class AbstractProvider implements ProviderInterface
     /**
      * @param FormMapper $formMapper
      */
-    public function buildEditForm(FormMapper $formMapper)
+    public function buildEditForm(FormMapper $formMapper): void
     {
         $formMapper
             ->tab('general')
@@ -177,41 +157,35 @@ abstract class AbstractProvider implements ProviderInterface
 
         $this->buildProviderEditFormBefore($formMapper);
 
-        $formMapper->add(
-            'imageContent',
-            FileType::class,
-            [
+        $formMapper
+            ->add('imageContent', FileType::class, [
                 'required' => false,
                 'constraints' => [
                     new Constraint\File(),
                 ],
                 'label' => 'form.replacement_image',
-            ]
-        )
-                   ->add('title', TextType::class, ['label' => 'form.title'])
-                   ->add(
-                       'description',
-                       TextType::class,
-                       ['label' => 'form.description', 'required' => false]
-                   )
-                   ->add(
-                       'authorName',
-                       TextType::class,
-                       ['label' => 'form.authorName', 'required' => false]
-                   )
-                   ->add(
-                       'copyright',
-                       TextType::class,
-                       ['label' => 'form.copyright', 'required' => false]
-                   )
-                   ->end()
-                   ->end()
-                   ->tab('image')
-                   ->add('focalPoint', MediaFocalPointType::class, [
-                       'media' => $this->media
-                   ])
-                   ->end()
-                   ->end();
+            ])->add('title', TextType::class, [
+                'label' => 'form.title'
+            ])
+            ->add('description', TextType::class, [
+                'label' => 'form.description', 'required' => false
+            ])
+            ->add('authorName', TextType::class, [
+                'label' => 'form.authorName', 'required' => false
+            ])
+            ->add('copyright', TextType::class, [
+                'label' => 'form.copyright', 'required' => false
+            ])
+            ->end()
+            ->end();
+
+        $formMapper
+            ->tab('image')
+            ->add('focalPoint', MediaFocalPointType::class, [
+                'media' => $this->media
+            ])
+            ->end()
+            ->end();
 
         $this->buildProviderEditFormAfter($formMapper);
     }
@@ -221,7 +195,7 @@ abstract class AbstractProvider implements ProviderInterface
      *
      * @codeCoverageIgnore
      */
-    public function buildProviderEditFormBefore(FormMapper $formMapper)
+    public function buildProviderEditFormBefore(FormMapper $formMapper): void
     {
     }
 
@@ -230,7 +204,7 @@ abstract class AbstractProvider implements ProviderInterface
      *
      * @codeCoverageIgnore
      */
-    public function buildProviderEditFormAfter(FormMapper $formMapper)
+    public function buildProviderEditFormAfter(FormMapper $formMapper): void
     {
     }
 
@@ -238,9 +212,10 @@ abstract class AbstractProvider implements ProviderInterface
      * @param AbstractMedia $media
      * @param bool $useAsImage
      *
-     * @return void|string
+     * @return string|null returns the generated filename on successful upload.
+     * @throws FilesystemException
      */
-    protected function handleFileUpload(AbstractMedia $media, $useAsImage = false)
+    protected function handleFileUpload(AbstractMedia $media, bool $useAsImage = false): ?string
     {
         /**
          * @var UploadedFile $file
@@ -248,7 +223,7 @@ abstract class AbstractProvider implements ProviderInterface
         $file = $media->getBinaryContent();
 
         if (empty($file)) {
-            return;
+            return null;
         }
 
         $filename = $this->getFilenameByFile($file);
@@ -314,8 +289,11 @@ abstract class AbstractProvider implements ProviderInterface
 
     /**
      * @param AbstractMedia $media
+     *
+     * @return void
+     * @throws FilesystemException
      */
-    public function updateImage(AbstractMedia $media)
+    public function updateImage(AbstractMedia $media): void
     {
         /**
          * @var UploadedFile $file
@@ -334,93 +312,75 @@ abstract class AbstractProvider implements ProviderInterface
 
     /**
      * @param FormMapper $formMapper
-     * @param $name
-     * @param $label
-     * @param $required
+     * @param string $name
+     * @param string|null $label
+     * @param bool $required
      * @param array $constraints
+     *
+     * @return void
      */
     protected function doAddFileField(
         FormMapper $formMapper,
-        $name,
-        $label,
-        $required,
-        $constraints = []
-    )
+        string $name,
+        ?string $label,
+        bool $required,
+        array $constraints = []
+    ): void
     {
         if ($required) {
-            $constraints = array_merge(
-                [
-                    new Constraint\NotBlank(),
-                    new Constraint\NotNull(),
-                ],
-                $constraints
-            );
+            $constraints = array_merge([
+                new Constraint\NotBlank(),
+                new Constraint\NotNull(),
+            ], $constraints);
         }
 
-        $formMapper
-            ->add(
-                $name,
-                FileType::class,
-                [
-                    'multiple' => false,
-                    'data_class' => null,
-                    'constraints' => $constraints,
-                    'label' => $label,
-                    'required' => $required,
-                ]
-            );
+        $formMapper->add($name, FileType::class, [
+            'multiple' => false,
+            'data_class' => null,
+            'constraints' => $constraints,
+            'label' => $label,
+            'required' => $required,
+        ]);
     }
 
     /**
      * @param FormMapper $formMapper
      * @param string $name
-     * @param string $label
+     * @param string|null $label
      * @param array $options
+     *
+     * @return void
      */
     public function addImageField(
         FormMapper $formMapper,
-        $name,
-        $label,
-        $options = []
-    )
+        string $name,
+        ?string $label,
+        array $options = []
+    ): void
     {
-        $this->doAddFileField(
-            $formMapper,
-            $name,
-            $label,
-            false,
-            [
-                new Constraint\Image(
-                    array_merge($this->imageConstraintOptions, $options)
-                ),
-            ]
-        );
+        $this->doAddFileField($formMapper, $name, $label, false, [
+            new Constraint\Image(array_merge($this->imageConstraintOptions, $options)),
+        ]);
     }
 
     /**
      * @param FormMapper $formMapper
-     * @param $name
-     * @param $label
+     * @param string $name
+     * @param string|null $label
      * @param array $options
+     *
+     * @return void
      */
     public function addRequiredImageField(
         FormMapper $formMapper,
-        $name,
-        $label,
-        $options = []
-    )
+        string $name,
+        ?string $label,
+        array $options = []
+    ): void
     {
-        $this->doAddFileField(
-            $formMapper,
-            $name,
-            $label,
-            true,
-            [
-                new Constraint\Image(
-                    array_merge($this->imageConstraintOptions, $options)
-                ),
-            ]
-        );
+        $this->doAddFileField($formMapper, $name, $label, true, [
+            new Constraint\Image(array_merge($this->imageConstraintOptions, $options)),
+        ]);
     }
 
     /**
@@ -440,11 +400,12 @@ abstract class AbstractProvider implements ProviderInterface
 
     /**
      * @param UploadedFile $file
-     * @param $filename
+     * @param string $filename
      *
+     * @return void
      * @throws FilesystemException
      */
-    protected function writeToFilesystem(UploadedFile $file, string $filename)
+    protected function writeToFilesystem(UploadedFile $file, string $filename): void
     {
         $this->disableErrorHandler();
         $stream = fopen($file->getRealPath(), 'r+');
@@ -453,7 +414,9 @@ abstract class AbstractProvider implements ProviderInterface
         } catch (Throwable $e) {
             throw new FilesystemException('Could not write to file system', 0, $e);
         } finally {
-            fclose($stream); // this sometime messes up
+            if (is_resource($stream) and !feof($stream)) {
+                fclose($stream);
+            }
             $this->restoreErrorHandler();
         }
     }
@@ -462,7 +425,7 @@ abstract class AbstractProvider implements ProviderInterface
      * @param ErrorElement $errorElement
      * @param AbstractMedia $media
      */
-    public function validate(ErrorElement $errorElement, AbstractMedia $media)
+    public function validate(ErrorElement $errorElement, AbstractMedia $media): void
     {
     }
 

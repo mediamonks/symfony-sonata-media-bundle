@@ -6,21 +6,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CurlHttpClient implements HttpClientInterface
 {
-    /**
-     * @var int
-     */
-    private $connectTimeout = 5;
+    private int $connectTimeout = 5;
+    private int $timeout = 5;
 
-    /**
-     * @var int
-     */
-    private $timeout = 5;
-
-    /**
-     * @param string $url
-     * @return string
-     */
-    public function getData($url)
+    /** @inheritDoc */
+    public function get(string $url): string
     {
         $ch = curl_init();
 
@@ -34,11 +24,8 @@ class CurlHttpClient implements HttpClientInterface
         return $data;
     }
 
-    /**
-     * @param string $url
-     * @return bool
-     */
-    public function exists($url)
+    /** @inheritDoc */
+    public function exists(string $url): bool
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);

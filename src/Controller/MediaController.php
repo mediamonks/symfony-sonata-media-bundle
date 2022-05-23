@@ -2,9 +2,9 @@
 
 namespace MediaMonks\SonataMediaBundle\Controller;
 
+use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use MediaMonks\SonataMediaBundle\ParameterBag\DownloadParameterBag;
 use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
-use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use MediaMonks\SonataMediaBundle\Utility\DownloadUtility;
 use MediaMonks\SonataMediaBundle\Utility\ImageUtility;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -28,7 +28,8 @@ class MediaController extends Controller
         int $id,
         int $width,
         int $height
-    ): RedirectResponse {
+    ): RedirectResponse
+    {
         return $this->get(ImageUtility::class)->getRedirectResponse(
             $this->getMediaById($id),
             new ImageParameterBag($width, $height, $request->query->all())
