@@ -2,11 +2,12 @@
 
 namespace MediaMonks\SonataMediaBundle\Controller;
 
-use MediaMonks\SonataMediaBundle\ParameterBag\DownloadParameterBag;
+use League\Glide\Filesystem\FilesystemException;
 use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
+use MediaMonks\SonataMediaBundle\ParameterBag\MediaParameterBag;
 use MediaMonks\SonataMediaBundle\Provider\ProviderPool;
-use MediaMonks\SonataMediaBundle\Utility\DownloadUtility;
-use MediaMonks\SonataMediaBundle\Utility\ImageUtility;
+use MediaMonks\SonataMediaBundle\Service\ImageResponseHandler;
+use MediaMonks\SonataMediaBundle\Service\MediaResponseHandler;
 use Sonata\AdminBundle\Controller\CRUDController as BaseCRUDController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,22 +16,30 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class CRUDController extends BaseCRUDController
 {
+    private MediaResponseHandler $mediaResponseHandler;
+    private ImageResponseHandler $imageResponseHandler;
+    private ProviderPool $providerPool;
+
+    public function __construct(
+        MediaResponseHandler $mediaResponseHandler,
+        ImageResponseHandler $imageResponseHandler,
+        ProviderPool $providerPool
+    )
+    {
+        $this->mediaResponseHandler = $mediaResponseHandler;
+        $this->imageResponseHandler = $imageResponseHandler;
+        $this->providerPool = $providerPool;
+    }
+
     /** @inheritDoc */
     public function createAction(): Response
     {
         $request = $this->getRequest();
-        if (!$this->getRequest()->get('provider') && $this->getRequest()->isMethod('get')) {
-            $types = $request->query->get('types');
-            if (is_array($types)) {
-                $providers = $this->get(ProviderPool::class)->getProvidersByTypes($types);
-            } else {
-                $providers = $this->get(ProviderPool::class)->getProviders();
-            }
-
+        if ($request && !$request->get('provider') && $request->isMethod(Request::METHOD_GET)) {
             return $this->renderWithExtraParams(
                 '@MediaMonksSonataMedia/CRUD/select_provider.html.twig',
                 [
-                    'providers' => $providers,
+                    'providers' => $this->getProviders($request),
                     'base_template' => $this->getBaseTemplate(),
                     'admin' => $this->admin,
                     'action' => 'create',
@@ -53,16 +62,18 @@ class CRUDController extends BaseCRUDController
 
         $this->admin->checkAccess('show', $object);
 
-        return $this->get(DownloadUtility::class)->getStreamedResponse($object, new DownloadParameterBag($request->query->all()));
+        return $this->mediaResponseHandler->getStreamedResponse($object, new MediaParameterBag($request->query->all()));
     }
 
     /**
      * @param Request $request
-     * @param string|int $id
+     * @param $id
      * @param int $width
      * @param int $height
      *
      * @return RedirectResponse
+     * @throws \League\Flysystem\FilesystemException
+     * @throws FilesystemException
      */
     public function imageAction(Request $request, $id, int $width, int $height): RedirectResponse
     {
@@ -70,6 +81,21 @@ class CRUDController extends BaseCRUDController
 
         $this->admin->checkAccess('show', $object);
 
-        return $this->get(ImageUtility::class)->getRedirectResponse($object, new ImageParameterBag($width, $height, $request->query->all()));
+        return $this->imageResponseHandler->getRedirectResponse($object, new ImageParameterBag($width, $height, $request->query->all()));
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return array
+     */
+    protected function getProviders(Request $request): array
+    {
+        $types = $request->query->get('types');
+        if (is_array($types)) {
+            return $this->providerPool->getProvidersByTypes($types);
+        }
+
+        return $this->providerPool->getProviders();
     }
 }

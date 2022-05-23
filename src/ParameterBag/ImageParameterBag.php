@@ -4,7 +4,7 @@ namespace MediaMonks\SonataMediaBundle\ParameterBag;
 
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 
-class ImageParameterBag extends AbstractMediaParameterBag
+class ImageParameterBag extends MediaParameterBag
 {
     protected ?int $width;
     protected ?int $height;

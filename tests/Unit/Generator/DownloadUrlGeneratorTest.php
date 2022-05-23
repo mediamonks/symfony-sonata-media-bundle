@@ -3,7 +3,7 @@
 namespace MediaMonks\SonataMediaBundle\Tests\Unit\Generator;
 
 use MediaMonks\SonataMediaBundle\Generator\DownloadUrlGenerator;
-use MediaMonks\SonataMediaBundle\ParameterBag\DownloadParameterBag;
+use MediaMonks\SonataMediaBundle\ParameterBag\MediaParameterBag;
 use MediaMonks\SonataMediaBundle\Handler\ParameterHandlerInterface;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use MediaMonks\SonataMediaBundle\Tests\Unit\MockeryTrait;
@@ -38,7 +38,7 @@ class DownloadUrlGeneratorTest extends TestCase
 
         $media = m::mock(MediaInterface::class);
 
-        $parameterBag = new DownloadParameterBag();
+        $parameterBag = new MediaParameterBag();
 
         $this->assertEquals('http://route/1/', $generator->generate($media, $parameterBag));
 
@@ -58,7 +58,7 @@ class DownloadUrlGeneratorTest extends TestCase
 
         $generator = new DownloadUrlGenerator($router, $parameterHandler, 'route_name');
 
-        $parameterBag = new DownloadParameterBag();
+        $parameterBag = new MediaParameterBag();
 
         $media = m::mock(MediaInterface::class);
 

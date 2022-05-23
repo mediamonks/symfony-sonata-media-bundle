@@ -3,7 +3,7 @@
 namespace MediaMonks\SonataMediaBundle\Generator;
 
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
-use MediaMonks\SonataMediaBundle\ParameterBag\DownloadParameterBag;
+use MediaMonks\SonataMediaBundle\ParameterBag\MediaParameterBag;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface as SymfonyUrlGeneratorInterface;
 
 class DownloadUrlGenerator extends AbstractUrlGenerator
@@ -23,6 +23,6 @@ class DownloadUrlGenerator extends AbstractUrlGenerator
         int $referenceType = SymfonyUrlGeneratorInterface::ABSOLUTE_PATH
     ): string
     {
-        return $this->generate($media, new DownloadParameterBag($extra), $routeName, $referenceType);
+        return $this->generate($media, new MediaParameterBag($extra), $routeName, $referenceType);
     }
 }

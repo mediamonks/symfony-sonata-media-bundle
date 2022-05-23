@@ -33,7 +33,7 @@ abstract class AbstractUrlGenerator implements UrlGeneratorInterface
     /**
      * @param MediaInterface $media
      * @param ParameterBagInterface $parameterBag
-     * @param null $routeName
+     * @param string|null $routeName
      * @param int $referenceType
      *
      * @return string
@@ -41,8 +41,8 @@ abstract class AbstractUrlGenerator implements UrlGeneratorInterface
     public function generate(
         MediaInterface $media,
         ParameterBagInterface $parameterBag,
-        $routeName = null,
-        $referenceType = SymfonyUrlGeneratorInterface::ABSOLUTE_PATH
+        ?string $routeName = null,
+        int $referenceType = SymfonyUrlGeneratorInterface::ABSOLUTE_PATH
     ): string
     {
         return $this->router->generate(

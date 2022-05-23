@@ -8,7 +8,6 @@ use MediaMonks\SonataMediaBundle\Generator\ImageGenerator;
 use MediaMonks\SonataMediaBundle\MediaMonksSonataMediaBundle;
 use MediaMonks\SonataMediaBundle\Provider\FileProvider;
 use MediaMonks\SonataMediaBundle\Provider\ProviderPool;
-use MediaMonks\SonataMediaBundle\Utility\ImageUtility;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
@@ -54,9 +53,8 @@ class MediaMonksSonataMediaExtension extends Extension
             $providerPool->addMethodCall('addProvider', [new Reference($provider)]);
         }
 
-        $container->getDefinition(ImageUtility::class)
-                  ->setArgument(2, $config['redirect_url'])
-                  ->setArgument(3, $config['redirect_cache_ttl']);
+        $container->setParameter('mediamonks.sonata_media.base_url', $config['redirect_url']);
+        $container->setParameter('mediamonks.sonata_media.cache_ttl', $config['redirect_cache_ttl']);
 
         $container->getDefinition(ImageGenerator::class)
                   ->setArgument(2, $config['default_image_parameters'])

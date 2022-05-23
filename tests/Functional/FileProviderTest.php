@@ -5,7 +5,7 @@ namespace MediaMonks\SonataMediaBundle\Tests\Functional;
 use Exception;
 use MediaMonks\SonataMediaBundle\Handler\SignatureParameterHandler;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
-use MediaMonks\SonataMediaBundle\ParameterBag\DownloadParameterBag;
+use MediaMonks\SonataMediaBundle\ParameterBag\MediaParameterBag;
 use Mockery as m;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -42,7 +42,7 @@ class FileProviderTest extends AdminTestAbstract
         $media = m::mock(MediaInterface::class);
         $media->shouldReceive('getId')->andReturn(1);
 
-        $parameterBag = new DownloadParameterBag();
+        $parameterBag = new MediaParameterBag();
         $signature = new SignatureParameterHandler(self::$kernel->getContainer()->getParameter('secret'));
         $parameters = $signature->getRouteParameters($media, $parameterBag);
 

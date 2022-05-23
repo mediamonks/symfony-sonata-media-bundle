@@ -199,7 +199,7 @@ final class Configuration implements ConfigurationInterface
     {
         $node->children()
              ->scalarNode('route_image')
-             ->defaultValue('mediamonks_media_image')
+             ->defaultValue('mediamonks_media_image_redirect')
              ->end();
 
         $node->children()

@@ -20,9 +20,13 @@ interface MediaInterface
 
     public function getProviderMetaData(): array;
 
+    public function getProviderMetadataValue(string $property, $default = null);
+
     public function getImage(): ?string;
 
     public function getImageMetaData(): array;
+
+    public function getImageMetadataValue(string $property, $default = null);
 
     public function getFocalPoint(): ?string;
 

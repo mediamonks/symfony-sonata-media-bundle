@@ -399,4 +399,30 @@ abstract class AbstractMedia implements MediaInterface
 
         return sprintf('%s (%s)', $this->getTitle(), $this->getType());
     }
+
+    /**
+     * @param string $property
+     * @param mixed $default
+     *
+     * @return mixed
+     */
+    public function getProviderMetadataValue(string $property, $default = null)
+    {
+        $metadata = $this->getProviderMetaData();
+
+        return $metadata[$property] ?? $default;
+    }
+
+    /**
+     * @param string $property
+     * @param mixed $default
+     *
+     * @return mixed
+     */
+    public function getImageMetadataValue(string $property, $default = null)
+    {
+        $metadata = $this->getImageMetaData();
+
+        return $metadata[$property] ?? $default;
+    }
 }

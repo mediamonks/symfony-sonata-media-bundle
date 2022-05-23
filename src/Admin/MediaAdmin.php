@@ -45,22 +45,14 @@ class MediaAdmin extends AbstractAdmin
     {
         $list
             ->addIdentifier('title')
-            ->add(
-                'type'
-            )
-            ->add(
-                'updatedAt'
-            )
-            ->add(
-                '_action',
-                'actions',
-                [
-                    'actions' => [
-                        'edit' => [],
-                        'delete' => [],
-                    ],
-                ]
-            );
+            ->add('type')
+            ->add('updatedAt')
+            ->add('_action', 'actions', [
+                'actions' => [
+                    'edit' => [],
+                    'delete' => [],
+                ],
+            ]);
     }
 
     /**
