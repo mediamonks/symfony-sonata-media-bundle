@@ -61,7 +61,7 @@ class MediaController
         int $id
     ): StreamedResponse
     {
-        return $this->mediaResponseHandler->getStreamedResponse(
+        return $this->mediaResponseHandler->getDownloadResponse(
             $this->getMediaById($id),
             new MediaParameterBag($request->query->all())
         );
