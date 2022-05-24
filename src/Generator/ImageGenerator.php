@@ -7,6 +7,7 @@ use League\Glide\Server;
 use MediaMonks\SonataMediaBundle\ErrorHandlerTrait;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
+use Throwable;
 
 class ImageGenerator
 {
@@ -93,7 +94,7 @@ class ImageGenerator
 
         try {
             $this->server->getCache()->write($filename, $this->doGenerateImage($media, $tmp, $parameterBag));
-        } catch (\Exception $e) {
+        } catch (Throwable $e) {
             throw new FilesystemException('Could not generate image', 0, $e);
         } finally {
             if (file_exists($tmp)) {

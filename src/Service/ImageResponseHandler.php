@@ -17,18 +17,26 @@ class ImageResponseHandler extends MediaResponseHandler
 {
     /**
      * @param MediaInterface $media
-     * @param ImageParameterBag $parameterBag
+     * @param MediaParameterBag $parameterBag
      *
-     * @return RedirectResponse
+     * @return StreamedResponse
      * @throws FilesystemException
      * @throws \League\Flysystem\FilesystemException
      */
-    public function getRedirectResponse(MediaInterface $media, ImageParameterBag $parameterBag): RedirectResponse
+    public function getStreamedResponse(MediaInterface $media, MediaParameterBag $parameterBag): StreamedResponse
     {
+        if (!$parameterBag instanceof ImageParameterBag) {
+            throw InvalidArgumentException::from(static::class, __FUNCTION__, ImageParameterBag::class, get_class($parameterBag));
+        }
+        $this->parameterHandler->validateParameterBag($media, $parameterBag);
+
         // this will also generate the image if not already generated
         $filename = $this->generateImageFilename($media, $parameterBag);
 
-        $response = new RedirectResponse(sprintf('%s%s', $this->mediaBaseUrl, $filename), 302, [
+        $response = new StreamedResponse($this->readStream($filename), 200, [
+            'Content-Transfer-Encoding', 'binary',
+            'Content-Type' => $media->getImageMetadataValue('mimeType'),
+            'Content-Length' => $media->getImageMetadataValue('size'),
             AbstractSessionListener::NO_AUTO_CACHE_CONTROL_HEADER => true
         ]);
         $response->setSharedMaxAge($this->mediaCacheTtl);
@@ -66,26 +74,22 @@ class ImageResponseHandler extends MediaResponseHandler
 
     /**
      * @param MediaInterface $media
-     * @param MediaParameterBag $parameterBag
+     * @param ImageParameterBag $parameterBag
      *
-     * @return StreamedResponse
+     * @return RedirectResponse
      * @throws FilesystemException
      * @throws \League\Flysystem\FilesystemException
      */
-    public function getStreamedResponse(MediaInterface $media, MediaParameterBag $parameterBag): StreamedResponse
+    public function getRedirectResponse(MediaInterface $media, MediaParameterBag $parameterBag): RedirectResponse
     {
         if (!$parameterBag instanceof ImageParameterBag) {
             throw InvalidArgumentException::from(static::class, __FUNCTION__, ImageParameterBag::class, get_class($parameterBag));
         }
-        $this->parameterHandler->validateParameterBag($media, $parameterBag);
 
         // this will also generate the image if not already generated
         $filename = $this->generateImageFilename($media, $parameterBag);
 
-        $response = new StreamedResponse($this->readStream($filename), 200, [
-            'Content-Transfer-Encoding', 'binary',
-            'Content-Type' => $media->getImageMetadataValue('mimeType'),
-            'Content-Length' => $media->getImageMetadataValue('size'),
+        $response = new RedirectResponse(sprintf('%s%s', $this->mediaBaseUrl, $filename), 302, [
             AbstractSessionListener::NO_AUTO_CACHE_CONTROL_HEADER => true
         ]);
         $response->setSharedMaxAge($this->mediaCacheTtl);

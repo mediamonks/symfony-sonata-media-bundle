@@ -6,13 +6,13 @@ class HelperTest extends AdminTestAbstract
 {
     public function testAutocomplete()
     {
-        $this->client->request('GET', '/admin/media/autocomplete');
+        $this->browser->request('GET', '/admin/media/autocomplete');
 
         $response = $this->getLastResponse();
         $this->assertEquals('KO', $response['status']);
         $this->assertEquals('Search string too short', $response['message']);
 
-        $this->client->request('GET', '/admin/media/autocomplete', [
+        $this->browser->request('GET', '/admin/media/autocomplete', [
             'q' => 'media'
         ]);
 
@@ -23,7 +23,7 @@ class HelperTest extends AdminTestAbstract
 
         $this->uploadImage();
 
-        $this->client->request('GET', '/admin/media/autocomplete', [
+        $this->browser->request('GET', '/admin/media/autocomplete', [
             'q' => 'monk'
         ]);
         $response = $this->getLastResponse();
@@ -31,7 +31,7 @@ class HelperTest extends AdminTestAbstract
         $this->assertEmpty($response['more']);
         $this->assertCount(1, $response['items']);
 
-        $this->client->request('GET', '/admin/media/autocomplete', [
+        $this->browser->request('GET', '/admin/media/autocomplete', [
             'q' => 'monk',
             'type' => 'image'
         ]);
@@ -40,7 +40,7 @@ class HelperTest extends AdminTestAbstract
         $this->assertEmpty($response['more']);
         $this->assertCount(1, $response['items']);
 
-        $this->client->request('GET', '/admin/media/autocomplete', [
+        $this->browser->request('GET', '/admin/media/autocomplete', [
             'q' => 'monk',
             'type' => 'audio'
         ]);
@@ -49,7 +49,7 @@ class HelperTest extends AdminTestAbstract
         $this->assertEmpty($response['more']);
         $this->assertCount(0, $response['items']);
 
-        $this->client->request('GET', '/admin/media/autocomplete', [
+        $this->browser->request('GET', '/admin/media/autocomplete', [
             'q' => 'monk',
             'provider' => 'image'
         ]);
@@ -58,7 +58,7 @@ class HelperTest extends AdminTestAbstract
         $this->assertEmpty($response['more']);
         $this->assertCount(1, $response['items']);
 
-        $this->client->request('GET', '/admin/media/autocomplete', [
+        $this->browser->request('GET', '/admin/media/autocomplete', [
             'q' => 'monk',
             'provider' => 'soundcloud'
         ]);
@@ -73,6 +73,6 @@ class HelperTest extends AdminTestAbstract
      */
     private function getLastResponse()
     {
-        return json_decode($this->client->getResponse()->getContent(), true);
+        return json_decode($this->browser->getResponse()->getContent(), true);
     }
 }

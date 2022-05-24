@@ -7,8 +7,10 @@ use League\Flysystem\FilesystemOperator;
 use MediaMonks\SonataMediaBundle\Generator\ImageGenerator;
 use MediaMonks\SonataMediaBundle\Handler\ParameterHandlerInterface;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
+use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
 use MediaMonks\SonataMediaBundle\ParameterBag\MediaParameterBag;
 use Symfony\Component\HttpFoundation\HeaderUtils;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\EventListener\AbstractSessionListener;
@@ -49,6 +51,29 @@ class MediaResponseHandler
      *
      * @return StreamedResponse
      */
+    public function getStreamedResponse(MediaInterface $media, MediaParameterBag $parameterBag): StreamedResponse
+    {
+        $this->parameterHandler->validateParameterBag($media, $parameterBag);
+        $filename = $media->getProviderReference();
+
+        $response = new StreamedResponse($this->readStream($filename), 200, [
+            'Content-Transfer-Encoding', 'binary',
+            'Content-Type' => $media->getProviderMetadataValue('mimeType'),
+            'Content-Length' => $media->getProviderMetadataValue('size'),
+            AbstractSessionListener::NO_AUTO_CACHE_CONTROL_HEADER => true
+        ]);
+        $response->setSharedMaxAge($this->mediaCacheTtl);
+        $response->setMaxAge($this->mediaCacheTtl);
+
+        return $response;
+    }
+
+    /**
+     * @param MediaInterface $media
+     * @param MediaParameterBag $parameterBag
+     *
+     * @return StreamedResponse
+     */
     public function getDownloadResponse(MediaInterface $media, MediaParameterBag $parameterBag): StreamedResponse
     {
         $this->parameterHandler->validateParameterBag($media, $parameterBag);
@@ -65,19 +90,15 @@ class MediaResponseHandler
 
     /**
      * @param MediaInterface $media
-     * @param MediaParameterBag $parameterBag
+     * @param ImageParameterBag $parameterBag
      *
-     * @return StreamedResponse
+     * @return RedirectResponse
      */
-    public function getStreamedResponse(MediaInterface $media, MediaParameterBag $parameterBag): StreamedResponse
+    public function getRedirectResponse(MediaInterface $media, MediaParameterBag $parameterBag): RedirectResponse
     {
-        $this->parameterHandler->validateParameterBag($media, $parameterBag);
         $filename = $media->getProviderReference();
 
-        $response = new StreamedResponse($this->readStream($filename), 200, [
-            'Content-Transfer-Encoding', 'binary',
-            'Content-Type' => $media->getProviderMetadataValue('mimeType'),
-            'Content-Length' => $media->getProviderMetadataValue('size'),
+        $response = new RedirectResponse(sprintf('%s%s', $this->mediaBaseUrl, $filename), 302, [
             AbstractSessionListener::NO_AUTO_CACHE_CONTROL_HEADER => true
         ]);
         $response->setSharedMaxAge($this->mediaCacheTtl);

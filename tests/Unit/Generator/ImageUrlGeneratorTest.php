@@ -2,6 +2,7 @@
 
 namespace MediaMonks\SonataMediaBundle\Tests\Unit\Generator;
 
+use MediaMonks\SonataMediaBundle\Generator\AbstractUrlGenerator;
 use MediaMonks\SonataMediaBundle\Generator\ImageUrlGenerator;
 use MediaMonks\SonataMediaBundle\Handler\ParameterHandlerInterface;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
@@ -34,14 +35,12 @@ class ImageUrlGeneratorTest extends TestCase
         $parameterHandler->shouldReceive('getQueryString')->andReturn('querystring');
         $parameterHandler->shouldReceive('getRouteParameters')->andReturn([]);
 
-        $generator = new ImageUrlGenerator($router, $parameterHandler, 'route_name');
+        $generator = new ImageUrlGenerator($router, $parameterHandler, [
+            AbstractUrlGenerator::ROUTE_IMAGE_REDIRECT => 'route_name'
+        ]);
 
         $media = m::mock(MediaInterface::class);
         $media->shouldReceive('getFocalPoint')->andReturn('50-50');
-
-        $parameterBag = new ImageParameterBag(400, 300);
-
-        $this->assertEquals('http://route/1/', $generator->generate($media, $parameterBag));
 
         $this->assertEquals('http://route/1/', $generator->generateImageUrl($media, 400, 300));
     }
@@ -57,7 +56,9 @@ class ImageUrlGeneratorTest extends TestCase
         $parameterHandler->shouldReceive('getQueryString')->andReturn('querystring');
         $parameterHandler->shouldReceive('getRouteParameters')->andReturn([]);
 
-        $generator = new ImageUrlGenerator($router, $parameterHandler, 'route_name');
+        $generator = new ImageUrlGenerator($router, $parameterHandler, [
+            AbstractUrlGenerator::ROUTE_IMAGE_REDIRECT => 'route_name'
+        ]);
 
         $parameterBag = new ImageParameterBag(400, 300);
 

@@ -11,11 +11,9 @@ use Liip\TestFixturesBundle\Services\DatabaseTools\AbstractDatabaseTool;
 use MediaMonks\SonataMediaBundle\Tests\App\AppKernel;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
-use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\DomCrawler\Form;
 use Symfony\Component\Finder\Finder;
-use VCR\VCR;
 
 abstract class AbstractBaseFunctionTest extends WebTestCase
 {
@@ -47,7 +45,7 @@ abstract class AbstractBaseFunctionTest extends WebTestCase
      */
     protected function getMediaPathPublic(): string
     {
-        return __DIR__ . '/web/media/';
+        return __DIR__ . '/public/media/';
     }
 
     /**
@@ -100,9 +98,12 @@ abstract class AbstractBaseFunctionTest extends WebTestCase
     /**
      * @return KernelBrowser
      */
-    protected function getAuthenticatedClient(): Client
+    protected function getAuthenticatedClient(): KernelBrowser
     {
-        return $this->createClientWithParams([], 'admin', 'admin');
+        return $this->createClient([], [
+            'PHP_AUTH_USER' => 'admin',
+            'PHP_AUTH_PW' => 'admin',
+        ]);
     }
 
     /**

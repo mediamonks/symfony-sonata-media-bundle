@@ -58,11 +58,11 @@ class CRUDController extends BaseCRUDController
      */
     public function downloadAction(Request $request, $id): StreamedResponse
     {
-        $object = $this->admin->getObject($id);
+        $media = $this->admin->getObject($id);
 
-        $this->admin->checkAccess('show', $object);
+        $this->admin->checkAccess('show', $media);
 
-        return $this->mediaResponseHandler->getStreamedResponse($object, new MediaParameterBag($request->query->all()));
+        return $this->mediaResponseHandler->getStreamedResponse($media, new MediaParameterBag($request->query->all()));
     }
 
     /**
@@ -77,11 +77,11 @@ class CRUDController extends BaseCRUDController
      */
     public function imageAction(Request $request, $id, int $width, int $height): RedirectResponse
     {
-        $object = $this->admin->getObject($id);
+        $media = $this->admin->getObject($id);
 
-        $this->admin->checkAccess('show', $object);
+        $this->admin->checkAccess('show', $media);
 
-        return $this->imageResponseHandler->getRedirectResponse($object, new ImageParameterBag($width, $height, $request->query->all()));
+        return $this->imageResponseHandler->getRedirectResponse($media, new ImageParameterBag($width, $height, $request->query->all()));
     }
 
     /**

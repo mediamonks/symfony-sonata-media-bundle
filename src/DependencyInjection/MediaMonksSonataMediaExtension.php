@@ -73,8 +73,12 @@ class MediaMonksSonataMediaExtension extends Extension
             $container->setParameter($twigFormResourceParameterId, $twigFormResources);
         }
 
-        $container->setParameter('mediamonks.sonata_media.default_route.image', $config['route_image']);
+        $container->setParameter('mediamonks.sonata_media.default_route.image_stream', $config['route_image_stream']);
+        $container->setParameter('mediamonks.sonata_media.default_route.image_download', $config['route_image_download']);
+        $container->setParameter('mediamonks.sonata_media.default_route.image_redirect', $config['route_image_redirect']);
+        $container->setParameter('mediamonks.sonata_media.default_route.stream', $config['route_stream']);
         $container->setParameter('mediamonks.sonata_media.default_route.download', $config['route_download']);
+        $container->setParameter('mediamonks.sonata_media.default_route.redirect', $config['route_redirect']);
     }
 
     /**

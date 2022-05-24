@@ -10,7 +10,7 @@ interface UrlGeneratorInterface
     /**
      * @param MediaInterface $media
      * @param ParameterBagInterface $parameterBag
-     * @param string|null $routeName
+     * @param string $routeName
      * @param int $referenceType
      *
      * @return string
@@ -18,7 +18,7 @@ interface UrlGeneratorInterface
     public function generate(
         MediaInterface $media,
         ParameterBagInterface $parameterBag,
-        ?string $routeName,
+        string $routeName,
         int $referenceType
     ): string;
 }

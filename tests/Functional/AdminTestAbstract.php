@@ -6,23 +6,20 @@ use MediaMonks\SonataMediaBundle\Handler\SignatureParameterHandler;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
 use Mockery as m;
-use Symfony\Bundle\FrameworkBundle\Client;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 
 abstract class AdminTestAbstract extends AbstractBaseFunctionTest
 {
     const BASE_PATH = '/mediamonks/sonatamedia/media/';
 
-    /**
-     * @var Client
-     */
-    protected $client;
+    protected KernelBrowser $browser;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->client = $this->getAuthenticatedClient();
-        $this->client->followRedirects();
+        $this->browser = $this->getAuthenticatedClient();
+        $this->browser->followRedirects();
 
         $this->loadFixtures();
     }
@@ -40,7 +37,8 @@ abstract class AdminTestAbstract extends AbstractBaseFunctionTest
         $signature = new SignatureParameterHandler(self::$kernel->getContainer()->getParameter('secret'));
         $parameters = $signature->getRouteParameters($media, $parameterBag);
 
-        $this->client->request(
+        $this->browser->followRedirects();
+        $this->browser->request(
             'GET',
             sprintf(
                 '%s%d/image/%d/%d?s=%s',
@@ -52,17 +50,18 @@ abstract class AdminTestAbstract extends AbstractBaseFunctionTest
             )
         );
 
+        $this->assertEquals(200, $this->browser->getResponse()->getStatusCode());
         $this->assertNumberOfFilesInPath(1, $this->getMediaPathPublic());
 
         $parameterBag = new ImageParameterBag(800, 600);
         $signature = new SignatureParameterHandler(self::$kernel->getContainer()->getParameter('secret'));
         $parameters = $signature->getRouteParameters($media, $parameterBag);
 
-        $this->client->followRedirects(false);
-        $this->client->request(
+        $this->browser->followRedirects(false);
+        $this->browser->request(
             'GET',
             sprintf(
-                '/media/image/%d/%d/%d?s=%s',
+                '/media/image/redirect/%d/%d/%d?s=%s',
                 $media->getId(),
                 $parameterBag->getWidth(),
                 $parameterBag->getHeight(),
@@ -70,13 +69,14 @@ abstract class AdminTestAbstract extends AbstractBaseFunctionTest
             )
         );
 
+        $this->assertEquals(302, $this->browser->getResponse()->getStatusCode());
         $this->assertNumberOfFilesInPath(2, $this->getMediaPathPublic());
     }
 
     protected function uploadImage()
     {
         $provider = 'image';
-        $crawler = $this->client->request('GET', self::BASE_PATH . 'create?provider=' . $provider);
+        $crawler = $this->browser->request('GET', self::BASE_PATH . 'create?provider=' . $provider);
         $form = $crawler->selectButton('Create')->form();
         $this->assertSonataFormValues(
             $form,
@@ -86,6 +86,6 @@ abstract class AdminTestAbstract extends AbstractBaseFunctionTest
         );
         $this->setFormBinaryContent($form, $this->getFixturesPath() . 'monk.jpg');
 
-        return $this->client->submit($form);
+        return $this->browser->submit($form);
     }
 }

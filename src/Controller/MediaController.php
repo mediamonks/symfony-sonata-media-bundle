@@ -70,6 +70,23 @@ class MediaController
     /**
      * @param Request $request
      * @param int $id
+     *
+     * @return RedirectResponse
+     */
+    public function redirectAction(
+        Request $request,
+        int $id
+    ): RedirectResponse
+    {
+        return $this->mediaResponseHandler->getRedirectResponse(
+            $this->getMediaById($id),
+            new MediaParameterBag($request->query->all())
+        );
+    }
+
+    /**
+     * @param Request $request
+     * @param int $id
      * @param int $width
      * @param int $height
      *
@@ -143,8 +160,6 @@ class MediaController
      */
     protected function getMediaById(int $id): MediaInterface
     {
-//        $entityClass = $this->getParameter('mediamonks.sonata_media.entity.class');
-
         return $this->registry->getManager()->getRepository($this->mediaEntityClass)->find($id);
     }
 }

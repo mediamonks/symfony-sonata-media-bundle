@@ -21,7 +21,7 @@ class YoutubeProviderTest extends AbstractOembedProviderTestAbstract
             ]
         );
 
-        $crawler = $this->client->request('GET', '/twig');
+        $crawler = $this->browser->request('GET', '/twig');
 
         $this->assertEquals(
             2,
@@ -45,7 +45,7 @@ class YoutubeProviderTest extends AbstractOembedProviderTestAbstract
         $providerReference = 'foobar123123123';
 
         VCR::insertCassette('youtube_unexisting');
-        $crawler = $this->client->request('GET', self::BASE_PATH . 'create?provider=' . $provider);
+        $crawler = $this->browser->request('GET', self::BASE_PATH . 'create?provider=' . $provider);
 
         $form = $crawler->selectButton('Create')->form();
 
@@ -63,9 +63,9 @@ class YoutubeProviderTest extends AbstractOembedProviderTestAbstract
             ]
         );
 
-        $this->client->submit($form);
+        $this->browser->submit($form);
 
-        $this->assertStringContainsString('does not exist', $this->client->getResponse()->getContent());
+        $this->assertStringContainsString('does not exist', $this->browser->getResponse()->getContent());
 
         VCR::eject();
     }

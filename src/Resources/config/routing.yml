@@ -1,17 +1,3 @@
-mediamonks_media_stream:
-  path: /media/stream/{id}
-  defaults: { _controller: MediaMonksSonataMediaBundle:Media:stream }
-  methods: [ GET ]
-  requirements:
-    id: \d+
-
-mediamonks_media_download:
-  path: /media/download/{id}
-  defaults: { _controller: MediaMonksSonataMediaBundle:Media:download }
-  methods: [ GET ]
-  requirements:
-    id: \d+
-
 mediamonks_media_image_stream:
   path: /media/image/stream/{id}/{width}/{height}
   defaults: { _controller: MediaMonksSonataMediaBundle:Media:imageStream }
@@ -27,8 +13,29 @@ mediamonks_media_image_download:
     id: \d+
 
 mediamonks_media_image_redirect:
-  path: /media/image/{id}/{width}/{height}
+  path: /media/image/redirect/{id}/{width}/{height}
   defaults: { _controller: MediaMonksSonataMediaBundle:Media:imageRedirect }
+  methods: [ GET ]
+  requirements:
+    id: \d+
+
+mediamonks_media_stream:
+  path: /media/stream/{id}
+  defaults: { _controller: MediaMonksSonataMediaBundle:Media:stream }
+  methods: [ GET ]
+  requirements:
+    id: \d+
+
+mediamonks_media_download:
+  path: /media/download/{id}
+  defaults: { _controller: MediaMonksSonataMediaBundle:Media:download }
+  methods: [ GET ]
+  requirements:
+    id: \d+
+
+mediamonks_media_redirect:
+  path: /media/redirect/{id}
+  defaults: { _controller: MediaMonksSonataMediaBundle:Media:redirect }
   methods: [ GET ]
   requirements:
     id: \d+

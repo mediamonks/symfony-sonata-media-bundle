@@ -2,8 +2,9 @@
 
 namespace MediaMonks\SonataMediaBundle\Twig\Extension;
 
-use MediaMonks\SonataMediaBundle\Generator\DownloadUrlGenerator;
+use MediaMonks\SonataMediaBundle\Generator\AbstractUrlGenerator;
 use MediaMonks\SonataMediaBundle\Generator\ImageUrlGenerator;
+use MediaMonks\SonataMediaBundle\Generator\MediaUrlGenerator;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
 use MediaMonks\SonataMediaBundle\Provider\DownloadableProviderInterface;
@@ -22,22 +23,22 @@ class MediaExtension extends AbstractExtension
 {
     private ProviderPool $providerPool;
     private ImageUrlGenerator $imageUrlGenerator;
-    private DownloadUrlGenerator $downloadUrlGenerator;
+    private MediaUrlGenerator $mediaUrlGenerator;
 
     /**
      * @param ProviderPool $providerPool
      * @param ImageUrlGenerator $imageUrlGenerator
-     * @param DownloadUrlGenerator $downloadUrlGenerator
+     * @param MediaUrlGenerator $mediaUrlGenerator
      */
     public function __construct(
         ProviderPool $providerPool,
         ImageUrlGenerator $imageUrlGenerator,
-        DownloadUrlGenerator $downloadUrlGenerator
+        MediaUrlGenerator $mediaUrlGenerator
     )
     {
         $this->providerPool = $providerPool;
         $this->imageUrlGenerator = $imageUrlGenerator;
-        $this->downloadUrlGenerator = $downloadUrlGenerator;
+        $this->mediaUrlGenerator = $mediaUrlGenerator;
     }
 
     /**
@@ -123,12 +124,12 @@ class MediaExtension extends AbstractExtension
     public function media(
         Environment $environment,
         MediaInterface $media,
-        ?int $width,
-        ?int $height,
+        ?int $width = null,
+        ?int $height = null,
         array $extra = [],
         ?string $routeName = null,
         bool $bustCache = false
-    )
+    ): string
     {
         if ($this->isEmbeddable($media)) {
             return $this->mediaEmbed($environment, $media, $width, $height, $extra);
@@ -154,12 +155,12 @@ class MediaExtension extends AbstractExtension
     public function mediaEmbed(
         Environment $environment,
         MediaInterface $media,
-        ?int $width,
-        ?int $height,
+        ?int $width = null,
+        ?int $height = null,
         array $extra = [],
         ?string $routeName = null,
         bool $bustCache = false
-    )
+    ): string
     {
         if (!$this->isEmbeddable($media)) {
             return $this->mediaImage($environment, $media, $width, $height, $extra, $routeName, $bustCache);
@@ -193,25 +194,26 @@ class MediaExtension extends AbstractExtension
     public function mediaImage(
         Environment $environment,
         MediaInterface $media,
-        ?int $width,
-        ?int $height,
+        ?int $width = null,
+        ?int $height = null,
         array $extra = [],
         ?string $routeName = null,
         bool $bustCache = false
-    )
+    ): string
     {
-
         if ($bustCache) {
             $extra['bc'] = time();
         }
 
-        $src = $this->imageUrlGenerator->generate($media, new ImageParameterBag($width, $height, $extra), $routeName);
+        if (empty($routeName)) {
+            $routeName = $this->imageUrlGenerator->getRoute(AbstractUrlGenerator::ROUTE_IMAGE_REDIRECT);
+        }
 
         return $environment->render(
             '@MediaMonksSonataMedia/Media/image.html.twig',
             [
                 'media' => $media,
-                'src' => $src,
+                'src' => $this->imageUrlGenerator->generate($media, new ImageParameterBag($width, $height, $extra), $routeName),
                 'width' => $width,
                 'height' => $height,
                 'title' => $media->getTitle(),
@@ -226,8 +228,8 @@ class MediaExtension extends AbstractExtension
      * @param int|null $height
      * @param array $extraImage
      * @param array $extraDownload
-     * @param string|null $routeNameImage
-     * @param string|null $routeNameDownload
+     * @param string|null $routeNameImage @deprecated will be removed in a future release
+     * @param string|null $routeNameDownload @deprecated will be removed in a future release
      *
      * @return string
      * @throws LoaderError
@@ -237,13 +239,13 @@ class MediaExtension extends AbstractExtension
     public function mediaDownload(
         Environment $environment,
         MediaInterface $media,
-        ?int $width,
-        ?int $height,
+        ?int $width = null,
+        ?int $height = null,
         array $extraImage = [],
         array $extraDownload = [],
         ?string $routeNameImage = null,
         ?string $routeNameDownload = null
-    )
+    ): string
     {
         if (!$this->isDownloadable($media)) {
             return '';
@@ -253,16 +255,8 @@ class MediaExtension extends AbstractExtension
             '@MediaMonksSonataMedia/Media/file.html.twig',
             [
                 'media' => $media,
-                'downloadSrc' => $this->downloadUrlGenerator->generateDownloadUrl(
-                    $media,
-                    $extraDownload,
-                    $routeNameDownload
-                ),
-                'src' => $this->imageUrlGenerator->generateImageUrl(
-                    $media,
-                    $width, $height, $extraImage,
-                    $routeNameImage
-                ),
+                'downloadSrc' => $this->mediaUrlGenerator->generateDownloadUrl($media, $extraDownload),
+                'src' => $this->imageUrlGenerator->generateImageRedirectUrl($media, $width, $height, $extraImage),
                 'width' => $width,
                 'height' => $height,
                 'title' => $media->getTitle(),
@@ -272,28 +266,28 @@ class MediaExtension extends AbstractExtension
 
     /**
      * @param MediaInterface $media
-     * @param int $width
-     * @param int $height
+     * @param int|null $width
+     * @param int|null $height
      * @param array $extra
-     * @param null $routeName
+     * @param string|null $routeName @deprecated will be removed in a future release
      *
      * @return string
      */
-    public function mediaImageUrl(MediaInterface $media, $width, $height, array $extra = [], $routeName = null): string
+    public function mediaImageUrl(MediaInterface $media, ?int $width = null, ?int $height = null, array $extra = [], ?string $routeName = null): string
     {
-        return $this->imageUrlGenerator->generateImageUrl($media, $width, $height, $extra, $routeName);
+        return $this->imageUrlGenerator->generateImageRedirectUrl($media, $width, $height, $extra);
     }
 
     /**
      * @param MediaInterface $media
      * @param array $extra
-     * @param null $routeName
+     * @param string|null $routeName @deprecated will be removed in a future release
      *
      * @return string
      */
-    public function mediaDownloadUrl(MediaInterface $media, array $extra = [], $routeName = null): string
+    public function mediaDownloadUrl(MediaInterface $media, array $extra = [], ?string $routeName = null): string
     {
-        return $this->downloadUrlGenerator->generateDownloadUrl($media, $extra, $routeName);
+        return $this->mediaUrlGenerator->generateDownloadUrl($media, $extra);
     }
 
     /**

@@ -19,8 +19,8 @@ class FileProviderTest extends AdminTestAbstract
 
         $this->assertSonataFormValues($form, ['title' => 'text']);
 
-        $this->client->request('GET', self::BASE_PATH . 'list');
-        $this->assertStringContainsString('text', $this->client->getResponse()->getContent());
+        $this->browser->request('GET', self::BASE_PATH . 'list');
+        $this->assertStringContainsString('text', $this->browser->getResponse()->getContent());
 
         $this->assertNumberOfFilesInPath(2, $this->getMediaPathPrivate());
     }
@@ -32,12 +32,12 @@ class FileProviderTest extends AdminTestAbstract
         $link = $crawler->selectLink('Download original')->link();
 
         ob_start();
-        $this->client->click($link);
+        $this->browser->click($link);
         $fileContents = $content = ob_get_contents();
         ob_end_clean();
 
         $this->assertEquals('foobar', $fileContents);
-        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'response status is 2xx');
+        $this->assertTrue($this->browser->getResponse()->isSuccessful(), 'response status is 2xx');
 
         $media = m::mock(MediaInterface::class);
         $media->shouldReceive('getId')->andReturn(1);
@@ -47,7 +47,7 @@ class FileProviderTest extends AdminTestAbstract
         $parameters = $signature->getRouteParameters($media, $parameterBag);
 
         ob_start();
-        $this->client->request(
+        $this->browser->request(
             'GET',
             sprintf(
                 '/media/download/%d?s=%s',
@@ -65,15 +65,15 @@ class FileProviderTest extends AdminTestAbstract
     {
         $this->uploadFile('text.exe');
 
-        $this->assertStringContainsString('An error has occurred during the creation of item', $this->client->getResponse()->getContent());
-        $this->assertStringContainsString('not allowed to upload a file with extension', $this->client->getResponse()->getContent());
+        $this->assertStringContainsString('An error has occurred during the creation of item', $this->browser->getResponse()->getContent());
+        $this->assertStringContainsString('not allowed to upload a file with extension', $this->browser->getResponse()->getContent());
     }
 
     public function testEmptyFileUpload()
     {
         $provider = 'file';
 
-        $crawler = $this->client->request('GET', self::BASE_PATH . 'create?provider=' . $provider);
+        $crawler = $this->browser->request('GET', self::BASE_PATH . 'create?provider=' . $provider);
 
         $form = $crawler->selectButton('Create')->form();
 
@@ -84,10 +84,10 @@ class FileProviderTest extends AdminTestAbstract
             ]
         );
 
-        $this->client->submit($form);
+        $this->browser->submit($form);
 
-        $this->assertStringContainsString('This value should not be blank', $this->client->getResponse()->getContent());
-        $this->assertStringContainsString('This value should not be blank', $this->client->getResponse()->getContent());
+        $this->assertStringContainsString('This value should not be blank', $this->browser->getResponse()->getContent());
+        $this->assertStringContainsString('This value should not be blank', $this->browser->getResponse()->getContent());
     }
 
     /**
@@ -100,7 +100,7 @@ class FileProviderTest extends AdminTestAbstract
     {
         $provider = 'file';
 
-        $crawler = $this->client->request('GET', self::BASE_PATH . 'create?provider=' . $provider);
+        $crawler = $this->browser->request('GET', self::BASE_PATH . 'create?provider=' . $provider);
 
         $form = $crawler->selectButton('Create')->form();
 
@@ -113,6 +113,6 @@ class FileProviderTest extends AdminTestAbstract
 
         $this->setFormBinaryContent($form, $this->getFixturesPath() . $fileName);
 
-        return $this->client->submit($form);
+        return $this->browser->submit($form);
     }
 }

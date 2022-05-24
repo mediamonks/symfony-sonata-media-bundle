@@ -8,6 +8,13 @@ services:
       $mediaCacheTtl: '%mediamonks.sonata_media.cache_ttl%'
       $mediaEntityClass: '%mediamonks.sonata_media.entity.class%'
       $filesystemPrivate: '@mediamonks.sonata_media.filesystem.private'
+      $defaultRoutes:
+        imageStream: '%mediamonks.sonata_media.default_route.image_stream%'
+        imageDownload: '%mediamonks.sonata_media.default_route.image_download%'
+        imageRedirect: '%mediamonks.sonata_media.default_route.image_redirect%'
+        stream: '%mediamonks.sonata_media.default_route.stream%'
+        download: '%mediamonks.sonata_media.default_route.download%'
+        redirect: '%mediamonks.sonata_media.default_route.redirect%'
 
   League\Glide\ServerFactory:
     arguments:
@@ -41,15 +48,14 @@ services:
     arguments:
       $key: '%kernel.secret%'
 
+  MediaMonks\SonataMediaBundle\Generator\MediaUrlGenerator:
+    public: true
+
   MediaMonks\SonataMediaBundle\Generator\ImageUrlGenerator:
     public: true
-    arguments:
-      $defaultRouteName: '%mediamonks.sonata_media.default_route.image%'
 
   MediaMonks\SonataMediaBundle\Generator\DownloadUrlGenerator:
     public: true
-    arguments:
-      $defaultRouteName: '%mediamonks.sonata_media.default_route.download%'
 
   MediaMonks\SonataMediaBundle\Generator\ImageGenerator:
     public: true

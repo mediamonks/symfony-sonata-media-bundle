@@ -198,13 +198,29 @@ final class Configuration implements ConfigurationInterface
     private function addRoutes(ArrayNodeDefinition $node): void
     {
         $node->children()
-             ->scalarNode('route_image')
+             ->scalarNode('route_image_stream')
+             ->defaultValue('mediamonks_media_image_stream')
+             ->end();
+        $node->children()
+             ->scalarNode('route_image_download')
+             ->defaultValue('mediamonks_media_image_download')
+             ->end();
+        $node->children()
+             ->scalarNode('route_image_redirect')
              ->defaultValue('mediamonks_media_image_redirect')
              ->end();
 
         $node->children()
+             ->scalarNode('route_stream')
+             ->defaultValue('mediamonks_media_stream')
+             ->end();
+        $node->children()
              ->scalarNode('route_download')
              ->defaultValue('mediamonks_media_download')
+             ->end();
+        $node->children()
+             ->scalarNode('route_redirect')
+             ->defaultValue('mediamonks_media_redirect')
              ->end();
     }
 
