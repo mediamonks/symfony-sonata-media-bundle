@@ -16,9 +16,9 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class CRUDController extends BaseCRUDController
 {
-    private MediaResponseHandler $mediaResponseHandler;
-    private ImageResponseHandler $imageResponseHandler;
-    private ProviderPool $providerPool;
+    protected MediaResponseHandler $mediaResponseHandler;
+    protected ImageResponseHandler $imageResponseHandler;
+    protected ProviderPool $providerPool;
 
     public function __construct(
         MediaResponseHandler $mediaResponseHandler,
