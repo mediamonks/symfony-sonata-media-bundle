@@ -16,14 +16,14 @@ abstract class AbstractOembedProvider extends AbstractProvider implements Oembed
 
     /**
      * @param AbstractMedia $media
-     * @param string|null $providerReferenceUpdated
+     * @param bool $providerReferenceUpdated
      *
      * @return void
      * @throws FilesystemException
      * @throws Throwable
      * @throws \League\Glide\Filesystem\FilesystemException
      */
-    public function update(AbstractMedia $media, ?string $providerReferenceUpdated = null): void
+    public function update(AbstractMedia $media, bool $providerReferenceUpdated = false): void
     {
         if ($providerReferenceUpdated) {
             $media->setProviderReference($this->parseProviderReference($media->getProviderReference()));

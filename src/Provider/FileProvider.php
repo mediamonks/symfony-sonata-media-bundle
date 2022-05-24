@@ -39,12 +39,12 @@ class FileProvider extends AbstractProvider implements ProviderInterface, Downlo
 
     /**
      * @param AbstractMedia $media
-     * @param string|null $providerReferenceUpdated
+     * @param bool $providerReferenceUpdated
      *
      * @return void
      * @throws FilesystemException
      */
-    public function update(AbstractMedia $media, ?string $providerReferenceUpdated = null): void
+    public function update(AbstractMedia $media, bool $providerReferenceUpdated = false): void
     {
         if (!is_null($media->getBinaryContent())) {
             if (empty($media->getImage())) {

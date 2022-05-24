@@ -32,7 +32,7 @@ interface ProviderInterface
 
     public function buildProviderEditFormAfter(FormMapper $formMapper): void;
 
-    public function update(AbstractMedia $media, ?string $providerReferenceUpdated = null): void;
+    public function update(AbstractMedia $media, bool $providerReferenceUpdated = false): void;
 
     public function getName(): string;
 

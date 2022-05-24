@@ -125,12 +125,12 @@ abstract class AbstractProvider implements ProviderInterface
 
     /**
      * @param AbstractMedia $media
-     * @param string|null $providerReferenceUpdated
+     * @param bool $providerReferenceUpdated
      *
      * @return void
      * @throws FilesystemException
      */
-    public function update(AbstractMedia $media, ?string $providerReferenceUpdated = null): void
+    public function update(AbstractMedia $media, bool $providerReferenceUpdated = false): void
     {
         $this->updateImage($media);
     }

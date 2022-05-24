@@ -36,12 +36,12 @@ class ImageProvider extends AbstractProvider implements ProviderInterface, Downl
 
     /**
      * @param AbstractMedia $media
-     * @param string|null $providerReferenceUpdated
+     * @param bool $providerReferenceUpdated
      *
      * @return void
      * @throws FilesystemException
      */
-    public function update(AbstractMedia $media, ?string $providerReferenceUpdated = null): void
+    public function update(AbstractMedia $media, bool $providerReferenceUpdated = false): void
     {
         if (!is_null($media->getBinaryContent())) {
             $media->setImage(null);
