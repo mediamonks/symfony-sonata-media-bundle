@@ -57,7 +57,7 @@ class MediaResponseHandler
         $filename = $media->getProviderReference();
 
         $response = new StreamedResponse($this->readStream($filename), 200, [
-            'Content-Transfer-Encoding', 'binary',
+            'Content-Transfer-Encoding' => 'binary',
             'Content-Type' => $media->getProviderMetadataValue('mimeType'),
             'Content-Length' => $media->getProviderMetadataValue('size'),
             AbstractSessionListener::NO_AUTO_CACHE_CONTROL_HEADER => true
@@ -81,7 +81,7 @@ class MediaResponseHandler
 
         return new StreamedResponse($this->readStream($filename), 200, [
             'Content-Disposition' => HeaderUtils::makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $media->getProviderMetadataValue('originalName', 'download')),
-            'Content-Transfer-Encoding', 'binary',
+            'Content-Transfer-Encoding' => 'binary',
             'Content-Type' => $media->getProviderMetadataValue('mimeType'),
             'Content-Length' => $media->getProviderMetadataValue('size'),
             AbstractSessionListener::NO_AUTO_CACHE_CONTROL_HEADER => true

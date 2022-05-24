@@ -62,7 +62,7 @@ class CRUDController extends BaseCRUDController
 
         $this->admin->checkAccess('show', $media);
 
-        return $this->mediaResponseHandler->getStreamedResponse($media, new MediaParameterBag($request->query->all()));
+        return $this->mediaResponseHandler->getDownloadResponse($media, new MediaParameterBag($request->query->all()));
     }
 
     /**
