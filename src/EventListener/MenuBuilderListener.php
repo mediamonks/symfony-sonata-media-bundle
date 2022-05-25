@@ -5,45 +5,36 @@ namespace MediaMonks\SonataMediaBundle\EventListener;
 use Knp\Menu\ItemInterface;
 use MediaMonks\SonataMediaBundle\Provider\ProviderPool;
 use Sonata\AdminBundle\Event\ConfigureMenuEvent;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class MenuBuilderListener
 {
-    /**
-     * @var ProviderPool
-     */
-    private $providerPool;
+    const DEFAULT_CREATE_ROUTE = 'admin_mediamonks_sonatamedia_media_create';
 
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
-
-    /**
-     * @var string
-     */
-    private $route;
+    private ProviderPool $providerPool;
+    private TranslatorInterface $translator;
+    private string $route;
 
     /**
      * @param ProviderPool $providerPool
      * @param TranslatorInterface $translator
-     * @param string $route
+     * @param string|null $route
      */
     public function __construct(
         ProviderPool $providerPool,
         TranslatorInterface $translator,
-        $route = 'admin_mediamonks_sonatamedia_media_create'
+        ?string $route = null
     )
     {
         $this->providerPool = $providerPool;
         $this->translator = $translator;
-        $this->route = $route;
+        $this->route = $route ?? static::DEFAULT_CREATE_ROUTE;
     }
 
     /**
      * @param ConfigureMenuEvent $event
      */
-    public function addMenuItems(ConfigureMenuEvent $event)
+    public function addMenuItems(ConfigureMenuEvent $event): void
     {
         $menu = $event->getMenu();
 
@@ -67,16 +58,19 @@ class MenuBuilderListener
 
     /**
      * @param ItemInterface $menu
-     * @param string $name
+     * @param ItemInterface|string $childRef
      * @param string $route
      * @param array $routeParameters
-     * @param string $label
-     * @param string $icon
+     * @param string|null $label
+     * @param string|null $icon
      */
-    private function addProviderMenuChild(ItemInterface $menu, $name, $route, array $routeParameters, $label, $icon)
+    private function addProviderMenuChild(ItemInterface $menu, $childRef, string $route, array $routeParameters = [], ?string $label = null, ?string $icon = null): void
     {
-        $child = $menu->addChild($name, ['route' => $route, 'routeParameters' => $routeParameters]);
+        $child = $menu->addChild($childRef, ['route' => $route, 'routeParameters' => $routeParameters]);
+        $label = $label ?? (string)($childRef instanceof ItemInterface ? $childRef->getLabel() : $childRef);
         $child->setLabel($this->translator->trans('menu.provider', ['%provider%' => $this->translator->trans($label)]));
-        $child->setAttribute('icon', sprintf('<i class="%s" aria-hidden="true"></i>', $icon));
+        if (!empty($icon)) {
+            $child->setAttribute('icon', sprintf('<i class="%s" aria-hidden="true"></i>', $icon));
+        }
     }
 }

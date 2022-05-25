@@ -10,5 +10,4 @@ class InvalidProviderUrlException extends InvalidQueryParameterException
     {
         parent::__construct(sprintf('The supplied URL does not look like a %s URL', $provider), $code, $previous);
     }
-
 }

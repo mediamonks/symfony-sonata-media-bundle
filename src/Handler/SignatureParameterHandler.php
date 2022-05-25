@@ -11,21 +11,14 @@ class SignatureParameterHandler implements ParameterHandlerInterface
     const PARAMETER_SIGNATURE = 's';
     const PARAMETER_BUST_CACHE = 'bc';
 
-    /**
-     * @var string
-     */
-    private $key;
-
-    /**
-     * @var string
-     */
-    private $hashAlgorithm;
+    private string $key;
+    private string $hashAlgorithm;
 
     /**
      * @param string $key
      * @param string $hashAlgorithm
      */
-    public function __construct($key, $hashAlgorithm = 'sha256')
+    public function __construct(string $key, string $hashAlgorithm = 'sha256')
     {
         $this->key = $key;
         $this->hashAlgorithm = $hashAlgorithm;
@@ -34,6 +27,7 @@ class SignatureParameterHandler implements ParameterHandlerInterface
     /**
      * @param MediaInterface $media
      * @param ParameterBagInterface $parameterBag
+     *
      * @return array
      */
     public function getRouteParameters(MediaInterface $media, ParameterBagInterface $parameterBag): array
@@ -47,6 +41,7 @@ class SignatureParameterHandler implements ParameterHandlerInterface
     /**
      * @param MediaInterface $media
      * @param ParameterBagInterface $parameterBag
+     *
      * @return ParameterBagInterface
      * @throws SignatureInvalidException
      */
@@ -71,16 +66,18 @@ class SignatureParameterHandler implements ParameterHandlerInterface
     /**
      * @param MediaInterface $media
      * @param ParameterBagInterface $parameterBag
-     * @param $expectedSignature
+     * @param string $expectedSignature
+     *
      * @return bool
      */
-    private function isValid(MediaInterface $media, ParameterBagInterface $parameterBag, $expectedSignature): bool
+    private function isValid(MediaInterface $media, ParameterBagInterface $parameterBag, string $expectedSignature): bool
     {
         return hash_equals($this->calculateSignature($parameterBag->toArray($media)), $expectedSignature);
     }
 
     /**
      * @param array $parameters
+     *
      * @return string
      */
     private function calculateSignature(array $parameters): string
@@ -90,6 +87,7 @@ class SignatureParameterHandler implements ParameterHandlerInterface
 
     /**
      * @param array $parameters
+     *
      * @return array
      */
     private function normalize(array $parameters): array

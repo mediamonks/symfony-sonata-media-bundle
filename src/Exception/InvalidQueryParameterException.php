@@ -2,6 +2,8 @@
 
 namespace MediaMonks\SonataMediaBundle\Exception;
 
-class InvalidQueryParameterException extends \Exception
+use Exception;
+
+class InvalidQueryParameterException extends Exception
 {
 }

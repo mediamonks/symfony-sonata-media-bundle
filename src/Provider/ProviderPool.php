@@ -2,23 +2,22 @@
 
 namespace MediaMonks\SonataMediaBundle\Provider;
 
+use InvalidArgumentException;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 
 class ProviderPool
 {
-    /**
-     * @var array
-     */
-    protected $providers = [];
+    protected array $providers = [];
 
     /**
      * @param $name
+     *
      * @return ProviderInterface
      */
     public function getProvider($name): ProviderInterface
     {
         if (!isset($this->providers[$name])) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf('Provider with name "%s" does not exist', $name)
             );
         }
@@ -29,7 +28,7 @@ class ProviderPool
     /**
      * @param ProviderInterface $provider
      */
-    public function addProvider(ProviderInterface $provider)
+    public function addProvider(ProviderInterface $provider): void
     {
         $this->providers[$provider->getName()] = $provider;
     }
@@ -37,7 +36,7 @@ class ProviderPool
     /**
      * @param ProviderInterface[] $providers
      */
-    public function addProviders(array $providers)
+    public function addProviders(array $providers): void
     {
         foreach ($providers as $provider) {
             $this->addProvider($provider);
@@ -45,9 +44,11 @@ class ProviderPool
     }
 
     /**
-     * @param $providers
+     * @param array $providers
+     *
+     * @return void
      */
-    public function setProviders(array $providers)
+    public function setProviders(array $providers): void
     {
         $this->providers = [];
         $this->addProviders($providers);
@@ -63,6 +64,7 @@ class ProviderPool
 
     /**
      * @param array $types
+     *
      * @return ProviderInterface[]
      */
     public function getProvidersByTypes(array $types): array
@@ -79,6 +81,7 @@ class ProviderPool
 
     /**
      * @param MediaInterface $media
+     *
      * @return ProviderInterface
      */
     public function getByMedia(MediaInterface $media): ProviderInterface

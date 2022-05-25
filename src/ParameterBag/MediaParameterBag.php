@@ -2,6 +2,6 @@
 
 namespace MediaMonks\SonataMediaBundle\ParameterBag;
 
-class DownloadParameterBag extends AbstractMediaParameterBag
+class MediaParameterBag extends AbstractMediaParameterBag
 {
 }

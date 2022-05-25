@@ -4,7 +4,21 @@ namespace MediaMonks\SonataMediaBundle\Client;
 
 interface HttpClientInterface
 {
-    public function getData($url);
+    /**
+     * Performs a GET request and returns the content as a string.
+     *
+     * @param string $url
+     *
+     * @return string
+     */
+    public function get(string $url): string;
 
-    public function exists($url);
+    /**
+     * Attempts to verify if the request is valid/exists.
+     *
+     * @param string $url
+     *
+     * @return bool
+     */
+    public function exists(string $url): bool;
 }

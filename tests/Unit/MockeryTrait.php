@@ -6,14 +6,14 @@ use Mockery as m;
 
 trait MockeryTrait
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         m::resetContainer();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
 

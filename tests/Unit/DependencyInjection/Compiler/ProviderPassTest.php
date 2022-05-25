@@ -4,15 +4,15 @@ namespace MediaMonks\SonataMediaBundle\Tests\Unit\DependencyInjection\Compiler;
 
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
 use MediaMonks\SonataMediaBundle\DependencyInjection\Compiler\ProviderPass;
+use Mockery as m;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
-use Mockery as m;
 
 class ProviderPassTest extends AbstractCompilerPassTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
-    protected function registerCompilerPass(ContainerBuilder $container)
+    protected function registerCompilerPass(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new ProviderPass());
     }

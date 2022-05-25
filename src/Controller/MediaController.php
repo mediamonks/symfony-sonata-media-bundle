@@ -2,36 +2,51 @@
 
 namespace MediaMonks\SonataMediaBundle\Controller;
 
-use MediaMonks\SonataMediaBundle\ParameterBag\DownloadParameterBag;
-use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
+use Doctrine\Persistence\ManagerRegistry;
+use League\Glide\Filesystem\FilesystemException;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
-use MediaMonks\SonataMediaBundle\Utility\DownloadUtility;
-use MediaMonks\SonataMediaBundle\Utility\ImageUtility;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
+use MediaMonks\SonataMediaBundle\ParameterBag\MediaParameterBag;
+use MediaMonks\SonataMediaBundle\Service\ImageResponseHandler;
+use MediaMonks\SonataMediaBundle\Service\MediaResponseHandler;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class MediaController extends Controller
+class MediaController
 {
+    private ManagerRegistry $registry;
+    private MediaResponseHandler $mediaResponseHandler;
+    private ImageResponseHandler $imageResponseHandler;
+    private string $mediaEntityClass;
+
+    public function __construct(
+        ManagerRegistry $registry,
+        MediaResponseHandler $mediaResponseHandler,
+        ImageResponseHandler $imageResponseHandler,
+        string $mediaEntityClass
+    )
+    {
+        $this->registry = $registry;
+        $this->mediaResponseHandler = $mediaResponseHandler;
+        $this->imageResponseHandler = $imageResponseHandler;
+        $this->mediaEntityClass = $mediaEntityClass;
+    }
 
     /**
      * @param Request $request
      * @param int $id
-     * @param int $width
-     * @param int $height
      *
-     * @return RedirectResponse
+     * @return StreamedResponse
      */
-    public function imageRedirectAction(
+    public function streamAction(
         Request $request,
-        int $id,
-        int $width,
-        int $height
-    ): RedirectResponse {
-        return $this->get(ImageUtility::class)->getRedirectResponse(
+        int $id
+    ): StreamedResponse
+    {
+        return $this->mediaResponseHandler->getStreamedResponse(
             $this->getMediaById($id),
-            new ImageParameterBag($width, $height, $request->query->all())
+            new MediaParameterBag($request->query->all())
         );
     }
 
@@ -41,11 +56,100 @@ class MediaController extends Controller
      *
      * @return StreamedResponse
      */
-    public function downloadAction(Request $request, int $id): StreamedResponse
+    public function downloadAction(
+        Request $request,
+        int $id
+    ): StreamedResponse
     {
-        return $this->get(DownloadUtility::class)->getStreamedResponse(
+        return $this->mediaResponseHandler->getDownloadResponse(
             $this->getMediaById($id),
-            new DownloadParameterBag($request->query->all())
+            new MediaParameterBag($request->query->all())
+        );
+    }
+
+    /**
+     * @param Request $request
+     * @param int $id
+     *
+     * @return RedirectResponse
+     */
+    public function redirectAction(
+        Request $request,
+        int $id
+    ): RedirectResponse
+    {
+        return $this->mediaResponseHandler->getRedirectResponse(
+            $this->getMediaById($id),
+            new MediaParameterBag($request->query->all())
+        );
+    }
+
+    /**
+     * @param Request $request
+     * @param int $id
+     * @param int $width
+     * @param int $height
+     *
+     * @return StreamedResponse
+     * @throws FilesystemException
+     * @throws \League\Flysystem\FilesystemException
+     */
+    public function imageStreamAction(
+        Request $request,
+        int $id,
+        int $width,
+        int $height
+    ): StreamedResponse
+    {
+        return $this->imageResponseHandler->getStreamedResponse(
+            $this->getMediaById($id),
+            new ImageParameterBag($width, $height, $request->query->all())
+        );
+    }
+
+    /**
+     * @param Request $request
+     * @param int $id
+     * @param int $width
+     * @param int $height
+     *
+     * @return StreamedResponse
+     * @throws FilesystemException
+     * @throws \League\Flysystem\FilesystemException
+     */
+    public function imageDownloadAction(
+        Request $request,
+        int $id,
+        int $width,
+        int $height
+    ): StreamedResponse
+    {
+        return $this->imageResponseHandler->getDownloadResponse(
+            $this->getMediaById($id),
+            new ImageParameterBag($width, $height, $request->query->all())
+        );
+    }
+
+    /**
+     * @param Request $request
+     * @param int $id
+     * @param int $width
+     * @param int $height
+     *
+     * @return RedirectResponse
+     * @throws \League\Flysystem\FilesystemException
+     * @throws FilesystemException
+     */
+    public function imageRedirectAction(
+        Request $request,
+        int $id,
+        int $width,
+        int $height
+    ): RedirectResponse
+    {
+        return $this->imageResponseHandler->getRedirectResponse(
+            $this->getMediaById($id),
+            new ImageParameterBag($width, $height, $request->query->all())
         );
     }
 
@@ -56,9 +160,6 @@ class MediaController extends Controller
      */
     protected function getMediaById(int $id): MediaInterface
     {
-        return $this->getDoctrine()->getManager()->find(
-            $this->getParameter('mediamonks.sonata_media.entity.class'),
-            $id
-        );
+        return $this->registry->getManager()->getRepository($this->mediaEntityClass)->find($id);
     }
 }

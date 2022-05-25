@@ -33,11 +33,11 @@ Please refer to the files in the [/docs](/docs) folder.
 
 You need:
 
-- **PHP >= 7.0**
-- **Symfony Framework >= 3.3**
-- **Sonata Admin >= 3.0**
-- **Flysystem >= 1.0**
-- **Glide >= 1.2**
+- **PHP >= 7.4**
+- **Symfony Framework >= 4.0**
+- **Sonata Admin >= 3.2**
+- **Flysystem >= 4.0**
+- **Glide >= 2.0**
 
 To use the library.
 

@@ -6,7 +6,7 @@ use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 
 interface ParameterBagInterface
 {
-    public function removeExtra($key);
+    public function removeExtra(string $key): void;
 
-    public function toArray(MediaInterface $media);
+    public function toArray(MediaInterface $media): array;
 }

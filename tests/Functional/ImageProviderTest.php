@@ -8,7 +8,7 @@ class ImageProviderTest extends AdminTestAbstract
     {
         $provider = 'image';
 
-        $crawler = $this->client->request('GET', self::BASE_PATH.'create?provider='.$provider);
+        $crawler = $this->browser->request('GET', self::BASE_PATH . 'create?provider=' . $provider);
 
         $form = $crawler->selectButton('Create')->form();
 
@@ -21,19 +21,19 @@ class ImageProviderTest extends AdminTestAbstract
 
         $this->setFormBinaryContent($form, $this->getFixturesPath().'monk.jpg');
 
-        $crawler = $this->client->submit($form);
+        $crawler = $this->browser->submit($form);
         $form = $crawler->selectButton('Update')->form();
 
         $this->assertSonataFormValues($form, ['title' => 'monk']);
 
-        $this->client->request('GET', self::BASE_PATH.'list');
-        $this->assertContains('monk', $this->client->getResponse()->getContent());
+        $this->browser->request('GET', self::BASE_PATH . 'list');
+        $this->assertStringContainsString('monk', $this->browser->getResponse()->getContent());
 
         $this->assertNumberOfFilesInPath(1, $this->getMediaPathPrivate());
 
         $this->verifyMediaImageIsGenerated();
 
-        $crawler = $this->client->request('GET', '/twig');
+        $crawler = $this->browser->request('GET', '/twig');
 
         $this->assertEquals(
             5,
@@ -50,8 +50,8 @@ class ImageProviderTest extends AdminTestAbstract
             $crawler->filter('a')->count()
         );
 
-        $this->client->request('GET', '/api');
-        $data = json_decode($this->client->getResponse()->getContent(), true);
+        $this->browser->request('GET', '/api');
+        $data = json_decode($this->browser->getResponse()->getContent(), true);
 
         $this->assertArrayHasKey('url', $data);
     }
@@ -60,7 +60,7 @@ class ImageProviderTest extends AdminTestAbstract
     {
         $provider = 'image';
 
-        $crawler = $this->client->request('GET', self::BASE_PATH.'create?provider='.$provider);
+        $crawler = $this->browser->request('GET', self::BASE_PATH . 'create?provider=' . $provider);
 
         $form = $crawler->selectButton('Create')->form();
 
@@ -71,9 +71,9 @@ class ImageProviderTest extends AdminTestAbstract
             ]
         );
 
-        $this->client->submit($form);
+        $this->browser->submit($form);
 
-        $this->assertContains('This value should not be blank', $this->client->getResponse()->getContent());
-        $this->assertContains('This value should not be blank', $this->client->getResponse()->getContent());
+        $this->assertStringContainsString('This value should not be blank', $this->browser->getResponse()->getContent());
+        $this->assertStringContainsString('This value should not be blank', $this->browser->getResponse()->getContent());
     }
 }

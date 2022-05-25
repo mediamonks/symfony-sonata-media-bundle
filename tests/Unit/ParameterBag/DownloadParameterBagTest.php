@@ -3,7 +3,7 @@
 namespace MediaMonks\SonataMediaBundle\Tests\Unit\ParameterBag;
 
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
-use MediaMonks\SonataMediaBundle\ParameterBag\DownloadParameterBag;
+use MediaMonks\SonataMediaBundle\ParameterBag\MediaParameterBag;
 use Mockery as m;
 use PHPUnit\Framework\TestCase;
 
@@ -14,7 +14,7 @@ class DownloadParameterBagTest extends TestCase
         $media = m::mock(MediaInterface::class);
         $media->shouldReceive('getId')->andReturn(1);
 
-        $bag = new DownloadParameterBag();
+        $bag = new MediaParameterBag();
         $this->assertEquals(['id' => 1], $bag->toArray($media));
         $bag->setExtra(['foo' => 'bar']);
         $this->assertEquals(['id' => 1, 'foo' => 'bar'], $bag->toArray($media));

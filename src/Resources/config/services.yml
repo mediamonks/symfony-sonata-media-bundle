@@ -1,67 +1,79 @@
 services:
-    _defaults:
-        public: false
-        autowire: true
-        autoconfigure: true
+  _defaults:
+    public: false
+    autowire: true
+    autoconfigure: true
+    bind:
+      $mediaBaseUrl: '%mediamonks.sonata_media.base_url%'
+      $mediaCacheTtl: '%mediamonks.sonata_media.cache_ttl%'
+      $mediaEntityClass: '%mediamonks.sonata_media.entity.class%'
+      $filesystemPrivate: '@mediamonks.sonata_media.filesystem.private'
+      $defaultRoutes:
+        imageStream: '%mediamonks.sonata_media.default_route.image_stream%'
+        imageDownload: '%mediamonks.sonata_media.default_route.image_download%'
+        imageRedirect: '%mediamonks.sonata_media.default_route.image_redirect%'
+        stream: '%mediamonks.sonata_media.default_route.stream%'
+        download: '%mediamonks.sonata_media.default_route.download%'
+        redirect: '%mediamonks.sonata_media.default_route.redirect%'
 
-    League\Glide\Server:
-        factory: ['League\Glide\ServerFactory', 'create']
+  League\Glide\ServerFactory:
+    arguments:
+      - {
+        source: '@mediamonks.sonata_media.filesystem.private',
+        cache: '@mediamonks.sonata_media.filesystem.public'
+      }
 
-    MediaMonks\SonataMediaBundle\:
-        resource: '../../*'
-        exclude: '../../{Entity,Admin}'
+  League\Glide\Server:
+    factory: [ '@League\Glide\ServerFactory', 'getServer' ]
 
-    MediaMonks\SonataMediaBundle\Admin\MediaAdmin:
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: Media, group: 'Media' }
-        calls:
-            - [ setTemplate, ['outer_list_rows_mosaic', '@@MediaMonksSonataMedia/CRUD/outer_list_rows_mosaic.html.twig']]
-            - [ setTemplate, ['edit', '@@MediaMonksSonataMedia/CRUD/edit.html.twig']]
+  MediaMonks\SonataMediaBundle\:
+    resource: '../../*'
+    exclude: '../../{Entity,Admin}'
 
-    _instanceof:
-        MediaMonks\SonataMediaBundle\Provider\ProviderInterface:
-          tags: [sonata_media.provider]
+  MediaMonks\SonataMediaBundle\Admin\MediaAdmin:
+    tags:
+      - { name: sonata.admin, manager_type: orm, label: Media, group: 'Media' }
+    calls:
+      - [ setTemplate, [ 'outer_list_rows_mosaic', '@@MediaMonksSonataMedia/CRUD/outer_list_rows_mosaic.html.twig' ] ]
+      - [ setTemplate, [ 'edit', '@@MediaMonksSonataMedia/CRUD/edit.html.twig' ] ]
 
-    MediaMonks\SonataMediaBundle\Provider\ProviderPool:
-        public: true
+  _instanceof:
+    MediaMonks\SonataMediaBundle\Provider\ProviderInterface:
+      tags: [ sonata_media.provider ]
 
-    MediaMonks\SonataMediaBundle\Handler\SignatureParameterHandler:
-        arguments:
-            $key: '%kernel.secret%'
+  MediaMonks\SonataMediaBundle\Provider\ProviderPool:
+    public: true
 
-    MediaMonks\SonataMediaBundle\Generator\ImageUrlGenerator:
-        public: true
-        arguments:
-            $defaultRouteName: '%mediamonks.sonata_media.default_route.image%'
+  MediaMonks\SonataMediaBundle\Handler\SignatureParameterHandler:
+    arguments:
+      $key: '%kernel.secret%'
 
-    MediaMonks\SonataMediaBundle\Generator\DownloadUrlGenerator:
-        public: true
-        arguments:
-            $defaultRouteName: '%mediamonks.sonata_media.default_route.download%'
+  MediaMonks\SonataMediaBundle\Generator\MediaUrlGenerator:
+    public: true
 
-    MediaMonks\SonataMediaBundle\Generator\ImageGenerator:
-        public: true
+  MediaMonks\SonataMediaBundle\Generator\ImageUrlGenerator:
+    public: true
 
-    MediaMonks\SonataMediaBundle\Utility\ImageUtility:
-        public: true
+  MediaMonks\SonataMediaBundle\Generator\DownloadUrlGenerator:
+    public: true
 
-    MediaMonks\SonataMediaBundle\Utility\DownloadUtility:
-        public: true
+  MediaMonks\SonataMediaBundle\Generator\ImageGenerator:
+    public: true
 
-    MediaMonks\SonataMediaBundle\Controller\HelperController:
-        public: true
+  MediaMonks\SonataMediaBundle\Controller\HelperController:
+    public: true
 
-    MediaMonks\SonataMediaBundle\Controller\CRUDController:
-        public: true
+  MediaMonks\SonataMediaBundle\Controller\CRUDController:
+    public: true
 
-    MediaMonks\SonataMediaBundle\Controller\MediaController:
-        public: true
+  MediaMonks\SonataMediaBundle\Controller\MediaController:
+    public: true
 
-    MediaMonks\SonataMediaBundle\EventListener\MenuBuilderListener:
-        tags:
-            - { name: kernel.event_listener, event: sonata.admin.event.configure.menu.sidebar, method: addMenuItems }
+  MediaMonks\SonataMediaBundle\EventListener\MenuBuilderListener:
+    tags:
+      - { name: kernel.event_listener, event: sonata.admin.event.configure.menu.sidebar, method: addMenuItems }
 
-    # interface aliases
-    MediaMonks\SonataMediaBundle\Client\HttpClientInterface: '@MediaMonks\SonataMediaBundle\Client\CurlHttpClient'
-    MediaMonks\SonataMediaBundle\Handler\ParameterHandlerInterface: '@MediaMonks\SonataMediaBundle\Handler\SignatureParameterHandler'
-    MediaMonks\SonataMediaBundle\Generator\FilenameGeneratorInterface: '@MediaMonks\SonataMediaBundle\Generator\DefaultFilenameGenerator'
+  # interface aliases
+  MediaMonks\SonataMediaBundle\Client\HttpClientInterface: '@MediaMonks\SonataMediaBundle\Client\CurlHttpClient'
+  MediaMonks\SonataMediaBundle\Handler\ParameterHandlerInterface: '@MediaMonks\SonataMediaBundle\Handler\SignatureParameterHandler'
+  MediaMonks\SonataMediaBundle\Generator\FilenameGeneratorInterface: '@MediaMonks\SonataMediaBundle\Generator\DefaultFilenameGenerator'

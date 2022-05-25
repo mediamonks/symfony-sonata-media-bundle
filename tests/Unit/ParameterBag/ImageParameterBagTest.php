@@ -3,7 +3,7 @@
 namespace MediaMonks\SonataMediaBundle\Tests\Unit\ParameterBag;
 
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
-use MediaMonks\SonataMediaBundle\ParameterBag\DownloadParameterBag;
+use MediaMonks\SonataMediaBundle\ParameterBag\MediaParameterBag;
 use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
 use Mockery as m;
 use PHPUnit\Framework\TestCase;

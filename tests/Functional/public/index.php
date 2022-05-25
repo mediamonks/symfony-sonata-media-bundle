@@ -1,12 +1,13 @@
 <?php
 
-use Symfony\Component\HttpFoundation\Request;
+use Composer\Autoload\ClassLoader;
 use MediaMonks\SonataMediaBundle\Tests\App\AppKernel;
+use Symfony\Component\HttpFoundation\Request;
 
-/** @var \Composer\Autoload\ClassLoader $loader */
-$loader = require __DIR__.'/../../../vendor/autoload.php';
+/** @var ClassLoader $loader */
+$loader = require __DIR__ . '/../../../vendor/autoload.php';
 
-require __DIR__.'/../app/AppKernel.php';
+require __DIR__ . '/../app/AppKernel.php';
 $kernel = new AppKernel('prod', true);
 $request = Request::createFromGlobals();
 $response = $kernel->handle($request);

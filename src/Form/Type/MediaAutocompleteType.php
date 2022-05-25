@@ -3,22 +3,21 @@
 namespace MediaMonks\SonataMediaBundle\Form\Type;
 
 use MediaMonks\SonataMediaBundle\Admin\MediaAdmin;
+use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType as BaseModelAutocompleteType;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 class MediaAutocompleteType extends BaseModelAutocompleteType
 {
-    /**
-     * @var MediaAdmin
-     */
-    private $mediaAdmin;
+    const DEFAULT_AUTOCOMPLETE_ROUTE = 'mediamonks_media_autocomplete';
 
-    /**
-     * @var Environment
-     */
-    private $twig;
+    private MediaAdmin $mediaAdmin;
+    private Environment $twig;
 
     /**
      * @param MediaAdmin $mediaAdmin
@@ -33,7 +32,7 @@ class MediaAutocompleteType extends BaseModelAutocompleteType
     /**
      * @param OptionsResolver $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
 
@@ -47,26 +46,47 @@ class MediaAutocompleteType extends BaseModelAutocompleteType
                 'type' => null,
                 'provider' => null,
                 'property' => 'title',
-                'to_string_callback' => function ($media, $property) {
-                    return $this->twig->render(
-                        '@MediaMonksSonataMedia/CRUD/autocomplete.html.twig',
-                        [
-                            'media' => $media,
-                        ]
-                    );
-                },
-                'route' => function(Options $options) {
-                    $parameters = [];
-                    if (isset($options['type'])) {
-                        $parameters['type'] = $options['type'];
-                    }
-                    if (isset($options['provider'])) {
-                        $parameters['provider'] = $options['provider'];
-                    }
-                    return ['name' => 'mediamonks_media_autocomplete', 'parameters' => $parameters];
-                },
+                'to_string_callback' => [$this, 'renderMediaToAutocomplete'],
+                'route' => [$this, 'getAutocompleteRoute'],
                 'model_manager' => $this->mediaAdmin->getModelManager()
             ]
         );
+    }
+
+    /**
+     * @param MediaInterface $media
+     * @param string|null $property
+     *
+     * @return string
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
+    public function renderMediaToAutocomplete(MediaInterface $media, ?string $property = null): string
+    {
+        return $this->twig->render(
+            '@MediaMonksSonataMedia/CRUD/autocomplete.html.twig',
+            [
+                'media' => $media,
+            ]
+        );
+    }
+
+    /**
+     * @param Options $options
+     *
+     * @return array
+     */
+    public function getAutocompleteRoute(Options $options): array
+    {
+        $parameters = [];
+        if (isset($options['type'])) {
+            $parameters['type'] = $options['type'];
+        }
+        if (isset($options['provider'])) {
+            $parameters['provider'] = $options['provider'];
+        }
+
+        return ['name' => static::DEFAULT_AUTOCOMPLETE_ROUTE, 'parameters' => $parameters];
     }
 }

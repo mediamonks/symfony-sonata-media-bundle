@@ -1,68 +1,65 @@
 imports:
-    - { resource: parameters.yml }
-    - { resource: security.yml }
+  - { resource: parameters.yml }
+  - { resource: security.yml }
 
 framework:
-    secret: '%secret%'
-    router:
-        resource: '%kernel.root_dir%/config/routing.yml'
-        strict_requirements: ~
-    form:            ~
-    translator:      ~
-    csrf_protection: ~
-    templating:
-        engines: ['twig']
-    default_locale:  'en'
-    session:
-        handler_id:  ~
-    fragments:       ~
-    http_method_override: true
+  secret: '%secret%'
+  router:
+    resource: '%kernel.project_dir%/app/config/routing.yml'
+    strict_requirements: ~
+  form: ~
+  translator: ~
+  csrf_protection: ~
+  templating:
+    engines: [ 'twig' ]
+  default_locale: 'en'
+  session:
+    handler_id: ~
+  fragments: ~
+  http_method_override: true
 
 twig:
-    debug:            '%kernel.debug%'
-    strict_variables: '%kernel.debug%'
+  debug: '%kernel.debug%'
+  strict_variables: '%kernel.debug%'
 
 doctrine:
-    dbal:
-        driver:   pdo_sqlite
-        path:     '%database_path%'
-    orm:
-        auto_generate_proxy_classes: '%kernel.debug%'
-        metadata_cache_driver: array
-        result_cache_driver: array
-        query_cache_driver: array
-        naming_strategy: doctrine.orm.naming_strategy.underscore
-        auto_mapping: true
+  dbal:
+    driver: pdo_sqlite
+    path: '%database_path%'
+  orm:
+    auto_generate_proxy_classes: '%kernel.debug%'
+    naming_strategy: doctrine.orm.naming_strategy.underscore
+    auto_mapping: true
 
 sonata_admin:
-    title: 'MediaMonks'
-    security:
-        handler: sonata.admin.security.handler.noop
+  title: 'MediaMonks'
+  security:
+    handler: sonata.admin.security.handler.noop
 
 sonata_block:
-    default_contexts: [cms]
-    blocks:
-        sonata.admin.block.admin_list:
-            contexts: [admin]
-        sonata.user.block.menu:
-        sonata.user.block.account:
+  default_contexts: [ cms ]
+  blocks:
+    sonata.admin.block.admin_list:
+      contexts: [ admin ]
+    sonata.user.block.menu:
+    sonata.user.block.account:
 
 oneup_flysystem:
-    adapters:
-        media_private:
-            local:
-                directory: '%kernel.root_dir%/../var/media/'
-        media_public:
-            local:
-                directory: '%kernel.root_dir%/../web/media/'
-    filesystems:
-        media_private:
-            adapter: media_private
-        media_public:
-            adapter: media_public
+  adapters:
+    media_private:
+      local:
+        location: '%kernel.project_dir%/var/media/'
+    media_public:
+      local:
+        location: '%kernel.project_dir%/public/media/'
+  filesystems:
+    media_private:
+      adapter: media_private
+    media_public:
+      adapter: media_public
 
 mediamonks_sonata_media:
-    filesystem_private: 'oneup_flysystem.media_private_filesystem'
-    filesystem_public: 'oneup_flysystem.media_public_filesystem'
-    redirect_url: '/media/'
-    model_class: 'MediaMonks\SonataMediaBundle\Tests\AppBundle\Entity\Media'
+  filesystem_private: 'oneup_flysystem.media_private_filesystem'
+  filesystem_public: 'oneup_flysystem.media_public_filesystem'
+  redirect_url: '/media/'
+  model_class: 'MediaMonks\SonataMediaBundle\Tests\AppBundle\Entity\Media'

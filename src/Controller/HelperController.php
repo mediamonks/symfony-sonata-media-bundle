@@ -8,20 +8,16 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 class HelperController
 {
     const QUERY_MINIMUM_LENGTH = 3;
 
-    /**
-     * @var MediaAdmin
-     */
-    private $mediaAdmin;
-
-    /**
-     * @var Environment
-     */
-    private $twig;
+    private MediaAdmin $mediaAdmin;
+    private Environment $twig;
 
     /**
      * @param MediaAdmin $mediaAdmin
@@ -35,7 +31,11 @@ class HelperController
 
     /**
      * @param Request $request
+     *
      * @return JsonResponse
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function getAutocompleteItemsAction(Request $request): JsonResponse
     {
@@ -54,12 +54,11 @@ class HelperController
 
     /**
      * @param Request $request
+     *
      * @return array
      */
-    protected function getPagerResults(Request $request): array
+    protected function getPagerResults(Request $request): iterable
     {
-        $this->mediaAdmin->setPersistFilters(false);
-
         $datagrid = $this->mediaAdmin->getDatagrid();
         $datagrid->setValue('title', null, $request->get('q'));
         $datagrid->setValue('_per_page', null, $request->query->get('_per_page', 10));
@@ -70,21 +69,23 @@ class HelperController
         if ($request->query->has('provider')) {
             $datagrid->setValue('provider', null, $request->query->get('provider'));
         }
-
         $datagrid->buildPager();
 
-        $pager = $datagrid->getPager();
-        return $pager->getResults();
+        return $datagrid->getPager()->getCurrentPageResults();
     }
 
     /**
      * @param MediaInterface[] $results
+     *
      * @return array
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    protected function transformResults(array $results): array
+    protected function transformResults(iterable $results): array
     {
         $items = [];
-        foreach($results as $media) {
+        foreach ($results as $media) {
             $items[] = [
                 'id' => $media->getId(),
                 'label' => $this->twig->render('@MediaMonksSonataMedia/CRUD/autocomplete.html.twig', [

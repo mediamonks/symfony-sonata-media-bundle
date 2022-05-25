@@ -3,17 +3,17 @@
 namespace MediaMonks\SonataMediaBundle\Tests\Unit\Generator;
 
 use MediaMonks\SonataMediaBundle\Generator\AbstractUrlGenerator;
-use MediaMonks\SonataMediaBundle\Generator\DownloadUrlGenerator;
+use MediaMonks\SonataMediaBundle\Generator\MediaUrlGenerator;
 use MediaMonks\SonataMediaBundle\Handler\ParameterHandlerInterface;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
-use MediaMonks\SonataMediaBundle\ParameterBag\MediaParameterBag;
+use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
 use MediaMonks\SonataMediaBundle\Tests\Unit\MockeryTrait;
 use Mockery as m;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class DownloadUrlGeneratorTest extends TestCase
+class MediaUrlGeneratorTest extends TestCase
 {
     use MockeryTrait;
 
@@ -35,13 +35,14 @@ class DownloadUrlGeneratorTest extends TestCase
         $parameterHandler->shouldReceive('getQueryString')->andReturn('querystring');
         $parameterHandler->shouldReceive('getRouteParameters')->andReturn([]);
 
-        $generator = new DownloadUrlGenerator($router, $parameterHandler, [
-            AbstractUrlGenerator::ROUTE_DOWNLOAD => 'route_name'
+        $generator = new MediaUrlGenerator($router, $parameterHandler, [
+            AbstractUrlGenerator::ROUTE_STREAM => 'route_name'
         ]);
 
         $media = m::mock(MediaInterface::class);
+        $media->shouldReceive('getFocalPoint')->andReturn('50-50');
 
-        $this->assertEquals('http://route/1/', $generator->generateDownloadUrl($media));
+        $this->assertEquals('http://route/1/', $generator->generateStreamUrl($media));
     }
 
     public function testGenerateWithRouteName()
@@ -55,16 +56,15 @@ class DownloadUrlGeneratorTest extends TestCase
         $parameterHandler->shouldReceive('getQueryString')->andReturn('querystring');
         $parameterHandler->shouldReceive('getRouteParameters')->andReturn([]);
 
-        $generator = new DownloadUrlGenerator($router, $parameterHandler, [
-            AbstractUrlGenerator::ROUTE_DOWNLOAD => 'route_name'
+        $generator = new MediaUrlGenerator($router, $parameterHandler, [
+            AbstractUrlGenerator::ROUTE_STREAM => 'route_name'
         ]);
 
-        $parameterBag = new MediaParameterBag();
+        $parameterBag = new ImageParameterBag(400, 300);
 
         $media = m::mock(MediaInterface::class);
+        $media->shouldReceive('getFocalPoint')->andReturn('50-50');
 
         $this->assertEquals('http://route-foo/1/', $generator->generate($media, $parameterBag, 'route_name_custom'));
-
-        $this->assertEquals('http://route-foo/1/', $generator->generateDownloadUrl($media, [], 'route_name_custom'));
     }
 }

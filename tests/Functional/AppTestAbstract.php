@@ -9,7 +9,9 @@ class AppTestAbstract extends AbstractBaseFunctionTest
         $client = static::createClient();
         $client->request('GET', '/ready');
 
-        $this->assertEquals('MediaMonks Functional Test App Ready', $client->getResponse()->getContent());
+        $response = $client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals('MediaMonks Functional Test App Ready', $response->getContent());
     }
 
     public function testAdminDashboard()
@@ -17,16 +19,20 @@ class AppTestAbstract extends AbstractBaseFunctionTest
         $client = $this->getAuthenticatedClient();
         $client->request('GET', '/admin/dashboard');
 
-        $this->assertContains('Dashboard', $client->getResponse()->getContent());
+        $response = $client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertStringContainsString('Dashboard', $response->getContent());
     }
 
     public function testAdminMediaListEmpty()
     {
-        $this->loadFixtures([]);
+        $this->loadFixtures();
 
         $client = $this->getAuthenticatedClient();
         $client->request('GET', '/mediamonks/sonatamedia/media/list');
 
-        $this->assertContains('No result', $client->getResponse()->getContent());
+        $response = $client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertStringContainsString('No result', $response->getContent());
     }
 }

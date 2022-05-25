@@ -4,24 +4,17 @@ namespace MediaMonks\SonataMediaBundle\ParameterBag;
 
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 
-class ImageParameterBag extends AbstractMediaParameterBag
+class ImageParameterBag extends MediaParameterBag
 {
-    /**
-     * @var int
-     */
-    protected $width;
+    protected ?int $width;
+    protected ?int $height;
 
     /**
-     * @var int
-     */
-    protected $height;
-
-    /**
-     * @param int $width
-     * @param int $height
+     * @param int|null $width
+     * @param int|null $height
      * @param array $extra
      */
-    public function __construct($width, $height, array $extra = [])
+    public function __construct(?int $width, ?int $height, array $extra = [])
     {
         $this->width = $width;
         $this->height = $height;
@@ -30,42 +23,43 @@ class ImageParameterBag extends AbstractMediaParameterBag
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getWidth()
+    public function getWidth(): ?int
     {
         return $this->width;
     }
 
     /**
-     * @param int $width
+     * @param int|null $width
      */
-    public function setWidth($width)
+    public function setWidth(?int $width): void
     {
         $this->width = $width;
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getHeight()
+    public function getHeight(): ?int
     {
         return $this->height;
     }
 
     /**
-     * @param int $height
+     * @param int|null $height
      */
-    public function setHeight($height)
+    public function setHeight(?int $height): void
     {
         $this->height = $height;
     }
 
     /**
      * @param MediaInterface $media
+     *
      * @return array
      */
-    public function toArray(MediaInterface $media)
+    public function toArray(MediaInterface $media): array
     {
         return array_merge(parent::toArray($media), [
             'width' => $this->getWidth(),

@@ -2,31 +2,39 @@
 
 namespace MediaMonks\SonataMediaBundle\Model;
 
+use DateTimeInterface;
+
 interface MediaInterface
 {
-    public function getId();
+    public function getId(): ?int;
 
-    public function getTitle();
+    public function getTitle(): ?string;
 
-    public function getDescription();
+    public function getDescription(): ?string;
 
-    public function getType();
+    public function getProvider(): ?string;
 
-    public function getImage();
+    public function getType(): ?string;
 
-    public function getAuthorName();
+    public function getProviderReference(): ?string;
 
-    public function getCopyright();
+    public function getProviderMetaData(): array;
 
-    public function getProvider();
+    public function getProviderMetadataValue(string $property, $default = null);
 
-    public function getProviderReference();
+    public function getImage(): ?string;
 
-    public function getProviderMetaData();
+    public function getImageMetaData(): array;
 
-    public function getFocalPoint();
+    public function getImageMetadataValue(string $property, $default = null);
 
-    public function getCreatedAt();
+    public function getFocalPoint(): ?string;
 
-    public function getUpdatedAt();
+    public function getCopyright(): ?string;
+
+    public function getAuthorName(): ?string;
+
+    public function getCreatedAt(): DateTimeInterface;
+
+    public function getUpdatedAt(): DateTimeInterface;
 }

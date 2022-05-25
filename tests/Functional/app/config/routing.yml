@@ -1,18 +1,24 @@
 app:
-    resource: "@AppBundle/Controller/"
-    type:     annotation
+  resource: "@AppBundle/Controller/"
+  type: annotation
 
 _sonata_admin:
-    resource: "@SonataAdminBundle/Resources/config/routing/sonata_admin.xml"
-    prefix: /admin
+  resource: "@SonataAdminBundle/Resources/config/routing/sonata_admin.xml"
+  prefix: /admin
 
 _sonata_admin_resource:
   resource: .
   type: sonata_admin
 
 _mediamonks_media_admin:
-    resource: "@MediaMonksSonataMediaBundle/Resources/config/routing_admin.yml"
-    prefix: /admin
+  resource: "@MediaMonksSonataMediaBundle/Resources/config/routing_admin.yml"
+  prefix: /admin
 
 _mediamonks_media:
-    resource: "@MediaMonksSonataMediaBundle/Resources/config/routing.yml"
+  resource: "@MediaMonksSonataMediaBundle/Resources/config/routing.yml"
+
+media_assets:
+  path: '/media/{asset}'
+  defaults: { _controller: MediaMonks\SonataMediaBundle\Tests\AppBundle\Controller\MediaController::readAction }
+  requirements:
+    asset: ".*"

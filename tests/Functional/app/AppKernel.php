@@ -2,38 +2,54 @@
 
 namespace MediaMonks\SonataMediaBundle\Tests\App;
 
-use Doctrine\Common\Annotations\AnnotationRegistry;
+use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
+use Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle;
+use Knp\Bundle\MenuBundle\KnpMenuBundle;
+use Liip\FunctionalTestBundle\LiipFunctionalTestBundle;
+use Liip\TestFixturesBundle\LiipTestFixturesBundle;
+use MediaMonks\SonataMediaBundle\MediaMonksSonataMediaBundle;
+use MediaMonks\SonataMediaBundle\Tests\AppBundle\AppBundle;
+use Oneup\FlysystemBundle\OneupFlysystemBundle;
+use Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle;
+use Sonata\AdminBundle\SonataAdminBundle;
+use Sonata\BlockBundle\SonataBlockBundle;
+use Sonata\CoreBundle\SonataCoreBundle;
+use Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle;
+use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
+use Symfony\Bundle\MonologBundle\MonologBundle;
+use Symfony\Bundle\SecurityBundle\SecurityBundle;
+use Symfony\Bundle\TwigBundle\TwigBundle;
+use Symfony\Bundle\WebProfilerBundle\WebProfilerBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
-
-$loader = require __DIR__.'/../../../vendor/autoload.php';
-
-AnnotationRegistry::registerLoader([$loader, 'loadClass']);
+use function dirname;
 
 class AppKernel extends Kernel
 {
     public function registerBundles()
     {
         $bundles = [
-            new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
-            new \Symfony\Bundle\TwigBundle\TwigBundle(),
-            new \Symfony\Bundle\WebProfilerBundle\WebProfilerBundle(),
-            new \Symfony\Bundle\SecurityBundle\SecurityBundle(),
-            new \Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
-            new \Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
-            new \Oneup\FlysystemBundle\OneupFlysystemBundle(),
-            new \Sonata\BlockBundle\SonataBlockBundle(),
-            new \Sonata\CoreBundle\SonataCoreBundle(),
-            new \Sonata\AdminBundle\SonataAdminBundle(),
-            new \Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle(),
-            new \Knp\Bundle\MenuBundle\KnpMenuBundle(),
-            new \MediaMonks\SonataMediaBundle\MediaMonksSonataMediaBundle(),
-            new \MediaMonks\SonataMediaBundle\Tests\AppBundle\AppBundle()
+            new FrameworkBundle(),
+            new TwigBundle(),
+            new WebProfilerBundle(),
+            new SecurityBundle(),
+            new DoctrineBundle(),
+            new SensioFrameworkExtraBundle(),
+            new OneupFlysystemBundle(),
+            new SonataBlockBundle(),
+            new SonataAdminBundle(),
+            new SonataCoreBundle(),
+            new SonataDoctrineORMAdminBundle(),
+            new KnpMenuBundle(),
+            new MediaMonksSonataMediaBundle(),
+            new AppBundle(),
+            new MonologBundle()
         ];
 
         if (in_array($this->getEnvironment(), ['test'], true)) {
-            $bundles[] = new \Liip\FunctionalTestBundle\LiipFunctionalTestBundle();
-            $bundles[] = new \Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
+            $bundles[] = new LiipFunctionalTestBundle();
+            $bundles[] = new LiipTestFixturesBundle();
+            $bundles[] = new DoctrineFixturesBundle();
         }
 
         return $bundles;
@@ -41,7 +57,7 @@ class AppKernel extends Kernel
 
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $loader->load($this->getRootDir() . '/config/config_' . $this->getEnvironment() . '.yml');
+        $loader->load($this->getProjectDir() . '/app/config/config_' . $this->getEnvironment() . '.yml');
     }
 
     /**
@@ -49,7 +65,7 @@ class AppKernel extends Kernel
      */
     public function getCacheDir()
     {
-        return sprintf('%s/../var/cache/%s', $this->rootDir, $this->environment);
+        return sprintf('%s/var/cache/%s', $this->getProjectDir(), $this->environment);
     }
 
     /**
@@ -57,6 +73,11 @@ class AppKernel extends Kernel
      */
     public function getLogDir()
     {
-        return sprintf('%s/../var/logs', $this->rootDir);
+        return sprintf('%s/var/logs', $this->getProjectDir());
+    }
+
+    public function getProjectDir(): string
+    {
+        return dirname(__DIR__);
     }
 }

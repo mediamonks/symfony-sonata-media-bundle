@@ -6,10 +6,7 @@ use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 
 abstract class AbstractMediaParameterBag implements ParameterBagInterface
 {
-    /**
-     * @var array
-     */
-    protected $extra = [];
+    protected array $extra = [];
 
     /**
      * @param array $extra
@@ -22,7 +19,7 @@ abstract class AbstractMediaParameterBag implements ParameterBagInterface
     /**
      * @return array
      */
-    public function getExtra()
+    public function getExtra(): array
     {
         return $this->extra;
     }
@@ -30,33 +27,34 @@ abstract class AbstractMediaParameterBag implements ParameterBagInterface
     /**
      * @param array $extra
      */
-    public function setExtra($extra)
+    public function setExtra(array $extra): void
     {
         $this->extra = $extra;
     }
 
     /**
-     * @param $key
-     * @param $value
+     * @param string $key
+     * @param mixed $value
      */
-    public function addExtra($key, $value)
+    public function addExtra(string $key, $value): void
     {
         $this->extra[$key] = $value;
     }
 
     /**
-     * @param $key
+     * @param string $key
+     *
      * @return bool
      */
-    public function hasExtra($key)
+    public function hasExtra(string $key): bool
     {
         return isset($this->extra[$key]);
     }
 
     /**
-     * @param $key
+     * @param string $key
      */
-    public function removeExtra($key)
+    public function removeExtra(string $key): void
     {
         unset($this->extra[$key]);
     }
@@ -71,9 +69,10 @@ abstract class AbstractMediaParameterBag implements ParameterBagInterface
 
     /**
      * @param MediaInterface $media
+     *
      * @return array
      */
-    public function toArray(MediaInterface $media)
+    public function toArray(MediaInterface $media): array
     {
         return array_merge($this->getExtra(), [
             'id' => $media->getId()

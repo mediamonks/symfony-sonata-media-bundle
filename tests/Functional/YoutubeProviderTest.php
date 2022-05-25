@@ -2,6 +2,8 @@
 
 namespace MediaMonks\SonataMediaBundle\Tests\Functional;
 
+use VCR\VCR;
+
 class YoutubeProviderTest extends AbstractOembedProviderTestAbstract
 {
     public function testYoutube()
@@ -19,7 +21,7 @@ class YoutubeProviderTest extends AbstractOembedProviderTestAbstract
             ]
         );
 
-        $crawler = $this->client->request('GET', '/twig');
+        $crawler = $this->browser->request('GET', '/twig');
 
         $this->assertEquals(
             2,
@@ -42,8 +44,8 @@ class YoutubeProviderTest extends AbstractOembedProviderTestAbstract
         $provider = 'youtube';
         $providerReference = 'foobar123123123';
 
-        \VCR\VCR::insertCassette('youtube_unexisting');
-        $crawler = $this->client->request('GET', self::BASE_PATH.'create?provider='.$provider);
+        VCR::insertCassette('youtube_unexisting');
+        $crawler = $this->browser->request('GET', self::BASE_PATH . 'create?provider=' . $provider);
 
         $form = $crawler->selectButton('Create')->form();
 
@@ -61,10 +63,10 @@ class YoutubeProviderTest extends AbstractOembedProviderTestAbstract
             ]
         );
 
-        $this->client->submit($form);
+        $this->browser->submit($form);
 
-        $this->assertContains('does not exist', $this->client->getResponse()->getContent());
+        $this->assertStringContainsString('does not exist', $this->browser->getResponse()->getContent());
 
-        \VCR\VCR::eject();
+        VCR::eject();
     }
 }

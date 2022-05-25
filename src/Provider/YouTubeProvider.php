@@ -3,6 +3,7 @@
 namespace MediaMonks\SonataMediaBundle\Provider;
 
 use MediaMonks\SonataMediaBundle\Exception\InvalidProviderUrlException;
+use Throwable;
 
 class YouTubeProvider extends AbstractOembedProvider implements ProviderInterface, EmbeddableProviderInterface
 {
@@ -12,18 +13,20 @@ class YouTubeProvider extends AbstractOembedProvider implements ProviderInterfac
 
     /**
      * @param string $id
+     *
      * @return string
      */
-    public function getOembedUrl($id): string
+    public function getOembedUrl(string $id): string
     {
         return sprintf(self::URL_OEMBED, $id);
     }
 
     /**
      * @param string $id
+     *
      * @return string
      */
-    public function getImageUrl($id): string
+    public function getImageUrl(string $id): string
     {
         // try to get max res image (only available for 720P videos)
         $urlMaxRes = sprintf(self::URL_IMAGE_MAX_RES, $id);
@@ -35,11 +38,12 @@ class YouTubeProvider extends AbstractOembedProvider implements ProviderInterfac
     }
 
     /**
-     * @param $value
+     * @param string $value
+     *
      * @return string
-     * @throws \Exception
+     * @throws Throwable
      */
-    public function parseProviderReference($value): string
+    public function parseProviderReference(string $value): string
     {
         if (strpos($value, 'youtube.com')) {
             return $this->parseProviderReferenceFromUrl($value);
@@ -54,10 +58,11 @@ class YouTubeProvider extends AbstractOembedProvider implements ProviderInterfac
 
     /**
      * @param string $url
-     * @return mixed
+     *
+     * @return string
      * @throws InvalidProviderUrlException
      */
-    protected function parseProviderReferenceFromUrl($url): string
+    protected function parseProviderReferenceFromUrl(string $url): string
     {
         $url = parse_url($url);
         if (empty($url['query'])) {
@@ -73,10 +78,11 @@ class YouTubeProvider extends AbstractOembedProvider implements ProviderInterfac
 
     /**
      * @param string $url
+     *
      * @return string
      * @throws InvalidProviderUrlException
      */
-    protected function parseProviderReferenceFromShortUrl($url): string
+    protected function parseProviderReferenceFromShortUrl(string $url): string
     {
         $url = parse_url($url);
         if (empty($url['path']) || empty(trim($url['path'], '/'))) {

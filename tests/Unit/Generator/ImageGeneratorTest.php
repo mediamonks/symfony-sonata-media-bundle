@@ -19,7 +19,7 @@ class ImageGeneratorTest extends TestCase
     public function testGenerate()
     {
         $filesystem = m::mock(Filesystem::class);
-        $filesystem->shouldReceive('has')->once()->andReturn(true);
+        $filesystem->shouldReceive('fileExists')->once()->andReturn(true);
         $filesystem->shouldReceive('read')->once()->andReturn('foo');
         $filesystem->shouldReceive('write')->withArgs(['image_handled.jpg', 'bar'])->once()->andReturn(true);
 
@@ -74,13 +74,13 @@ class ImageGeneratorTest extends TestCase
         $this->expectException(FilesystemException::class);
 
         $source = m::mock(Filesystem::class);
-        $source->shouldReceive('has')->once()->andReturn(true);
+        $source->shouldReceive('fileExists')->once()->andReturn(true);
         $source->shouldReceive('read')->once()->andReturn('foo');
         $source->shouldReceive('write')->withArgs(['image_handled.jpg', 'bar'])->once()->andReturn(false);
 
         $cache = m::mock(Filesystem::class);
-        $cache->shouldReceive('has')->once()->andReturn(false);
-        $cache->shouldReceive('put')->once()->andReturn(false)->andThrow(\Exception::class, 'Unable to write');
+        $cache->shouldReceive('fileExists')->once()->andReturn(false);
+        $cache->shouldReceive('write')->once()->andReturn(false)->andThrow(\Exception::class, 'Unable to write');
 
         $api = m::mock(ApiInterface::class);
         $api->shouldReceive('run')->once()->andReturn('bar');
@@ -108,13 +108,13 @@ class ImageGeneratorTest extends TestCase
         $this->expectException(FilesystemException::class);
 
         $source = m::mock(Filesystem::class);
-        $source->shouldReceive('has')->once()->andReturn(true);
+        $source->shouldReceive('fileExists')->once()->andReturn(true);
         $source->shouldReceive('read')->once()->andReturn('foo');
         $source->shouldReceive('write')->withArgs(['image_handled.jpg', 'bar'])->once()->andReturn(false);
 
         $cache = m::mock(Filesystem::class);
-        $cache->shouldReceive('has')->once()->andReturn(false);
-        $cache->shouldReceive('put')->once()->andReturn(false)->andThrow(\Exception::class, 'Unable to write');
+        $cache->shouldReceive('fileExists')->once()->andReturn(false);
+        $cache->shouldReceive('write')->once()->andReturn(false)->andThrow(\Exception::class, 'Unable to write');
 
         $api = m::mock(ApiInterface::class);
         $api->shouldReceive('run')->once()->andReturn('bar');
