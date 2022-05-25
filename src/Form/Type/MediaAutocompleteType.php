@@ -2,9 +2,10 @@
 
 namespace MediaMonks\SonataMediaBundle\Form\Type;
 
-use MediaMonks\SonataMediaBundle\Admin\MediaAdmin;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType as BaseModelAutocompleteType;
+use Sonata\AdminBundle\Model\ModelManagerInterface;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Twig\Environment;
@@ -12,21 +13,28 @@ use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
-class MediaAutocompleteType extends BaseModelAutocompleteType
+class MediaAutocompleteType extends AbstractType
 {
     const DEFAULT_AUTOCOMPLETE_ROUTE = 'mediamonks_media_autocomplete';
 
-    private MediaAdmin $mediaAdmin;
+    private ModelManagerInterface $modelManager;
     private Environment $twig;
+    private string $mediaEntityClass;
 
     /**
-     * @param MediaAdmin $mediaAdmin
+     * @param ModelManagerInterface $modelManager
      * @param Environment $twig
+     * @param string $mediaEntityClass
      */
-    public function __construct(MediaAdmin $mediaAdmin, Environment $twig)
+    public function __construct(
+        ModelManagerInterface $modelManager,
+        Environment $twig,
+        string $mediaEntityClass
+    )
     {
-        $this->mediaAdmin = $mediaAdmin;
+        $this->modelManager = $modelManager;
         $this->twig = $twig;
+        $this->mediaEntityClass = $mediaEntityClass;
     }
 
     /**
@@ -48,7 +56,8 @@ class MediaAutocompleteType extends BaseModelAutocompleteType
                 'property' => 'title',
                 'to_string_callback' => [$this, 'renderMediaToAutocomplete'],
                 'route' => [$this, 'getAutocompleteRoute'],
-                'model_manager' => $this->mediaAdmin->getModelManager()
+                'model_manager' => $this->modelManager,
+                'class' => $this->mediaEntityClass
             ]
         );
     }
@@ -89,4 +98,10 @@ class MediaAutocompleteType extends BaseModelAutocompleteType
 
         return ['name' => static::DEFAULT_AUTOCOMPLETE_ROUTE, 'parameters' => $parameters];
     }
+
+    public function getParent()
+    {
+        return BaseModelAutocompleteType::class;
+    }
+
 }

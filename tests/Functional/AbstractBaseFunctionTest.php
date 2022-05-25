@@ -12,6 +12,7 @@ use MediaMonks\SonataMediaBundle\Tests\App\AppKernel;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\DomCrawler\Form;
 use Symfony\Component\Finder\Finder;
 
@@ -183,5 +184,10 @@ abstract class AbstractBaseFunctionTest extends WebTestCase
             throw new Exception('Upload file does not exist at: ' . $file);
         }
         $form[$key]->upload($file);
+    }
+
+    protected function output(Crawler $crawler): void
+    {
+        file_put_contents('output.html', $crawler->html());
     }
 }

@@ -31,11 +31,9 @@ class CRUDController extends BaseCRUDController
         $this->providerPool = $providerPool;
     }
 
-    /** @inheritDoc */
-    public function createAction(): Response
+    protected function preCreate(Request $request, $object): ?Response
     {
-        $request = $this->getRequest();
-        if ($request && !$request->get('provider') && $request->isMethod(Request::METHOD_GET)) {
+        if (!$request->get('provider') && $request->isMethod(Request::METHOD_GET)) {
             return $this->renderWithExtraParams(
                 '@MediaMonksSonataMedia/CRUD/select_provider.html.twig',
                 [
@@ -47,7 +45,7 @@ class CRUDController extends BaseCRUDController
             );
         }
 
-        return parent::createAction();
+        return null;
     }
 
     /**

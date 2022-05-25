@@ -13,7 +13,6 @@ use Oneup\FlysystemBundle\OneupFlysystemBundle;
 use Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle;
 use Sonata\AdminBundle\SonataAdminBundle;
 use Sonata\BlockBundle\SonataBlockBundle;
-use Sonata\CoreBundle\SonataCoreBundle;
 use Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\MonologBundle\MonologBundle;
@@ -38,13 +37,17 @@ class AppKernel extends Kernel
             new OneupFlysystemBundle(),
             new SonataBlockBundle(),
             new SonataAdminBundle(),
-            new SonataCoreBundle(),
             new SonataDoctrineORMAdminBundle(),
             new KnpMenuBundle(),
             new MediaMonksSonataMediaBundle(),
             new AppBundle(),
             new MonologBundle()
         ];
+
+        $sonataCoreBundle = 'Sonata\CoreBundle\SonataCoreBundle';
+        if (class_exists($sonataCoreBundle)) {
+            $bundles[] = new $sonataCoreBundle();
+        }
 
         if (in_array($this->getEnvironment(), ['test'], true)) {
             $bundles[] = new LiipFunctionalTestBundle();

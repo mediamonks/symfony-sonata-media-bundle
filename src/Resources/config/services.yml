@@ -77,3 +77,7 @@ services:
   MediaMonks\SonataMediaBundle\Client\HttpClientInterface: '@MediaMonks\SonataMediaBundle\Client\CurlHttpClient'
   MediaMonks\SonataMediaBundle\Handler\ParameterHandlerInterface: '@MediaMonks\SonataMediaBundle\Handler\SignatureParameterHandler'
   MediaMonks\SonataMediaBundle\Generator\FilenameGeneratorInterface: '@MediaMonks\SonataMediaBundle\Generator\DefaultFilenameGenerator'
+
+  MediaMonks\SonataMediaBundle\Form\Type\MediaAutocompleteType:
+    arguments:
+      $modelManager: '@sonata.admin.manager.orm'

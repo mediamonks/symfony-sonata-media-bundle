@@ -12,6 +12,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\Form\Validator\ErrorElement;
 
 class MediaAdmin extends AbstractAdmin
@@ -83,19 +84,19 @@ class MediaAdmin extends AbstractAdmin
     }
 
     /**
-     * @param AbstractMedia $media
+     * @param object|AbstractMedia $object
      */
-    public function prePersist($media): void
+    public function prePersist($object): void
     {
-        $this->getProvider($media)->update($media, true);
+        $this->getProvider($object)->update($object, true);
     }
 
     /**
-     * @param AbstractMedia $media
+     * @param object|AbstractMedia $object
      */
-    public function preUpdate($media): void
+    public function preUpdate($object): void
     {
-        $this->getProvider($media)->update($media, $this->isProviderReferenceUpdated($media));
+        $this->getProvider($object)->update($object, $this->isProviderReferenceUpdated($object));
     }
 
     /**
@@ -126,12 +127,11 @@ class MediaAdmin extends AbstractAdmin
     }
 
     /**
-     * @return MediaInterface
+     * @return object|MediaInterface
      */
-    public function getNewInstance(): MediaInterface
+    protected function createNewInstance(): object
     {
-        /** @var MediaInterface $media */
-        $media = parent::getNewInstance();
+        $media = parent::createNewInstance();
         $providerName = null;
         if ($this->hasRequest()) {
             if ($this->getRequest()->isMethod('POST')) {
@@ -161,7 +161,7 @@ class MediaAdmin extends AbstractAdmin
     /**
      * @param RouteCollection $collection
      */
-    public function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection->add('image', $this->getRouterIdParameter() . '/image/{width}/{height}');
         $collection->add('download', $this->getRouterIdParameter() . '/download');
@@ -170,7 +170,7 @@ class MediaAdmin extends AbstractAdmin
     /**
      * @param DatagridMapper $filter
      */
-    protected function configureDatagridFilters(DatagridMapper $filter)
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
             ->add('title')

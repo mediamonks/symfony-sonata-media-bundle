@@ -11,12 +11,14 @@ use MediaMonks\SonataMediaBundle\Provider\DownloadableProviderInterface;
 use MediaMonks\SonataMediaBundle\Provider\EmbeddableProviderInterface;
 use MediaMonks\SonataMediaBundle\Provider\ProviderInterface;
 use MediaMonks\SonataMediaBundle\Provider\ProviderPool;
+use Sonata\Form\Twig\CanonicalizeRuntime;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
+use Twig\TwigFunction;
 use Twig\TwigTest;
 
 class MediaExtension extends AbstractExtension
