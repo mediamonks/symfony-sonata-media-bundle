@@ -8,11 +8,12 @@ use League\Glide\Filesystem\FilesystemException;
 use League\Glide\Server;
 use MediaMonks\SonataMediaBundle\Generator\FilenameGeneratorInterface;
 use MediaMonks\SonataMediaBundle\Generator\ImageGenerator;
-use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
+use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
 use Mockery as m;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpKernel\Config\FileLocator;
 
 class ImageGeneratorTest extends TestCase
 {
@@ -39,8 +40,10 @@ class ImageGeneratorTest extends TestCase
         $media->shouldReceive('getFocalPoint')->once()->andReturn('50-50');
         $media->shouldReceive('getProviderMetaData')->once()->andReturn(['originalExtension' => 'jpg']);
 
+        $fileLocator = m::mock(FileLocator::class);
+
         $parameters = new ImageParameterBag(400, 300);
-        $imageGenerator = new ImageGenerator($server, $filenameGenerator);
+        $imageGenerator = new ImageGenerator($server, $filenameGenerator, $fileLocator);
         $filename = $imageGenerator->generate($media, $parameters);
 
         $this->assertEquals('image_handled.jpg', $filename);
@@ -50,9 +53,11 @@ class ImageGeneratorTest extends TestCase
     {
         $server = m::mock(Server::class);
         $filenameGenerator = m::mock(FilenameGeneratorInterface::class);
+        $fileLocator = m::mock(FileLocator::class);
         $imageGenerator = new ImageGenerator(
             $server,
             $filenameGenerator,
+            $fileLocator,
             ['foo' => 'bar'],
             'fallback',
             'tmpPath',
@@ -98,8 +103,17 @@ class ImageGeneratorTest extends TestCase
         $media->shouldReceive('getFocalPoint')->once()->andReturn('50-50');
         $media->shouldReceive('getProviderMetaData')->once()->andReturn(['originalExtension' => 'jpg']);
 
+        $fileLocator = m::mock(FileLocator::class);
+
         $parameters = new ImageParameterBag(400, 300);
-        $imageGenerator = new ImageGenerator($server, $filenameGenerator, [], null, __DIR__);
+        $imageGenerator = new ImageGenerator(
+            $server,
+            $filenameGenerator,
+            $fileLocator,
+            [],
+            null,
+            __DIR__
+        );
         $filename = $imageGenerator->generate($media, $parameters);
     }
 
@@ -132,8 +146,10 @@ class ImageGeneratorTest extends TestCase
         $media->shouldReceive('getFocalPoint')->once()->andReturn('50-50');
         $media->shouldReceive('getProviderMetaData')->once()->andReturn(['originalExtension' => 'jpg']);
 
+        $fileLocator = m::mock(FileLocator::class);
+
         $parameters = new ImageParameterBag(400, 300);
-        $imageGenerator = new ImageGenerator($server, $filenameGenerator);
+        $imageGenerator = new ImageGenerator($server, $filenameGenerator, $fileLocator);
         $filename = $imageGenerator->generate($media, $parameters);
 
         $this->assertEquals('image_handled.jpg', $filename);

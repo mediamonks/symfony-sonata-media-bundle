@@ -50,6 +50,9 @@ abstract class AdminTestAbstract extends AbstractBaseFunctionTest
             )
         );
 
+        if($this->browser->getResponse()->getStatusCode() !== 200){
+            file_put_contents('output.html', $this->browser->getResponse()->getContent());
+        }
         $this->assertEquals(200, $this->browser->getResponse()->getStatusCode());
         $this->assertNumberOfFilesInPath(1, $this->getMediaPathPublic());
 

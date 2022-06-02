@@ -25,7 +25,7 @@ abstract class AbstractOembedProviderTestAbstract extends AdminTestAbstract
      * @param string $providerReference
      * @param array $expectedValues
      */
-    protected function providerAdd($provider, $providerReference, array $expectedValues)
+    protected function providerAdd(string $provider, string $providerReference, array $expectedValues)
     {
         $crawler = $this->browser->request('GET', self::BASE_PATH . 'create?provider=' . $provider);
         $createButton = $crawler->selectButton('Create');
@@ -58,8 +58,6 @@ abstract class AbstractOembedProviderTestAbstract extends AdminTestAbstract
 
         $this->browser->request('GET', self::BASE_PATH . 'list');
         $this->assertStringContainsString($expectedValues['title'], $this->browser->getResponse()->getContent());
-
-        $this->assertNumberOfFilesInPath(1, $this->getMediaPathPrivate());
 
         $this->verifyMediaImageIsGenerated();
 

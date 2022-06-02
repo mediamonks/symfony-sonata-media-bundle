@@ -7,6 +7,7 @@ use League\Glide\Server;
 use MediaMonks\SonataMediaBundle\ErrorHandlerTrait;
 use MediaMonks\SonataMediaBundle\Model\MediaInterface;
 use MediaMonks\SonataMediaBundle\ParameterBag\ImageParameterBag;
+use Symfony\Component\HttpKernel\Config\FileLocator;
 use Throwable;
 
 class ImageGenerator
@@ -15,6 +16,7 @@ class ImageGenerator
 
     private Server $server;
     private FilenameGeneratorInterface $filenameGenerator;
+    private FileLocator $fileLocator;
     private array $defaultImageParameters;
     private ?string $tmpPath;
     private ?string $tmpPrefix;
@@ -23,6 +25,7 @@ class ImageGenerator
     /**
      * @param Server $server
      * @param FilenameGeneratorInterface $filenameGenerator
+     * @param FileLocator $fileLocator
      * @param array $defaultImageParameters
      * @param string|null $fallbackImage
      * @param string|null $tmpPath
@@ -31,6 +34,7 @@ class ImageGenerator
     public function __construct(
         Server $server,
         FilenameGeneratorInterface $filenameGenerator,
+        FileLocator $fileLocator,
         array $defaultImageParameters = [],
         ?string $fallbackImage = null,
         ?string $tmpPath = null,
@@ -39,6 +43,7 @@ class ImageGenerator
     {
         $this->server = $server;
         $this->filenameGenerator = $filenameGenerator;
+        $this->fileLocator = $fileLocator;
         $this->defaultImageParameters = $defaultImageParameters;
         $this->fallbackImage = $fallbackImage;
         $this->tmpPath = $tmpPath;
@@ -114,15 +119,30 @@ class ImageGenerator
      */
     protected function getImageData(MediaInterface $media): string
     {
-        if ($this->server->getSource()->fileExists($media->getImage())) {
+        if ($media->getImage() !== null && $this->server->getSource()->fileExists($media->getImage())) {
             return $this->server->getSource()->read($media->getImage());
         }
 
         if (!is_null($this->fallbackImage)) {
-            return file_get_contents($this->fallbackImage);
+            return file_get_contents($this->getFallbackImagePath($this->fallbackImage));
         }
 
         throw new FilesystemException('File not found');
+    }
+
+    /**
+     * @param string $fallbackImage
+     *
+     * @return string
+     */
+    protected function getFallbackImagePath(string $fallbackImage): string
+    {
+        $file = $this->fileLocator->locate(sprintf('@MediaMonksSonataMediaBundle/Resources/image/fallback/%s', $fallbackImage));
+        if (is_array($file)) {
+            return current($file);
+        }
+
+        return $file;
     }
 
     /**

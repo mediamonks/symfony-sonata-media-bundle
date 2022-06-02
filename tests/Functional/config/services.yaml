@@ -24,3 +24,18 @@ services:
   MediaMonks\SonataMediaBundle\Tests\Functional\src\Controller\:
     resource: '../src/Controller/'
     tags: [ 'controller.service_arguments' ]
+
+  MediaMonks\SonataMediaBundle\Provider\SoundCloudProvider:
+    class: MediaMonks\SonataMediaBundle\Tests\Functional\src\Mock\SoundCloudProviderMock
+    public: true
+    tags: [ sonata_media.provider ]
+
+  MediaMonks\SonataMediaBundle\Provider\VimeoProvider:
+    class: MediaMonks\SonataMediaBundle\Tests\Functional\src\Mock\VimeoProviderMock
+    public: true
+    tags: [ sonata_media.provider ]
+
+  MediaMonks\SonataMediaBundle\Provider\YouTubeProvider:
+    class: MediaMonks\SonataMediaBundle\Tests\Functional\src\Mock\YouTubeProviderMock
+    public: true
+    tags: [ sonata_media.provider ]

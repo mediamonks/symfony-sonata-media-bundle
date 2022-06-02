@@ -57,10 +57,10 @@ class MediaMonksSonataMediaExtension extends Extension
         $container->setParameter('mediamonks.sonata_media.cache_ttl', $config['redirect_cache_ttl']);
 
         $container->getDefinition(ImageGenerator::class)
-                  ->setArgument(2, $config['default_image_parameters'])
-                  ->setArgument(3, $config['fallback_image'])
-                  ->setArgument(4, $config['tmp_path'])
-                  ->setArgument(5, $config['tmp_prefix']);
+                  ->setArgument(3, $config['default_image_parameters'])
+                  ->setArgument(4, $config['fallback_image'])
+                  ->setArgument(5, $config['tmp_path'])
+                  ->setArgument(6, $config['tmp_prefix']);
 
         $container->setParameter('mediamonks.sonata_media.templates', $config['templates']);
         $container->setParameter('mediamonks.sonata_media.default_route.image_stream', $config['route_image_stream']);

@@ -159,7 +159,7 @@ final class Configuration implements ConfigurationInterface
     {
         $node->children()
              ->scalarNode('fallback_image')
-             ->defaultNull()
+            ->defaultValue('transparent.png')
              ->end();
     }
 

@@ -55,6 +55,10 @@ class ProviderPassTest extends AbstractCompilerPassTestCase
 
         $provider->shouldReceive('hasTag')->withArgs(['container.env_var_processor'])->andReturn(false);
 
+        if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
+            $provider->shouldReceive('hasTag')->withArgs(['container.ignore_attributes'])->andReturn(true);
+        }
+
         $this->setDefinition('provider', $provider);
 
         $this->compile();
