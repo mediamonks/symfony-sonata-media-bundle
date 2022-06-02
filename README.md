@@ -34,7 +34,7 @@ Please refer to the files in the [/docs](/docs) folder.
 You need:
 
 - **PHP >= 7.4**
-- **Symfony Framework >= 4.3**
+- **Symfony Framework >= 5.1**
 - **Sonata Admin >= 4.0**
 - **Flysystem >= 4.0**
 - **Glide >= 2.0**
