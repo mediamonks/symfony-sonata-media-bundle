@@ -1,5 +1,5 @@
 app:
-  resource: "@AppBundle/Controller/"
+  resource: ../src/Controller
   type: annotation
 
 _sonata_admin:
@@ -11,14 +11,14 @@ _sonata_admin_resource:
   type: sonata_admin
 
 _mediamonks_media_admin:
-  resource: "@MediaMonksSonataMediaBundle/Resources/config/routing_admin.yml"
+  resource: "@MediaMonksSonataMediaBundle/Resources/config/routes_admin.yaml"
   prefix: /admin
 
 _mediamonks_media:
-  resource: "@MediaMonksSonataMediaBundle/Resources/config/routing.yml"
+  resource: "@MediaMonksSonataMediaBundle/Resources/config/routes.yaml"
 
 media_assets:
   path: '/media/{asset}'
-  defaults: { _controller: MediaMonks\SonataMediaBundle\Tests\AppBundle\Controller\MediaController::readAction }
+  defaults: { _controller: MediaMonks\SonataMediaBundle\Tests\Functional\src\Controller\MediaController::readAction }
   requirements:
     asset: ".*"

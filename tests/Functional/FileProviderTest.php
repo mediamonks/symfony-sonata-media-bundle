@@ -101,8 +101,11 @@ class FileProviderTest extends AdminTestAbstract
         $provider = 'file';
 
         $crawler = $this->browser->request('GET', self::BASE_PATH . 'create?provider=' . $provider);
-
-        $form = $crawler->selectButton('Create')->form();
+        $selectButton = $crawler->selectButton('Create');
+        if ($selectButton->count() === 0) {
+            $this->output($crawler);
+        }
+        $form = $selectButton->form();
 
         $this->assertSonataFormValues(
             $form,

@@ -28,29 +28,35 @@
       "homepage": "https://github.com/slootjes"
     }
   ],
+  "config": {
+    "allow-plugins": {
+      "symfony/flex": true
+    }
+  },
   "require": {
     "php": "^7.4|^8.0",
     "ext-json": "*",
     "ext-curl": "*",
-    "doctrine/doctrine-bundle": "^1.0|^2.0",
-    "sonata-project/doctrine-orm-admin-bundle": "^2.0|^3.0",
-    "oneup/flysystem-bundle": "^4.0",
     "league/glide": "^2.0",
+    "oneup/flysystem-bundle": "^4.0",
+    "doctrine/doctrine-bundle": "^2.0",
     "symfony/monolog-bundle": "^3.7",
-    "sonata-project/form-extensions": "^0.1|^1.0",
-    "sonata-project/core-bundle": "^3.2"
+    "sonata-project/form-extensions": "^1.0|^2.0",
+    "sonata-project/twig-extensions": "^1.0|^2.0",
+    "sonata-project/doctrine-orm-admin-bundle": "^4.0"
   },
   "require-dev": {
     "sensio/framework-extra-bundle": "*",
     "matthiasnoback/symfony-dependency-injection-test": "*",
-    "mockery/mockery": "^0.9.4|^1.0",
+    "mockery/mockery": "^1.0",
     "liip/functional-test-bundle": "*",
     "doctrine/doctrine-fixtures-bundle": "*",
-    "symfony/symfony": "^4.3",
-    "mikey179/vfsstream": "^1.6|^2.0",
+    "symfony/symfony": "^5.1|^6.0",
+    "mikey179/vfsstream": "^2.0|^2.0.x-dev",
     "php-vcr/php-vcr": "^1.5",
-    "phpunit/phpunit": "^6.0|^7.0|^8.0|^9.0",
-    "liip/test-fixtures-bundle": "^2.0"
+    "phpunit/phpunit": "^9.0",
+    "liip/test-fixtures-bundle": "^2.0",
+    "doctrine/dbal": "3.1.5"
   },
   "autoload": {
     "psr-4": {
@@ -66,7 +72,7 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "3.0-dev"
+      "dev-master": "3.1-dev"
     }
   }
 }

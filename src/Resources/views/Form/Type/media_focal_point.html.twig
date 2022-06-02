@@ -1,4 +1,4 @@
-<input type="hidden" name="{{ full_name }}" id="{{ id }}" value="{{ value }}" />
+<input type="hidden" name="{{ full_name }}" id="{{ id }}" value="{{ value }}"/>
 
 <p>{{ 'form.image_focal_point.description'|trans }}</p>
 
@@ -8,47 +8,39 @@
 </div>
 
 <script type="text/javascript">
-    $( document ).ready(function() {
+	$(document).ready(function () {
+		$('#{{ id }}_focal_point img').on('load', function () {
+			let currentFocalPoint = '{{ value ?? '50-50' }}';
+			let currentX = parseInt(currentFocalPoint.split('-')[0]);
+			let currentY = parseInt(currentFocalPoint.split('-')[1]);
 
-        var currentFocalPoint = '{{ value }}';
-        var image = $("#{{ id }}_focal_point img")[0];
-        var imageWidth, imageHeight;
-        $("<img/>")
-            .attr("src", $(image).attr("src"))
-            .load(function() {
-                imageWidth = this.width;
-                imageHeight = this.height;
+			let top = Math.round((currentY / 100) * this.height);
+			let left = Math.round((currentX / 100) * this.width);
 
-                var currentX = parseInt(currentFocalPoint.split('-')[0]);
-                var currentY = parseInt(currentFocalPoint.split('-')[1]);
+			$('#{{ id }}_focal_point_select').css('top', top - 13).css('left', left - 13);
+		});
+	});
 
-                var top = Math.round((currentY / 100) * imageHeight);
-                var left = Math.round((currentX / 100) * imageWidth);
+	$("#{{ id }}_focal_point").click(function (e) {
+		let image = $("#{{ id }}_focal_point img")[0];
+		let imageWidth = image.clientWidth;
+		let imageHeight = image.clientHeight;
 
-                $('#{{ id }}_focal_point_select').css('top', top - 13).css('left', left - 13);
-            });
-    });
+		let parentOffset = $(this).offset();
+		let positionX = e.pageX - parentOffset.left;
+		let positionY = e.pageY - parentOffset.top;
 
-    $("#{{ id }}_focal_point").click(function(e) {
-        var image = $("#{{ id }}_focal_point img")[0];
-        var imageWidth = image.clientWidth;
-        var imageHeight = image.clientHeight;
+		if (positionX < 0) positionX = 0;
+		if (positionY < 0) positionY = 0;
+		if (positionX > imageWidth) positionX = imageWidth;
+		if (positionY > imageHeight) positionY = imageHeight;
 
-        var parentOffset = $(this).offset();
-        var positionX = e.pageX - parentOffset.left;
-        var positionY = e.pageY - parentOffset.top;
+		let percentageX = Math.round((positionX / imageWidth) * 100);
+		let percentageY = Math.round((positionY / imageHeight) * 100);
 
-        if (positionX < 0) positionX = 0;
-        if (positionY < 0) positionY = 0;
-        if (positionX > imageWidth) positionX = imageWidth;
-        if (positionY > imageHeight) positionY = imageHeight;
+		let formValue = percentageX + '-' + percentageY;
 
-        var percentageX = Math.round((positionX / imageWidth) * 100);
-        var percentageY = Math.round((positionY / imageHeight) * 100);
-
-        var formValue = percentageX+'-'+percentageY;
-
-        $('#{{ id }}').val(formValue);
-        $('#{{ id }}_focal_point_select').css('top', positionY - 13).css('left', positionX - 13);
-    });
+		$('#{{ id }}').val(formValue);
+		$('#{{ id }}_focal_point_select').css('top', positionY - 13).css('left', positionX - 13);
+	});
 </script>

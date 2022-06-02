@@ -16,10 +16,10 @@ abstract class AdminTestAbstract extends AbstractBaseFunctionTest
 
     protected function setUp(): void
     {
-        parent::setUp();
-
         $this->browser = $this->getAuthenticatedClient();
         $this->browser->followRedirects();
+
+        parent::setUp();
 
         $this->loadFixtures();
     }

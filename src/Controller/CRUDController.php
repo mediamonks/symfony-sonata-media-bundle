@@ -19,19 +19,22 @@ class CRUDController extends BaseCRUDController
     protected MediaResponseHandler $mediaResponseHandler;
     protected ImageResponseHandler $imageResponseHandler;
     protected ProviderPool $providerPool;
+    private array $mediaTemplates;
 
     public function __construct(
         MediaResponseHandler $mediaResponseHandler,
         ImageResponseHandler $imageResponseHandler,
-        ProviderPool $providerPool
+        ProviderPool $providerPool,
+        array $mediaTemplates
     )
     {
         $this->mediaResponseHandler = $mediaResponseHandler;
         $this->imageResponseHandler = $imageResponseHandler;
         $this->providerPool = $providerPool;
+        $this->mediaTemplates = $mediaTemplates;
     }
 
-    protected function preCreate(Request $request, $object): ?Response
+    protected function preCreate(Request $request, object $object): ?Response
     {
         if (!$request->get('provider') && $request->isMethod(Request::METHOD_GET)) {
             return $this->renderWithExtraParams(
@@ -65,7 +68,7 @@ class CRUDController extends BaseCRUDController
 
     /**
      * @param Request $request
-     * @param $id
+     * @param string|int $id
      * @param int $width
      * @param int $height
      *
@@ -95,5 +98,18 @@ class CRUDController extends BaseCRUDController
         }
 
         return $this->providerPool->getProviders();
+    }
+
+    /**
+     * @param array<string, mixed> $parameters
+     *
+     * @return array<string, mixed>
+     */
+    protected function addRenderExtraParams(array $parameters = []): array
+    {
+        $parameters = parent::addRenderExtraParams($parameters);
+        $parameters['media_templates'] = $this->mediaTemplates;
+
+        return $parameters;
     }
 }

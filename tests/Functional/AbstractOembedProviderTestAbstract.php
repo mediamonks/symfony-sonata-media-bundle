@@ -28,9 +28,11 @@ abstract class AbstractOembedProviderTestAbstract extends AdminTestAbstract
     protected function providerAdd($provider, $providerReference, array $expectedValues)
     {
         $crawler = $this->browser->request('GET', self::BASE_PATH . 'create?provider=' . $provider);
-
-        $form = $crawler->selectButton('Create')->form();
-
+        $createButton = $crawler->selectButton('Create');
+        if ($createButton->count() === 0) {
+            $this->output($crawler);
+        }
+        $form = $createButton->form();
         $this->assertSonataFormValues(
             $form,
             [
@@ -46,9 +48,11 @@ abstract class AbstractOembedProviderTestAbstract extends AdminTestAbstract
         );
 
         $crawler = $this->browser->submit($form);
-
-        $form = $crawler->selectButton('Update')->form();
-
+        $updateButton = $crawler->selectButton('Update');
+        if ($updateButton->count() === 0) {
+            $this->output($crawler);
+        }
+        $form = $updateButton->form();
         $this->assertStringContainsString('has been successfully created', $this->browser->getResponse()->getContent());
         $this->assertSonataFormValues($form, $expectedValues);
 

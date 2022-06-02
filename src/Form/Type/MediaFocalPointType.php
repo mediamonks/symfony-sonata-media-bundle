@@ -18,7 +18,7 @@ class MediaFocalPointType extends AbstractType
         $resolver->setDefaults(
             [
                 'media' => null,
-                'template' => 'MediaMonksMediaBundle:Form/Type:media_focal_point.html.twig',
+                'template' => '@MediaMonksSonataMedia/Form/Type/media_focal_point.html.twig',
             ]
         );
     }

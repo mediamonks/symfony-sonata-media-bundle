@@ -57,11 +57,11 @@ class MediaAdmin extends AbstractAdmin
     }
 
     /**
-     * @param FormMapper $formMapper
+     * @param FormMapper $form
      *
      * @return void
      */
-    protected function configureFormFields(FormMapper $formMapper): void
+    protected function configureFormFields(FormMapper $form): void
     {
         /**
          * @var AbstractMedia $media
@@ -77,16 +77,16 @@ class MediaAdmin extends AbstractAdmin
         $provider->setMedia($media);
 
         if ($media->getId()) {
-            $provider->buildEditForm($formMapper);
+            $provider->buildEditForm($form);
         } else {
-            $provider->buildCreateForm($formMapper);
+            $provider->buildCreateForm($form);
         }
     }
 
     /**
      * @param object|AbstractMedia $object
      */
-    public function prePersist($object): void
+    public function prePersist(object $object): void
     {
         $this->getProvider($object)->update($object, true);
     }
@@ -94,7 +94,7 @@ class MediaAdmin extends AbstractAdmin
     /**
      * @param object|AbstractMedia $object
      */
-    public function preUpdate($object): void
+    public function preUpdate(object $object): void
     {
         $this->getProvider($object)->update($object, $this->isProviderReferenceUpdated($object));
     }
@@ -185,5 +185,12 @@ class MediaAdmin extends AbstractAdmin
     public function validate(ErrorElement $errorElement, $object)
     {
         $this->getProvider($object)->validate($errorElement, $object);
+    }
+
+    /** @inheritDoc */
+    protected function configure(): void
+    {
+        $this->setTemplate('outer_list_rows_mosaic', '@MediaMonksSonataMedia/CRUD/outer_list_rows_mosaic.html.twig');
+        $this->setTemplate('edit', '@MediaMonksSonataMedia/CRUD/edit.html.twig');
     }
 }

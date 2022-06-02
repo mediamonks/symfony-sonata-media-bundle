@@ -12,7 +12,7 @@ class VimeoProviderTest extends AbstractOembedProviderTestAbstract
             [
                 'providerReference' => '184376204',
                 'title' => 'MediaMonks Mixtape Vol. II',
-                'authorName' => 'MediaMonks',
+                'authorName' => 'Media.Monks',
                 'copyright' => '',
                 'focalPoint' => '50-50'
             ]

@@ -1,4 +1,4 @@
-app.db3
+db.sqlite
 media/*
 !.gitignore
 !doctrine
@@ -6,3 +6,4 @@ media/*
 !logs
 !media
 !fixtures
+!vcr-tapes

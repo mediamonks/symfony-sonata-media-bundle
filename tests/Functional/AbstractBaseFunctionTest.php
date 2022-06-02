@@ -8,7 +8,7 @@ use FilesystemIterator;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Liip\TestFixturesBundle\Services\DatabaseTools\AbstractDatabaseTool;
-use MediaMonks\SonataMediaBundle\Tests\App\AppKernel;
+use MediaMonks\SonataMediaBundle\Tests\Functional\src\Kernel;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -23,7 +23,7 @@ abstract class AbstractBaseFunctionTest extends WebTestCase
 
     protected static function getKernelClass(): string
     {
-        return AppKernel::class;
+        return Kernel::class;
     }
 
     protected function setUp(): void

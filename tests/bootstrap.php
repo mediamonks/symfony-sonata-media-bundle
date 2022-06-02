@@ -1,6 +1,6 @@
 <?php
 
-$file = __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/Functional/config/bootstrap.php';
 
 VCR\VCR::configure()
        ->setCassettePath(__DIR__ . '/Functional/var/vcr-tapes/')
@@ -8,8 +8,3 @@ VCR\VCR::configure()
        ->enableLibraryHooks(['curl'])
        ->setStorage('json');
 VCR\VCR::turnOn();
-
-if (!file_exists($file)) {
-    throw new RuntimeException('Install dependencies using composer to run the test suite.');
-}
-$autoload = require $file;

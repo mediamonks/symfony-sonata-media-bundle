@@ -1,31 +1,73 @@
 [{
     "request": {
         "method": "GET",
-        "url": "http:\/\/www.youtube.com\/oembed?url=http:\/\/www.youtube.com\/watch?v=uN2nqdRLhQ8&format=json",
+        "url": "https:\/\/www.youtube.com\/oembed?url=http:\/\/www.youtube.com\/watch?v=uN2nqdRLhQ8&format=json",
         "headers": {
             "Host": "www.youtube.com"
         }
     },
     "response": {
         "status": {
-            "http_version": "1.1",
+            "http_version": "2",
             "code": "200",
-            "message": "OK"
+            "message": ""
         },
         "headers": {
-            "Expires": "Tue, 27 Apr 1971 19:44:06 EST",
-            "P3P": "CP=\"This is not a P3P policy! See http:\/\/support.google.com\/accounts\/answer\/151657?hl=en for more info.\"",
-            "X-XSS-Protection": "1; mode=block; report=https:\/\/www.google.com\/appserve\/security-bugs\/log\/youtube",
-            "Cache-Control": "no-cache",
-            "Content-Type": "application\/json",
-            "X-Content-Type-Options": "nosniff",
-            "Date": "Mon, 30 Oct 2017 09:16:57 GMT",
-            "Server": "YouTube Frontend Proxy",
-            "Accept-Ranges": "none",
-            "Vary": "Accept-Encoding",
-            "Transfer-Encoding": "chunked"
+            "content-type": "application\/json",
+            "vary": [
+                "X-Origin",
+                "Referer",
+                "Origin,Accept-Encoding"
+            ],
+            "date": "Thu, 02 Jun 2022 11:08:21 GMT",
+            "server": "scaffolding on HTTPServer2",
+            "cache-control": "private",
+            "x-xss-protection": "0",
+            "x-frame-options": "SAMEORIGIN",
+            "x-content-type-options": "nosniff",
+            "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"",
+            "accept-ranges": "none"
         },
-        "body": "{\"width\":480,\"version\":\"1.0\",\"author_name\":\"MediaMonks\",\"thumbnail_width\":480,\"html\":\"\\u003ciframe width=\\\"480\\\" height=\\\"270\\\" src=\\\"https:\\\/\\\/www.youtube.com\\\/embed\\\/uN2nqdRLhQ8?feature=oembed\\\" frameborder=\\\"0\\\" gesture=\\\"media\\\" allowfullscreen\\u003e\\u003c\\\/iframe\\u003e\",\"title\":\"MediaMonks Mixtape Vol  II\",\"thumbnail_height\":360,\"provider_name\":\"YouTube\",\"author_url\":\"https:\\\/\\\/www.youtube.com\\\/user\\\/MediaMonksGlobal\",\"height\":270,\"thumbnail_url\":\"https:\\\/\\\/i.ytimg.com\\\/vi\\\/uN2nqdRLhQ8\\\/hqdefault.jpg\",\"provider_url\":\"https:\\\/\\\/www.youtube.com\\\/\",\"type\":\"video\"}"
+        "body": "{\"title\":\"MediaMonks Mixtape Vol  II\",\"author_name\":\"MediaMonks\",\"author_url\":\"https:\/\/www.youtube.com\/c\/mediamonks\",\"type\":\"video\",\"height\":113,\"width\":200,\"version\":\"1.0\",\"provider_name\":\"YouTube\",\"provider_url\":\"https:\/\/www.youtube.com\/\",\"thumbnail_height\":360,\"thumbnail_width\":480,\"thumbnail_url\":\"https:\/\/i.ytimg.com\/vi\/uN2nqdRLhQ8\/hqdefault.jpg\",\"html\":\"\\u003ciframe width=\\u0022200\\u0022 height=\\u0022113\\u0022 src=\\u0022https:\/\/www.youtube.com\/embed\/uN2nqdRLhQ8?feature=oembed\\u0022 frameborder=\\u00220\\u0022 allow=\\u0022accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\\u0022 allowfullscreen\\u003e\\u003c\/iframe\\u003e\"}",
+        "curl_info": {
+            "url": "https:\/\/www.youtube.com\/oembed?url=http:\/\/www.youtube.com\/watch?v=uN2nqdRLhQ8&format=json",
+            "content_type": "application\/json",
+            "http_code": 200,
+            "header_size": 482,
+            "request_size": 117,
+            "filetime": -1,
+            "ssl_verify_result": 0,
+            "redirect_count": 0,
+            "total_time": 0.098702,
+            "namelookup_time": 0.009479,
+            "connect_time": 0.02344,
+            "pretransfer_time": 0.067469,
+            "size_upload": 0,
+            "size_download": 667,
+            "speed_download": 6757,
+            "speed_upload": 0,
+            "download_content_length": -1,
+            "upload_content_length": 0,
+            "starttransfer_time": 0.098584,
+            "redirect_time": 0,
+            "redirect_url": "",
+            "primary_ip": "142.250.179.142",
+            "certinfo": [],
+            "primary_port": 443,
+            "local_ip": "172.20.0.2",
+            "local_port": 40330,
+            "http_version": 3,
+            "protocol": 2,
+            "ssl_verifyresult": 0,
+            "scheme": "HTTPS",
+            "appconnect_time_us": 67304,
+            "connect_time_us": 23440,
+            "namelookup_time_us": 9479,
+            "pretransfer_time_us": 67469,
+            "redirect_time_us": 0,
+            "starttransfer_time_us": 98584,
+            "total_time_us": 98702
+        }
     }
 },{
     "request": {
@@ -37,22 +79,67 @@
     },
     "response": {
         "status": {
-            "http_version": "1.1",
+            "http_version": "2",
             "code": "200",
-            "message": "OK"
+            "message": ""
         },
         "headers": {
-            "Accept-Ranges": "bytes",
-            "Content-Type": "image\/jpeg",
-            "Content-Length": "259222",
-            "Date": "Mon, 30 Oct 2017 09:16:58 GMT",
-            "Expires": "Mon, 30 Oct 2017 11:16:58 GMT",
-            "Cache-Control": "public, max-age=7200",
-            "ETag": "\"1483374884\"",
-            "X-Content-Type-Options": "nosniff",
-            "Server": "sffe",
-            "X-XSS-Protection": "1; mode=block",
-            "Alt-Svc": "quic=\":443\"; ma=2592000; v=\"41,39,38,37,35\""
+            "accept-ranges": "bytes",
+            "vary": "Origin",
+            "cross-origin-resource-policy": "cross-origin",
+            "cross-origin-opener-policy-report-only": "same-origin; report-to=\"youtube\"",
+            "report-to": "{\"group\":\"youtube\",\"max_age\":2592000,\"endpoints\":[{\"url\":\"https:\/\/csp.withgoogle.com\/csp\/report-to\/youtube\"}]}",
+            "timing-allow-origin": "*",
+            "content-length": "259222",
+            "x-content-type-options": "nosniff",
+            "server": "sffe",
+            "x-xss-protection": "0",
+            "date": "Thu, 02 Jun 2022 11:06:34 GMT",
+            "expires": "Thu, 02 Jun 2022 13:06:34 GMT",
+            "cache-control": "public, max-age=7200",
+            "etag": "\"1483374884\"",
+            "content-type": "image\/jpeg",
+            "age": "107",
+            "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\""
+        },
+        "curl_info": {
+            "url": "https:\/\/i.ytimg.com\/vi\/uN2nqdRLhQ8\/maxresdefault.jpg",
+            "content_type": "image\/jpeg",
+            "http_code": 200,
+            "header_size": 751,
+            "request_size": 81,
+            "filetime": -1,
+            "ssl_verify_result": 0,
+            "redirect_count": 0,
+            "total_time": 0.091696,
+            "namelookup_time": 0.009501,
+            "connect_time": 0.02957,
+            "pretransfer_time": 0.075806,
+            "size_upload": 0,
+            "size_download": 0,
+            "speed_download": 0,
+            "speed_upload": 0,
+            "download_content_length": 259222,
+            "upload_content_length": 0,
+            "starttransfer_time": 0.09165,
+            "redirect_time": 0,
+            "redirect_url": "",
+            "primary_ip": "172.217.168.214",
+            "certinfo": [],
+            "primary_port": 443,
+            "local_ip": "172.20.0.2",
+            "local_port": 58300,
+            "http_version": 3,
+            "protocol": 2,
+            "ssl_verifyresult": 0,
+            "scheme": "HTTPS",
+            "appconnect_time_us": 75644,
+            "connect_time_us": 29570,
+            "namelookup_time_us": 9501,
+            "pretransfer_time_us": 75806,
+            "redirect_time_us": 0,
+            "starttransfer_time_us": 91650,
+            "total_time_us": 91696
         }
     }
-},,,,]
+},]

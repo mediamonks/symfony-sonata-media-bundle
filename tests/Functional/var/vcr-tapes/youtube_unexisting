@@ -1,28 +1,72 @@
 [{
     "request": {
         "method": "GET",
-        "url": "http:\/\/www.youtube.com\/oembed?url=http:\/\/www.youtube.com\/watch?v=foobar123123123&format=json",
+        "url": "https:\/\/www.youtube.com\/oembed?url=http:\/\/www.youtube.com\/watch?v=foobar123123123&format=json",
         "headers": {
             "Host": "www.youtube.com"
         }
     },
     "response": {
         "status": {
-            "http_version": "1.1",
-            "code": "404",
-            "message": "Not Found"
+            "http_version": "2",
+            "code": "400",
+            "message": ""
         },
         "headers": {
-            "Content-Length": "9",
-            "X-Content-Type-Options": "nosniff",
-            "Content-Type": "text\/html; charset=utf-8",
-            "Cache-Control": "no-cache",
-            "Expires": "Tue, 27 Apr 1971 19:44:06 EST",
-            "P3P": "CP=\"This is not a P3P policy! See http:\/\/support.google.com\/accounts\/answer\/151657?hl=en for more info.\"",
-            "X-XSS-Protection": "1; mode=block; report=https:\/\/www.google.com\/appserve\/security-bugs\/log\/youtube",
-            "Date": "Mon, 30 Oct 2017 09:17:16 GMT",
-            "Server": "YouTube Frontend Proxy"
+            "vary": [
+                "X-Origin",
+                "Referer",
+                "Origin,Accept-Encoding"
+            ],
+            "content-type": "application\/json; charset=UTF-8",
+            "date": "Thu, 02 Jun 2022 11:08:22 GMT",
+            "server": "scaffolding on HTTPServer2",
+            "cache-control": "private",
+            "x-xss-protection": "0",
+            "x-frame-options": "SAMEORIGIN",
+            "x-content-type-options": "nosniff",
+            "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"",
+            "accept-ranges": "none"
         },
-        "body": "Not Found"
+        "body": "Bad Request",
+        "curl_info": {
+            "url": "https:\/\/www.youtube.com\/oembed?url=http:\/\/www.youtube.com\/watch?v=foobar123123123&format=json",
+            "content_type": "application\/json; charset=UTF-8",
+            "http_code": 400,
+            "header_size": 497,
+            "request_size": 121,
+            "filetime": -1,
+            "ssl_verify_result": 0,
+            "redirect_count": 0,
+            "total_time": 0.079204,
+            "namelookup_time": 0.003058,
+            "connect_time": 0.018255,
+            "pretransfer_time": 0.057056,
+            "size_upload": 0,
+            "size_download": 11,
+            "speed_download": 138,
+            "speed_upload": 0,
+            "download_content_length": -1,
+            "upload_content_length": 0,
+            "starttransfer_time": 0.079099,
+            "redirect_time": 0,
+            "redirect_url": "",
+            "primary_ip": "142.250.179.142",
+            "certinfo": [],
+            "primary_port": 443,
+            "local_ip": "172.20.0.2",
+            "local_port": 40336,
+            "http_version": 3,
+            "protocol": 2,
+            "ssl_verifyresult": 0,
+            "scheme": "HTTPS",
+            "appconnect_time_us": 56931,
+            "connect_time_us": 18255,
+            "namelookup_time_us": 3058,
+            "pretransfer_time_us": 57056,
+            "redirect_time_us": 0,
+            "starttransfer_time_us": 79099,
+            "total_time_us": 79204
+        }
     }
 }]

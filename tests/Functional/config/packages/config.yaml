@@ -1,36 +1,36 @@
-imports:
-  - { resource: parameters.yml }
-  - { resource: security.yml }
-
 framework:
+  test: true
   secret: '%secret%'
-  router:
-    resource: '%kernel.project_dir%/app/config/routing.yml'
-    strict_requirements: ~
   form: ~
+  assets:
+    base_path: '/'
   translator: ~
   csrf_protection: ~
-  templating:
-    engines: [ 'twig' ]
   default_locale: 'en'
   session:
-    handler_id: ~
+    storage_id: session.storage.mock_file
   fragments: ~
   http_method_override: true
 
 twig:
   debug: '%kernel.debug%'
   strict_variables: '%kernel.debug%'
+  default_path: '%kernel.project_dir%/templates'
 
 doctrine:
   dbal:
     driver: pdo_sqlite
-#    memory: true
-    path: '%database_path%'
+    path: '%kernel.project_dir%/var/db.sqlite'
   orm:
     auto_generate_proxy_classes: '%kernel.debug%'
     naming_strategy: doctrine.orm.naming_strategy.underscore
     auto_mapping: true
+    mappings:
+      MediaMonks\SonataMediaBundle\Tests\Functional\src:
+        is_bundle: false
+        type: annotation
+        dir: '%kernel.project_dir%/src/Entity'
+        prefix: 'MediaMonks\SonataMediaBundle\Tests\Functional\src\Entity'
 
 sonata_admin:
   title: 'MediaMonks'
@@ -63,4 +63,17 @@ mediamonks_sonata_media:
   filesystem_private: 'oneup_flysystem.media_private_filesystem'
   filesystem_public: 'oneup_flysystem.media_public_filesystem'
   redirect_url: '/media/'
-  model_class: 'MediaMonks\SonataMediaBundle\Tests\AppBundle\Entity\Media'
+  model_class: 'MediaMonks\SonataMediaBundle\Tests\Functional\src\Entity\Media'
+
+monolog:
+  handlers:
+    main:
+      type: fingers_crossed
+      action_level: error
+      handler: nested
+      excluded_http_codes: [ 404, 405 ]
+      channels: [ "!event" ]
+    nested:
+      type: stream
+      path: "%kernel.logs_dir%/%kernel.environment%.log"
+      level: debug

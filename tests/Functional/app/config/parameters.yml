@@ -1,3 +1,0 @@
-parameters:
-  secret: MediaMonksSonataMediaBundleSecret
-  database_path: "%kernel.project_dir%/var/app.db3"

@@ -1,41 +1,41 @@
 mediamonks_media_image_stream:
   path: /media/image/stream/{id}/{width}/{height}
-  defaults: { _controller: MediaMonksSonataMediaBundle:Media:imageStream }
+  defaults: { _controller: MediaMonks\SonataMediaBundle\Controller\MediaController:imageStreamAction }
   methods: [ GET ]
   requirements:
     id: \d+
 
 mediamonks_media_image_download:
   path: /media/image/download/{id}/{width}/{height}
-  defaults: { _controller: MediaMonksSonataMediaBundle:Media:imageDownload }
+  defaults: { _controller: MediaMonks\SonataMediaBundle\Controller\MediaController:imageDownloadAction }
   methods: [ GET ]
   requirements:
     id: \d+
 
 mediamonks_media_image_redirect:
   path: /media/image/redirect/{id}/{width}/{height}
-  defaults: { _controller: MediaMonksSonataMediaBundle:Media:imageRedirect }
+  defaults: { _controller: MediaMonks\SonataMediaBundle\Controller\MediaController:imageRedirectAction }
   methods: [ GET ]
   requirements:
     id: \d+
 
 mediamonks_media_stream:
   path: /media/stream/{id}
-  defaults: { _controller: MediaMonksSonataMediaBundle:Media:stream }
+  defaults: { _controller: MediaMonks\SonataMediaBundle\Controller\MediaController:streamAction }
   methods: [ GET ]
   requirements:
     id: \d+
 
 mediamonks_media_download:
   path: /media/download/{id}
-  defaults: { _controller: MediaMonksSonataMediaBundle:Media:download }
+  defaults: { _controller: MediaMonks\SonataMediaBundle\Controller\MediaController:downloadAction }
   methods: [ GET ]
   requirements:
     id: \d+
 
 mediamonks_media_redirect:
   path: /media/redirect/{id}
-  defaults: { _controller: MediaMonksSonataMediaBundle:Media:redirect }
+  defaults: { _controller: MediaMonks\SonataMediaBundle\Controller\MediaController:redirectAction }
   methods: [ GET ]
   requirements:
     id: \d+

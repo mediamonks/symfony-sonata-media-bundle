@@ -1,35 +1,80 @@
 [{
     "request": {
         "method": "GET",
-        "url": "https:\/\/soundcloud.com\/oembed?format=json&url=https:\/\/soundcloud.com\/mediamonks-2\/old-spice-workout-anthem",
+        "url": "https:\/\/soundcloud.com\/oembed?format=json&url=https:\/\/soundcloud.com\/mediamonks-music\/old-spice-workout-anthem",
         "headers": {
             "Host": "soundcloud.com"
         }
     },
     "response": {
         "status": {
-            "http_version": "1.1",
+            "http_version": "2",
             "code": "200",
-            "message": "OK"
+            "message": ""
         },
         "headers": {
-            "Content-Type": "application\/json; charset=utf-8",
-            "Content-Length": "632",
-            "Connection": "keep-alive",
+            "content-type": "application\/json; charset=utf-8",
             "status": "200 OK",
-            "cache-control": "private, max-age=0, must-revalidate",
+            "cache-control": "max-age=0, private, must-revalidate",
             "access-control-allow-origin": "*",
+            "referrer-policy": "strict-origin-when-cross-origin",
             "access-control-expose-headers": "Date",
+            "x-permitted-cross-domain-policies": "none",
+            "x-xss-protection": "1; mode=block",
+            "x-request-id": "62989A1E7D7306BF7260",
             "access-control-allow-headers": "Accept, Authorization, Content-Type, Origin",
             "access-control-allow-methods": "GET, PUT, POST, DELETE",
-            "x-frame-options": "SAMEORIGIN",
-            "etag": "\"05af05a8ed042b333da10a14f576882a\"",
-            "date": "Mon, 30 Oct 2017 09:17:11 GMT",
-            "Server": "am\/2",
-            "X-Cache": "Miss from cloudfront",
-            "Via": "1.1 14ab6568bfe30e99a79da2a071b3e971.cloudfront.net (CloudFront)",
-            "X-Amz-Cf-Id": "iL1tYtbwrCOlkm7jG0WKVbjiLJT9wQSGUhI2q_cimccupjHfSJGhNg=="
+            "x-download-options": "noopen",
+            "etag": "W\/\"326c7b0cc9a26e2ea8d4ea6c068babd3\"",
+            "x-frame-options": "SAMEORIGIN, SAMEORIGIN",
+            "x-content-type-options": "nosniff",
+            "date": "Thu, 02 Jun 2022 11:08:19 GMT",
+            "strict-transport-security": "max-age=63072000; includeSubdomains; preload",
+            "server": "am\/2",
+            "x-cache": "Miss from cloudfront",
+            "via": "1.1 eca56eada7885f8195ee4db13cd72cc2.cloudfront.net (CloudFront)",
+            "x-amz-cf-pop": "DUS51-P1",
+            "x-amz-cf-id": "nftepsg4fo2EFxshjXI6PIGpMYjkn4AASNDR5kv3almB0GR5y065jg=="
         },
-        "body": "{\"version\":1.0,\"type\":\"rich\",\"provider_name\":\"SoundCloud\",\"provider_url\":\"http:\/\/soundcloud.com\",\"height\":400,\"width\":\"100%\",\"title\":\"Old Spice Workout Anthem by MediaMonks\",\"description\":\"http:\/\/www.musclesurprise.com\/\",\"thumbnail_url\":\"http:\/\/i1.sndcdn.com\/artworks-000147644440-2nl3y7-t500x500.jpg\",\"html\":\"\\u003Ciframe width=\\\"100%\\\" height=\\\"400\\\" scrolling=\\\"no\\\" frameborder=\\\"no\\\" src=\\\"https:\/\/w.soundcloud.com\/player\/?visual=true\\u0026url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F247676511\\u0026show_artwork=true\\\"\\u003E\\u003C\/iframe\\u003E\",\"author_name\":\"MediaMonks\",\"author_url\":\"https:\/\/soundcloud.com\/mediamonks-2\"}"
+        "body": "{\"version\":1.0,\"type\":\"rich\",\"provider_name\":\"SoundCloud\",\"provider_url\":\"https:\/\/soundcloud.com\",\"height\":400,\"width\":\"100%\",\"title\":\"Old Spice Workout Anthem by Media.Monks\",\"description\":\"http:\/\/www.musclesurprise.com\/\",\"thumbnail_url\":\"https:\/\/i1.sndcdn.com\/artworks-000147644440-2nl3y7-t500x500.jpg\",\"html\":\"<iframe width=\\\"100%\\\" height=\\\"400\\\" scrolling=\\\"no\\\" frameborder=\\\"no\\\" src=\\\"https:\/\/w.soundcloud.com\/player\/?visual=true&url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F247676511&show_artwork=true\\\"><\/iframe>\",\"author_name\":\"Media.Monks\",\"author_url\":\"https:\/\/soundcloud.com\/mediamonks-music\"}",
+        "curl_info": {
+            "url": "https:\/\/soundcloud.com\/oembed?format=json&url=https:\/\/soundcloud.com\/mediamonks-music\/old-spice-workout-anthem",
+            "content_type": "application\/json; charset=utf-8",
+            "http_code": 200,
+            "header_size": 955,
+            "request_size": 138,
+            "filetime": -1,
+            "ssl_verify_result": 0,
+            "redirect_count": 0,
+            "total_time": 0.195711,
+            "namelookup_time": 0.02003,
+            "connect_time": 0.045109,
+            "pretransfer_time": 0.105697,
+            "size_upload": 0,
+            "size_download": 610,
+            "speed_download": 3116,
+            "speed_upload": 0,
+            "download_content_length": -1,
+            "upload_content_length": 0,
+            "starttransfer_time": 0.195674,
+            "redirect_time": 0,
+            "redirect_url": "",
+            "primary_ip": "18.66.248.110",
+            "certinfo": [],
+            "primary_port": 443,
+            "local_ip": "172.20.0.2",
+            "local_port": 36680,
+            "http_version": 3,
+            "protocol": 2,
+            "ssl_verifyresult": 0,
+            "scheme": "HTTPS",
+            "appconnect_time_us": 105539,
+            "connect_time_us": 45109,
+            "namelookup_time_us": 20030,
+            "pretransfer_time_us": 105697,
+            "redirect_time_us": 0,
+            "starttransfer_time_us": 195674,
+            "total_time_us": 195711
+        }
     }
-},,,,]
+},]

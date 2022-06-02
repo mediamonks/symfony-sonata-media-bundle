@@ -8,11 +8,11 @@ class SoundcloudProviderTest extends AbstractOembedProviderTestAbstract
     {
         $this->providerFlow(
             'soundcloud',
-            'https://soundcloud.com/mediamonks-2/old-spice-workout-anthem',
+            'https://soundcloud.com/mediamonks-music/old-spice-workout-anthem',
             [
-                'providerReference' => 'mediamonks-2/old-spice-workout-anthem',
-                'title' => 'Old Spice Workout Anthem by MediaMonks',
-                'authorName' => 'MediaMonks',
+                'providerReference' => 'mediamonks-music/old-spice-workout-anthem',
+                'title' => 'Old Spice Workout Anthem by Media.Monks',
+                'authorName' => 'Media.Monks',
                 'copyright' => '',
                 'focalPoint' => '50-50'
             ]

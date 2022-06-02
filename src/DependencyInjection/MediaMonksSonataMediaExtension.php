@@ -28,7 +28,7 @@ class MediaMonksSonataMediaExtension extends Extension
         $container->setParameter('mediamonks.sonata_media.config', $config);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
-        $loader->load('services.yml');
+        $loader->load('services.yaml');
 
         if (empty($config['filesystem_private']) || empty($config['filesystem_public'])) {
             throw new Exception('Both a private and a public filesystem must be set');
@@ -62,17 +62,7 @@ class MediaMonksSonataMediaExtension extends Extension
                   ->setArgument(4, $config['tmp_path'])
                   ->setArgument(5, $config['tmp_prefix']);
 
-        $formResource = $config['templates']['form'];
-        $twigFormResourceParameterId = 'twig.form.resources';
-        if ($container->hasParameter($twigFormResourceParameterId)) {
-            $twigFormResources = $container->getParameter($twigFormResourceParameterId);
-            if (!empty($formResource) && !in_array($formResource, $twigFormResources)) {
-                $twigFormResources[] = $formResource;
-            }
-
-            $container->setParameter($twigFormResourceParameterId, $twigFormResources);
-        }
-
+        $container->setParameter('mediamonks.sonata_media.templates', $config['templates']);
         $container->setParameter('mediamonks.sonata_media.default_route.image_stream', $config['route_image_stream']);
         $container->setParameter('mediamonks.sonata_media.default_route.image_download', $config['route_image_download']);
         $container->setParameter('mediamonks.sonata_media.default_route.image_redirect', $config['route_image_redirect']);

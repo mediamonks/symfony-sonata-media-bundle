@@ -187,7 +187,7 @@ final class Configuration implements ConfigurationInterface
         $node->children()
              ->variableNode('templates')
              ->defaultValue([
-                 'form' => '@MediaMonksSonataMedia/Form/form.html.twig'
+                 'form_focal_point' => '@MediaMonksSonataMedia/Form/Theme/media_focal_point_theme.html.twig'
              ])
              ->end();
     }

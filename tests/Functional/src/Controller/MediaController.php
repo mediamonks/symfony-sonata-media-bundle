@@ -1,17 +1,24 @@
 <?php
 
-namespace MediaMonks\SonataMediaBundle\Tests\AppBundle\Controller;
+namespace MediaMonks\SonataMediaBundle\Tests\Functional\src\Controller;
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class MediaController extends AbstractController
+class MediaController
 {
-    private ?Filesystem $filesystemPublic = null;
+    private Filesystem $filesystemPublic;
+
+    /**
+     * @param Filesystem $filesystemPublic
+     */
+    public function __construct(Filesystem $filesystemPublic)
+    {
+        $this->filesystemPublic = $filesystemPublic;
+    }
 
     /**
      * @param Request $request
@@ -22,20 +29,11 @@ class MediaController extends AbstractController
     public function readAction(Request $request): Response
     {
         $location = $this->getLocation($request);
-        if (!$this->getFilesystemPublic()->fileExists($location)) {
+        if (!$this->filesystemPublic->fileExists($location)) {
             throw new NotFoundHttpException(sprintf('Resource not found "%s"', $request->getPathInfo()));
         }
 
-        return new Response($this->getFilesystemPublic()->read($location));
-    }
-
-    protected function getFilesystemPublic(): Filesystem
-    {
-        if ($this->filesystemPublic === null) {
-            $this->filesystemPublic = $this->get('oneup_flysystem.media_public_filesystem');
-        }
-
-        return $this->filesystemPublic;
+        return new Response($this->filesystemPublic->read($location));
     }
 
     protected function getLocation(Request $request)

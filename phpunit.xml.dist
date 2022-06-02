@@ -22,7 +22,7 @@
     </testsuites>
     <php>
         <server name="KERNEL_DIR" value="tests/Functional"/>
-        <server name="KERNEL_CLASS" value="MediaMonks\SonataMediaBundle\Tests\App\AppKernel"/>
+        <server name="KERNEL_CLASS" value="MediaMonks\SonataMediaBundle\Tests\Functional\src\Kernel"/>
         <env name="APP_ENV" value="test"/>
 <!--        <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>-->
     </php>

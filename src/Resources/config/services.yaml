@@ -8,6 +8,7 @@ services:
       $mediaCacheTtl: '%mediamonks.sonata_media.cache_ttl%'
       $mediaEntityClass: '%mediamonks.sonata_media.entity.class%'
       $filesystemPrivate: '@mediamonks.sonata_media.filesystem.private'
+      $mediaTemplates: '%mediamonks.sonata_media.templates%'
       $defaultRoutes:
         imageStream: '%mediamonks.sonata_media.default_route.image_stream%'
         imageDownload: '%mediamonks.sonata_media.default_route.image_download%'
@@ -33,9 +34,6 @@ services:
   MediaMonks\SonataMediaBundle\Admin\MediaAdmin:
     tags:
       - { name: sonata.admin, manager_type: orm, label: Media, group: 'Media' }
-    calls:
-      - [ setTemplate, [ 'outer_list_rows_mosaic', '@@MediaMonksSonataMedia/CRUD/outer_list_rows_mosaic.html.twig' ] ]
-      - [ setTemplate, [ 'edit', '@@MediaMonksSonataMedia/CRUD/edit.html.twig' ] ]
 
   _instanceof:
     MediaMonks\SonataMediaBundle\Provider\ProviderInterface:

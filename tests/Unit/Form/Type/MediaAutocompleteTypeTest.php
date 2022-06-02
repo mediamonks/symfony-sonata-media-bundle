@@ -3,8 +3,8 @@
 namespace MediaMonks\SonataMediaBundle\Tests\Unit\Form\Type;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use MediaMonks\SonataMediaBundle\Entity\Media;
 use MediaMonks\SonataMediaBundle\Form\Type\MediaAutocompleteType;
+use MediaMonks\SonataMediaBundle\Tests\Functional\src\Entity\Media;
 use Mockery as m;
 use Sonata\AdminBundle\Model\ModelManagerInterface;
 use Symfony\Component\Form\PreloadedExtension;
@@ -29,7 +29,7 @@ class MediaAutocompleteTypeTest extends TypeTestCase
     public function testSubmitValidData()
     {
         $form = $this->factory->create(MediaAutocompleteType::class);
-        $form->submit([]);
+        $form->submit('');
         $this->assertTrue($form->isSynchronized());
     }
 }
