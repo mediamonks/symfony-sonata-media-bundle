@@ -35,7 +35,7 @@ You need:
 
 - **PHP >= 7.4**
 - **Symfony Framework >= 4.3**
-- **Sonata Admin >= 3.2**
+- **Sonata Admin >= 4.0**
 - **Flysystem >= 4.0**
 - **Glide >= 2.0**
 
