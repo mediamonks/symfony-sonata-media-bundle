@@ -3,94 +3,55 @@
 namespace MediaMonks\SonataMediaBundle\Entity;
 
 use DateTimeInterface;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use MediaMonks\SonataMediaBundle\Model\AbstractMedia;
 
+#[ORM\Entity]
+#[ORM\Table(name: 'media_items')]
 class Media extends AbstractMedia
 {
-    /**
-     * @var ?int
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     protected ?int $id = null;
 
-    /**
-     * @var ?string
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     protected ?string $title = null;
 
-    /**
-     * @var ?string
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: Types::TEXT, length: 255, nullable: true)]
     protected ?string $description = null;
 
-    /**
-     * @var ?string
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: Types::STRING, length: 255)]
     protected ?string $provider = null;
 
-    /**
-     * @var ?string
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: Types::STRING, length: 255)]
     protected ?string $type = null;
 
-    /**
-     * @var ?string
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: Types::STRING, length: 255)]
     protected ?string $providerReference = null;
 
-    /**
-     * @var array
-     * @ORM\Column(type="json")
-     */
+    #[ORM\Column(type: Types::JSON, length: 255)]
     protected array $providerMetaData = [];
 
-    /**
-     * @var ?string
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     protected ?string $image = null;
 
-    /**
-     * @var array
-     * @ORM\Column(type="json")
-     */
+    #[ORM\Column(type: Types::JSON, length: 255)]
     protected array $imageMetaData = [];
 
-    /**
-     * @var ?string
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     protected ?string $focalPoint = null;
 
-    /**
-     * @var ?string
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     protected ?string $copyright = null;
 
-    /**
-     * @var ?string
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     protected ?string $authorName = null;
 
-    /**
-     * @var DateTimeInterface
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     protected DateTimeInterface $createdAt;
 
-    /**
-     * @var DateTimeInterface
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     protected DateTimeInterface $updatedAt;
 }
