@@ -7,8 +7,6 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use MediaMonks\SonataMediaBundle\Model\AbstractMedia;
 
-#[ORM\Entity]
-#[ORM\Table(name: 'media_items')]
 class Media extends AbstractMedia
 {
     #[ORM\Id]
