@@ -28,7 +28,6 @@ class ImageResponseHandler extends MediaResponseHandler
         if (!$parameterBag instanceof ImageParameterBag) {
             throw InvalidArgumentException::from(static::class, __FUNCTION__, ImageParameterBag::class, get_class($parameterBag));
         }
-        $this->parameterHandler->validateParameterBag($media, $parameterBag);
 
         // this will also generate the image if not already generated
         $filename = $this->generateImageFilename($media, $parameterBag);
@@ -58,7 +57,6 @@ class ImageResponseHandler extends MediaResponseHandler
         if (!$parameterBag instanceof ImageParameterBag) {
             throw InvalidArgumentException::from(static::class, __FUNCTION__, ImageParameterBag::class, get_class($parameterBag));
         }
-        $this->parameterHandler->validateParameterBag($media, $parameterBag);
 
         // this will also generate the image if not already generated
         $filename = $this->generateImageFilename($media, $parameterBag);
