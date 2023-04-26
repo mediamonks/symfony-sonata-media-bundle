@@ -34,8 +34,8 @@ class ImageResponseHandler extends MediaResponseHandler
 
         $response = new StreamedResponse($this->readStream($filename), 200, [
             'Content-Transfer-Encoding' => 'binary',
-            'Content-Type' => $media->getImageMetadataValue('mimeType'),
-            'Content-Length' => $media->getImageMetadataValue('size'),
+            'Content-Type' => $this->filesystemPrivate->mimeType($filename),
+            'Content-Length' => $this->filesystemPrivate->fileSize($filename),
             AbstractSessionListener::NO_AUTO_CACHE_CONTROL_HEADER => true
         ]);
         $response->setSharedMaxAge($this->mediaCacheTtl);
@@ -64,8 +64,8 @@ class ImageResponseHandler extends MediaResponseHandler
         return new StreamedResponse($this->readStream($filename), 200, [
             'Content-Disposition' => HeaderUtils::makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $media->getImageMetadataValue('originalName', 'download')),
             'Content-Transfer-Encoding' => 'binary',
-            'Content-Type' => $media->getImageMetadataValue('mimeType'),
-            'Content-Length' => $media->getImageMetadataValue('size'),
+            'Content-Type' => $this->filesystemPrivate->mimeType($filename),
+            'Content-Length' => $this->filesystemPrivate->fileSize($filename),
             AbstractSessionListener::NO_AUTO_CACHE_CONTROL_HEADER => true
         ]);
     }
